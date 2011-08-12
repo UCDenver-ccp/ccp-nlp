@@ -27,6 +27,7 @@
 		</dependency>
 	</dependencies>
 
+	<name>${project.artifactId}</name>
 	<build>
 		<plugins>
 			<!-- specify the java version -->
