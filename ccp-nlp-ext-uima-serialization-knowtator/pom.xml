@@ -7,14 +7,14 @@
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>nlp-ext-uima-serialization-knowtator</artifactId>
+	<artifactId>ccp-nlp-ext-uima-serialization-knowtator</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>2.0-SNAPSHOT</version>
+		<version>3.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>

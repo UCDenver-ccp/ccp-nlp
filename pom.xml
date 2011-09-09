@@ -5,12 +5,12 @@
 	<groupId>edu.ucdenver.ccp</groupId>
 	<artifactId>ccp-nlp</artifactId>
 	<name>${project.artifactId}</name>
-	<version>2.0-SNAPSHOT</version>
+	<version>3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.version>2.0-SNAPSHOT</project.version>
+		<project.version>3.0-SNAPSHOT</project.version>
 		<ccp-common.version>1.0-SNAPSHOT</ccp-common.version>
 		<ccp-fileparsers.version>1.0-SNAPSHOT</ccp-fileparsers.version>
 		<ccp-rdfizer.version>1.0-SNAPSHOT</ccp-rdfizer.version>
@@ -67,7 +67,7 @@
 								</arguments>
 							</configuration>
 						</execution>
-						<execution>
+	<!-- 					<execution>
 							<id>export-descriptor-xml</id>
 							<phase>prepare-package</phase>
 							<goals>
@@ -82,7 +82,7 @@
 								</arguments>
 							</configuration>
 						</execution>
-
+-->
 					</executions>
 				</plugin>
 				<plugin><!-- This plugin adds the jcasgen generated source code folder 
