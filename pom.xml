@@ -23,6 +23,10 @@
 		<module>ccp-nlp-ext-syntax</module>
 		<module>ccp-nlp-ext-uima-annotators</module>
 		<module>ccp-nlp-ext-uima-annotators-biolemmatizer</module>
+		<module>ccp-nlp-ext-uima-annotators-entitydetection</module>
+		<module>ccp-nlp-ext-uima-annotators-postaggers</module>
+		<module>ccp-nlp-ext-uima-annotators-sentencedetectors</module>
+		<module>ccp-nlp-ext-uima-annotators-tokenizers</module>
 		<module>ccp-nlp-ext-uima-collections</module>
 		<module>ccp-nlp-ext-uima-serialization</module>
 		<module>ccp-nlp-ext-uima-serialization-knowtator</module>
@@ -30,7 +34,11 @@
 		<module>ccp-nlp-ext-uima-serialization-xml</module>
 		<module>ccp-nlp-ext-uima-shims</module>
 		<module>ccp-nlp-ext-uima-syntax</module>
+		<module>ccp-nlp-wrapper-abner</module>
+		<module>ccp-nlp-wrapper-banner</module>
+		<module>ccp-nlp-wrapper-conceptmapper</module>
 		<module>ccp-nlp-wrapper-knowtator</module>
+		<module>ccp-nlp-wrapper-lingpipe</module>
 		<module>ccp-nlp-wrapper-protege-v3</module>
 	</modules>
 
