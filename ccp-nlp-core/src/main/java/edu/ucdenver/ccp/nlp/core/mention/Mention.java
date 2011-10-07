@@ -333,7 +333,7 @@ protected IMentionTraversalTracker traversalTracker = null;
 	 */
 	private static <E extends Mention> Tree<Mention> getSortedMentionTree(E mention, Set<UUID> parentMentionIDs,
 			UUID traversalID) {
-		logger.debug("In getSortedMentionTree...");
+//		logger.debug("In getSortedMentionTree...");
 		// System.err.println("Mention has an ID for traversal (" + traversalID + "): "
 		// + (mention.getMentionIDForTraversal(traversalID) != null) + " -- " + parentMentionIDs);
 
@@ -346,7 +346,7 @@ protected IMentionTraversalTracker traversalTracker = null;
 		UUID mentionID = UUID.randomUUID();
 		mention.setMentionIDForTraversal(mentionID, traversalID);
 
-		logger.debug("In getSortedMentionTree.. just set mentionID: " + mentionID + " for traversalID: " + traversalID);
+//		logger.debug("In getSortedMentionTree.. just set mentionID: " + mentionID + " for traversalID: " + traversalID);
 		// System.err.println("Assigning MentionID: " + mentionID + " in Traversal: " + traversalID + " for " +
 		// mention.getMentionName());
 		// System.err
