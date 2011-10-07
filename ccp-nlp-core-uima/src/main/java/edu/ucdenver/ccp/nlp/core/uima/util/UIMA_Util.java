@@ -2312,7 +2312,7 @@ public class UIMA_Util {
 	}
 
 	public static IntegerArray removeArrayIndex(IntegerArray intArray, int index, JCas jcas) {
-		logger.debug("RemoveArrayIndex: intArray size: " + intArray.size() + " index: " + index);
+//		logger.debug("RemoveArrayIndex: intArray size: " + intArray.size() + " index: " + index);
 		IntegerArray updatedArray = null;
 		if (intArray != null) {
 			if (index < intArray.size()) {
@@ -2334,7 +2334,7 @@ public class UIMA_Util {
 
 	
 	public static StringArray removeArrayIndex(StringArray strArray, int index, JCas jcas) {
-		logger.debug("RemoveArrayIndex: strArray size: " + strArray.size() + " index: " + index);
+//		logger.debug("RemoveArrayIndex: strArray size: " + strArray.size() + " index: " + index);
 		StringArray updatedArray = null;
 		if (strArray != null) {
 			if (index < strArray.size()) {
@@ -3314,24 +3314,24 @@ public class UIMA_Util {
 	}
 
 	public static UUID getMentionIDForTraversal(CCPMention mention, UUID traversalID) {
-		logger.debug("Requesting mentionID for traversal: " + traversalID + " type: " + mention.getClass().getName());
+//		logger.debug("Requesting mentionID for traversal: " + traversalID + " type: " + mention.getClass().getName());
 		StringArray traversalIDs = mention.getTraversalIDs();
 
 		int index = UIMA_Util.indexOf(traversalIDs, traversalID.toString());
 		if (index > -1) {
 			return UUID.fromString(mention.getTraversalMentionIDs(index));
 		}
-		logger.debug("Requested mention ID for traversal: " + traversalID
-				+ " but did not find one. This is not necessarily an error. Returning null. ");
+//		logger.debug("Requested mention ID for traversal: " + traversalID
+//				+ " but did not find one. This is not necessarily an error. Returning null. ");
 		return null;
 	}
 
 	public static void removeMentionIDForTraversal(CCPMention mention, UUID traversalID, JCas jcas) {
-		logger.debug("Removing traversalID: " + traversalID + " type: " + mention.getClass().getName());
+//		logger.debug("Removing traversalID: " + traversalID + " type: " + mention.getClass().getName());
 		StringArray traversalIDs = mention.getTraversalIDs();
 		int index = UIMA_Util.indexOf(traversalIDs, traversalID.toString());
 		if (index > -1) {
-			logger.debug("Traversal ID is at index: " + index);
+//			logger.debug("Traversal ID is at index: " + index);
 			StringArray updatedTraversalIDs = UIMA_Util.removeArrayIndex(traversalIDs, index, jcas);
 			mention.setTraversalIDs(updatedTraversalIDs);
 			StringArray updatedTraversalMentionIDs = UIMA_Util.removeArrayIndex(mention.getTraversalMentionIDs(), index,
@@ -3357,8 +3357,8 @@ public class UIMA_Util {
 	}
 
 	public static void setMentionIDForTraversal(CCPMention mention, UUID mentionID, UUID traversalID, JCas jcas) {
-		logger.debug("Setting traversalID: " + traversalID + " -- mentionID: " + mentionID + " type: "
-				+ mention.getClass().getName());
+//		logger.debug("Setting traversalID: " + traversalID + " -- mentionID: " + mentionID + " type: "
+//				+ mention.getClass().getName());
 		removeMentionIDForTraversal(mention, traversalID, jcas);
 		StringArray traversalMentionIDs = UIMA_Util.addToStringArray(mention.getTraversalMentionIDs(), mentionID.toString(), jcas);
 		StringArray traversalIDs = UIMA_Util.addToStringArray(mention.getTraversalIDs(), traversalID.toString(), jcas);
