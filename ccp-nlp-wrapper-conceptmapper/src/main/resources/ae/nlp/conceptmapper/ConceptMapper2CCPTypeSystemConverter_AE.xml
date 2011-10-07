@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taeDescription xmlns="http://uima.apache.org/resourceSpecifier">
+<frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+<primitive>true</primitive>
+<annotatorImplementationName>edu.ucdenver.ccp.nlp.wrapper.conceptmapper.typesystem.ConceptMapper2CCPTypeSystemConverter_AE</annotatorImplementationName>
+<analysisEngineMetaData>
+<name>ConceptMapper2CCPTypeSystemConverter</name>
+<description>Converts the outputs of the ConceptMapper (DictTerm)and associated OffsetTokenizer (TokenAnnotation) AEs to CCPTextAnnotations and CCPTokenAnnotations, respectively.</description>
+<version>1.0</version>
+<vendor>UCHSC/CCP</vendor>
+<configurationParameters/>
+<configurationParameterSettings/>
+<typeSystemDescription>
+<imports>
+<import name="edu.ucdenver.ccp.nlp.core.uima.TypeSystem"/>
+<import name="edu.ucdenver.ccp.nlp.ext.uima.syntax.TypeSystem"/>
+<import name="typesystem.conceptmapper.TokenAnnotation"/>
+<import name="typesystem.conceptmapper.OntologyTerm"/>
+</imports>
+</typeSystemDescription>
+<capabilities>
+<capability>
+<inputs>
+<type allAnnotatorFeatures="true">org.apache.uima.conceptMapper.support.tokenizer.TokenAnnotation</type>
+<type allAnnotatorFeatures="true">org.apache.uima.conceptMapper.DictTerm</type>
+</inputs>
+<outputs>
+<type allAnnotatorFeatures="true">edu.ucdenver.ccp.nlp.ext.uima.annotation.syntax.CCPTokenAnnotation</type>
+<type allAnnotatorFeatures="true">edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation</type>
+</outputs>
+<languagesSupported/>
+</capability>
+</capabilities>
+<operationalProperties>
+<modifiesCas>true</modifiesCas>
+<multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+<outputsNewCASes>false</outputsNewCASes>
+</operationalProperties>
+</analysisEngineMetaData>
+</taeDescription>

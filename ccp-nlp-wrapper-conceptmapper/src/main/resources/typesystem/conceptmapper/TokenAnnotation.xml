@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+<name>TokenAnnotation</name>
+<description>offset token type for CAS</description>
+<version>1.0</version>
+<vendor></vendor>
+<types>
+<typeDescription>
+<name>uima.tt.TokenAnnotation</name>
+<description></description>
+<supertypeName>uima.tcas.Annotation</supertypeName>
+</typeDescription>
+<typeDescription>
+<name>org.apache.uima.conceptMapper.support.tokenizer.TokenAnnotation</name>
+<description>offset tokenizer functionality</description>
+<supertypeName>uima.tt.TokenAnnotation</supertypeName>
+<features>
+<featureDescription>
+<name>text</name>
+<description>text of token</description>
+<rangeTypeName>uima.cas.String</rangeTypeName>
+</featureDescription>
+<featureDescription>
+<name>tokenType</name>
+<description></description>
+<rangeTypeName>uima.cas.Integer</rangeTypeName>
+</featureDescription>
+<featureDescription>
+<name>tokenClass</name>
+<description>semantic class, or other such classification of this token</description>
+<rangeTypeName>uima.cas.String</rangeTypeName>
+</featureDescription>
+</features>
+</typeDescription>
+</types>
+</typeSystemDescription>

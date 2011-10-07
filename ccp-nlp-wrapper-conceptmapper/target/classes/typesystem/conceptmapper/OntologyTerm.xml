@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+<name>OntologyTerm</name>
+<description>The ontology term is an extension of the UIMA Sandbox ConceptMapper DictTerm class. The OntologyTerm contains a field to store the ontology term ID.</description>
+<version>1.0</version>
+<vendor></vendor>
+<imports>
+<import name="typeSystem.conceptmapper.DictTerm"/>
+</imports>
+<types>
+<typeDescription>
+<name>org.apache.uima.conceptMapper.OntologyTerm</name>
+<description></description>
+<supertypeName>org.apache.uima.conceptMapper.DictTerm</supertypeName>
+<features>
+<featureDescription>
+<name>ID</name>
+<description>A field to store the ontology term ID.</description>
+<rangeTypeName>uima.cas.String</rangeTypeName>
+</featureDescription>
+</features>
+</typeDescription>
+</types>
+</typeSystemDescription>
