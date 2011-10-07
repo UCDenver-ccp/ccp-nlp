@@ -17,7 +17,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
  * 
  */
 public abstract class AnnotationDataExtractor implements AnnotationTypeExtractor, AnnotationSpanExtractor,
-		AnnotationAttributeExtractor {
+		AnnotationCreatorExtractor, ComponentAnnotationExtractor, AnnotationKeyGenerator {
 
 	/**
 	 * The {@link AnnotationTypeExtractor} to use for extracting annotation type information
@@ -29,6 +29,24 @@ public abstract class AnnotationDataExtractor implements AnnotationTypeExtractor
 	 */
 	private final AnnotationSpanExtractor spanExtractor;
 
+	/**
+	 * The {@link AnnotationCreatorExtractor} to use for extracting the annotation annotator
+	 */
+	private AnnotationCreatorExtractor annotatorExtractor;
+
+	/**
+	 * The {@link ComponentAnnotationExtractor} to use for extracting annotations that a given
+	 * annotation is based on
+	 */
+	private ComponentAnnotationExtractor componentAnnotationExtractor;
+
+	/**
+	 * The {@link AnnotationKeyGenerator} to use for generating a unique key for a given annotation
+	 */
+	private AnnotationKeyGenerator annotationKeyGenerator;
+	
+	
+	
 	/**
 	 * Stores a mapping from {@link AnnotationAttribute} to the {@link AnnotationAttributeExtractor}
 	 * implementation to use if that attribute type is requested
@@ -65,7 +83,7 @@ public abstract class AnnotationDataExtractor implements AnnotationTypeExtractor
 	 */
 	public void addAnnotationAttributeExtractor(AnnotationAttributeExtractor extractor, AnnotationAttribute attribute) {
 		if (attributeExtractors.containsKey(attribute))
-			throw new IllegalStateException(
+			throw new IllegalArgumentException(
 					String.format(
 							"The %s extension of AnnotationDataExtractor already has an annotation attribute extractor "
 									+ "specified (%s) for the attribute type: %s. Unable to specify another attribute extractor "
@@ -99,26 +117,88 @@ public abstract class AnnotationDataExtractor implements AnnotationTypeExtractor
 		return spanExtractor.getCoveredText(annotation);
 	}
 
+	public void setAnnotationCreatorExtractor(AnnotationCreatorExtractor annotatorExtractor) {
+		this.annotatorExtractor = annotatorExtractor;
+	}
+
+	@Override
+	public Annotator getAnnotator(Annotation annotation) {
+		if (annotatorExtractor == null)
+			throw new IllegalStateException(
+					"Unabled to retrieve annotation creator. This AnnotationDataExtractor implementation ("
+							+ getClass().getName() + ") is not outfitted with a AnnotationCreatorExtractor.");
+		return annotatorExtractor.getAnnotator(annotation);
+	}
+
+	public void setAnnotationKeyGenerator(AnnotationKeyGenerator annotationKeyGenerator) {
+		this.annotationKeyGenerator = annotationKeyGenerator;
+	}
+
+	@Override
+	public String getAnnotationKey(Annotation annotation) {
+		if (annotationKeyGenerator == null)
+			throw new IllegalStateException(
+					"Unabled to generate annotation key. This AnnotationDataExtractor implementation ("
+							+ getClass().getName() + ") is not outfitted with a AnnotationKeyGenerator.");
+		return annotationKeyGenerator.getAnnotationKey(annotation);
+	}
+
+	public void setComponentAnnotationExtractor(ComponentAnnotationExtractor componentAnnotationExctractor) {
+		this.componentAnnotationExtractor = componentAnnotationExctractor;
+	}
+
 	/**
-	 * Returns the attributes for the input {@link Annotation} using an implementation of
-	 * {@link AnnotationAttributeExtractor}
-	 * 
-	 * @param annotation
-	 *            the annotation to query for the specified attribute
-	 * @param attribute
-	 *            the attribute type to return
-	 * @return a collection of objects representing annotation attributes
-	 * @throws IllegalArgumentException
-	 *             if this extension of {@link AnnotationDataExtractor} is unable to handle the
-	 *             input {@link AnnotationAttribute} type
+	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.ComponentAnnotationExtractor#getComponentAnnotations(org.apache.uima.jcas.tcas.Annotation)
 	 */
 	@Override
-	public Collection<Object> getAnnotationAttributes(Annotation annotation, AnnotationAttribute attribute) {
-		if (attributeExtractors.containsKey(attribute))
-			return attributeExtractors.get(attribute).getAnnotationAttributes(annotation, attribute);
-		throw new IllegalArgumentException(String.format(
-				"The %s extension of AnnotationDataExtractor is unable to retrieve annotation attributes of type: %s.",
-				getClass().getName(), attribute.name()));
+	public Collection<Annotation> getComponentAnnotations(Annotation annotation) {
+		if (componentAnnotationExtractor == null)
+			throw new IllegalStateException(
+					"Unabled to retrieve based-on annotations. This AnnotationDataExtractor implementation ("
+							+ getClass().getName() + ") is not outfitted with a BasedOnAnnotationExtractor.");
+		return componentAnnotationExtractor.getComponentAnnotations(annotation);
 	}
+
+//	/**
+//	 * Returns the attributes for the input {@link Annotation} using an implementation of
+//	 * {@link AnnotationAttributeExtractor}
+//	 * 
+//	 * @param annotation
+//	 *            the annotation to query for the specified attribute
+//	 * @param attribute
+//	 *            the attribute type to return
+//	 * @return a collection of objects representing annotation attributes
+//	 * @throws IllegalArgumentException
+//	 *             if this extension of {@link AnnotationDataExtractor} is unable to handle the
+//	 *             input {@link AnnotationAttribute} type
+//	 */
+//	public Collection<Object> getAnnotationAttributes(Annotation annotation, AnnotationAttribute attribute) {
+//		if (attributeExtractors.containsKey(attribute))
+//			return attributeExtractors.get(attribute).getAnnotationAttributes(annotation);
+//		throw new IllegalArgumentException(String.format(
+//				"The %s extension of AnnotationDataExtractor is unable to retrieve annotation attributes of type: %s.",
+//				getClass().getName(), attribute.name()));
+//	}
+
+	public AnnotationAttributeExtractor getAnnotationAttributeExtractor(AnnotationAttribute attribute) {
+		if (!attributeExtractors.containsKey(attribute))
+			throw new IllegalArgumentException(String.format(
+					"The %s extension of AnnotationDataExtractor does not have an annotation attribute extractor "
+							+ "specified (%s) for the attribute type: %s.", getClass().getName(), attributeExtractors
+							.get(attribute).getClass().getName(), attribute.name()));
+		return attributeExtractors.get(attribute);
+	}
+
+	
+
+	// /**
+	// * @param annotation
+	// * @param craftEntrezGeneIdSlotName
+	// * @return
+	// */
+	// public boolean hasAnnotationField(Annotation annotation, String craftEntrezGeneIdSlotName) {
+	// // TODO Auto-generated method stub
+	// return false;
+	// }
 
 }

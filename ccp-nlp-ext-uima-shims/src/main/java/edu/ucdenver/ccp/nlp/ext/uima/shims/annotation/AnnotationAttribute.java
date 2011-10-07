@@ -1,5 +1,10 @@
 package edu.ucdenver.ccp.nlp.ext.uima.shims.annotation;
 
-public enum AnnotationAttribute {
-	PART_OF_SPEECH
+public interface AnnotationAttribute {
+
+	/**
+	 * @return
+	 */
+	public String name();
+
 }

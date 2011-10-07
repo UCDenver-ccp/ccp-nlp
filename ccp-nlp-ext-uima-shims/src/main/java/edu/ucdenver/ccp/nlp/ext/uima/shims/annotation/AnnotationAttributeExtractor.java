@@ -4,8 +4,8 @@ import java.util.Collection;
 
 import org.apache.uima.jcas.tcas.Annotation;
 
-public interface AnnotationAttributeExtractor {
+public interface AnnotationAttributeExtractor<T> {
 
-	public Collection<Object> getAnnotationAttributes(Annotation annotation, AnnotationAttribute attribute);
+	public Collection<T> getAnnotationAttributes(Annotation annotation);
 
 }

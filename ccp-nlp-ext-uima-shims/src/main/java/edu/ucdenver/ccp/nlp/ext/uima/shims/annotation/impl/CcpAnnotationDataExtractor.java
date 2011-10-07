@@ -1,7 +1,5 @@
 package edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.impl;
 
-import org.apache.uima.jcas.tcas.Annotation;
-
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
 
 /**
@@ -17,6 +15,9 @@ public class CcpAnnotationDataExtractor extends AnnotationDataExtractor {
 	 */
 	public CcpAnnotationDataExtractor() {
 		super(new CcpAnnotationTypeExtractor(), new CcpAnnotationSpanExtractor());
+		setAnnotationCreatorExtractor(new CcpAnnotationCreatorExtractor());
+		setComponentAnnotationExtractor(new CcpComponentAnnotationExctractor());
+		setAnnotationKeyGenerator(new CcpAnnotationKeyGenerator());
 	}
 
 }

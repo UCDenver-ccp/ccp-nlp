@@ -1,92 +1,54 @@
 package edu.ucdenver.ccp.rdf.craft;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.uima.jcas.cas.IntegerArray;
+import org.apache.uima.jcas.tcas.Annotation;
+import org.openrdf.model.URI;
+import org.openrdf.model.impl.URIImpl;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.datasource.identifiers.DataSourceIdResolver;
 import edu.ucdenver.ccp.datasource.identifiers.ncbi.gene.EntrezGeneID;
 import edu.ucdenver.ccp.datasource.identifiers.ncbi.taxonomy.NcbiTaxonomyID;
-import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
-import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
-import edu.ucdenver.ccp.nlp.core.uima.mention.CCPIntegerSlotMention;
-import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
-import edu.ucdenver.ccp.rdf.UriFactory;
-import edu.ucdenver.ccp.rdfizer.rdf.RdfNamespace;
-import edu.ucdenver.ccp.rdfizer.rdf.RdfUtil;
+import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
+import edu.ucdenver.ccp.rdf.DataSourceIdentifierUriFactory;
 
-public class CraftUriFactory extends UriFactory {
+public class CraftUriFactory extends DataSourceIdentifierUriFactory {
 
 	private static final String CRAFT_NAMESPACE = "http://craft.ucdenver.edu/";
-	private static final String CRAFT_ANNOTATION_NAMESPACE = "http://craft.ucdenver.edu/annotation/";
-	private static final String CRAFT_TAXONOMY_ID_SLOT = "taxonomy ID";
-	private static final String CRAFT_ENTREZ_GENE_ID_SLOT_NAME = "has Entrez Gene ID";
 
-	public static final URI RDF_TYPE = RdfUtil.createUri(RdfNamespace.RDF, "type");
+	// TODO: this can't have a trailing slash b/c the UUID gets appended to it. Future generation of
+	// annotation URIs could check for the slash and remove it if necessary
+	private static final String CRAFT_ANNOTATION_NAMESPACE = "http://craft.ucdenver.edu/annotation";
 
-	public Collection<URI> getResourceUri(CCPTextAnnotation ccpTa) {
-		CCPClassMention cm = ccpTa.getClassMention();
-		String mentionName = cm.getMentionName();
-		if (mentionName.equalsIgnoreCase("organism")) {
-			CCPIntegerSlotMention taxIdSlot = (CCPIntegerSlotMention) UIMA_Util.getPrimitiveSlotMentionByName(cm,
-					CRAFT_TAXONOMY_ID_SLOT);
-			IntegerArray taxIds = taxIdSlot.getSlotValues();
+	public URI getResourceUri(AnnotationDataExtractor annotationDataExtractor, Annotation annotation) {
+		CraftOrganismAnnotationAttributeExtractor taxIdAttributeExtractor = (CraftOrganismAnnotationAttributeExtractor) annotationDataExtractor
+				.getAnnotationAttributeExtractor(CraftAnnotationAttribute.TAXONOMY_ID);
+		CraftEntrezGeneAnnotationAttributeExtractor egAttributeExtractor = (CraftEntrezGeneAnnotationAttributeExtractor) annotationDataExtractor
+				.getAnnotationAttributeExtractor(CraftAnnotationAttribute.ENTREZ_GENE_ID);
+		String type = annotationDataExtractor.getAnnotationType(annotation);
+		if (type.equalsIgnoreCase("organism")) {
+			Collection<NcbiTaxonomyID> taxIds = taxIdAttributeExtractor.getAnnotationAttributes(annotation);
 			if (taxIds == null || taxIds.size() != 1)
 				throw new RuntimeException("Zero or Multiple taxonomy Ids observed in one annotation");
-			return getUri(CollectionsUtil.createList(new NcbiTaxonomyID(taxIds.get(0))));
-		} else if (hasEntrezGeneIdSlot(cm)) {
-			return getUri(getEntrezGeneIdSlotFiller(cm));
+			return getUri(new NcbiTaxonomyID(CollectionsUtil.getSingleElement(taxIds).toString()));
+		} else if (egAttributeExtractor.getAnnotationAttributes(annotation) != null) {
+			Collection<EntrezGeneID> entrezGeneIdSlotFillers = egAttributeExtractor.getAnnotationAttributes(annotation);
+			if (entrezGeneIdSlotFillers.size() != 1)
+				throw new IllegalArgumentException("Zero or Multiple Entrez Gene IDs observed in one annotation");
+			return getIaoUri(CollectionsUtil.getSingleElement(entrezGeneIdSlotFillers));
 		} else
-			return getUri(CollectionsUtil.createList(DataSourceIdResolver.resolveId(mentionName)));
+			return getUri(DataSourceIdResolver.resolveId(type));
 	}
 
-	public URI getAnnotationUri(long annotationId) {
-		try {
-			return new URI(CRAFT_ANNOTATION_NAMESPACE + "CRAFT_Annotation_" + Long.toString(annotationId));
-		} catch (URISyntaxException e) {
-			throw new IllegalStateException(e);
-		}
-	}
-
-	/**
-	 * Returns the {@link EntrezGeneID} associated with the input {@link CCPClassMention}
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param cm
-	 * @return
-	 * @throws RuntimeException
-	 *             if an annotation is found to be associated with multiple Entrez Gene IDs
-	 */
-	private static Collection<EntrezGeneID> getEntrezGeneIdSlotFiller(CCPClassMention cm) {
-		CCPIntegerSlotMention egIdSlot = (CCPIntegerSlotMention) UIMA_Util.getSlotMentionByName(cm,
-				CRAFT_ENTREZ_GENE_ID_SLOT_NAME);
-		IntegerArray egIds = egIdSlot.getSlotValues();
-		Collection<EntrezGeneID> ids = new ArrayList<EntrezGeneID>();
-		for (int i = 0; i < egIds.size(); i++)
-			ids.add(new EntrezGeneID(egIds.get(i)));
-		return ids;
-	}
-
-	/**
-	 * Returns true if the input class mention is part of the Entrez Gene ontology by checking to
-	 * see if it has a slot for the Entrez Gene ID
-	 * 
-	 * @param cm
-	 * @return true if the input {@link CCPClassMention} has an Entrez Gene ID slot
-	 */
-	private static boolean hasEntrezGeneIdSlot(CCPClassMention cm) {
-		return UIMA_Util.getSlotMentionByName(cm, CRAFT_ENTREZ_GENE_ID_SLOT_NAME) != null;
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.ucdenver.ccp.rdf.UriFactory#getBaseUri()
+	 * @see edu.ucdenver.ccp.rdf.DataSourceIdentifierUriFactory#getAnnotationNamespace()
 	 */
 	@Override
-	public String getBaseUri() {
-		return CRAFT_NAMESPACE;
+	protected org.openrdf.model.URI getAnnotationNamespace() {
+		return new URIImpl(CRAFT_ANNOTATION_NAMESPACE);
 	}
 
 }

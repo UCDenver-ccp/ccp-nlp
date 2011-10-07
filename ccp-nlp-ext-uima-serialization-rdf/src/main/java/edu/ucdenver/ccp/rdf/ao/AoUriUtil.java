@@ -18,5 +18,7 @@ public class AoUriUtil {
 	public static final URI AOF_ANNOTATES_DOCUMENT = RdfUtil.createUri(RdfNamespace.AOF,"annotatesDocument");
 	public static final URI AOF_ON_DOCUMENT = RdfUtil.createUri(RdfNamespace.AOF,"onDocument");
 	public static final URI AO_ON_SOURCE_DOCUMENT = RdfUtil.createUri(RdfNamespace.AO,"onSourceDocument");
-	public static final URI AOS_PREFIX_POSTFIX_TEXT_SELECTOR = RdfUtil.createUri(RdfNamespace.AOS,"PrefixPostfixTextSelector");;
+	public static final URI AOS_PREFIX_POSTFIX_TEXT_SELECTOR = RdfUtil.createUri(RdfNamespace.AOS,"PrefixPostfixSelector");
+	public static final URI AOS_OFFSET_RANGE_TEXT_SELECTOR = RdfUtil.createUri(RdfNamespace.AOS,"OffsetRangeSelector");
+	public static final URI AO_HAS_BODY = RdfUtil.createUri(RdfNamespace.AO,"hasBody");
 }
