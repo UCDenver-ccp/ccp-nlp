@@ -1,4 +1,4 @@
-package edu.ucdenver.ccp.nlp.ext.uima.serialization;
+package edu.ucdenver.ccp.nlp.ext.uima.serialization.xmi;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +43,11 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 			XmiPrinterAE.class, "outputDirectory");
 
 	/**
+	 * File suffix appended to the XMI output files
+	 */
+	public static final String XMI_FILE_SUFFIX = ".xmi";
+
+	/**
 	 * The directory where generated XMI files will be stored
 	 */
 	@ConfigurationParameter(mandatory = true, description = "The directory where generated XMI files will be stored.")
@@ -63,8 +68,8 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	 */
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File outputDirectory)
 			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitive(XmiPrinterAE.class, tsd, PARAM_OUTPUT_DIRECTORY, outputDirectory
-				.getAbsolutePath());
+		return AnalysisEngineFactory.createPrimitive(XmiPrinterAE.class, tsd, PARAM_OUTPUT_DIRECTORY,
+				outputDirectory.getAbsolutePath());
 	}
 
 	/**
@@ -87,8 +92,8 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	 */
 	@Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {
-		String documentID = UIMA_Util.getDocumentID(jcas);
-		File xmiFile = new File(outputDirectory, documentID + ".xmi");
+		String documentId = UIMA_Util.getDocumentID(jcas);
+		File xmiFile = new File(outputDirectory, getXmiFileName(documentId));
 		try {
 			serializeCasToXmi(jcas, xmiFile);
 		} catch (IOException e) {
@@ -96,6 +101,17 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 		} catch (SAXException e) {
 			throw new AnalysisEngineProcessException(e);
 		}
+	}
+
+	/**
+	 * Given a document Id, this method returns the name of the corresponding XMI file that will be
+	 * created
+	 * 
+	 * @param documentId
+	 * @return
+	 */
+	public static String getXmiFileName(String documentId) {
+		return documentId + XMI_FILE_SUFFIX;
 	}
 
 	/**
@@ -111,7 +127,8 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	 *             if there's an issue serializing the CAS
 	 */
 	private void serializeCasToXmi(JCas jcas, File xmiFile) throws IOException, SAXException {
-		Writer writer = FileWriterUtil.initBufferedWriter(xmiFile, CharacterEncoding.UTF_8, WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
+		Writer writer = FileWriterUtil.initBufferedWriter(xmiFile, CharacterEncoding.UTF_8, WriteMode.OVERWRITE,
+				FileSuffixEnforcement.OFF);
 		try {
 			XmiCasSerializer serializer = new XmiCasSerializer(jcas.getTypeSystem());
 			XMLSerializer xmlSerializer = new XMLSerializer(writer, false);
