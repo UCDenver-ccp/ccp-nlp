@@ -19,7 +19,7 @@ private static Logger logger = Logger.getLogger(UimaMentionTraversalTracker.clas
 	
 	public UimaMentionTraversalTracker(CCPMention ccpMention) {
 //		super();
-logger.debug("Initializing UimaMentionTraversalTracker for mention: " + ccpMention.getMentionName());		
+//logger.debug("Initializing UimaMentionTraversalTracker for mention: " + ccpMention.getMentionName());		
 		this.ccpMention = ccpMention;
 		try {
 			this.jcas = ccpMention.getCAS().getJCas();
@@ -29,17 +29,17 @@ logger.debug("Initializing UimaMentionTraversalTracker for mention: " + ccpMenti
 	}
 
 	public UUID getMentionIDForTraversal(UUID traversalID) {
-		logger.debug("Getting mentionID for traversalID: " + traversalID);
+//		logger.debug("Getting mentionID for traversalID: " + traversalID);
 		return UIMA_Util.getMentionIDForTraversal(ccpMention, traversalID);
 	}
 
 	public void removeMentionIDForTraversal(UUID traversalID) {
-		logger.debug("Removing mentionID for traversalID: " + traversalID);
+//		logger.debug("Removing mentionID for traversalID: " + traversalID);
 		UIMA_Util.removeMentionIDForTraversal(ccpMention, traversalID, jcas);
 	}
 
 	public void setMentionIDForTraversal(UUID mentionID, UUID traversalID) {
-		logger.debug("Setting mentionID: " + mentionID + " for traversalID: " + traversalID);
+//		logger.debug("Setting mentionID: " + mentionID + " for traversalID: " + traversalID);
 		UIMA_Util.setMentionIDForTraversal(ccpMention, mentionID, traversalID, jcas);
 	}
 
