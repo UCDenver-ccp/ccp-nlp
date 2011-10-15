@@ -99,7 +99,7 @@ public class BannerEntityTagger_AE extends EntityTagger_AE {
 	throws ResourceInitializationException {
 		try {
 			File modelFile = File.createTempFile("gene_model_v02", "bin");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/data/models/gene_model_v02.bin", modelFile);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/models/gene_model_v02.bin", modelFile);
 			return createAnalysisEngine(tsd, modelFile);
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
@@ -110,7 +110,7 @@ public class BannerEntityTagger_AE extends EntityTagger_AE {
 	throws ResourceInitializationException {
 		try {
 			File modelFile = File.createTempFile("disease_model_AZDC-mod125", "bin");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/data/models/disease_model_AZDC-mod125.bin", modelFile);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/models/disease_model_AZDC-mod125.bin", modelFile);
 			return createAnalysisEngine(tsd, modelFile);
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
@@ -131,40 +131,40 @@ public class BannerEntityTagger_AE extends EntityTagger_AE {
 
 			
 			File propertiesFile = File.createTempFile("banner", "properties");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/banner.properties", propertiesFile);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/properties/banner.properties", propertiesFile);
 			ExternalResourceFactory.bindResource(aed, PROPERTIES_FILE_KEY, propertiesFile);
 
 			File lemmatiserDirectory = FileUtil.createTemporaryDirectory("lemmatiser");
 			File adj_exc = new File(lemmatiserDirectory,"adj.exc");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/lemmatiser/adj.exc", adj_exc);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/lemmatiser/adj.exc", adj_exc);
 			File adj_index = new File(lemmatiserDirectory,"adj.index");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/lemmatiser/adj.index", adj_index);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/lemmatiser/adj.index", adj_index);
 			File adv_exc = new File(lemmatiserDirectory,"adv.exc");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/lemmatiser/adv.exc", adv_exc);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/lemmatiser/adv.exc", adv_exc);
 			File adv_index = new File(lemmatiserDirectory,"adv.index");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/lemmatiser/adv.index", adv_index);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/lemmatiser/adv.index", adv_index);
 			File noun_exc = new File(lemmatiserDirectory,"noun.exc");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/lemmatiser/noun.exc", noun_exc);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/lemmatiser/noun.exc", noun_exc);
 			File stopwordexc_list = new File(lemmatiserDirectory,"stopwordexc.list");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/lemmatiser/stopwordexc.list", stopwordexc_list);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/lemmatiser/stopwordexc.list", stopwordexc_list);
 			File umlserror_list = new File(lemmatiserDirectory,"umlserror.list");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/lemmatiser/umlserror.list", umlserror_list);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/lemmatiser/umlserror.list", umlserror_list);
 			File verb_exc = new File(lemmatiserDirectory,"verb.exc");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/lemmatiser/verb.exc", verb_exc);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/lemmatiser/verb.exc", verb_exc);
 			File verb_index = new File(lemmatiserDirectory,"verb.index");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/lemmatiser/verb.index", verb_index);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/lemmatiser/verb.index", verb_index);
 			ExternalResourceFactory.bindResource(aed, LEMMATISER_PATH_KEY, lemmatiserDirectory);
 
 			
 			File taggerDirectory = FileUtil.createTemporaryDirectory("tagger");
 			File lexDB_serial = new File(taggerDirectory,"lexDB.serial");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/tagger/lexDB.serial", lexDB_serial);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/tagger/lexDB.serial", lexDB_serial);
 			File lexicon_all = new File(taggerDirectory,"lexicon_all");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/tagger/lexicon_all", lexicon_all);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/tagger/lexicon_all", lexicon_all);
 			File ngramOne_serial = new File(taggerDirectory,"ngramOne.serial");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/tagger/ngramOne.serial", ngramOne_serial);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/tagger/ngramOne.serial", ngramOne_serial);
 			File rules_cap = new File(taggerDirectory,"rules_cap");
-			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/nlp-tools/BANNER/nlpdata/tagger/rules_cap", rules_cap);
+			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class, "/banner/nlpdata/tagger/rules_cap", rules_cap);
 			ExternalResourceFactory.bindResource(aed, POS_PATH_KEY,	taggerDirectory);
 		} catch (InvalidXMLException x) {
 			throw new ResourceInitializationException(x);
