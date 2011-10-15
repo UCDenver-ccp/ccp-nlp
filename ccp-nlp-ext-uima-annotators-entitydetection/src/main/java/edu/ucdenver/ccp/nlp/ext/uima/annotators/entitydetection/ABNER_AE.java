@@ -79,7 +79,7 @@ public class ABNER_AE extends EntityTagger_AE {
     		
     		public static AnalysisEngine createAnalysisEngine_BioCreative(TypeSystemDescription tsd) 
     		throws ResourceInitializationException {
-    			InputStream modelStream = ABNER_AE.class.getResourceAsStream("/nlp-tools/ABNER/models/biocreative.crf");
+    			InputStream modelStream = ABNER_AE.class.getResourceAsStream("/abner/models/biocreative.crf");
     			try {
     				File modelFile = File.createTempFile("biocreative", "crf");
     				FileUtil.copy(modelStream, modelFile);
@@ -91,7 +91,7 @@ public class ABNER_AE extends EntityTagger_AE {
     		
     		public static AnalysisEngine createAnalysisEngine_NLPBA(TypeSystemDescription tsd) 
     		throws ResourceInitializationException {
-    			InputStream modelStream = ABNER_AE.class.getResourceAsStream("/nlp-tools/ABNER/models/nlpba.crf");
+    			InputStream modelStream = ABNER_AE.class.getResourceAsStream("/abner/models/nlpba.crf");
     			try {
     				File modelFile = File.createTempFile("nlpba", "crf");
     				FileUtil.copy(modelStream, modelFile);
