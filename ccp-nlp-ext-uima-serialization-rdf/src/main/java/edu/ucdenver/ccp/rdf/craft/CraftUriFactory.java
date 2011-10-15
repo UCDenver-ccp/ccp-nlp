@@ -21,6 +21,7 @@ public class CraftUriFactory extends DataSourceIdentifierUriFactory {
 	// annotation URIs could check for the slash and remove it if necessary
 	private static final String CRAFT_ANNOTATION_NAMESPACE = "http://craft.ucdenver.edu/annotation";
 
+	@Override
 	public URI getResourceUri(AnnotationDataExtractor annotationDataExtractor, Annotation annotation) {
 		CraftOrganismAnnotationAttributeExtractor taxIdAttributeExtractor = (CraftOrganismAnnotationAttributeExtractor) annotationDataExtractor
 				.getAnnotationAttributeExtractor(CraftAnnotationAttribute.TAXONOMY_ID);
