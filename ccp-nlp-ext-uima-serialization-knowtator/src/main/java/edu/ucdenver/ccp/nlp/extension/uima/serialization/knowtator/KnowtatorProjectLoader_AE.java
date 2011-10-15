@@ -75,13 +75,6 @@ public class KnowtatorProjectLoader_AE extends JCasAnnotator_ImplBase {
 	//
 	// private AnnotationSetValidator annotationSetValidator;
 
-	public static AnalysisEngine createKnowtatorProjectLoaderAE(TypeSystemDescription tsd, File knowtatorProjectPprjFile)
-			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitive(KnowtatorProjectLoader_AE.class, tsd,
-				KnowtatorProjectLoader_AE.PARAM_KNOWTATOR_PROJECT_FILE,
-				knowtatorProjectPprjFile.getAbsolutePath());
-	}
-
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		try {
@@ -129,10 +122,10 @@ public class KnowtatorProjectLoader_AE extends JCasAnnotator_ImplBase {
 		uimaUtil.putTextAnnotationsIntoJCas(jcas, textAnnotations);
 	}
 
-	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, String path)
+	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File knowtatorPprjFile )
 			throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitive(KnowtatorProjectLoader_AE.class, tsd,
-				PARAM_KNOWTATOR_PROJECT_FILE, path);
+				PARAM_KNOWTATOR_PROJECT_FILE, knowtatorPprjFile.getAbsolutePath());
 	}
 
 	@Override
