@@ -1116,15 +1116,15 @@ public class UIMA_Util {
 			}
 			
 			AnnotationCommentProperty annotationCommentProp = null;
-			logger.info("Checking to see if annotation comment is null...");
+//			logger.info("Checking to see if annotation comment is null...");
 			if (annotationMetadata.getAnnotationComment() != null) {
 				annotationCommentProp = new AnnotationCommentProperty(jcas);
 				annotationCommentProp.setComment(annotationMetadata.getAnnotationComment());
-				logger.info("Setting annotation comment: " + annotationMetadata.getAnnotationComment());
+//				logger.info("Setting annotation comment: " + annotationMetadata.getAnnotationComment());
 			}
 			if (annotationCommentProp != null) {
 				ccpMetadataPropertiesToAdd.add(annotationCommentProp);
-				logger.info("adding comment property to meta data list...");
+//				logger.info("adding comment property to meta data list...");
 			}
 
 			/* Swap properties here */
