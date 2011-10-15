@@ -21,6 +21,15 @@ public abstract class UriFactory {
 	public static final URI RDF_TYPE = new URIImpl(RdfUtil.createUri(RdfNamespace.RDF, "type").toString());
 	public static final URI RDFS_SUBCLASS_OF = new URIImpl(RdfUtil.createUri(RdfNamespace.RDFS, "subclassOf")
 			.toString());
+	
+	
+	public static final URI KIAO_MENTIONS_PROTEIN = new URIImpl(RdfUtil.createUri(RdfNamespace.KIAO, "mentionsProtein")
+			.toString());
+	public static final URI KIAO_MENTIONS_PATHWAY = new URIImpl(RdfUtil.createUri(RdfNamespace.KIAO, "mentionsPathway")
+			.toString());
+	public static final URI IAO_MENTIONS = new URIImpl(RdfUtil.createUri(RdfNamespace.IAO, "mentions")
+			.toString());
+	
 
 //	/**
 //	 * Returns a URI for the input {@link DataElementIdentifier}
