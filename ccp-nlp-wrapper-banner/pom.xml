@@ -34,5 +34,10 @@
 			<artifactId>trove</artifactId>
 			<version>trove</version>
 		</dependency>
+		<dependency>
+			<groupId>hepple</groupId>
+			<artifactId>heptag</artifactId>
+			<version>heptag</version>
+		</dependency>
 	</dependencies>
 </project>
