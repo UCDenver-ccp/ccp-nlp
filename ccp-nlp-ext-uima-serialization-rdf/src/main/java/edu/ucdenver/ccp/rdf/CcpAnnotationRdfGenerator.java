@@ -80,47 +80,76 @@ public abstract class CcpAnnotationRdfGenerator implements AnnotationRdfGenerato
 	@Override
 	public List<? extends Statement> generateRdf(RdfAnnotationDataExtractor annotationDataExtractor,
 			Annotation annotation, UriFactory uriFactory, URI documentUri, URL documentUrl, String documentText,
-			Map<String, URI> annotationKeyToUriMap, Map<String, Set<URI>> annotationKeyToSelectorUrisMap, Map<String, URI> annotationKeyToSemanticInstanceUriMap) {
+			Map<String, URI> annotationKeyToUriMap, Map<String, Set<URI>> annotationKeyToSelectorUrisMap,
+			Map<String, URI> annotationKeyToSemanticInstanceUriMap) {
 
 		List<Statement> stmts = new ArrayList<Statement>();
 		String annotationKey = annotationDataExtractor.getAnnotationKey(annotation);
 		if (!annotationKeyToUriMap.containsKey(annotationKey)) {
 
 			URI denotedClassUri = uriFactory.getResourceUri(annotationDataExtractor, annotation);
-			URI annotationUri = uriFactory.getAnnotationUri();
+			if (denotedClassUri != null) {
+				URI annotationUri = uriFactory.getAnnotationUri();
 
-			stmts.add(setAnnotationTypeResourceAnnotation(annotationUri));
-			stmts.add(setAnnotationDenotedResource(annotationUri, denotedClassUri));
-			stmts.addAll(AoAnnotationRdfGenerator.linkAnnotationToSourceDocument(annotationUri, documentUrl,
-					documentUri));
-			stmts.addAll(AoAnnotationRdfGenerator.linkAnnotationToCreator(annotationUri,
-					annotationDataExtractor.getAnnotator(annotation)));
-			stmts.add(AoAnnotationRdfGenerator.linkAnnotationToCreatedDate(annotationUri));
+				stmts.add(setAnnotationTypeResourceAnnotation(annotationUri));
+				stmts.add(setAnnotationDenotedResource(annotationUri, denotedClassUri));
+				stmts.addAll(AoAnnotationRdfGenerator.linkAnnotationToSourceDocument(annotationUri, documentUrl,
+						documentUri));
+				stmts.addAll(AoAnnotationRdfGenerator.linkAnnotationToCreator(annotationUri,
+						annotationDataExtractor.getAnnotator(annotation)));
+				stmts.add(AoAnnotationRdfGenerator.linkAnnotationToCreatedDate(annotationUri));
 
-			annotationKeyToUriMap.put(annotationDataExtractor.getAnnotationKey(annotation), annotationUri);
+				stmts.add(createDocumentToDenotedClassShortcutLink(documentUri, denotedClassUri));
 
-			/* annotationUri kiao:based_on annotationUri */
-			Collection<? extends Statement> componentAnnotationStmts = getComponentAnnotationStmts(annotationUri,
-					annotationDataExtractor, annotation, uriFactory, documentUri, documentUrl, documentText,
-					annotationKeyToUriMap, annotationKeyToSelectorUrisMap, annotationKeyToSemanticInstanceUriMap);
+				annotationKeyToUriMap.put(annotationDataExtractor.getAnnotationKey(annotation), annotationUri);
 
-			/* ADD SPANS FROM COMPONENT ANNOTATIONS TO THIS ANNOTATION */
-			// stmts.addAll(linkAnnotationToComponentSpans(annotationUri,
-			// componentAnnotationStmts));
-			/* annotationUri ao:context selectorUris */
-			stmts.addAll(AoAnnotationRdfGenerator.getAoSelectorStmts(annotationUri, annotation,
-					annotationDataExtractor, documentUri, documentUrl, documentText, getAoSelectorType(),
-					annotationKeyToSelectorUrisMap));
+				/* annotationUri kiao:based_on annotationUri */
+				Collection<? extends Statement> componentAnnotationStmts = getComponentAnnotationStmts(annotationUri,
+						annotationDataExtractor, annotation, uriFactory, documentUri, documentUrl, documentText,
+						annotationKeyToUriMap, annotationKeyToSelectorUrisMap, annotationKeyToSemanticInstanceUriMap);
 
-			stmts.addAll(linkAnnotationToComponentSpans(annotationUri, annotation, annotationDataExtractor,
-					annotationKeyToSelectorUrisMap));
+				/* ADD SPANS FROM COMPONENT ANNOTATIONS TO THIS ANNOTATION */
+				// stmts.addAll(linkAnnotationToComponentSpans(annotationUri,
+				// componentAnnotationStmts));
+				/* annotationUri ao:context selectorUris */
+				stmts.addAll(AoAnnotationRdfGenerator.getAoSelectorStmts(annotationUri, annotation,
+						annotationDataExtractor, documentUri, documentUrl, documentText, getAoSelectorType(),
+						annotationKeyToSelectorUrisMap));
 
-			stmts.addAll(generateAnnotationSemanticsStmts(annotationUri, annotation, annotationDataExtractor, annotationKeyToSemanticInstanceUriMap));
-			
-			stmts.addAll(componentAnnotationStmts);
+				stmts.addAll(linkAnnotationToComponentSpans(annotationUri, annotation, annotationDataExtractor,
+						annotationKeyToSelectorUrisMap));
+
+				stmts.addAll(generateAnnotationSemanticsStmts(annotationUri, annotation, annotationDataExtractor,
+						annotationKeyToSemanticInstanceUriMap));
+
+				stmts.addAll(componentAnnotationStmts);
+			} else {
+				logger.warn("Skipped RDF generation for an annotation. Unable to determine proper URI for annotation of type: "
+						+ annotationDataExtractor.getAnnotationType(annotation));
+			}
 		}
 
 		return stmts;
+	}
+
+	/**
+	 * Adds a "shortcut" link from the document to the denoted class. This was added to improve
+	 * query performance when using biojigsaw.
+	 * 
+	 * @param documentUri
+	 * @param denotedClassUri
+	 * @return
+	 */
+	private Statement createDocumentToDenotedClassShortcutLink(URI documentUri, URI denotedClassUri) {
+		URI mentionsPredicate;
+		if (denotedClassUri.getLocalName().contains("PR_"))
+			mentionsPredicate = UriFactory.KIAO_MENTIONS_PROTEIN;
+		else if (denotedClassUri.getLocalName().contains("KEGG_PATHWAY_"))
+			mentionsPredicate = UriFactory.KIAO_MENTIONS_PATHWAY;
+		else
+			mentionsPredicate = UriFactory.IAO_MENTIONS;
+
+		return new StatementImpl(documentUri, mentionsPredicate, denotedClassUri);
 	}
 
 	/**
@@ -136,7 +165,8 @@ public abstract class CcpAnnotationRdfGenerator implements AnnotationRdfGenerato
 		if (annotationDataExtractor.getSemanticStatementGenerator() == null)
 			logger.warn("The RdfAnnotationDataExtractor implementation being used lacks a non-null SemanticStatementGenerator. No semantic statements will be added to the annotation-specific graph.");
 		else
-			stmts.addAll(annotationDataExtractor.getSemanticStatements(annotation, graphUri, annotationKeyToSemanticInstanceUriMap));
+			stmts.addAll(annotationDataExtractor.getSemanticStatements(annotation, graphUri,
+					annotationKeyToSemanticInstanceUriMap));
 		if (stmts.size() > 0) {
 			stmts.add(new StatementImpl(annotationUri, AO_HAS_BODY, graphUri));
 		}
