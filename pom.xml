@@ -20,15 +20,18 @@
 	<modules>
 		<module>ccp-nlp-core</module>
 		<module>ccp-nlp-core-uima</module>
+		<module>ccp-nlp-ext-bionlp</module>
 		<module>ccp-nlp-ext-syntax</module>
 		<module>ccp-nlp-ext-uima-annotators</module>
 		<module>ccp-nlp-ext-uima-annotators-biolemmatizer</module>
 		<module>ccp-nlp-ext-uima-annotators-entitydetection</module>
+		<module>ccp-nlp-ext-uima-annotators-entitynormalization</module>
 		<module>ccp-nlp-ext-uima-annotators-postaggers</module>
 		<module>ccp-nlp-ext-uima-annotators-sentencedetectors</module>
 		<module>ccp-nlp-ext-uima-annotators-tokenizers</module>
 		<module>ccp-nlp-ext-uima-collections</module>
 		<module>ccp-nlp-ext-uima-serialization</module>
+		<module>ccp-nlp-ext-uima-serialization-bionlp</module>
 		<module>ccp-nlp-ext-uima-serialization-knowtator</module>
 		<module>ccp-nlp-ext-uima-serialization-rdf</module>
 		<module>ccp-nlp-ext-uima-serialization-xml</module>
