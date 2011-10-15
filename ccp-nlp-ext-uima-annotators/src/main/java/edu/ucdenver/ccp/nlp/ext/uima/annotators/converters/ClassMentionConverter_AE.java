@@ -41,6 +41,7 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotationSet;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentInformation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
+import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 
 /**
  * Converts the class mentions of the user supplied types to the target mention type.
@@ -135,13 +136,7 @@ public class ClassMentionConverter_AE extends JCasAnnotator_ImplBase {
     public void process(JCas jcas) 
     throws AnalysisEngineProcessException {
 
-        /* get document ID */
-        Iterator docInfoIter = jcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentInformation.type).iterator();
-        String documentID = "-1";
-        if (docInfoIter.hasNext()) {
-            CCPDocumentInformation srcDocInfo = (CCPDocumentInformation) docInfoIter.next();
-            documentID = srcDocInfo.getDocumentID();
-        }
+        String documentID = UIMA_Util.getDocumentID(jcas);
 
         logger.info("Converting classes for: " + documentID);
 
