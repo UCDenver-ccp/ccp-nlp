@@ -26,28 +26,6 @@ import org.apache.uima.jcas.JCas;
 
 public class View_Util {
 
-	/**
-	 * This enum contains some commonly used UIMA view names.
-	 * 
-	 * @author Bill Baumgartner
-	 * 
-	 */
-	public static enum View {
-		DEFAULT(CAS.NAME_DEFAULT_SOFA), RAW("rawView"), XML("xmlView"), HTML("htmlView"), GOLD_STANDARD("goldStandardView");
-
-		private final String viewName;
-
-		private View(String viewName) {
-			this.viewName = viewName;
-		}
-
-		public String viewName() {
-			return viewName;
-		}
-		public String toString() {
-			return viewName;
-		}
-	}
 	
 	/**
 	 * Helper method that will retrieve a view with a given name. If the view does not exist, then
