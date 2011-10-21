@@ -922,6 +922,7 @@ public class UIMA_Util {
 		CCPClassMention ccpCM = new CCPClassMention(fromUIMA.getCAS().getJCas());
 		UIMA_Util.swapClassMentionInfo(fromUIMA.getClassMention(), ccpCM);
 		toUIMA.setClassMention(ccpCM);
+		ccpCM.setCcpTextAnnotation(toUIMA);
 	}
 
 	/**
