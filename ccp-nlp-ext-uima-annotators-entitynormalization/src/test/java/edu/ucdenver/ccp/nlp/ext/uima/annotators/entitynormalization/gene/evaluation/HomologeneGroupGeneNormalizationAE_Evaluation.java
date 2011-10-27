@@ -8,6 +8,7 @@ import java.io.File;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
 
@@ -22,6 +23,7 @@ import edu.ucdenver.ccp.nlp.ext.uima.annotators.entitynormalization.gene.Homolog
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
+@Ignore("Need to add homologene group generation from entrez gene IDs in the gold standard")
 public class HomologeneGroupGeneNormalizationAE_Evaluation extends DefaultTestCase {
 
 	private static final TypeSystemDescription TSD = TypeSystemDescriptionFactory.createTypeSystemDescription(

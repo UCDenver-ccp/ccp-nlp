@@ -8,6 +8,7 @@ import java.io.File;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
 
@@ -23,6 +24,7 @@ import edu.ucdenver.ccp.nlp.ext.uima.annotators.entitynormalization.protein.ProO
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
+@Ignore("need to either convert from entrez gene to pro ID, or use a different gold standard")
 public class ProteinOntologyNormalizationAE_Evaluation extends DefaultTestCase {
 
 	private static final TypeSystemDescription TSD = TypeSystemDescriptionFactory.createTypeSystemDescription(
