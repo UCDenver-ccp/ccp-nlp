@@ -12,11 +12,13 @@ import org.uimafit.factory.TypeSystemDescriptionFactory;
  */
 public class TypeSystemUtil {
 
+	public static String CCP_TYPE_SYSTEM = "edu.ucdenver.ccp.nlp.core.uima.TypeSystem";
+	
 	/**
 	 * 
 	 * @return a {@link TypeSystemDescription} for the CCP Type System
 	 */
 	public static TypeSystemDescription getCcpTypeSystem() {
-		return TypeSystemDescriptionFactory.createTypeSystemDescription("edu.ucdenver.ccp.nlp.core.uima.TypeSystem");
+		return TypeSystemDescriptionFactory.createTypeSystemDescription(CCP_TYPE_SYSTEM);
 	}
 }
