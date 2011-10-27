@@ -147,7 +147,7 @@ public class BannerEntityTagger_AE extends EntityTagger_AE {
 					"/banner/properties/banner.properties", propertiesFile);
 			ExternalResourceFactory.bindResource(aed, PROPERTIES_FILE_KEY, propertiesFile);
 
-			File lemmatiserDirectory = FileUtil.createTemporaryDirectory("lemmatiser" + UUID.randomUUID().toString());
+			File lemmatiserDirectory = FileUtil.createTemporaryDirectory("lemmatiser");
 			File adj_exc = new File(lemmatiserDirectory, "adj.exc");
 			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class,
 					"/banner/nlpdata/lemmatiser/adj.exc", adj_exc);
@@ -177,7 +177,7 @@ public class BannerEntityTagger_AE extends EntityTagger_AE {
 					"/banner/nlpdata/lemmatiser/verb.index", verb_index);
 			ExternalResourceFactory.bindResource(aed, LEMMATISER_PATH_KEY, lemmatiserDirectory);
 
-			File taggerDirectory = FileUtil.createTemporaryDirectory("tagger" + UUID.randomUUID().toString());
+			File taggerDirectory = FileUtil.createTemporaryDirectory("tagger");
 			File lexDB_serial = new File(taggerDirectory, "lexDB.serial");
 			ClassPathUtil.copyClasspathResourceToFile(BannerEntityTagger_AE.class,
 					"/banner/nlpdata/tagger/lexDB.serial", lexDB_serial);
