@@ -10,10 +10,10 @@ import org.apache.uima.jcas.tcas.Annotation;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 
+import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.rdf.shims.SemanticStatementGenerator;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
@@ -39,6 +39,6 @@ public abstract class CcpSemanticStatementGenerator implements SemanticStatement
 	 * @param graphUri
 	 * @return
 	 */
-	protected abstract Collection<? extends Statement> generateSemanticStatements(WrappedCCPTextAnnotation ccpTa, URI graphUri, Map<String, URI> annotationKeyToSemanticInstanceUriMap);
+	protected abstract Collection<? extends Statement> generateSemanticStatements(TextAnnotation ta, URI graphUri, Map<String, URI> annotationKeyToSemanticInstanceUriMap);
 
 }
