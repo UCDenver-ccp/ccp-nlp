@@ -25,12 +25,12 @@
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-nlp-wrapper-abner</artifactId>
+			<artifactId>ccp-nlp-wrapper-banner</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-nlp-wrapper-banner</artifactId>
+			<artifactId>ccp-nlp-wrapper-abner</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
