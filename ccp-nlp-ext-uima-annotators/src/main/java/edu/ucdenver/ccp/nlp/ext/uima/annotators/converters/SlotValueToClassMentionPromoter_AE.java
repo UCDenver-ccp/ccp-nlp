@@ -22,7 +22,9 @@
 package edu.ucdenver.ccp.nlp.ext.uima.annotators.converters;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +42,7 @@ import org.uimafit.factory.ConfigurationParameterFactory;
 import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
+import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 
 /**
@@ -60,6 +63,11 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(mandatory = true, description = "The name of the slot whose value will be promoted to a class mention type")
 	private String slotNameToPromote;
 
+	public final static String PARAM_TRANSFER_SLOT_VALUES = ConfigurationParameterFactory
+			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "transferSlotValues");
+	@ConfigurationParameter(description = "If true, then the new annotations that are created will have the same slot values as the original. If false, then the slot values are not transferred and the new annotations are linked to ClassMentions with no slots.", defaultValue = "true")
+	private boolean transferSlotValues;
+
 	@Override
 	public void initialize(UimaContext uc) throws ResourceInitializationException {
 		super.initialize(uc);
@@ -67,6 +75,8 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 		logger.info("Initialized to promote values from slot <" + slotNameToPromote + "> of classMentionType <"
 				+ mentionTypeRegexString + "> to class mention status.");
 	}
+
+	private Set<String> coveredTextWithMatches = new HashSet<String>();
 
 	/*
 	 * (non-Javadoc)
@@ -90,9 +100,18 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 			if (matcher.find()) {
 				try {
 					List<String> slotValuesToPromote = getSlotValuesOfInterest(annot);
+					if (slotValuesToPromote.size() > 1)
+						coveredTextWithMatches.add(annot.getCoveredText() + " -- " + slotValuesToPromote.toString());
 					for (String slotValue : slotValuesToPromote) {
 						CCPTextAnnotation newCCPTA = UIMA_Util.cloneAnnotation(annot, jcas);
-						newCCPTA.getClassMention().setMentionName(slotValue);
+						if (transferSlotValues)
+							newCCPTA.getClassMention().setMentionName(slotValue);
+						else {
+							CCPClassMention cm = new CCPClassMention(jcas);
+							cm.setMentionName(slotValue);
+							cm.setCcpTextAnnotation(newCCPTA);
+							newCCPTA.setClassMention(cm);
+						}
 						annotationsToAddToJcas.add(newCCPTA);
 					}
 				} catch (CASException ce) {
@@ -104,6 +123,21 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 		for (CCPTextAnnotation ta : annotationsToAddToJcas) {
 			ta.addToIndexes();
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.uima.analysis_component.AnalysisComponent_ImplBase#collectionProcessComplete()
+	 */
+	@Override
+	public void collectionProcessComplete() throws AnalysisEngineProcessException {
+		super.collectionProcessComplete();
+		System.out.println("CoveredText/LotsOfMatches");
+		for (String s : coveredTextWithMatches)
+			System.out.println("MATCH: " + s);
+
 	}
 
 	/**
