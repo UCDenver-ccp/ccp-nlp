@@ -43,6 +43,9 @@
 		<module>ccp-nlp-wrapper-knowtator</module>
 		<module>ccp-nlp-wrapper-lingpipe</module>
 		<module>ccp-nlp-wrapper-protege-v3</module>
+		<module>ccp-nlp-ext-dictionary</module>
+		<module>ccp-nlp-ext-dictionary-berkeleydb</module>
+		<module>ccp-nlp-ext-dictionary-berkeleydb-impl</module>
 	</modules>
 
 	<dependencyManagement>
@@ -78,22 +81,10 @@
 								</arguments>
 							</configuration>
 						</execution>
-	<!-- 					<execution>
-							<id>export-descriptor-xml</id>
-							<phase>prepare-package</phase>
-							<goals>
-								<goal>java</goal>
-							</goals>
-							<configuration>
-								<mainClass>edu.ucdenver.ccp.nlp.core.uima.build.XmlDescriptorWriter</mainClass>
-								<arguments>
-									<argument>${project.basedir}/src/main/java</argument>
-									<argument>${project.build.directory}/uima-descriptors</argument>
-									<argument>${project.version}</argument>
-								</arguments>
-							</configuration>
-						</execution>
--->
+						<!-- <execution> <id>export-descriptor-xml</id> <phase>prepare-package</phase> 
+							<goals> <goal>java</goal> </goals> <configuration> <mainClass>edu.ucdenver.ccp.nlp.core.uima.build.XmlDescriptorWriter</mainClass> 
+							<arguments> <argument>${project.basedir}/src/main/java</argument> <argument>${project.build.directory}/uima-descriptors</argument> 
+							<argument>${project.version}</argument> </arguments> </configuration> </execution> -->
 					</executions>
 				</plugin>
 				<plugin><!-- This plugin adds the jcasgen generated source code folder 
