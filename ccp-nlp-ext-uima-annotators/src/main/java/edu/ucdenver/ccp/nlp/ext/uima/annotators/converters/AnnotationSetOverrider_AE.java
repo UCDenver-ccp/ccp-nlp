@@ -20,17 +20,20 @@
 
 package edu.ucdenver.ccp.nlp.ext.uima.annotators.converters;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.uima.UimaContext;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.component.JCasAnnotator_ImplBase;
+import org.uimafit.descriptor.ConfigurationParameter;
+import org.uimafit.factory.AnalysisEngineFactory;
+import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotationSet;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
@@ -47,36 +50,25 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
  */
 public class AnnotationSetOverrider_AE extends JCasAnnotator_ImplBase {
 
-	public static final String PARAM_SETID = "SetID";
-
-	public static final String PARAM_SETNAME = "SetName";
-
-	public static final String PARAM_SETDESCRIPTION = "SetDescription";
-
-	public static final String PARAM_ANNOTATION_SETS_TO_IGNORE = "AnnotationSetsToIgnore";
-
-	protected Set<Integer> annotationSetsToIgnore;
-
+	public static final String PARAM_SETID = ConfigurationParameterFactory.createConfigurationParameterName(
+			AnnotationSetOverrider_AE.class, "setID");
+	@ConfigurationParameter(mandatory = true)
 	private int setID = -1;
 
+	public static final String PARAM_SETNAME = ConfigurationParameterFactory.createConfigurationParameterName(
+			AnnotationSetOverrider_AE.class, "setName");
+	@ConfigurationParameter()
 	private String setName = null;
 
+	public static final String PARAM_SETDESCRIPTION = ConfigurationParameterFactory.createConfigurationParameterName(
+			AnnotationSetOverrider_AE.class, "setDescription");
+	@ConfigurationParameter()
 	private String setDescription = null;
 
-	@Override
-	public void initialize(UimaContext context) throws ResourceInitializationException {
-		/* read in input parameters */
-		setID = ((Integer) context.getConfigParameterValue(PARAM_SETID)).intValue();
-		setName = (String) context.getConfigParameterValue(PARAM_SETNAME);
-		setDescription = (String) context.getConfigParameterValue(PARAM_SETDESCRIPTION);
-		try {
-			annotationSetsToIgnore = new HashSet<Integer>(Arrays.asList((Integer[]) context
-					.getConfigParameterValue(PARAM_ANNOTATION_SETS_TO_IGNORE)));
-		} catch (NullPointerException npe) {
-			annotationSetsToIgnore = new HashSet<Integer>();
-		}
-		super.initialize(context);
-	}
+	public static final String PARAM_ANNOTATION_SETS_TO_IGNORE = ConfigurationParameterFactory
+			.createConfigurationParameterName(AnnotationSetOverrider_AE.class, "annotationSetsToIgnore");
+	@ConfigurationParameter()
+	private Set<Integer> annotationSetsToIgnore;
 
 	/**
 	 * cycle through all annotations and set the annotation set
@@ -126,4 +118,11 @@ public class AnnotationSetOverrider_AE extends JCasAnnotator_ImplBase {
 		return ignore;
 	}
 
+	
+	
+	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd, int setId,
+			String setName, String setDescription, int[] setsToIgnore) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createPrimitiveDescription(AnnotationSetOverrider_AE.class, tsd, PARAM_SETID, setId, PARAM_SETNAME, setName, PARAM_SETDESCRIPTION, setDescription, PARAM_ANNOTATION_SETS_TO_IGNORE, setsToIgnore);
+	}
+	
 }
