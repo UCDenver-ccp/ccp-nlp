@@ -80,7 +80,7 @@ public class HomologeneDictionaryBuilderTest extends DefaultTestCase {
 		assertEquals("search for entry1 alias failed.", 1, entry1Hits.size());
 		assertEquals("HOMOLOGENE_GROUP_52", CollectionsUtil.getSingleElement(entry1Hits).getDictionaryKey());
 
-		entry1Hits = dictionary.searchAliases("npcderivedprolinerichprotein1");
+		entry1Hits = dictionary.searchAliases("npcderivedprolinerichprotein");
 		assertEquals("search for entry1 alias failed.", 1, entry1Hits.size());
 		assertEquals("HOMOLOGENE_GROUP_52", CollectionsUtil.getSingleElement(entry1Hits).getDictionaryKey());
 
