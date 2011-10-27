@@ -28,6 +28,12 @@
 			<artifactId>ccp-nlp-ext-uima-shims</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
