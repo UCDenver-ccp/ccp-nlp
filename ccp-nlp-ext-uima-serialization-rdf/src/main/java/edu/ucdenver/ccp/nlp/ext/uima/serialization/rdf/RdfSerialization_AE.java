@@ -270,7 +270,6 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 
 		if (outputBatchSize > 0 && documentsProcessedCount++ % outputBatchSize == 0) {
 			currentBatch++;
-			documentsProcessedCount = 0;
 			closeWriters(currentBatch - 1);
 			openWriters(currentBatch);
 			if (currentBatch == 0)

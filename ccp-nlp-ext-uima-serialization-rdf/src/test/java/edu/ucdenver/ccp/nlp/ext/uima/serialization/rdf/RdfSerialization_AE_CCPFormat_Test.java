@@ -109,7 +109,7 @@ public class RdfSerialization_AE_CCPFormat_Test extends DefaultUIMATestCase {
 		AnalysisEngine rdfSerializationAe = RdfSerialization_AE.createAnalysisEngine(tsd, outputDirectory,
 				outputFilePrefix, selectorType, format, CcpDocumentMetaDataExtractor.class,
 				CcpCraftAnnotationDataExtractor.class, AoAnnotationOffsetRangeRdfGenerator.class,
-				CraftAoDocumentRdfGenerator.class, CraftUriFactory.class,0);
+				CraftAoDocumentRdfGenerator.class, CraftUriFactory.class,10000);
 
 		try {
 			rdfSerializationAe.process(jcas);
