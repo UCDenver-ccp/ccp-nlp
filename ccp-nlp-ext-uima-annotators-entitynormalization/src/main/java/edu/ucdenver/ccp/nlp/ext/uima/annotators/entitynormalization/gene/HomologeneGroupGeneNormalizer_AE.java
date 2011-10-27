@@ -174,7 +174,7 @@ public class HomologeneGroupGeneNormalizer_AE extends JCasAnnotator_ImplBase {
 				.hasNext();) {
 			Annotation annot = annotIter.next();
 			String type = annotationDataExtractor.getAnnotationType(annot);
-			if (type != null && type.equals("DocumentLevel-" + ClassMentionTypes.PROTEIN)) {
+			if (type != null && type.equals(ClassMentionTypes.PROTEIN)) {
 				String proteinText = annot.getCoveredText();
 				proteinText = GeneTaggerMentionFilter.filterMention(proteinText);
 				if (!proteinText.isEmpty()) {

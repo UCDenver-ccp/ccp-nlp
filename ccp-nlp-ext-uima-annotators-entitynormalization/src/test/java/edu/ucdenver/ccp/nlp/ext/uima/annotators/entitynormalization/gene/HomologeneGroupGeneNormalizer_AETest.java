@@ -49,7 +49,7 @@ public class HomologeneGroupGeneNormalizer_AETest extends DefaultUIMATestCase {
 	@Override
 	protected void initJCas() throws Exception {
 		/* 0123456789012345678901234567890123456789 */
-		String documentText = "ABC-1 regulates XYZ34 but not CBS29.";
+		String documentText = "ABC-2 regulates XYZ34 but not CBS29.";
 		jcas.setDocumentText(documentText);
 		addTextAnnotationToJCas(0, 5, "protein"); // EG_1234
 		addTextAnnotationToJCas(16, 21, "protein"); // HOMOLOGENE_GROUP_5555
