@@ -33,9 +33,9 @@ import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 
-import abner.Tagger;
 import edu.ucdenver.ccp.common.io.LoggingOutputStream;
 import edu.ucdenver.ccp.common.string.RegExPatterns;
+import edu.ucdenver.ccp.nlp.abner.ext.Tagger;
 import edu.ucdenver.ccp.nlp.core.annotation.AnnotationSet;
 import edu.ucdenver.ccp.nlp.core.annotation.Annotator;
 import edu.ucdenver.ccp.nlp.core.annotation.InvalidSpanException;
@@ -137,10 +137,12 @@ public class Abner_Util implements IEntityTagger {
 
     private void initialize(String modelFilename, TagMappingName tagMapping) {        
         if (modelFilename != null) {
+        	System.out.println("Initializing ABNER:" + modelFilename);
             File modelFile = new File(modelFilename);
             abnerTagger = new Tagger(modelFile);
             this.tagMapping = tagMapping;
         } else {
+        	System.out.println("null uri");
             logger.error("Not sure what this URI points to, URI is null. "
             		+ "Check location of Abner model file."
             		+ modelFilename);
@@ -209,19 +211,22 @@ public class Abner_Util implements IEntityTagger {
          * Segment text is stored in result[0][...] 
          * and entity tags (minus "B-" and "I-" prefixes) are stored in result[1][...]. */
         
-        PrintStream oldOut = System.out;
-        PrintStream oldErr = System.err;
+//        PrintStream oldOut = System.out;
+//        PrintStream oldErr = System.err;
 
         //redirecting System.out/err to log4j appender
-        System.setOut(new PrintStream(new LoggingOutputStream(Category.getRoot(), Priority.DEBUG),true));
-        System.setErr(new PrintStream(new LoggingOutputStream(Category.getRoot(), Priority.INFO),true));
+//        System.setOut(new PrintStream(new LoggingOutputStream(Category.getRoot(), Priority.DEBUG),true));
+//        System.setErr(new PrintStream(new LoggingOutputStream(Category.getRoot(), Priority.INFO),true));
 
+//        System.out.println(abnerTagger.tagSGML(text));
+//        System.out.println(abnerTagger.tagABNER(text));
+//        System.out.println(abnerTagger.tagIOB(text));
         // calling abner
         String[][] entities=abnerTagger.getEntities(text);
-
+        
         //restoring original System.out/err
-        System.setOut(oldOut);
-        System.setErr(oldErr);
+//        System.setOut(oldOut);
+//        System.setErr(oldErr);
         
         
         /* The rest of this method is devoted to determining the spans of the 

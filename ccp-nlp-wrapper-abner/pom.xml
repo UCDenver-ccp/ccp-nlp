@@ -14,9 +14,14 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>abner-no-models</groupId>
-			<artifactId>abner-no-models</artifactId>
-			<version>abner-no-models</version>
+			<groupId>abner</groupId>
+			<artifactId>abner</artifactId>
+			<version>original</version>
 		</dependency>
+		<!-- <dependency> <groupId>abner-no-models</groupId> <artifactId>abner-no-models</artifactId> 
+			<version>abner-no-models</version> </dependency> -->
+
 	</dependencies>
+
+
 </project>
