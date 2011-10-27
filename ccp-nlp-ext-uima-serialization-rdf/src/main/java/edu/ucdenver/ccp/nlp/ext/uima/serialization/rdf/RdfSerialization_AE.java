@@ -164,6 +164,11 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(mandatory = false, defaultValue = "-1", description = "Setting this parameter causes the output to be batched into multiple files. The threshold will indicate the number of documents to process in each batch. Setting the threshold to -1 will cause all output to be put into a single file.")
 	private int outputBatchSize;
 
+	public final static String PARAM_BATCH_NUMBER = ConfigurationParameterFactory.createConfigurationParameterName(
+			RdfSerialization_AE.class, "batchNumber");
+	@ConfigurationParameter(mandatory = true, defaultValue = "-1", description = "Appended to the output files, the batch number distiguishes among concurrently running AEs")
+	private int batchNumber;
+
 	public final static String PARAM_FILE_PREFIX = ConfigurationParameterFactory.createConfigurationParameterName(
 			RdfSerialization_AE.class, "outputFilePrefix");
 	@ConfigurationParameter(mandatory = true, description = "This string will be used as a prefix to the output files.")
@@ -256,13 +261,13 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 	}
 
 	private File getDocumentRdfOutputFile(int batch) {
-		return new File(outputDirectory, String.format("%s-documents.%d.%s", outputFilePrefix, batch,
-				rdfFormat.defaultFileExtension()));
+		return new File(outputDirectory, String.format("%s-documents.batch%d.%d.%s", outputFilePrefix, batchNumber,
+				batch, rdfFormat.defaultFileExtension()));
 	}
 
 	private File getAnnotationRdfOutputFile(int batch) {
-		return new File(outputDirectory, String.format("%s-annotations.%d.%s", outputFilePrefix, batch,
-				rdfFormat.defaultFileExtension()));
+		return new File(outputDirectory, String.format("%s-annotations.batch%d.%d.%s", outputFilePrefix, batchNumber,
+				batch, rdfFormat.defaultFileExtension()));
 	}
 
 	@Override
@@ -389,7 +394,8 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 			Class<? extends AnnotationDataExtractor> annotationDataExtractorClass,
 			Class<? extends AnnotationRdfGenerator> annotationRdfGeneratorClass,
 			Class<? extends DocumentRdfGenerator> documentRdfGeneratorClass,
-			Class<? extends UriFactory> uriFactoryClass, int outputBatchSize) throws ResourceInitializationException {
+			Class<? extends UriFactory> uriFactoryClass, int outputBatchSize, int batchNumber)
+			throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitive(RdfSerialization_AE.class, tsd,
 				RdfSerialization_AE.PARAM_FILE_PREFIX, outputFilePrefix, RdfSerialization_AE.PARAM_RDF_FORMAT,
 				format.name(), RdfSerialization_AE.PARAM_OUTPUT_DIRECTORY, outputDirectory.getAbsolutePath(),
@@ -398,7 +404,7 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 				annotationDataExtractorClass.getName(), PARAM_ANNOTATION_RDF_GENERATOR_CLASS,
 				annotationRdfGeneratorClass.getName(), PARAM_DOCUMENT_RDF_GENERATOR_CLASS,
 				documentRdfGeneratorClass.getName(), PARAM_URI_FACTORY_CLASS, uriFactoryClass.getName(),
-				PARAM_OUTPUT_BATCH_SIZE, outputBatchSize);
+				PARAM_OUTPUT_BATCH_SIZE, outputBatchSize, PARAM_BATCH_NUMBER, batchNumber);
 	}
 
 	public static void exportXmlDescriptor(File baseDescriptorDirectory, String version) {

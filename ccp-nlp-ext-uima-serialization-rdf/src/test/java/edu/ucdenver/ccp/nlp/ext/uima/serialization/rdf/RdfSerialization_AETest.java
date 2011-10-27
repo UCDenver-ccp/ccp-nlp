@@ -90,7 +90,7 @@ public class RdfSerialization_AETest extends DefaultUIMATestCase {
 		AnalysisEngine rdfSerializationAe = RdfSerialization_AE.createAnalysisEngine(tsd, outputDirectory,
 				outputFilePrefix, selectorType, format, CcpDocumentMetaDataExtractor.class,
 				SampleCcpRdfAnnotationDataExtractor.class, CcpAnnotationOffsetRangeRdfGenerator.class,
-				CraftAoDocumentRdfGenerator.class, CraftUriFactory.class,2);
+				CraftAoDocumentRdfGenerator.class, CraftUriFactory.class,2,15);
 
 		rdfSerializationAe.process(jcas);
 		rdfSerializationAe.process(jcas);

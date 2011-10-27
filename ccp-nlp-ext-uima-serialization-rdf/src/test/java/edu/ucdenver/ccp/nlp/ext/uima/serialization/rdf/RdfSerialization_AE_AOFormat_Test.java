@@ -68,13 +68,13 @@ public class RdfSerialization_AE_AOFormat_Test extends DefaultUIMATestCase {
 		AnalysisEngine rdfSerializationAe = RdfSerialization_AE.createAnalysisEngine(tsd, outputDirectory,
 				outputFilePrefix, selectorType, format, CcpDocumentMetaDataExtractor.class,
 				CcpCraftAnnotationDataExtractor.class, AoAnnotationOffsetRangeRdfGenerator.class,
-				CraftAoDocumentRdfGenerator.class, CraftUriFactory.class,0);
+				CraftAoDocumentRdfGenerator.class, CraftUriFactory.class,0,0);
 
 		rdfSerializationAe.process(jcas);
 		rdfSerializationAe.collectionProcessComplete();
-		File documentRdfFile = new File(outputDirectory, String.format("%s-documents.0.%s", outputFilePrefix,
+		File documentRdfFile = new File(outputDirectory, String.format("%s-documents.batch0.0.%s", outputFilePrefix,
 				format.defaultFileExtension()));
-		File annotationRdfFile = new File(outputDirectory, String.format("%s-annotations.0.%s", outputFilePrefix,
+		File annotationRdfFile = new File(outputDirectory, String.format("%s-annotations.batch0.0.%s", outputFilePrefix,
 				format.defaultFileExtension()));
 
 		// for (String line : FileReaderUtil.loadLinesFromFile(documentRdfFile,
