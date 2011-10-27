@@ -37,11 +37,11 @@ public class ProOntologyProteinNormalization_AAE {
 				.createAnalysisEngineDescription_BioCreative(tsd);
 
 		AnalysisEngineDescription geneToProteinConverter = ClassMentionConverter_AE.createAnalysisEngineDescription(
-				tsd, "DocumentLevel-protein", new String[] { "gene","protein" });
+				tsd, "protein", new String[] { "gene" });
 
 		AnalysisEngineDescription consensusFilter = AnalysisEngineFactory.createPrimitiveDescription(
 				AnnotationConsensusFilter_AE.class, tsd, AnnotationConsensusFilter_AE.PARAM_CONSENSUS_THRESHOLD, 2,
-				AnnotationConsensusFilter_AE.PARAM_ANNOTATION_TYPE_OF_INTEREST, "DocumentLevel-protein",
+				AnnotationConsensusFilter_AE.PARAM_ANNOTATION_TYPE_OF_INTEREST, "protein",
 				AnnotationConsensusFilter_AE.PARAM_ANNOTATION_SETS_TO_IGNORE, new int[] {});
 
 		// the annotation set id for consensus annotations is 88 - this AE will remove all other
