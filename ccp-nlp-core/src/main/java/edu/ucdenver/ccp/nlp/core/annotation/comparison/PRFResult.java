@@ -18,15 +18,18 @@
 
 package edu.ucdenver.ccp.nlp.core.annotation.comparison;
 
+import java.io.IOException;
 import java.io.PrintStream;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 
 /**
- * This class is a data structure for cataloging the results of an NLP experiment. Not only are TP, FP, and FN counts
- * logged, but the annotations that were responsible for each TP, FP, and FN count are also recorded.
+ * This class is a data structure for cataloging the results of an NLP experiment. Not only are TP,
+ * FP, and FN counts logged, but the annotations that were responsible for each TP, FP, and FN count
+ * are also recorded.
  * 
  * @author William A Baumgartner, Jr.
  * 
@@ -51,14 +54,19 @@ public class PRFResult {
 	private List<TextAnnotation> fpAnnotations;
 
 	private List<TextAnnotation> fnAnnotations;
-	
-	public enum ResultTypeEnum { TP, FP, FN };
+
+	public enum ResultTypeEnum {
+		TP,
+		FP,
+		FN
+	};
 
 	/* A textual description of the NLP experiment cataloged by this PRFResult object */
 	private String title;
 
 	/**
-	 * Initialize a new PRFResult by inputting counts for true positives, false positives, and false negatives.
+	 * Initialize a new PRFResult by inputting counts for true positives, false positives, and false
+	 * negatives.
 	 * 
 	 * @param tp
 	 *            a count of true positives
@@ -81,7 +89,8 @@ public class PRFResult {
 	}
 
 	/**
-	 * Initialize a new PRFResult by inputting counts for true positives, false positives, and false negatives.
+	 * Initialize a new PRFResult by inputting counts for true positives, false positives, and false
+	 * negatives.
 	 * 
 	 * @param tp
 	 *            a count of true positives
@@ -105,7 +114,7 @@ public class PRFResult {
 
 		computePRFStats();
 	}
-	
+
 	public void trim() {
 		tpAnnotations.clear();
 		tpAnnotations = null;
@@ -194,20 +203,25 @@ public class PRFResult {
 	}
 
 	/**
-	 * Output to the given <code>PrintStream</code> the annotations responsible for the TP, FP, and FN statistics.
+	 * Output to the given <code>PrintStream</code> the annotations responsible for the TP, FP, and
+	 * FN statistics.
 	 * 
 	 * @param ps
 	 *            the <code>PrintStream</code> to use
 	 */
-	public void printAnnotations(PrintStream ps) {
-		for (TextAnnotation ta : tpAnnotations) {
-			ps.println("TP -- " + ta.getSingleLineRepresentation());
-		}
-		for (TextAnnotation ta : fpAnnotations) {
-			ps.println("FP -- " + ta.getSingleLineRepresentation());
-		}
-		for (TextAnnotation ta : fnAnnotations) {
-			ps.println("FN -- " + ta.getSingleLineRepresentation());
+	public void printAnnotations(Writer writer) {
+		try {
+			for (TextAnnotation ta : tpAnnotations) {
+				writer.write("TP -- " + ta.getSingleLineRepresentation() + "\n");
+			}
+			for (TextAnnotation ta : fpAnnotations) {
+				writer.write("FP -- " + ta.getSingleLineRepresentation() + "\n");
+			}
+			for (TextAnnotation ta : fnAnnotations) {
+				writer.write("FN -- " + ta.getSingleLineRepresentation() + "\n");
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -232,9 +246,9 @@ public class PRFResult {
 	}
 
 	/**
-	 * Update this <code>PRFResult</code> object by adding the TP, FP, and FN counts from another <code>PRFResult</code>
-	 * object. Note, at this time, the annotations do not get passed along, only the counts. This is for space
-	 * considerations when evaluating large document collections.
+	 * Update this <code>PRFResult</code> object by adding the TP, FP, and FN counts from another
+	 * <code>PRFResult</code> object. Note, at this time, the annotations do not get passed along,
+	 * only the counts. This is for space considerations when evaluating large document collections.
 	 * 
 	 * @param prf
 	 */
@@ -268,7 +282,8 @@ public class PRFResult {
 	/**
 	 * Retrieve the annotations responsible for the false negative counts
 	 * 
-	 * @return a list of <code>TextAnnotation</code> objects associated with the false negative counts
+	 * @return a list of <code>TextAnnotation</code> objects associated with the false negative
+	 *         counts
 	 */
 	public List<TextAnnotation> getFNAnnotations() {
 		return fnAnnotations;
@@ -295,7 +310,8 @@ public class PRFResult {
 	/**
 	 * Retrieve the annotations responsible for the false positive counts
 	 * 
-	 * @return a list of <code>TextAnnotation</code> objects associated with the false positive counts
+	 * @return a list of <code>TextAnnotation</code> objects associated with the false positive
+	 *         counts
 	 */
 	public List<TextAnnotation> getFPAnnotations() {
 		return fpAnnotations;
@@ -322,25 +338,26 @@ public class PRFResult {
 	/**
 	 * Retrieve the annotations responsible for the true positive counts
 	 * 
-	 * @return a list of <code>TextAnnotation</code> objects associated with the true positive counts
+	 * @return a list of <code>TextAnnotation</code> objects associated with the true positive
+	 *         counts
 	 */
 	public List<TextAnnotation> getTPAnnotations() {
 		return tpAnnotations;
 	}
-	
+
 	public List<TextAnnotation> getResultTypeAnnotations(ResultTypeEnum r) {
 		switch (r) {
 		case FN:
 			return getFNAnnotations();
-		case TP: 
+		case TP:
 			return getTPAnnotations();
 		case FP:
 			return getFPAnnotations();
 		}
-		
+
 		// too bad the compiler can't see I've covered all bases
 		return new ArrayList<TextAnnotation>();
-		
+
 	}
 
 	/**
