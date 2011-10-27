@@ -54,8 +54,6 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.umass.cs.mallet.base.fst.CRF;
 import edu.umass.cs.mallet.base.util.MalletLogger;
 
-
-
 public class Banner_Util extends Base implements IEntityTagger {
 
 	private BannerProperties properties;
@@ -67,15 +65,16 @@ public class Banner_Util extends Base implements IEntityTagger {
 	org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Banner_Util.class);
 
 	/**
-	 * Because relative paths can be tricky, we ignore the lemmatiserDataDirectory and postaggerDataDirectory input from the parameter file and use
-	 * passed in values instead.
+	 * Because relative paths can be tricky, we ignore the lemmatiserDataDirectory and
+	 * postaggerDataDirectory input from the parameter file and use passed in values instead.
 	 * 
 	 * @param bannerPropertiesFile
 	 * @param bannerModelFile
 	 * @param lemmatiserDataDirectory
 	 * @param postaggerDataDirectory
 	 */
-	private void initialize(String bannerPropertiesFile, String bannerModelFile, String lemmatiserDataDirectory, String posTaggerDataDirectory) {
+	private void initialize(String bannerPropertiesFile, String bannerModelFile, String lemmatiserDataDirectory,
+			String posTaggerDataDirectory) {
 		properties = BannerProperties.load(bannerPropertiesFile);
 		modelFile = new File(bannerModelFile);
 		tokenizer = properties.getTokenizer();
@@ -83,7 +82,10 @@ public class Banner_Util extends Base implements IEntityTagger {
 		MalletLogger.getLogger(CRF.class.getName()).setLevel(Level.OFF);
 		Tagger posTagger;
 
-		/* we need to look directly at the properties file in order to extract the name of the pos tagger to be used */
+		/*
+		 * we need to look directly at the properties file in order to extract the name of the pos
+		 * tagger to be used
+		 */
 		Properties propertiesFile = new Properties();
 		try {
 			propertiesFile.load(new FileInputStream(bannerPropertiesFile));
@@ -117,7 +119,7 @@ public class Banner_Util extends Base implements IEntityTagger {
 		HashMap<String, LinkedList<Base.Tag>> tags = new HashMap<String, LinkedList<Base.Tag>>();
 		Set<Mention> mentionsTest = new HashSet<Mention>();
 		// commented out this line bc it spills too much info to the console.
-		//properties.log();
+		// properties.log();
 		Sentence sentence = null;
 		if (line != null && !line.equals("")) {
 			String sentenceText = line;
@@ -126,15 +128,14 @@ public class Banner_Util extends Base implements IEntityTagger {
 			sentenceText = sentence.getText();
 			Sentence sentence2 = new Sentence(sentence.getTag(), sentenceText);
 			tokenizer.tokenize(sentence2);
-	
+
 			try {
 				tagger.tag(sentence2);
-			}
-			catch (Exception x) {
-				logger.error("error tagging sentence: \"" + sentence2.getText() + "\"");
+			} catch (Exception x) {
+				logger.warn("BANNER failure to process (" + documentID + ") sentence: \"" + sentence2.getText() + "\"");
 				return entityAnnotations;
 			}
-				
+
 			if (postProcessor != null)
 				postProcessor.postProcess(sentence2);
 			// For training text sentence2.getTrainingText(properties.getTagFormat());
@@ -153,7 +154,7 @@ public class Banner_Util extends Base implements IEntityTagger {
 
 				ClassMention cm;
 				cm = new DefaultClassMention(type.toLowerCase());
-					ta.setClassMention(cm);
+				ta.setClassMention(cm);
 
 				entityAnnotations.add(ta);
 			}
@@ -180,8 +181,12 @@ public class Banner_Util extends Base implements IEntityTagger {
 				String posTaggerDataDirectory = args[3];
 				initialize(bannerPropertiesFile, bannerModelFile, lemmatiserDataDirectory, posTaggerDataDirectory);
 			} else {
-				error("Unexpected number of arguments (" + args.length + ") for " + className + " " + taggerTypeStr + " initialization.");
-				usage("The " + className + " " + taggerTypeStr
+				error("Unexpected number of arguments (" + args.length + ") for " + className + " " + taggerTypeStr
+						+ " initialization.");
+				usage("The "
+						+ className
+						+ " "
+						+ taggerTypeStr
 						+ " requires four arguments, the path to the properties file, the path to the entity model file, the lemmatiser data directory, and the POS tagger data directory");
 			}
 		} else {
@@ -213,6 +218,6 @@ public class Banner_Util extends Base implements IEntityTagger {
 	@Override
 	public void shutdown() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
