@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +30,8 @@ import edu.ucdenver.ccp.common.file.FileComparisonUtil.ColumnOrder;
 import edu.ucdenver.ccp.common.file.FileComparisonUtil.LineOrder;
 import edu.ucdenver.ccp.common.file.FileReaderUtil;
 import edu.ucdenver.ccp.datasource.identifiers.DataSourceIdResolver;
+import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
-import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.test.DefaultUIMATestCase;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor;
@@ -44,7 +43,6 @@ import edu.ucdenver.ccp.rdf.ao.AoSelectorType;
 import edu.ucdenver.ccp.rdf.craft.CcpCraftAnnotationDataExtractor;
 import edu.ucdenver.ccp.rdf.craft.CraftAoDocumentRdfGenerator;
 import edu.ucdenver.ccp.rdf.craft.CraftDocument;
-import edu.ucdenver.ccp.rdf.craft.CraftDocumentUrlFactory;
 import edu.ucdenver.ccp.rdf.craft.CraftUriFactory;
 import edu.ucdenver.ccp.rdfizer.rdf.RdfNamespace;
 import edu.ucdenver.ccp.rdfizer.rdf.RdfUtil;
@@ -291,7 +289,7 @@ public class RdfSerialization_AE_CCPFormat_Test extends DefaultUIMATestCase {
 		 * .ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation, org.openrdf.model.URI)
 		 */
 		@Override
-		protected Collection<? extends Statement> generateSemanticStatements(WrappedCCPTextAnnotation wrappedTa,
+		protected Collection<? extends Statement> generateSemanticStatements(TextAnnotation wrappedTa,
 				URI graphUri,Map<String, URI> annotationKeyToSemanticInstanceUriMap) {
 			Collection<Statement> stmts = new ArrayList<Statement>();
 			if (wrappedTa.getClassMention().getMentionName().equals(GO_GENE_REGULATION)) {
