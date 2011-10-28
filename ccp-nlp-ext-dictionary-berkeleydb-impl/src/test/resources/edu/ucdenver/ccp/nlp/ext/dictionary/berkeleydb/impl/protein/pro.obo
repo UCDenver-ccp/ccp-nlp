@@ -51,4 +51,11 @@ synonym: "HLA-DPA1" RELATED []
 synonym: "HLASB" RELATED []
 is_a: PR:000001820 ! MHC class II histocompatibility antigen alpha chain
 
+[Term]
+id: MOD:00030
+name: N-formyl-L-methionine residue
+namespace: MOD
+synonym: "fMet" EXACT PSI-MOD-label []
+is_a: PR:000002970 ! pre-translationally modified amino-acid residue
+
 

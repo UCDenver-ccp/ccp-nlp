@@ -76,6 +76,10 @@ public class ProteinOntologyDictionaryBuilderTest extends DefaultTestCase {
 		assertEquals("search for entry1 alias failed.", 1, entry1Hits.size());
 		assertEquals("PR:000000101", CollectionsUtil.getSingleElement(entry1Hits).getDictionaryKey());
 		
+		entry1Hits = dictionary.searchAliases(er, "N-formyl-L-methionine residue");
+		assertEquals("search for N-formyl-L-methionine residue failed.", 1, entry1Hits.size());
+		assertEquals("MOD:00030", CollectionsUtil.getSingleElement(entry1Hits).getDictionaryKey());
+		
 		entry1Hits = dictionary.searchAliases(er, "E7");
 		assertEquals("search for entry1 alias failed.", 0, entry1Hits.size());
 		dictionary.shutdown();
