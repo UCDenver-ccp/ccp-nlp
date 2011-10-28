@@ -33,6 +33,15 @@ public class CcpGeneIdAnnotationDecorator extends CcpAnnotationDecorator<DataSou
 			return HOMOLOGENE_GROUP_ID_SLOT_NAME;
 		case PR:
 			return PRO_ID_SLOT_NAME;
+		case GO:
+			return PRO_ID_SLOT_NAME;
+		case MOD:
+			return PRO_ID_SLOT_NAME;
+		case SO:
+			return PRO_ID_SLOT_NAME;
+		case CHEBI:
+			return PRO_ID_SLOT_NAME;
+			
 		default:
 			throw new IllegalArgumentException("Unhandled ID type: " + id.getDataSource().name());
 		}

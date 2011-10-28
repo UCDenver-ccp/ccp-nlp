@@ -29,7 +29,7 @@
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>datasource-identifiers</artifactId>
+			<artifactId>ccp-datasource-identifiers</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
