@@ -76,7 +76,7 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 				+ mentionTypeRegexString + "> to class mention status.");
 	}
 
-	private Set<String> coveredTextWithMatches = new HashSet<String>();
+//	private Set<String> coveredTextWithMatches = new HashSet<String>();
 
 	/*
 	 * (non-Javadoc)
@@ -101,7 +101,7 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 				try {
 					List<String> slotValuesToPromote = getSlotValuesOfInterest(annot);
 					if (slotValuesToPromote.size() > 1)
-						coveredTextWithMatches.add(annot.getCoveredText() + " -- " + slotValuesToPromote.toString());
+//						coveredTextWithMatches.add(annot.getCoveredText() + " -- " + slotValuesToPromote.toString());
 					for (String slotValue : slotValuesToPromote) {
 						CCPTextAnnotation newCCPTA = UIMA_Util.cloneAnnotation(annot, jcas);
 						if (transferSlotValues)
@@ -134,9 +134,9 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 	@Override
 	public void collectionProcessComplete() throws AnalysisEngineProcessException {
 		super.collectionProcessComplete();
-		System.out.println("CoveredText/LotsOfMatches");
-		for (String s : coveredTextWithMatches)
-			System.out.println("MATCH: " + s);
+//		System.out.println("CoveredText/LotsOfMatches");
+//		for (String s : coveredTextWithMatches)
+//			System.out.println("MATCH: " + s);
 
 	}
 
