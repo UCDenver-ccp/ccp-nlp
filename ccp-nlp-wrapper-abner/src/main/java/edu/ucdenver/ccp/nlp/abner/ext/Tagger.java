@@ -27,6 +27,8 @@ import java.net.URL;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import edu.umass.cs.mallet.base.fst.CRF4;
 import edu.umass.cs.mallet.base.pipe.Pipe;
 import edu.umass.cs.mallet.base.pipe.iterator.LineGroupIterator;
@@ -51,7 +53,7 @@ import edu.umass.cs.mallet.base.types.Sequence;
  * @version 1.5 (March 2005)
  */
 public class Tagger {
-
+private static final Logger logger = Logger.getLogger(Tagger.class);
 	// constants
 
 	/** The tagger trained on the NLPBA corpus. */
@@ -68,7 +70,7 @@ public class Tagger {
 	private int myMode;
 
 	// //////////////////////////////////////////////////////////////
-	private void initialize(ObjectInputStream ois) throws IOException, ClassNotFoundException  {
+	private void initialize(ObjectInputStream ois) throws IOException, ClassNotFoundException {
 		// load the CRF into memory and get ready to go...
 		myCRF = (CRF4) ois.readObject();
 		myPipe = myCRF.getInputPipe();
@@ -85,25 +87,25 @@ public class Tagger {
 	 * Advanced constructor: Specify either "NLPBA" or "BioCreative" model.
 	 */
 	public Tagger(int mode) {
-			myMode = mode;
-			URL model = null;// Tagger.class.getResource("resources/nlpba.crf");
-			if (mode == BIOCREATIVE) {
-				System.err.println("Loading BioCreative tagging module...");
-				model = Tagger.class.getResource("resources/biocreative.crf");
-			} else {
-				System.err.println("Loading default NLPBA tagging module...");
-				model = Tagger.class.getResource("resources/nlpba.crf");
-			}
-			ObjectInputStream ois;
-			try {
-				ois = new ObjectInputStream(model.openStream());
-				initialize(ois);
-				ois.close();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
+		myMode = mode;
+		URL model = null;// Tagger.class.getResource("resources/nlpba.crf");
+		if (mode == BIOCREATIVE) {
+			System.err.println("Loading BioCreative tagging module...");
+			model = Tagger.class.getResource("resources/biocreative.crf");
+		} else {
+			System.err.println("Loading default NLPBA tagging module...");
+			model = Tagger.class.getResource("resources/nlpba.crf");
+		}
+		ObjectInputStream ois;
+		try {
+			ois = new ObjectInputStream(model.openStream());
+			initialize(ois);
+			ois.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -120,7 +122,7 @@ public class Tagger {
 			throw new RuntimeException(e);
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
-		} 
+		}
 	}
 
 	// //////////////////////////////////////////////////////////////
@@ -155,19 +157,20 @@ public class Tagger {
 	 */
 	public String tokenize(String s) {
 		StringBuffer sb = new StringBuffer();
-			Scanner scanner = new Scanner(new StringReader(s));
-//			Scanner scanner = new Scanner(StreamUtil.getEncodingSafeInputStream(new ByteArrayInputStream(s.getBytes()), CharacterEncoding.UTF_8));
-			String t;
-			try {
+		Scanner scanner = new Scanner(new StringReader(s));
+		// Scanner scanner = new Scanner(StreamUtil.getEncodingSafeInputStream(new
+		// ByteArrayInputStream(s.getBytes()), CharacterEncoding.UTF_8));
+		String t;
+		try {
 			while ((t = scanner.nextToken()) != null) {
 				sb.append(t + " ");
 				if (t.toString().matches("[?!\\.]"))
 					sb.append("\n");
 			}
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-//			System.out.println("Tokenize returning: " + sb.toString());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		// System.out.println("Tokenize returning: " + sb.toString());
 		return sb.toString();
 	}
 
@@ -251,7 +254,27 @@ public class Tagger {
 		String[][] result;
 		Vector tmpSegs = new Vector();
 		Vector tmpTags = new Vector();
-		Vector tagged = doTheTagging(text);
+		Vector tagged;
+		try {
+			 tagged = doTheTagging(text);
+		} catch (IndexOutOfBoundsException e) {
+			logger.warn("ABNER failed on text: " + text);
+			tagged = new Vector();
+			/*
+			 * @formatter:off Caused by: java.lang.ArrayIndexOutOfBoundsException: 4 at
+			 * edu.ucdenver.ccp.nlp.abner.ext.Tagger.doTheTagging(Tagger.java:464) at
+			 * edu.ucdenver.ccp.nlp.abner.ext.Tagger.getEntities(Tagger.java:254) at
+			 * edu.ucdenver.ccp.nlp.wrapper.abner.Abner_Util.getEntities(Abner_Util.java:225) at
+			 * edu.
+			 * ucdenver.ccp.nlp.wrapper.abner.Abner_Util.getEntitiesFromText(Abner_Util.java:370) at
+			 * edu.ucdenver.ccp.nlp.ext.uima.annotators.entitydetection.EntityTagger_AE.process(
+			 * EntityTagger_AE.java:77) at
+			 * org.apache.uima.analysis_component.JCasAnnotator_ImplBase.
+			 * process(JCasAnnotator_ImplBase.java:48) at
+			 * org.apache.uima.analysis_engine.impl.PrimitiveAnalysisEngine_impl
+			 * .callAnalysisComponentProcess(PrimitiveAn... @formatter:on
+			 */
+		}
 		// cycle through all the sentences
 		for (int i = 0; i < tagged.size(); i++) {
 			String sent[][] = (String[][]) tagged.get(i);
@@ -435,16 +458,16 @@ public class Tagger {
 		// try {
 		// define the instance feature pipe...
 		InstanceList data = new InstanceList(myPipe);
-		
-//		System.out.println("before tok");
+
+		// System.out.println("before tok");
 		// tokenize if appropriate, otherwise don't...
 		if (doTokenization) {
 			data.add(new LineGroupIterator(new StringReader(tokenize(text)), Pattern.compile("^.*$"), false));
 		} else {
 			data.add(new LineGroupIterator(new StringReader(text), Pattern.compile("^.*$"), false));
 		}
-		
-//		System.out.println("done tok");
+
+		// System.out.println("done tok");
 
 		// cycle through sentences, tag each one, store up the
 		for (int i = 0; i < data.size(); i++) {
