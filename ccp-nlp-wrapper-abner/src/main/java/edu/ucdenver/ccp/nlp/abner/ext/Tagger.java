@@ -53,7 +53,7 @@ import edu.umass.cs.mallet.base.types.Sequence;
  * @version 1.5 (March 2005)
  */
 public class Tagger {
-private static final Logger logger = Logger.getLogger(Tagger.class);
+	private static final Logger logger = Logger.getLogger(Tagger.class);
 	// constants
 
 	/** The tagger trained on the NLPBA corpus. */
@@ -256,9 +256,9 @@ private static final Logger logger = Logger.getLogger(Tagger.class);
 		Vector tmpTags = new Vector();
 		Vector tagged;
 		try {
-			 tagged = doTheTagging(text);
-		} catch (IndexOutOfBoundsException e) {
-			logger.warn("ABNER failed on text: " + text);
+			tagged = doTheTagging(text);
+		} catch (Exception e) {
+			logger.warn("ABNER failed (" + e.getClass().getName() + ": " + e.getMessage() + ") on text: " + text);
 			tagged = new Vector();
 			/*
 			 * @formatter:off Caused by: java.lang.ArrayIndexOutOfBoundsException: 4 at
