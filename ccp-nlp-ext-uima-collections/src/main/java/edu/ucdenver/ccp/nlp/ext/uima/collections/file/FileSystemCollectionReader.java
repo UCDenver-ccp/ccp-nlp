@@ -301,7 +301,8 @@ public class FileSystemCollectionReader extends JCasCollectionReader_ImplBase {
 			throw new CollectionException(e);
 		}
 		File file = fileIterator.next();
-		logger.info("using view: " +view.getViewName()+ "getting next file:" + file);
+		logger.info("Processing document " + processedDocumentCount + " of " + numberToProcess + ".  Loading view: "
+				+ view.getViewName() + " with contents of file:" + file);
 		String text = FileUtil.copyToString(file, CharacterEncoding.valueOf(this.encoding.replaceAll("-", "_")));
 		// TODO sofa data string should depend on the view, e.g. xml for the xmlView
 		view.setSofaDataString(text, "text/plain");
