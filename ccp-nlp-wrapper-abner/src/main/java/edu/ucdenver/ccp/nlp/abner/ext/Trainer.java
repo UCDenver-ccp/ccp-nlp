@@ -18,18 +18,21 @@ information, see the "LICENSE" file included in this distribution.
 
 package edu.ucdenver.ccp.nlp.abner.ext;
 
-import edu.umass.cs.mallet.base.types.*;
-import edu.umass.cs.mallet.base.fst.*;
-import edu.umass.cs.mallet.base.minimize.*;
-import edu.umass.cs.mallet.base.minimize.tests.*;
-import edu.umass.cs.mallet.base.pipe.*;
-import edu.umass.cs.mallet.base.pipe.iterator.*;
-import edu.umass.cs.mallet.base.pipe.tsf.*;
-import junit.framework.*;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.regex.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.util.regex.Pattern;
+
+import edu.umass.cs.mallet.base.fst.CRF4;
+import edu.umass.cs.mallet.base.fst.MultiSegmentationEvaluator;
+import edu.umass.cs.mallet.base.pipe.Pipe;
+import edu.umass.cs.mallet.base.pipe.SerialPipes;
+import edu.umass.cs.mallet.base.pipe.TokenSequence2FeatureVectorSequence;
+import edu.umass.cs.mallet.base.pipe.iterator.LineGroupIterator;
+import edu.umass.cs.mallet.base.pipe.tsf.OffsetConjunctions;
+import edu.umass.cs.mallet.base.pipe.tsf.RegexMatches;
+import edu.umass.cs.mallet.base.pipe.tsf.TokenTextCharPrefix;
+import edu.umass.cs.mallet.base.pipe.tsf.TokenTextCharSuffix;
+import edu.umass.cs.mallet.base.types.InstanceList;
 
 /**
    <p>The Trainer class will train a CRF to extract entities from a
