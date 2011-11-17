@@ -24,6 +24,15 @@
 			<artifactId>common</artifactId>
 			<version>${ccp-common.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>common</artifactId>
+			<type>test-jar</type>
+		</dependency>
 	</dependencies>
 
 	<build>
