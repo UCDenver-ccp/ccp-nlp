@@ -90,7 +90,8 @@ public abstract class AoAnnotationRdfGenerator implements AnnotationRdfGenerator
 		if (annotationDataExtractor.getComponentAnnotations(annotation).size() > 0)
 			throw new IllegalArgumentException(
 					"The AO format does not currently handle complex annotation types, i.e. annotations "
-							+ "that are comprised of other annotations. A complex annotation type was observed.");
+							+ "that are comprised of other annotations. A complex annotation type was observed: "
+							+ annotationDataExtractor.getAnnotationType(annotation));
 
 		URI denotedClass = uriFactory.getResourceUri(annotationDataExtractor, annotation);
 		URI annotationUri = uriFactory.getAnnotationUri();
