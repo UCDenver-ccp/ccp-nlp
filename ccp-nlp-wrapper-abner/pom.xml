@@ -9,6 +9,15 @@
 	<artifactId>ccp-nlp-wrapper-abner</artifactId>
 	<dependencies>
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>common</artifactId>
+			<type>test-jar</type>
+		</dependency>
+		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>ccp-nlp-core</artifactId>
 			<version>${project.version}</version>
@@ -18,9 +27,6 @@
 			<artifactId>abner</artifactId>
 			<version>original</version>
 		</dependency>
-		<!-- <dependency> <groupId>abner-no-models</groupId> <artifactId>abner-no-models</artifactId> 
-			<version>abner-no-models</version> </dependency> -->
-
 	</dependencies>
 
 
