@@ -31,4 +31,20 @@ public class CcpDocumentMetaDataExtractor implements DocumentMetaDataExtractor {
 		return UIMA_Util.getDocumentID(jCas);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#setDocumentId(org.apache.uima.jcas.JCas, java.lang.String)
+	 */
+	@Override
+	public void setDocumentId(JCas jCas, String documentId) {
+		UIMA_Util.setDocumentID(jCas, documentId);
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#setDocumentEncoding(org.apache.uima.jcas.JCas, edu.ucdenver.ccp.common.file.CharacterEncoding)
+	 */
+	@Override
+	public void setDocumentEncoding(JCas jCas, CharacterEncoding encoding) {
+		UIMA_Util.setDocumentEncoding(jCas, encoding);
+	}
+
 }

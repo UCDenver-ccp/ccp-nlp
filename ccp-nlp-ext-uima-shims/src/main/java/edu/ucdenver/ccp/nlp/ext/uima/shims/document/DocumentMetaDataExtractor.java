@@ -32,5 +32,13 @@ public interface DocumentMetaDataExtractor {
 	 * @return the {@link CharacterEncoding} used by the document stored in the input {@link JCas}
 	 */
 	public CharacterEncoding extractDocumentEncoding(JCas jCas);
+	
+	
+	
+	
+	
+	public void setDocumentId(JCas jCas, String documentId);
+	
+	public void setDocumentEncoding(JCas jCas, CharacterEncoding encoding);
 
 }
