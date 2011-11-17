@@ -371,6 +371,20 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 		}
 	}
 
+	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File outputDirectory,
+			String outputFilePrefix, AoSelectorType selectorType, RdfFormat format,
+			Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass,
+			Class<? extends AnnotationDataExtractor> annotationDataExtractorClass,
+			Class<? extends AnnotationRdfGenerator> annotationRdfGeneratorClass,
+			Class<? extends DocumentRdfGenerator> documentRdfGeneratorClass,
+			Class<? extends UriFactory> uriFactoryClass, int outputBatchSize, int batchNumber)
+			throws ResourceInitializationException {
+
+		return AnalysisEngineFactory.createPrimitive(createAnalysisEngineDescription(tsd, outputDirectory,
+				outputFilePrefix, selectorType, format, documentMetaDataExtractorClass, annotationDataExtractorClass,
+				annotationRdfGeneratorClass, documentRdfGeneratorClass, uriFactoryClass, outputBatchSize, batchNumber));
+	}
+
 	/**
 	 * @param tsd
 	 * @param outputDirectory
@@ -388,15 +402,15 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File outputDirectory,
-			String outputFilePrefix, AoSelectorType selectorType, RdfFormat format,
+	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
+			File outputDirectory, String outputFilePrefix, AoSelectorType selectorType, RdfFormat format,
 			Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass,
 			Class<? extends AnnotationDataExtractor> annotationDataExtractorClass,
 			Class<? extends AnnotationRdfGenerator> annotationRdfGeneratorClass,
 			Class<? extends DocumentRdfGenerator> documentRdfGeneratorClass,
 			Class<? extends UriFactory> uriFactoryClass, int outputBatchSize, int batchNumber)
 			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitive(RdfSerialization_AE.class, tsd,
+		return AnalysisEngineFactory.createPrimitiveDescription(RdfSerialization_AE.class, tsd,
 				RdfSerialization_AE.PARAM_FILE_PREFIX, outputFilePrefix, RdfSerialization_AE.PARAM_RDF_FORMAT,
 				format.name(), RdfSerialization_AE.PARAM_OUTPUT_DIRECTORY, outputDirectory.getAbsolutePath(),
 				PARAM_AO_SELECTOR_TYPE, selectorType.name(), PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS,
