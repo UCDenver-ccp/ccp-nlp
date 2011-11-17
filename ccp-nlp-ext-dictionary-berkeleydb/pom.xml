@@ -10,6 +10,15 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>common</artifactId>
+			<type>test-jar</type>
+		</dependency>
+		<dependency>
 			<groupId>com.sleepycat</groupId>
 			<artifactId>je</artifactId>
 			<version>3.3.75</version>
