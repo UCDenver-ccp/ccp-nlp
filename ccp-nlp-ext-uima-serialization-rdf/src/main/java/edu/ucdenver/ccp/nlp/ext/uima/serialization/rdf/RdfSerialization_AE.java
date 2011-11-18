@@ -1,8 +1,6 @@
 package edu.ucdenver.ccp.nlp.ext.uima.serialization.rdf;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,7 +17,6 @@ import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.apache.uima.util.Level;
 import org.apache.uima.util.Logger;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -30,9 +27,7 @@ import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
-import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
-import edu.ucdenver.ccp.common.file.FileReaderUtil;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.build.XmlDescriptorWriter;
@@ -161,7 +156,7 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 
 	public final static String PARAM_OUTPUT_BATCH_SIZE = ConfigurationParameterFactory
 			.createConfigurationParameterName(RdfSerialization_AE.class, "outputBatchSize");
-	@ConfigurationParameter(mandatory = false, defaultValue = "-1", description = "Setting this parameter causes the output to be batched into multiple files. The threshold will indicate the number of documents to process in each batch. Setting the threshold to -1 will cause all output to be put into a single file.")
+	@ConfigurationParameter(mandatory = false, defaultValue = "-1", description = "Setting this parameter causes the output to be batched into multiple files. The threshold will indicate the number of documents to process in each batch. Setting the threshold to a number <=0 will cause all output to be put into a single file. Setting the threshold to 1 will create individual RDF output files for each document processed. The document ID will be incorporated into the file name in this case.")
 	private int outputBatchSize;
 
 	public final static String PARAM_BATCH_NUMBER = ConfigurationParameterFactory.createConfigurationParameterName(
@@ -195,6 +190,10 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 	// private RdfFormat format;
 	private Logger logger;
 
+	private File documentRdfOutputFile;
+
+	private File annotationRdfOutputFile;
+
 	// public final static String PARAM_ANNOTATION_URI_LOCAL_NAME_PREFIX =
 	// ConfigurationParameterFactory
 	// .createConfigurationParameterName(RdfSerialization_AE.class, "annotationUriLocalNamePrefix");
@@ -227,7 +226,7 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 
 		if (outputBatchSize <= 0) {
 			currentBatch = 0;
-			openWriters(currentBatch);
+			openWriters(currentBatch, null);
 			writeStatements(CcpUriUtil.getCcpFoafOrganizationStmts(), annotationRdfWriter);
 		}
 
@@ -243,9 +242,9 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 
 	}
 
-	private void openWriters(int batch) {
-		File documentRdfOutputFile = getDocumentRdfOutputFile(batch);
-		File annotationRdfOutputFile = getAnnotationRdfOutputFile(batch);
+	private void openWriters(int batch, String documentId) {
+		documentRdfOutputFile = getDocumentRdfOutputFile(batch, documentId);
+		annotationRdfOutputFile = getAnnotationRdfOutputFile(batch, documentId);
 		documentRdfWriter = RdfUtil.openWriter(documentRdfOutputFile, CharacterEncoding.UTF_8, rdfFormat);
 		annotationRdfWriter = RdfUtil.openWriter(annotationRdfOutputFile, CharacterEncoding.UTF_8, rdfFormat);
 	}
@@ -260,12 +259,18 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 		}
 	}
 
-	private File getDocumentRdfOutputFile(int batch) {
+	private File getDocumentRdfOutputFile(int batch, String documentId) {
+		if (outputBatchSize == 1)
+			return new File(outputDirectory, String.format("%s-%s-document.%s", outputFilePrefix, documentId,
+					rdfFormat.defaultFileExtension()));
 		return new File(outputDirectory, String.format("%s-documents.batch%d.%d.%s", outputFilePrefix, batchNumber,
 				batch, rdfFormat.defaultFileExtension()));
 	}
 
-	private File getAnnotationRdfOutputFile(int batch) {
+	private File getAnnotationRdfOutputFile(int batch, String documentId) {
+		if (outputBatchSize == 1)
+			return new File(outputDirectory, String.format("%s-%s-annotations.%s", outputFilePrefix, documentId,
+					rdfFormat.defaultFileExtension()));
 		return new File(outputDirectory, String.format("%s-annotations.batch%d.%d.%s", outputFilePrefix, batchNumber,
 				batch, rdfFormat.defaultFileExtension()));
 	}
@@ -275,8 +280,8 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 
 		if (outputBatchSize > 0 && documentsProcessedCount++ % outputBatchSize == 0) {
 			currentBatch++;
-			closeWriters(currentBatch - 1);
-			openWriters(currentBatch);
+			closeWriters();
+			openWriters(currentBatch, documentMetaDataExtractor.extractDocumentId(jcas));
 			if (currentBatch == 0)
 				writeStatements(CcpUriUtil.getCcpFoafOrganizationStmts(), annotationRdfWriter);
 		}
@@ -320,30 +325,13 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 	@Override
 	public void collectionProcessComplete() throws AnalysisEngineProcessException {
 		super.collectionProcessComplete();
-
-		closeWriters(currentBatch);
-
-		logger.log(Level.INFO, "Validating RDF annotation and document files...");
-		// try {
-		// for (String line : FileReaderUtil.loadLinesFromFile(getDocumentRdfOutputFile(),
-		// CharacterEncoding.UTF_8)) {
-		// System.out.println("DOC RDF LINE: " + line);
-		// }
-		//
-		// for (String line : FileReaderUtil.loadLinesFromFile(getAnnotationRdfOutputFile(),
-		// CharacterEncoding.UTF_8)) {
-		// System.out.println("ANN RDF LINE: " + line);
-		// }
-		// } catch (IOException e) {
-		// throw new AnalysisEngineProcessException(e);
-		// }
-
+		closeWriters();
 	}
 
 	/**
 	 * 
 	 */
-	private void closeWriters(int batch) {
+	private void closeWriters() {
 		if (documentRdfWriter != null)
 			RdfUtil.closeWriter(documentRdfWriter);
 		if (annotationRdfWriter != null)
@@ -359,14 +347,14 @@ public class RdfSerialization_AE extends JCasAnnotator_ImplBase {
 		if (documentRdfWriter != null) {
 			if (!rdfFormat.equals(RdfFormat.NQUADS)) {
 				RdfValidator rdfValidator = RdfValidatorFactory.getRdfValidator(rdfFormat);
-				if (!rdfValidator.isValidRdf(getDocumentRdfOutputFile(batch), CharacterEncoding.UTF_8, "http://kabob",
+				if (!rdfValidator.isValidRdf(documentRdfOutputFile, CharacterEncoding.UTF_8, "http://kabob",
 						org.apache.log4j.Logger.getLogger(getClass())))
 					throw new IllegalStateException("RDF Validation failed for file: "
-							+ getDocumentRdfOutputFile(batch).getAbsolutePath());
-				if (!rdfValidator.isValidRdf(getAnnotationRdfOutputFile(batch), CharacterEncoding.UTF_8,
-						"http://kabob", org.apache.log4j.Logger.getLogger(getClass())))
+							+ documentRdfOutputFile.getAbsolutePath());
+				if (!rdfValidator.isValidRdf(annotationRdfOutputFile, CharacterEncoding.UTF_8, "http://kabob",
+						org.apache.log4j.Logger.getLogger(getClass())))
 					throw new IllegalStateException("RDF Validation failed for file: "
-							+ getDocumentRdfOutputFile(batch).getAbsolutePath());
+							+ annotationRdfOutputFile.getAbsolutePath());
 			}
 		}
 	}
