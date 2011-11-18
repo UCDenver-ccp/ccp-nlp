@@ -186,6 +186,21 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	}
 
 	/**
+	 * @return true if the collection reader has read "numbertoProcess" documents
+	 */
+	protected boolean reachedTargetProcessedDocumentCount() {
+		return processedDocumentCount == numberToProcess;
+	}
+	
+	@Override
+	public boolean hasNext() throws IOException, CollectionException {
+		return !reachedTargetProcessedDocumentCount() && hasNextDocument();
+	}
+	
+	protected abstract boolean hasNextDocument() throws IOException, CollectionException;
+	
+
+	/**
 	 * @return the next document in the collection
 	 * @throws IOException
 	 * @throws CollectionException
