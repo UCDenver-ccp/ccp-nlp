@@ -30,6 +30,8 @@ public class MedlineLineDocumentExtractor implements DocumentExtractor {
 	@Override
 	public GenericDocument extractDocument(String line) {
 		String[] toks = line.split(RegExPatterns.TAB);
+		if (line.isEmpty() || toks.length < 2)
+			return null;
 		String pmidStr = toks[0];
 		String documentText = toks[1];
 		if (toks.length > 2) {
