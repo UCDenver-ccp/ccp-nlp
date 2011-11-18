@@ -68,7 +68,7 @@ public class PubMedAoDocumentRdfGenerator extends AoDocumentRdfGenerator {
 	 * @return
 	 */
 	protected URI getPubMedUri(PubMedID pmid) {
-		return new URIImpl(RdfUtil.createUri(RdfUtil.getNamespace(pmid.getDataSource()), pmid.toString()).toString());
+		return new URIImpl(RdfUtil.createUri(RdfUtil.getNamespace(pmid.getDataSource()), "PMID_" + pmid.toString()).toString());
 	}
 
 	/*
