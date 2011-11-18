@@ -71,10 +71,15 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 	public boolean hasNext() throws IOException, CollectionException {
 		if (nextDocument == null) {
 			String line = reader.readLine();
-			if (line != null) {
+			while (line != null && nextDocument == null) {
 				nextDocument = documentExtractor.extractDocument(line);
-				return true;
+				if (nextDocument != null)
+					break;
+				line = reader.readLine();
 			}
+			if (nextDocument != null)
+				return true;
+
 			return false;
 		}
 		return true;
@@ -122,7 +127,7 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 	protected void skip() throws ResourceInitializationException {
 		int numSkipped = 0;
 		try {
-			while (reader.readLine() != null && numSkipped < numberToSkip)
+			while (numSkipped < numberToSkip && reader.readLine() != null)
 				numSkipped++;
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
@@ -155,7 +160,8 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 	 */
 	public static CollectionReader createCollectionReader(TypeSystemDescription tsd, File medlineDumpFile,
 			int numToSkip, int numToProcess, Class<? extends DocumentExtractor> documentExtractorClass,
-			Class<? extends DocumentMetaDataExtractor> documentMetadataExtractorClass) throws ResourceInitializationException {
+			Class<? extends DocumentMetaDataExtractor> documentMetadataExtractorClass)
+			throws ResourceInitializationException {
 		return CollectionReaderFactory.createCollectionReader(DocumentPerLineCollectionReader.class, tsd,
 				PARAM_COLLECTION_FILE, medlineDumpFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
 				PARAM_DOCUMENT_EXTRACTOR_CLASS, documentExtractorClass.getName(),
