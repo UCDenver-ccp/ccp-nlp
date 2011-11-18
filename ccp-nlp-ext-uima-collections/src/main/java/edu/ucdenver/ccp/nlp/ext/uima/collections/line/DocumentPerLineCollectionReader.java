@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.collection.CollectionReader;
@@ -149,6 +150,8 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 		return gd;
 	}
 
+	private static final Logger logger = Logger.getLogger(DocumentPerLineCollectionReader.class);
+
 	/**
 	 * @param tsd
 	 * @param medlineDumpFile
@@ -162,6 +165,7 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 			int numToSkip, int numToProcess, Class<? extends DocumentExtractor> documentExtractorClass,
 			Class<? extends DocumentMetaDataExtractor> documentMetadataExtractorClass)
 			throws ResourceInitializationException {
+		logger.info("medline dump file is null: " + (medlineDumpFile == null));
 		return CollectionReaderFactory.createCollectionReader(DocumentPerLineCollectionReader.class, tsd,
 				PARAM_COLLECTION_FILE, medlineDumpFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
 				PARAM_DOCUMENT_EXTRACTOR_CLASS, documentExtractorClass.getName(),
