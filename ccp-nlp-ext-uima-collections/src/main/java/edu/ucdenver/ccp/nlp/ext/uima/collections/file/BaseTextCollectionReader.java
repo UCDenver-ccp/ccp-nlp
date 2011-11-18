@@ -38,7 +38,10 @@ import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileUtil;
+import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
+import edu.ucdenver.ccp.nlp.core.uima.util.View;
+import edu.ucdenver.ccp.nlp.ext.uima.collections.line.DocumentExtractor;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
 
 /**
@@ -141,13 +144,16 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
 		}
+
+		documentMetaDataExtractor = (DocumentMetaDataExtractor) ConstructorUtil
+				.invokeConstructor(documentMetadataExtractorClassName);
 	}
 
 	/**
 	 * Implementation-specific initialization
 	 * 
 	 * @param context
-	 * @throws ResourceInitializationException 
+	 * @throws ResourceInitializationException
 	 */
 	protected abstract void initializeImplementation(UimaContext context) throws ResourceInitializationException;
 
@@ -163,7 +169,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 
 	/**
 	 * Advances past numberToSkip documents in the collection
-	 * @throws ResourceInitializationException 
+	 * 
+	 * @throws ResourceInitializationException
 	 */
 	protected abstract void skip() throws ResourceInitializationException;
 
@@ -180,8 +187,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 
 	/**
 	 * @return the next document in the collection
-	 * @throws IOException 
-	 * @throws CollectionException 
+	 * @throws IOException
+	 * @throws CollectionException
 	 */
 	protected abstract GenericDocument getNextDocument() throws CollectionException, IOException;
 
@@ -194,15 +201,21 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	 * @throws AnalysisEngineProcessException
 	 */
 	protected void initializeJCas(JCas jcas, String documentId, String text) throws AnalysisEngineProcessException {
-		JCas view = ViewCreatorAnnotator.createViewSafely(jcas, this.viewName);
-		view.setSofaDataString(text, "text/plain");
-		if (this.language != null)
-			view.setDocumentLanguage(this.language);
+		if (this.viewName.equals(View.DEFAULT.name())) {
+			jcas.setSofaDataString(text, "text/plain");
+			if (this.language != null)
+				jcas.setDocumentLanguage(this.language);
+		} else {
+			JCas view = ViewCreatorAnnotator.createViewSafely(jcas, this.viewName);
+			view.setSofaDataString(text, "text/plain");
+			if (this.language != null)
+				view.setDocumentLanguage(this.language);
+		}
 		documentMetaDataExtractor.setDocumentId(jcas, documentId);
 		documentMetaDataExtractor.setDocumentEncoding(jcas, encoding);
 
 		logger.info("Processing document " + processedDocumentCount + " of " + documentsToBeProcessedCount
-				+ ".  Loading view: " + view.getViewName());
+				+ ".  Loading view: " + this.viewName);
 
 	}
 
