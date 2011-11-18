@@ -63,13 +63,8 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 
 	private GenericDocument nextDocument = null;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.apache.uima.collection.base_cpm.BaseCollectionReader#hasNext()
-	 */
 	@Override
-	public boolean hasNext() throws IOException, CollectionException {
+	public boolean hasNextDocument() throws IOException, CollectionException {
 		if (nextDocument == null) {
 			String line = reader.readLine();
 			while (line != null && nextDocument == null) {
@@ -128,8 +123,11 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 	protected void skip() throws ResourceInitializationException {
 		int numSkipped = 0;
 		try {
-			while (numSkipped < numberToSkip && reader.readLine() != null)
-				numSkipped++;
+			String line;
+			while (numSkipped < numberToSkip && (line = reader.readLine()) != null) {
+				if (documentExtractor.extractDocument(line) != null)
+					numSkipped++;
+			}
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
 		}

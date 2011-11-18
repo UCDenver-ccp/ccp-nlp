@@ -45,11 +45,11 @@ public class DocumentPerLineCollectionReaderTest extends DefaultTestCase {
 						TabDocumentExtractor.class, CcpDocumentMetaDataExtractor.class);
 
 		JCasIterable jCasIterable = new JCasIterable(cr);
-		
+
 		assertTrue(jCasIterable.hasNext());
 		JCas jCas = jCasIterable.next();
 		assertEquals(DOC1_TEXT, jCas.getDocumentText());
-		
+
 		assertTrue(jCasIterable.hasNext());
 		jCas = jCasIterable.next();
 		assertEquals(DOC2_TEXT, jCas.getDocumentText());
@@ -57,10 +57,59 @@ public class DocumentPerLineCollectionReaderTest extends DefaultTestCase {
 		assertTrue(jCasIterable.hasNext());
 		jCas = jCasIterable.next();
 		assertEquals(DOC3_TEXT, jCas.getDocumentText());
-		
+
 		assertFalse(jCasIterable.hasNext());
 	}
 
+	@Test
+	public void testCollectionReader_LimitingNumberProcessed() throws IOException, UIMAException {
+		File collectionFile = createSampleCollectionFile();
+		int numToSkip = 0;
+		int numToProcess = 1; // process one
+		CollectionReader cr = DocumentPerLineCollectionReader
+				.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(), collectionFile, numToSkip, numToProcess,
+						TabDocumentExtractor.class, CcpDocumentMetaDataExtractor.class);
+
+		JCasIterable jCasIterable = new JCasIterable(cr);
+
+		assertTrue(jCasIterable.hasNext());
+		JCas jCas = jCasIterable.next();
+		assertEquals(DOC1_TEXT, jCas.getDocumentText());
+
+		assertFalse(jCasIterable.hasNext());
+	}
+
+	@Test
+	public void testCollectionReader_SkippingOneAndLimitingNumberProcessed() throws IOException, UIMAException {
+		File collectionFile = createSampleCollectionFile();
+		int numToSkip = 1;
+		int numToProcess = 1; // process one
+		CollectionReader cr = DocumentPerLineCollectionReader
+				.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(), collectionFile, numToSkip, numToProcess,
+						TabDocumentExtractor.class, CcpDocumentMetaDataExtractor.class);
+
+		JCasIterable jCasIterable = new JCasIterable(cr);
+
+		assertTrue(jCasIterable.hasNext());
+		JCas jCas = jCasIterable.next();
+		assertEquals(DOC2_TEXT, jCas.getDocumentText());
+
+		assertFalse(jCasIterable.hasNext());
+	}
+
+	@Test
+	public void testCollectionReader_SkippingAll() throws IOException, UIMAException {
+		File collectionFile = createSampleCollectionFile();
+		int numToSkip = 3;
+		int numToProcess = 1; // process one
+		CollectionReader cr = DocumentPerLineCollectionReader
+				.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(), collectionFile, numToSkip, numToProcess,
+						TabDocumentExtractor.class, CcpDocumentMetaDataExtractor.class);
+
+		JCasIterable jCasIterable = new JCasIterable(cr);
+		assertFalse(jCasIterable.hasNext());
+	}
+	
 	/**
 	 * Creates a sample collection file that contains 3 valid records (tab-delimited) and some
 	 * excess lines that you might get from a SQL query
