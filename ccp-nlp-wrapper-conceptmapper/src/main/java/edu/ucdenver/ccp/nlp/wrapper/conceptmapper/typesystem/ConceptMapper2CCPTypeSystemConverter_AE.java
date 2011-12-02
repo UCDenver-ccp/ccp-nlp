@@ -25,13 +25,13 @@ import java.util.List;
 
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
-import org.apache.uima.conceptMapper.OntologyTerm;
 import org.apache.uima.conceptMapper.support.tokenizer.TokenAnnotation;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.uimafit.component.JCasAnnotator_ImplBase;
 
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
+import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.OntologyTerm;
 
 /**
  * Converts ConceptMapper OntologyTerm annotations to a corresponding CCPTextAnnotation object.

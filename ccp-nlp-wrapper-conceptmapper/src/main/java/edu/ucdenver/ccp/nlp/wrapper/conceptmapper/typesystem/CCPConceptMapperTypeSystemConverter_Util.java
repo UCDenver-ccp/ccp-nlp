@@ -20,7 +20,6 @@ package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.typesystem;
 
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CASException;
-import org.apache.uima.conceptMapper.OntologyTerm;
 import org.apache.uima.conceptMapper.support.tokenizer.TokenAnnotation;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
@@ -34,6 +33,7 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
+import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.OntologyTerm;
 
 /**
  * This class serves as a conversion utility to transform the output of the UIMA Sandbox ConceptMapper AE
