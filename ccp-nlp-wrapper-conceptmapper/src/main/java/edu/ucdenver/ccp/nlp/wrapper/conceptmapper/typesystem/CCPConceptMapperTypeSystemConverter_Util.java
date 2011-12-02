@@ -18,6 +18,7 @@
 
 package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.typesystem;
 
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.conceptMapper.OntologyTerm;
 import org.apache.uima.conceptMapper.support.tokenizer.TokenAnnotation;
@@ -25,7 +26,6 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.cas.IntegerArray;
 
-import edu.ucdenver.ccp.ext.uima.syntax.util.UIMASyntacticAnnotation_Util;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
 import edu.ucdenver.ccp.nlp.core.mention.SlotMentionTypes;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotator;
@@ -34,7 +34,6 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
-import edu.ucdenver.ccp.nlp.ext.uima.annotation.syntax.CCPTokenAnnotation;
 
 /**
  * This class serves as a conversion utility to transform the output of the UIMA Sandbox ConceptMapper AE
@@ -45,7 +44,7 @@ import edu.ucdenver.ccp.nlp.ext.uima.annotation.syntax.CCPTokenAnnotation;
  */
 public class CCPConceptMapperTypeSystemConverter_Util {
 
-	public static CCPTextAnnotation convertOntologyTerm(OntologyTerm ot, JCas jcas) {
+	public static CCPTextAnnotation convertOntologyTerm(OntologyTerm ot, JCas jcas) throws AnalysisEngineProcessException {
 
 		// String type = ot.getDictCanon();
 		String id = ot.getID();
@@ -77,7 +76,7 @@ public class CCPConceptMapperTypeSystemConverter_Util {
 		try {
 			UIMA_Util.setCCPClassMentionForCCPTextAnnotation(ccpTA, ccpCM);
 		} catch (CASException e) {
-			e.printStackTrace();
+			throw new AnalysisEngineProcessException(e);
 		}
 
 		FSArray spans = new FSArray(jcas, 1);
@@ -90,18 +89,16 @@ public class CCPConceptMapperTypeSystemConverter_Util {
 		return ccpTA;
 	}
 
-	public static CCPTokenAnnotation convertToken(TokenAnnotation token, JCas jcas, int tokenNumber) {
+	public static CCPTextAnnotation convertToken(TokenAnnotation token, JCas jcas, int tokenNumber)
+			throws AnalysisEngineProcessException {
 
-		CCPTokenAnnotation ccpTA = new CCPTokenAnnotation(jcas);
+		CCPTextAnnotation ccpTA = new CCPTextAnnotation(jcas);
 		ccpTA.setBegin(token.getBegin());
 		ccpTA.setEnd(token.getEnd());
 
 		CCPClassMention ccpCM = new CCPClassMention(jcas);
 		ccpCM.setMentionName(ClassMentionTypes.TOKEN);
 
-		UIMASyntacticAnnotation_Util.setTokenNumber(ccpTA, tokenNumber, jcas);
-		// ccpTA.setTokenNumber(tokenNumber);
-		/* create tokenNumber slot */
 		CCPIntegerSlotMention ccpSM = new CCPIntegerSlotMention(jcas);
 		ccpSM.setMentionName(SlotMentionTypes.TOKEN_NUMBER);
 		IntegerArray slotValues = new IntegerArray(jcas, 1);
@@ -116,7 +113,7 @@ public class CCPConceptMapperTypeSystemConverter_Util {
 		try {
 			UIMA_Util.setCCPClassMentionForCCPTextAnnotation(ccpTA, ccpCM);
 		} catch (CASException e) {
-			e.printStackTrace();
+			throw new AnalysisEngineProcessException(e);
 		}
 
 		FSArray spans = new FSArray(jcas, 1);

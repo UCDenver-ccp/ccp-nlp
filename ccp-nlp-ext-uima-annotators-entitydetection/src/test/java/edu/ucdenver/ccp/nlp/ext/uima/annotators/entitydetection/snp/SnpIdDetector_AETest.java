@@ -27,7 +27,7 @@ import edu.ucdenver.ccp.nlp.core.uima.test.DefaultUIMATestCase;
 public class SnpIdDetector_AETest extends DefaultUIMATestCase {
 
 	private static final TypeSystemDescription TSD = TypeSystemDescriptionFactory.createTypeSystemDescription(
-			"edu.ucdenver.ccp.nlp.core.uima.TypeSystem", "edu.ucdenver.ccp.nlp.ext.uima.syntax.TypeSystem");
+			"edu.ucdenver.ccp.nlp.core.uima.TypeSystem");
 
 	/*
 	 * (non-Javadoc)

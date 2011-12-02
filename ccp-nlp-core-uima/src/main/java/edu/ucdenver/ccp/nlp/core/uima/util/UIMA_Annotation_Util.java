@@ -71,7 +71,7 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPSpan;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty;
-import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationProperty;
+import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProperty;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPPrimitiveSlotMention;
@@ -932,7 +932,7 @@ public class UIMA_Annotation_Util {
 	 * @throws CASException
 	 */
 
-	public static void addMetaDataProperty(CCPTextAnnotation ccpTA, AnnotationProperty propertyToAdd, JCas jcas) {
+	public static void addMetaDataProperty(CCPTextAnnotation ccpTA, AnnotationMetadataProperty propertyToAdd, JCas jcas) {
 
 		Collection<TOP> annotationPropertiesToAdd = new ArrayList<TOP>();
 
@@ -988,7 +988,7 @@ public class UIMA_Annotation_Util {
 	 * @return
 	 */
 
-	public static <T extends AnnotationProperty> Collection<T> getAnnotationProperties(CCPTextAnnotation ccpTA,
+	public static <T extends AnnotationMetadataProperty> Collection<T> getAnnotationProperties(CCPTextAnnotation ccpTA,
 
 	Class<T> annotationPropertyClass, JCas jcas) {
 
@@ -1020,7 +1020,7 @@ public class UIMA_Annotation_Util {
 
 	}
 
-	public static <T extends AnnotationProperty> Collection<T> getAnnotationProperties(CCPTextAnnotation ccpTA,
+	public static <T extends AnnotationMetadataProperty> Collection<T> getAnnotationProperties(CCPTextAnnotation ccpTA,
 
 	Class<T> annotationPropertyClass) {
 

@@ -31,7 +31,6 @@ import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
-import edu.ucdenver.ccp.ext.uima.syntax.util.UIMASyntacticAnnotation_Util;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.interfaces.ISentenceDetector;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
@@ -78,44 +77,32 @@ public abstract class SentenceDetector_AE extends JCasAnnotator_ImplBase {
 
 		/* parse into sentences using LingPipe Sentence Chunker */
 		int charOffset = 0;
-		if (documentText != null) {
-			String[] chunks = new String[] { documentText };
-			if (treatLineBreaksAsSentenceBoundaries) {
-				chunks = documentText.split("\\n");
-			}
-			List<TextAnnotation> sentenceAnnotations = new ArrayList<TextAnnotation>();
-			for (String textChunk : chunks) {
-				List<TextAnnotation> sentencesFromText = sentenceDetector.getSentencesFromText(charOffset, textChunk);
-				for (TextAnnotation sentence : sentencesFromText)
-					if (!sentence.getCoveredText().equals(
-							documentText.substring(sentence.getAnnotationSpanStart(), sentence.getAnnotationSpanEnd())))
-						throw new RuntimeException("Sentence offsets incorrect. for document: "
-								+ documentID
-								+ " Expected: "
-								+ sentence.getCoveredText()
-								+ " but was covering: '"
-								+ documentText.substring(sentence.getAnnotationSpanStart(),
-										sentence.getAnnotationSpanEnd()) + "'");
-				sentenceAnnotations.addAll(sentencesFromText);
-				charOffset = charOffset + textChunk.length() + 1;
-			}
-
-			/* add sentence annotations to the CAS */
-			UIMA_Util uimaUtil = new UIMA_Util();
-			uimaUtil.putTextAnnotationsIntoJCas(jcas, sentenceAnnotations);
-
-			/* convert annotations with class mention name = "sentence" to CCPSentenceAnnotation */
-			UIMASyntacticAnnotation_Util.normalizeSyntacticAnnotations(jcas);
-
-		} else {
-			warn("There is no document text associated with document ID [" + documentID + "]");
+		String[] chunks = new String[] { documentText };
+		if (treatLineBreaksAsSentenceBoundaries) {
+			chunks = documentText.split("\\n");
+		}
+		List<TextAnnotation> sentenceAnnotations = new ArrayList<TextAnnotation>();
+		for (String textChunk : chunks) {
+			List<TextAnnotation> sentencesFromText = sentenceDetector.getSentencesFromText(charOffset, textChunk);
+			for (TextAnnotation sentence : sentencesFromText)
+				if (!sentence.getCoveredText().equals(
+						documentText.substring(sentence.getAnnotationSpanStart(), sentence.getAnnotationSpanEnd())))
+					throw new RuntimeException(
+							"Sentence offsets incorrect. for document: "
+									+ documentID
+									+ " Expected: "
+									+ sentence.getCoveredText()
+									+ " but was covering: '"
+									+ documentText.substring(sentence.getAnnotationSpanStart(),
+											sentence.getAnnotationSpanEnd()) + "'");
+			sentenceAnnotations.addAll(sentencesFromText);
+			charOffset = charOffset + textChunk.length() + 1;
 		}
 
-	}
+		/* add sentence annotations to the CAS */
+		UIMA_Util uimaUtil = new UIMA_Util();
+		uimaUtil.putTextAnnotationsIntoJCas(jcas, sentenceAnnotations);
 
-	private void warn(String message) {
-		System.err.println("WARNING --  "
-				+ this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".")) + message);
 	}
 
 }

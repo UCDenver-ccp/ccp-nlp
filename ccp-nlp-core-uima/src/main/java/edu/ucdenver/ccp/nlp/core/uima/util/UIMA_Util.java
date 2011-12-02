@@ -62,7 +62,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.InvalidSpanException;
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.KnowledgeRepresentationWrapperException;
-import edu.ucdenver.ccp.nlp.core.document.DocumentSection;
+import edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.ComplexSlotMention;
@@ -73,7 +73,6 @@ import edu.ucdenver.ccp.nlp.core.mention.SlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotationSet;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotator;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentInformation;
-import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentSection;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPSpan;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
@@ -82,7 +81,6 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProp
 import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.EvaluationResultProperty;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.FalseNegativeProperty;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.FalsePositiveProperty;
-import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.TruePositiveProperty;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPBooleanSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
@@ -689,8 +687,8 @@ public class UIMA_Util {
 	public static void swapDocumentInfo(JCas fromJcas, GenericDocument toGD) {
 		FSIterator docInfoIter = fromJcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentInformation.type)
 				.iterator();
-		FSIterator docSectionIter = fromJcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentSection.type)
-				.iterator();
+//		FSIterator docSectionIter = fromJcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentSection.type)
+//				.iterator();
 
 		// print document information
 		String docID = "-1";
@@ -711,15 +709,15 @@ public class UIMA_Util {
 		toGD.setDocumentID(docID);
 		toGD.setDocumentCollectionID(docCollectionID);
 
-		// add the document sections to the generic document
-		while (docSectionIter.hasNext()) {
-			CCPDocumentSection ccpDocSection = (CCPDocumentSection) docSectionIter.next();
-			DocumentSection docSection = new DocumentSection();
-			docSection.setDocumentSectionID(ccpDocSection.getSectionID());
-			docSection.setSectionStartIndex(ccpDocSection.getBegin());
-			docSection.setSectionEndIndex(ccpDocSection.getEnd());
-			toGD.addDocumentSection(docSection);
-		}
+//		// add the document sections to the generic document
+//		while (docSectionIter.hasNext()) {
+//			CCPDocumentSection ccpDocSection = (CCPDocumentSection) docSectionIter.next();
+//			DocumentSection docSection = new DocumentSection();
+//			docSection.setDocumentSectionID(ccpDocSection.getSectionID());
+//			docSection.setSectionStartIndex(ccpDocSection.getBegin());
+//			docSection.setSectionEndIndex(ccpDocSection.getEnd());
+//			toGD.addDocumentSection(docSection);
+//		}
 
 		// set the document text
 		toGD.setDocumentText(fromJcas.getDocumentText());
@@ -1106,15 +1104,15 @@ public class UIMA_Util {
 			}
 
 			/* See if there is an OpenDMAP Pattern Property */
-			OpenDMAPPatternProperty dmapPatternProp = null;
-			if (annotationMetadata.getOpenDMAPPattern() != null) {
-				dmapPatternProp = new OpenDMAPPatternProperty(jcas);
-				dmapPatternProp.setPattern(annotationMetadata.getOpenDMAPPattern());
-				dmapPatternProp.setPatternID(annotationMetadata.getOpenDMAPPatternID());
-			}
-			if (dmapPatternProp != null) {
-				ccpMetadataPropertiesToAdd.add(dmapPatternProp);
-			}
+//			OpenDMAPPatternProperty dmapPatternProp = null;
+//			if (annotationMetadata.getOpenDMAPPattern() != null) {
+//				dmapPatternProp = new OpenDMAPPatternProperty(jcas);
+//				dmapPatternProp.setPattern(annotationMetadata.getOpenDMAPPattern());
+//				dmapPatternProp.setPatternID(annotationMetadata.getOpenDMAPPatternID());
+//			}
+//			if (dmapPatternProp != null) {
+//				ccpMetadataPropertiesToAdd.add(dmapPatternProp);
+//			}
 			
 			AnnotationCommentProperty annotationCommentProp = null;
 //			logger.info("Checking to see if annotation comment is null...");
@@ -1161,13 +1159,14 @@ public class UIMA_Util {
 				for (int i = 0; i < metadataProperties.size(); i++) {
 					edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProperty amp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProperty) metadataProperties
 							.get(i);
-					if (amp instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) {
-						edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty ccpProp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) amp;
-						edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty prop = new edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty();
-						prop.setPattern(ccpProp.getPattern());
-						prop.setPatternID(ccpProp.getPatternID());
-						annotationMetadata.addMetadataProperty(prop);
-					} else if (amp instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) {
+//					if (amp instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) {
+//						edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty ccpProp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) amp;
+//						edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty prop = new edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty();
+//						prop.setPattern(ccpProp.getPattern());
+//						prop.setPatternID(ccpProp.getPatternID());
+//						annotationMetadata.addMetadataProperty(prop);
+//					} else 
+						if (amp instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) {
 						edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty ccpProp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) amp;
 						edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty prop = new edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty(ccpProp.getComment());
 						annotationMetadata.addMetadataProperty(prop);

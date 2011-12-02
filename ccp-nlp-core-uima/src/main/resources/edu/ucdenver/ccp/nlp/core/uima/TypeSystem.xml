@@ -228,51 +228,6 @@
       </features>
     </typeDescription>
     <typeDescription>
-      <name>edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentAnnotation</name>
-      <description>Superclass for all document level annotations.</description>
-      <supertypeName>edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotation</supertypeName>
-    </typeDescription>
-    <typeDescription>
-      <name>edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentSection</name>
-      <description>The Document Section annotation allows for an entire document section to be annotated as such, and stores section-specific information such as the section identifier.</description>
-      <supertypeName>edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentAnnotation</supertypeName>
-      <features>
-        <featureDescription>
-          <name>sectionID</name>
-          <description>The section ID for this document section, e.g. 1 = "Title"  2= "Abstract"</description>
-          <rangeTypeName>uima.cas.Integer</rangeTypeName>
-        </featureDescription>
-        <featureDescription>
-          <name>sectionLength</name>
-          <description>The length of this document section (in characters).</description>
-          <rangeTypeName>uima.cas.Integer</rangeTypeName>
-        </featureDescription>
-        <featureDescription>
-          <name>sectionName</name>
-          <description>The name of this document section, e.g. Title, Abstract, Introduction, etc.</description>
-          <rangeTypeName>uima.cas.String</rangeTypeName>
-        </featureDescription>
-        <featureDescription>
-          <name>subSections</name>
-          <description>Allows for direct linking to CCPDocumentSubSections residing in this document section.</description>
-          <rangeTypeName>uima.cas.FSArray</rangeTypeName>
-          <elementType>edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentSubSection</elementType>
-        </featureDescription>
-      </features>
-    </typeDescription>
-    <typeDescription>
-      <name>edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentSubSection</name>
-      <description>This annotation type is used to annotate document subsections.</description>
-      <supertypeName>edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentAnnotation</supertypeName>
-      <features>
-        <featureDescription>
-          <name>sectionName</name>
-          <description>The name of the document subsection.</description>
-          <rangeTypeName>uima.cas.String</rangeTypeName>
-        </featureDescription>
-      </features>
-    </typeDescription>
-    <typeDescription>
       <name>edu.ucdenver.ccp.nlp.core.uima.annotation.AnnotationMetadata</name>
       <description>A class to store annotation metadata, provenance, etc.</description>
       <supertypeName>uima.cas.TOP</supertypeName>
@@ -293,7 +248,7 @@
     <typeDescription>
       <name>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProperty</name>
       <description>Superclass for annotation metadata properties</description>
-      <supertypeName>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationProperty</supertypeName>
+      <supertypeName>uima.cas.TOP</supertypeName>
     </typeDescription>
     <typeDescription>
       <name>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationSetMembershipProperty</name>
@@ -338,31 +293,9 @@
       <supertypeName>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.GoldStandardSetProperty</supertypeName>
     </typeDescription>
     <typeDescription>
-      <name>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationProperty</name>
-      <description/>
-      <supertypeName>uima.cas.TOP</supertypeName>
-    </typeDescription>
-    <typeDescription>
       <name>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.TestSetProperty</name>
       <description/>
       <supertypeName>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.EvaluationResultProperty</supertypeName>
-    </typeDescription>
-    <typeDescription>
-      <name>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty</name>
-      <description>Provides storage for the OpenDMAP pattern that was used to extract this annotation.</description>
-      <supertypeName>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProperty</supertypeName>
-      <features>
-        <featureDescription>
-          <name>pattern</name>
-          <description/>
-          <rangeTypeName>uima.cas.String</rangeTypeName>
-        </featureDescription>
-        <featureDescription>
-          <name>patternID</name>
-          <description/>
-          <rangeTypeName>uima.cas.Integer</rangeTypeName>
-        </featureDescription>
-      </features>
     </typeDescription>
     <typeDescription>
       <name>edu.ucdenver.ccp.nlp.core.uima.mention.CCPPrimitiveSlotMention</name>

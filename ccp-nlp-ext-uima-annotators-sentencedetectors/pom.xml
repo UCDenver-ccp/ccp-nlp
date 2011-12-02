@@ -21,11 +21,6 @@
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-nlp-ext-uima-syntax</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>ccp-nlp-wrapper-lingpipe</artifactId>
 			<version>${project.version}</version>
 		</dependency>

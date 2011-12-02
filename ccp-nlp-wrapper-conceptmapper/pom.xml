@@ -19,11 +19,6 @@
 			<artifactId>ccp-nlp-core-uima</artifactId>
 			<version>3.0-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-nlp-ext-uima-syntax</artifactId>
-			<version>3.0-SNAPSHOT</version>
-		</dependency>
 		
 	</dependencies>
 </project>

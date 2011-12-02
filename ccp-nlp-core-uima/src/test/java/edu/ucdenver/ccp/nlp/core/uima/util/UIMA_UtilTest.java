@@ -340,35 +340,35 @@ public class UIMA_UtilTest {
 		final String comment = "this is an annotation comment";
 		edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationMetadata annotationMetadata = new edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationMetadata();
 		edu.ucdenver.ccp.nlp.core.annotation.metadata.TruePositiveProperty tpProp = new edu.ucdenver.ccp.nlp.core.annotation.metadata.TruePositiveProperty();
-		edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty dmapProp = new edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty();
+//		edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty dmapProp = new edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty();
 		edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty commentProp = new edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty(comment);
 		
-		dmapProp.setPattern(dmapPattern);
+//		dmapProp.setPattern(dmapPattern);
 		annotationMetadata.addMetadataProperty(tpProp);
-		annotationMetadata.addMetadataProperty(dmapProp);
+//		annotationMetadata.addMetadataProperty(dmapProp);
 		annotationMetadata.addMetadataProperty(commentProp);
 
-		assertEquals(3, annotationMetadata.getMetadataProperties().size());
+		assertEquals(2, annotationMetadata.getMetadataProperties().size());
 
 		edu.ucdenver.ccp.nlp.core.uima.annotation.AnnotationMetadata ccpAnnotationMetadata = new edu.ucdenver.ccp.nlp.core.uima.annotation.AnnotationMetadata(
 				jcas);
 		UIMA_Util.swapAnnotationMetadata(annotationMetadata, ccpAnnotationMetadata, jcas);
 
-		assertEquals(3, ccpAnnotationMetadata.getMetadataProperties().size());
+		assertEquals(2, ccpAnnotationMetadata.getMetadataProperties().size());
 		FSArray ccpMetadataProperties = ccpAnnotationMetadata.getMetadataProperties();
 		boolean hasTPProp = false;
-		boolean hasDMAPProp = false;
+//		boolean hasDMAPProp = false;
 		boolean hasCommentProp = false;
 		for (int i = 0; i < ccpMetadataProperties.size(); i++) {
 			if (ccpMetadataProperties.get(i) instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.TruePositiveProperty) {
 				hasTPProp = true;
 			}
-			if (ccpMetadataProperties.get(i) instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) {
-				hasDMAPProp = true;
-				edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty ccpDmapProp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) ccpMetadataProperties
-						.get(i);
-				assertEquals(dmapProp.getPattern(), ccpDmapProp.getPattern());
-			}
+//			if (ccpMetadataProperties.get(i) instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) {
+//				hasDMAPProp = true;
+//				edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty ccpDmapProp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) ccpMetadataProperties
+//						.get(i);
+//				assertEquals(dmapProp.getPattern(), ccpDmapProp.getPattern());
+//			}
 			if (ccpMetadataProperties.get(i) instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) {
 				hasCommentProp = true;
 				edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty ccpCommentProp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) ccpMetadataProperties
@@ -377,7 +377,7 @@ public class UIMA_UtilTest {
 			}
 		}
 		assertTrue(hasTPProp);
-		assertTrue(hasDMAPProp);
+//		assertTrue(hasDMAPProp);
 		assertTrue(hasCommentProp);
 
 		/* Now swap from UIMA to non-UIMa */
@@ -387,7 +387,7 @@ public class UIMA_UtilTest {
 		assertTrue(annotationMetadata.isTruePositive());
 		assertFalse(annotationMetadata.isFalseNegative());
 		assertFalse(annotationMetadata.isFalsePositive());
-		assertEquals(dmapPattern, annotationMetadata.getOpenDMAPPattern());
+//		assertEquals(dmapPattern, annotationMetadata.getOpenDMAPPattern());
 		assertEquals(comment, annotationMetadata.getAnnotationComment());
 		
 
