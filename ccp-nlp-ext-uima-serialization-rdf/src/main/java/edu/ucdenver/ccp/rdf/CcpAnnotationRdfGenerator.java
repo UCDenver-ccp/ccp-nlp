@@ -18,6 +18,7 @@ import org.openrdf.model.Value;
 import org.openrdf.model.impl.StatementImpl;
 import org.openrdf.model.impl.URIImpl;
 
+import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.rdf.AnnotationRdfGenerator;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.rdf.shims.RdfAnnotationDataExtractor;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
@@ -132,9 +133,20 @@ public abstract class CcpAnnotationRdfGenerator implements AnnotationRdfGenerato
 		return stmts;
 	}
 
+	private static final Set<String> bionlpEventGoTerms = CollectionsUtil.createSet("GO_0008104", "GO_0065007",
+			"GO_0010629", "GO_0010628", "GO_0010468", "GO_0010467", "GO_0032880",
+
+			"GO_0006351", "GO_0006355", "GO_0045893", "GO_0045892",
+
+			"GO_0030163", "GO_0009894", "GO_0009896", "GO_0009895",
+
+			"GO_0005488", "GO_0051098", "GO_0051099", "GO_0051100",
+
+			"GO_0016310", "GO_0042325", "GO_0042327", "GO_0042326");
+
 	/**
 	 * Adds a "shortcut" link from the document to the denoted class. This was added to improve
-	 * query performance when using biojigsaw.
+	 * query performance when using biojigsaw. TODO -- this is BTRC demo specific
 	 * 
 	 * @param documentUri
 	 * @param denotedClassUri
@@ -142,14 +154,30 @@ public abstract class CcpAnnotationRdfGenerator implements AnnotationRdfGenerato
 	 */
 	private Statement createDocumentToDenotedClassShortcutLink(URI documentUri, URI denotedClassUri) {
 		URI mentionsPredicate;
-		if (denotedClassUri.getLocalName().contains("PR_"))
+		String localName = denotedClassUri.getLocalName();
+		if (isBioNlpEvent(localName))
+			mentionsPredicate = UriFactory.KIAO_MENTIONS_EVENT;
+		else if (localName.contains("PR_") || localName.contains("GO_") || localName.contains("CHEBI_")
+				|| localName.contains("SO_") || localName.contains("MOD_"))
 			mentionsPredicate = UriFactory.KIAO_MENTIONS_PROTEIN;
-		else if (denotedClassUri.getLocalName().contains("KEGG_PATHWAY_"))
+		else if (localName.contains("KEGG_PATHWAY_"))
 			mentionsPredicate = UriFactory.KIAO_MENTIONS_PATHWAY;
 		else
 			mentionsPredicate = UriFactory.IAO_MENTIONS;
 
 		return new StatementImpl(documentUri, mentionsPredicate, denotedClassUri);
+	}
+
+	/**
+	 * @param localName
+	 * @return
+	 */
+	private boolean isBioNlpEvent(String localName) {
+		for (String eventClass : bionlpEventGoTerms) {
+			if (localName.contains(eventClass))
+				return true;
+		}
+		return false;
 	}
 
 	/**
