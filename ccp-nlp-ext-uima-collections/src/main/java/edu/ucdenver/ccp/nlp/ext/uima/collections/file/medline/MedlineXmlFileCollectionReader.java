@@ -9,8 +9,11 @@ import java.util.NoSuchElementException;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.collection.CollectionException;
+import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.descriptor.ConfigurationParameter;
+import org.uimafit.factory.CollectionReaderFactory;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
@@ -20,7 +23,10 @@ import edu.ucdenver.ccp.medline.parser.MedlineCitation;
 import edu.ucdenver.ccp.medline.parser.MedlineCitation.AbstractText;
 import edu.ucdenver.ccp.medline.parser.MedlineXmlDeserializer;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
+import edu.ucdenver.ccp.nlp.core.uima.util.View;
 import edu.ucdenver.ccp.nlp.ext.uima.collections.file.BaseTextCollectionReader;
+import edu.ucdenver.ccp.nlp.ext.uima.collections.line.DocumentPerLineCollectionReader;
+import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor;
 
 /**
  * This collection reader takes as input a file using the Medline XML format (as is returned from a
@@ -130,6 +136,25 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 		nextDocument = null;
 		return gd;
 
+	}
+
+	/**
+	 * @param tsd
+	 * @param medlineXmlFile2
+	 * @param numToSkip
+	 * @param numToProcess
+	 * @param class1
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
+	public static CollectionReader createCollectionReader(TypeSystemDescription tsd, File medlineXmlFile,
+			int numToSkip, int numToProcess, Class<CcpDocumentMetaDataExtractor> documentMetadataExtractorClass)
+			throws ResourceInitializationException {
+		return CollectionReaderFactory.createCollectionReader(MedlineXmlFileCollectionReader.class, tsd,
+				PARAM_MEDLINE_XML_FILE, medlineXmlFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
+				PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetadataExtractorClass.getName(), PARAM_ENCODING,
+				"UTF_8", PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME,
+				View.DEFAULT.name());
 	}
 
 }
