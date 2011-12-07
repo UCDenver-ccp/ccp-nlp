@@ -23,6 +23,7 @@ import edu.ucdenver.ccp.common.string.StringConstants;
 import edu.ucdenver.ccp.medline.parser.MedlineCitation;
 import edu.ucdenver.ccp.medline.parser.MedlineCitation.AbstractText;
 import edu.ucdenver.ccp.medline.parser.MedlineXmlDeserializer;
+import edu.ucdenver.ccp.medline.parser.PubmedXmlDeserializer;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
 import edu.ucdenver.ccp.nlp.ext.uima.collections.file.BaseTextCollectionReader;
@@ -36,16 +37,16 @@ import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtr
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
-public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
+public class PubmedXmlFileCollectionReader extends BaseTextCollectionReader {
 
 	/* ==== Input file configuration ==== */
 	public static final String PARAM_MEDLINE_XML_FILE = ConfigurationParameterFactory.createConfigurationParameterName(
-			MedlineXmlFileCollectionReader.class, "medlineXmlFile");
+			PubmedXmlFileCollectionReader.class, "pubmedXmlFile");
 
-	@ConfigurationParameter(mandatory = true, description = "The file containing the Medline XML comprising this document collection")
-	protected File medlineXmlFile;
+	@ConfigurationParameter(mandatory = true, description = "The file containing the Pubmed XML comprising this document collection")
+	protected File pubmedXmlFile;
 
-	private MedlineXmlDeserializer medlineXmlDeserializer;
+	private PubmedXmlDeserializer pubmedXmlDeserializer;
 
 	private GenericDocument nextDocument = null;
 
@@ -59,7 +60,7 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 	@Override
 	protected void initializeImplementation(UimaContext context) throws ResourceInitializationException {
 		try {
-			medlineXmlDeserializer = new MedlineXmlDeserializer(new FileInputStream(medlineXmlFile));
+			pubmedXmlDeserializer = new PubmedXmlDeserializer(new FileInputStream(pubmedXmlFile));
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
 		}
@@ -73,7 +74,7 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 	 */
 	@Override
 	protected int countDocumentsInCollection() throws IOException {
-		MedlineXmlDeserializer deserializer = new MedlineXmlDeserializer(new FileInputStream(medlineXmlFile));
+		PubmedXmlDeserializer deserializer = new PubmedXmlDeserializer(new FileInputStream(pubmedXmlFile));
 		int documentCount = 0;
 		while (deserializer.hasNext()) {
 			documentCount++;
@@ -90,9 +91,9 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 	@Override
 	protected void skip() throws ResourceInitializationException {
 		int numSkipped = 0;
-		while (numSkipped < numberToSkip && medlineXmlDeserializer.hasNext()) {
+		while (numSkipped < numberToSkip && pubmedXmlDeserializer.hasNext()) {
 			numSkipped++;
-			medlineXmlDeserializer.next();
+			pubmedXmlDeserializer.next();
 		}
 	}
 
@@ -105,8 +106,8 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 	@Override
 	protected boolean hasNextDocument() throws IOException, CollectionException {
 		if (nextDocument == null) {
-			if (medlineXmlDeserializer.hasNext()) {
-				MedlineCitation nextCitation = medlineXmlDeserializer.next();
+			if (pubmedXmlDeserializer.hasNext()) {
+				MedlineCitation nextCitation = pubmedXmlDeserializer.next().getMedlineCitation();
 				StringBuffer documentText = new StringBuffer();
 				documentText.append(nextCitation.getArticle().getArticleTitle());
 				for (AbstractText abstractText : nextCitation.getArticle().getTheAbstract().getAbstractTexts())
@@ -148,7 +149,7 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 	public static CollectionReader createCollectionReader(TypeSystemDescription tsd, File medlineXmlFile,
 			int numToSkip, int numToProcess, Class<CcpDocumentMetaDataExtractor> documentMetadataExtractorClass)
 			throws ResourceInitializationException {
-		return CollectionReaderFactory.createCollectionReader(MedlineXmlFileCollectionReader.class, tsd,
+		return CollectionReaderFactory.createCollectionReader(PubmedXmlFileCollectionReader.class, tsd,
 				PARAM_MEDLINE_XML_FILE, medlineXmlFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
 				PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetadataExtractorClass.getName(), PARAM_ENCODING,
 				"UTF_8", PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME,

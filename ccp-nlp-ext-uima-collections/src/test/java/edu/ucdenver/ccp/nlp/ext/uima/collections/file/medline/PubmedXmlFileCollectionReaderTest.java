@@ -18,7 +18,7 @@ import org.uimafit.pipeline.JCasIterable;
 
 import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
-import edu.ucdenver.ccp.medline.parser.MedlineXmlDeserializerTest;
+import edu.ucdenver.ccp.medline.parser.PubmedXmlDeserializerTest;
 import edu.ucdenver.ccp.nlp.core.uima.util.TypeSystemUtil;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor;
 
@@ -26,23 +26,23 @@ import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtr
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
-public class MedlineXmlFileCollectionReaderTest extends DefaultTestCase {
+public class PubmedXmlFileCollectionReaderTest extends DefaultTestCase {
 
-	private static final String SAMPLE_MEDLINE_XML_FILE_NAME = "medsamp2011.xml";
-	private File sampleMedlineXmlFile;
+	private static final String SAMPLE_PUBMED_XML_FILE_NAME = "pmsamp2011.xml";
+	private File samplePubmedXmlFile;
 
 	@Before
 	public void setUp() throws IOException {
-		sampleMedlineXmlFile = ClassPathUtil.copyClasspathResourceToDirectory(MedlineXmlDeserializerTest.class,
-				SAMPLE_MEDLINE_XML_FILE_NAME, folder.getRoot());
+		samplePubmedXmlFile = ClassPathUtil.copyClasspathResourceToDirectory(PubmedXmlDeserializerTest.class,
+				SAMPLE_PUBMED_XML_FILE_NAME, folder.getRoot());
 	}
 
 	@Test
-	public void testMedlineXmlCollectionReader() throws UIMAException, IOException {
+	public void testPubmedXmlCollectionReader() throws UIMAException, IOException {
 		int numToSkip = 0;
 		int numToProcess = -1; // process all
-		CollectionReader cr = MedlineXmlFileCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
-				sampleMedlineXmlFile, numToSkip, numToProcess, CcpDocumentMetaDataExtractor.class);
+		CollectionReader cr = PubmedXmlFileCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
+				samplePubmedXmlFile, numToSkip, numToProcess, CcpDocumentMetaDataExtractor.class);
 
 		JCasIterable jCasIterable = new JCasIterable(cr);
 
