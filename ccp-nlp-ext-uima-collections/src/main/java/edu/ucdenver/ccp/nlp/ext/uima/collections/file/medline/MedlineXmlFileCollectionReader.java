@@ -29,9 +29,9 @@ import edu.ucdenver.ccp.nlp.ext.uima.collections.file.BaseTextCollectionReader;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor;
 
 /**
- * This collection reader takes as input a file using the Medline XML format (as is returned from a
- * PubMed query for instance) and returns documents containing the title and abstract for each
- * Medline record in the input file. Title and abstract are separated by a line break.
+ * This collection reader takes as input a file using the Medline XML format (as is downloaded as
+ * part of the Medline lease for instance) and returns documents containing the title and abstract
+ * for each Medline record in the input file. Title and abstract are separated by a line break.
  * 
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
