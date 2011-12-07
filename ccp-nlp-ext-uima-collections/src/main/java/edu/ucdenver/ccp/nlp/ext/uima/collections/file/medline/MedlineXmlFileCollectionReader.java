@@ -4,6 +4,7 @@
 package edu.ucdenver.ccp.nlp.ext.uima.collections.file.medline;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
@@ -25,7 +26,6 @@ import edu.ucdenver.ccp.medline.parser.MedlineXmlDeserializer;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
 import edu.ucdenver.ccp.nlp.ext.uima.collections.file.BaseTextCollectionReader;
-import edu.ucdenver.ccp.nlp.ext.uima.collections.line.DocumentPerLineCollectionReader;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor;
 
 /**
@@ -59,8 +59,7 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 	@Override
 	protected void initializeImplementation(UimaContext context) throws ResourceInitializationException {
 		try {
-			medlineXmlDeserializer = new MedlineXmlDeserializer(StreamUtil.getEncodingSafeInputStream(medlineXmlFile,
-					CharacterEncoding.UTF_8));
+			medlineXmlDeserializer = new MedlineXmlDeserializer(new FileInputStream(medlineXmlFile));
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
 		}
