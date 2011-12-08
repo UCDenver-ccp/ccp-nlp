@@ -23,6 +23,7 @@ import edu.ucdenver.ccp.common.string.StringConstants;
 import edu.ucdenver.ccp.medline.parser.MedlineCitation;
 import edu.ucdenver.ccp.medline.parser.MedlineCitation.AbstractText;
 import edu.ucdenver.ccp.medline.parser.MedlineXmlDeserializer;
+import edu.ucdenver.ccp.medline.parser.PubmedArticleBase;
 import edu.ucdenver.ccp.medline.parser.PubmedXmlDeserializer;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
@@ -107,12 +108,12 @@ public class PubmedXmlFileCollectionReader extends BaseTextCollectionReader {
 	protected boolean hasNextDocument() throws IOException, CollectionException {
 		if (nextDocument == null) {
 			if (pubmedXmlDeserializer.hasNext()) {
-				MedlineCitation nextCitation = pubmedXmlDeserializer.next().getMedlineCitation();
+				PubmedArticleBase nextArticle = pubmedXmlDeserializer.next();
 				StringBuffer documentText = new StringBuffer();
-				documentText.append(nextCitation.getArticle().getArticleTitle());
-				for (AbstractText abstractText : nextCitation.getArticle().getTheAbstract().getAbstractTexts())
+				documentText.append(nextArticle.getArticleTitle());
+				for (AbstractText abstractText : nextArticle.getArticleAbstractTexts())
 					documentText.append(StringConstants.NEW_LINE + abstractText.getAbstractText());
-				nextDocument = new GenericDocument(nextCitation.getPmid().getPmid());
+				nextDocument = new GenericDocument(nextArticle.getPubmedId().getPmid());
 				nextDocument.setDocumentText(documentText.toString());
 				return true;
 			}
