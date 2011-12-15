@@ -45,6 +45,8 @@
 		<module>ccp-nlp-ext-dictionary</module>
 		<module>ccp-nlp-ext-dictionary-berkeleydb</module>
 		<module>ccp-nlp-ext-dictionary-berkeleydb-impl</module>
+		<module>ccp-nlp-wrapper-oboedit</module>
+		<module>ccp-nlp-wrapper-linnaeus</module>
 	</modules>
 
 	<dependencyManagement>
