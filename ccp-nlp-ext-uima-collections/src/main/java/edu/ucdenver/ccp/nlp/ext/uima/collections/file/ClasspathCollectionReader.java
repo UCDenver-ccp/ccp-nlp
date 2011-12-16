@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.zip.GZIPInputStream;
@@ -65,7 +66,7 @@ public class ClasspathCollectionReader extends BaseTextCollectionReader {
 			if (documentPaths.size() == 0)
 				throw new ResourceInitializationException("No class path documents were found using path: "
 						+ collectionPath, new Object[0]);
-			System.out.println("DOC PATHS: " + documentPaths.toString());
+			Collections.sort(documentPaths);
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
 		} catch (URISyntaxException e) {
