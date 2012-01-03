@@ -27,10 +27,12 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.util.Level;
 import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
+import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.interfaces.ISentenceDetector;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
@@ -52,6 +54,26 @@ public abstract class SentenceDetector_AE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(description = "If set to true, then line breaks will be treated as sentence boundaries")
 	boolean treatLineBreaksAsSentenceBoundaries = false;
 
+	/* ==== SentenceCasInserter configuration ==== */
+	/**
+	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
+	 * implementation to use
+	 */
+	public static final String PARAM_SENTENCE_CAS_INSERTER_CLASS = ConfigurationParameterFactory
+			.createConfigurationParameterName(SentenceDetector_AE.class, "sentenceCasInserterClassName");
+
+	/**
+	 * The name of the SentenceCasInserter implementation to use
+	 */
+	@ConfigurationParameter(mandatory = true, description = "name of the SentenceCasInserter implementation to use", defaultValue = "edu.ucdenver.ccp.nlp.ext.uima.annotators.sentencedetectors.CcpSentenceCasInserter")
+	private String sentenceCasInserterClassName;
+
+	/**
+	 * this {@link SentenceCasInserter} will be initialized based on the class name specified by the
+	 * sentenceCasInserterClassName parameter
+	 */
+	private SentenceCasInserter sentenceCasInserter;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -60,20 +82,21 @@ public abstract class SentenceDetector_AE extends JCasAnnotator_ImplBase {
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
-		System.out.println("Sentence detector - treat line breaks as sentence boundaries: "
-				+ treatLineBreaksAsSentenceBoundaries);
+		context.getLogger().log(Level.INFO,
+				"Sentence detector - treat line breaks as sentence boundaries: " + treatLineBreaksAsSentenceBoundaries);
+		sentenceCasInserter = (SentenceCasInserter) ConstructorUtil.invokeConstructor(sentenceCasInserterClassName);
 	}
 
 	/**
 	 * Add <code>SentenceAnnotations</code> to the document.
 	 */
 	@Override
-	public void process(JCas jcas) throws AnalysisEngineProcessException {
+	public void process(JCas jCas) throws AnalysisEngineProcessException {
 
 		/* get document text */
-		String documentText = jcas.getDocumentText();
+		String documentText = jCas.getDocumentText();
 		/* get the document ID */
-		String documentID = UIMA_Util.getDocumentID(jcas);
+		String documentID = UIMA_Util.getDocumentID(jCas);
 
 		/* parse into sentences using LingPipe Sentence Chunker */
 		int charOffset = 0;
@@ -98,10 +121,9 @@ public abstract class SentenceDetector_AE extends JCasAnnotator_ImplBase {
 			sentenceAnnotations.addAll(sentencesFromText);
 			charOffset = charOffset + textChunk.length() + 1;
 		}
-
-		/* add sentence annotations to the CAS */
-		UIMA_Util uimaUtil = new UIMA_Util();
-		uimaUtil.putTextAnnotationsIntoJCas(jcas, sentenceAnnotations);
+		
+		for (TextAnnotation sentence: sentenceAnnotations)
+			sentenceCasInserter.insertSentence(sentence.getAnnotationSpanStart(), sentence.getAnnotationSpanEnd(), jCas);
 
 	}
 
