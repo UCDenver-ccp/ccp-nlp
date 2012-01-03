@@ -20,6 +20,10 @@
 
 package edu.ucdenver.ccp.nlp.core.uima.util;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +36,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.ConstraintFactory;
@@ -52,17 +57,20 @@ import org.apache.uima.jcas.cas.LongArray;
 import org.apache.uima.jcas.cas.StringArray;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.tcas.Annotation;
+import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.collections.LegacyCollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
+import edu.ucdenver.ccp.common.file.FileWriterUtil;
+import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
+import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.nlp.core.annotation.AnnotationSet;
 import edu.ucdenver.ccp.nlp.core.annotation.Annotator;
 import edu.ucdenver.ccp.nlp.core.annotation.InvalidSpanException;
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.KnowledgeRepresentationWrapperException;
-import edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.ComplexSlotMention;
@@ -107,6 +115,24 @@ public class UIMA_Util {
 
 	private static Logger logger = Logger.getLogger(UIMA_Util.class);
 
+	public static void outputDescriptorToFile(AnalysisEngineDescription desc, File outputFile) throws IOException {
+		BufferedWriter writer = null;
+		try {
+			writer = FileWriterUtil.initBufferedWriter(outputFile, CharacterEncoding.UTF_8, WriteMode.OVERWRITE,
+					FileSuffixEnforcement.OFF);
+			desc.toXML(writer);
+		} catch (FileNotFoundException e) {
+			throw new IllegalArgumentException(e);
+		} catch (SAXException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (writer != null)
+				writer.close();
+		}
+	}
+
 	/**
 	 * Returns the documentID from the CCPDocumentInformation annotation if there is one. Returns
 	 * "-1" otherwise.
@@ -126,7 +152,7 @@ public class UIMA_Util {
 			return "-1";
 		}
 	}
-	
+
 	/**
 	 * Retrieves the document encoding for the document text stored in the JCas
 	 * 
@@ -139,43 +165,43 @@ public class UIMA_Util {
 		String encoding = getCcpDocumentInformation(jCas).getEncoding();
 		if (encoding == null)
 			throw new IllegalStateException(
-					"The encoding field has not been set in the CCPDocumentInformation instance. " +
-					"The most likely reason for this is the collection reader implementation you are " +
-					"using did not set the encoding value. Use the FileSystemCollectionReader or " +
-					"adjust your collection reader accordingly.");
+					"The encoding field has not been set in the CCPDocumentInformation instance. "
+							+ "The most likely reason for this is the collection reader implementation you are "
+							+ "using did not set the encoding value. Use the FileSystemCollectionReader or "
+							+ "adjust your collection reader accordingly.");
 		return CharacterEncoding.valueOf(encoding);
 	}
-	
+
 	/**
-	 * Sets the encoding field for the meta data. This encoding should correspond to the encoding used by the document text stored in the JCas.
+	 * Sets the encoding field for the meta data. This encoding should correspond to the encoding
+	 * used by the document text stored in the JCas.
+	 * 
 	 * @param jCas
 	 * @param encoding
 	 */
 	public static void setDocumentEncoding(JCas jCas, CharacterEncoding encoding) {
 		getCcpDocumentInformation(jCas).setEncoding(encoding.name());
 	}
-	
-	
-	
 
-//	/**
-//	 * 
-//	 * Sets the CCPDocumentInformation documentID field
-//	 * 
-//	 * @param jcas
-//	 * @param documentID
-//	 */
-//	public static void setDocumentID(JCas jcas, String documentID) {
-//		CCPDocumentInformation docInfo;
-//		FSIterator it = jcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentInformation.type).iterator();
-//		if (it.hasNext()) { /* there should be at most one CCPDocumentInformation annotation */
-//			docInfo = (CCPDocumentInformation) it.next();
-//		} else {
-//			docInfo = new CCPDocumentInformation(jcas);
-//			docInfo.addToIndexes();
-//		}
-//		docInfo.setDocumentID(documentID);
-//	}
+	// /**
+	// *
+	// * Sets the CCPDocumentInformation documentID field
+	// *
+	// * @param jcas
+	// * @param documentID
+	// */
+	// public static void setDocumentID(JCas jcas, String documentID) {
+	// CCPDocumentInformation docInfo;
+	// FSIterator it =
+	// jcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentInformation.type).iterator();
+	// if (it.hasNext()) { /* there should be at most one CCPDocumentInformation annotation */
+	// docInfo = (CCPDocumentInformation) it.next();
+	// } else {
+	// docInfo = new CCPDocumentInformation(jcas);
+	// docInfo.addToIndexes();
+	// }
+	// docInfo.setDocumentID(documentID);
+	// }
 
 	/**
 	 * Returns the documentID from the CCPDocumentInformation annotation if there is one. Returns
@@ -197,7 +223,6 @@ public class UIMA_Util {
 		}
 	}
 
-	
 	/**
 	 * Returns an Iterator over CCPTextAnnotations that are in the CAS.
 	 * 
@@ -220,10 +245,10 @@ public class UIMA_Util {
 	// public static <T extends FeatureStructure> Iterator<T> getFeatureStructureIterator(JCas jcas,
 	// Type T) {
 	// final FSIterator annotIter = jcas.getJFSIndexRepository().getAllIndexedFS(T);
-	//		
+	//
 	// return new Iterator<T>() {
 	// private T nextFS = null;
-	//			
+	//
 	// @Override
 	// public boolean hasNext() {
 	// if (nextFS == null) {
@@ -251,7 +276,7 @@ public class UIMA_Util {
 	// public void remove() {
 	// annotIter.remove();
 	// }
-	//			
+	//
 	// private CCPTextAnnotation validateObjectType(Object possibleT) {
 	// if (possibleT instanceof ) {
 	// return (CCPTextAnnotation) possibleAnnot;
@@ -324,8 +349,9 @@ public class UIMA_Util {
 			 * @return
 			 */
 			private boolean checkForCorrectClassType(CCPTextAnnotation ccpTA) {
-//				System.err.println("mention type = " + ccpTA.getClassMention().getMentionName()
-//						+ "  -- classTypes == null: " + (classTypes == null) + " classtypes: " + Arrays.toString(classTypes));
+				// System.err.println("mention type = " + ccpTA.getClassMention().getMentionName()
+				// + "  -- classTypes == null: " + (classTypes == null) + " classtypes: " +
+				// Arrays.toString(classTypes));
 				if (classTypes == null || (classTypesSet.contains(ccpTA.getClassMention().getMentionName()))) {
 					return true;
 				}
@@ -655,7 +681,7 @@ public class UIMA_Util {
 	// }
 	// }
 
-/**
+	/**
 	 * 
 	 * Sets the CCPDocumentInformation documentID field
 	 * 
@@ -666,7 +692,7 @@ public class UIMA_Util {
 		CCPDocumentInformation docInfo = getCcpDocumentInformation(jcas);
 		docInfo.setDocumentID(documentID);
 	}
-	
+
 	public static void setDocumentCollectionID(JCas jcas, int documentCollectionID) {
 		CCPDocumentInformation docInfo = getCcpDocumentInformation(jcas);
 		docInfo.setDocumentCollectionID(documentCollectionID);
@@ -687,8 +713,9 @@ public class UIMA_Util {
 	public static void swapDocumentInfo(JCas fromJcas, GenericDocument toGD) {
 		FSIterator docInfoIter = fromJcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentInformation.type)
 				.iterator();
-//		FSIterator docSectionIter = fromJcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentSection.type)
-//				.iterator();
+		// FSIterator docSectionIter =
+		// fromJcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentSection.type)
+		// .iterator();
 
 		// print document information
 		String docID = "-1";
@@ -709,15 +736,15 @@ public class UIMA_Util {
 		toGD.setDocumentID(docID);
 		toGD.setDocumentCollectionID(docCollectionID);
 
-//		// add the document sections to the generic document
-//		while (docSectionIter.hasNext()) {
-//			CCPDocumentSection ccpDocSection = (CCPDocumentSection) docSectionIter.next();
-//			DocumentSection docSection = new DocumentSection();
-//			docSection.setDocumentSectionID(ccpDocSection.getSectionID());
-//			docSection.setSectionStartIndex(ccpDocSection.getBegin());
-//			docSection.setSectionEndIndex(ccpDocSection.getEnd());
-//			toGD.addDocumentSection(docSection);
-//		}
+		// // add the document sections to the generic document
+		// while (docSectionIter.hasNext()) {
+		// CCPDocumentSection ccpDocSection = (CCPDocumentSection) docSectionIter.next();
+		// DocumentSection docSection = new DocumentSection();
+		// docSection.setDocumentSectionID(ccpDocSection.getSectionID());
+		// docSection.setSectionStartIndex(ccpDocSection.getBegin());
+		// docSection.setSectionEndIndex(ccpDocSection.getEnd());
+		// toGD.addDocumentSection(docSection);
+		// }
 
 		// set the document text
 		toGD.setDocumentText(fromJcas.getDocumentText());
@@ -1104,26 +1131,27 @@ public class UIMA_Util {
 			}
 
 			/* See if there is an OpenDMAP Pattern Property */
-//			OpenDMAPPatternProperty dmapPatternProp = null;
-//			if (annotationMetadata.getOpenDMAPPattern() != null) {
-//				dmapPatternProp = new OpenDMAPPatternProperty(jcas);
-//				dmapPatternProp.setPattern(annotationMetadata.getOpenDMAPPattern());
-//				dmapPatternProp.setPatternID(annotationMetadata.getOpenDMAPPatternID());
-//			}
-//			if (dmapPatternProp != null) {
-//				ccpMetadataPropertiesToAdd.add(dmapPatternProp);
-//			}
-			
+			// OpenDMAPPatternProperty dmapPatternProp = null;
+			// if (annotationMetadata.getOpenDMAPPattern() != null) {
+			// dmapPatternProp = new OpenDMAPPatternProperty(jcas);
+			// dmapPatternProp.setPattern(annotationMetadata.getOpenDMAPPattern());
+			// dmapPatternProp.setPatternID(annotationMetadata.getOpenDMAPPatternID());
+			// }
+			// if (dmapPatternProp != null) {
+			// ccpMetadataPropertiesToAdd.add(dmapPatternProp);
+			// }
+
 			AnnotationCommentProperty annotationCommentProp = null;
-//			logger.info("Checking to see if annotation comment is null...");
+			// logger.info("Checking to see if annotation comment is null...");
 			if (annotationMetadata.getAnnotationComment() != null) {
 				annotationCommentProp = new AnnotationCommentProperty(jcas);
 				annotationCommentProp.setComment(annotationMetadata.getAnnotationComment());
-//				logger.info("Setting annotation comment: " + annotationMetadata.getAnnotationComment());
+				// logger.info("Setting annotation comment: " +
+				// annotationMetadata.getAnnotationComment());
 			}
 			if (annotationCommentProp != null) {
 				ccpMetadataPropertiesToAdd.add(annotationCommentProp);
-//				logger.info("adding comment property to meta data list...");
+				// logger.info("adding comment property to meta data list...");
 			}
 
 			/* Swap properties here */
@@ -1159,18 +1187,24 @@ public class UIMA_Util {
 				for (int i = 0; i < metadataProperties.size(); i++) {
 					edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProperty amp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProperty) metadataProperties
 							.get(i);
-//					if (amp instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) {
-//						edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty ccpProp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) amp;
-//						edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty prop = new edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty();
-//						prop.setPattern(ccpProp.getPattern());
-//						prop.setPatternID(ccpProp.getPatternID());
-//						annotationMetadata.addMetadataProperty(prop);
-//					} else 
-						if (amp instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) {
+					// if (amp instanceof
+					// edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) {
+					// edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty
+					// ccpProp =
+					// (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty)
+					// amp;
+					// edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty prop =
+					// new edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty();
+					// prop.setPattern(ccpProp.getPattern());
+					// prop.setPatternID(ccpProp.getPatternID());
+					// annotationMetadata.addMetadataProperty(prop);
+					// } else
+					if (amp instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) {
 						edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty ccpProp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) amp;
-						edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty prop = new edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty(ccpProp.getComment());
+						edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty prop = new edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty(
+								ccpProp.getComment());
 						annotationMetadata.addMetadataProperty(prop);
-				}else if (amp instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.TruePositiveProperty) {
+					} else if (amp instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.TruePositiveProperty) {
 						edu.ucdenver.ccp.nlp.core.annotation.metadata.TruePositiveProperty prop = new edu.ucdenver.ccp.nlp.core.annotation.metadata.TruePositiveProperty();
 						annotationMetadata.addMetadataProperty(prop);
 					} else if (amp instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.FalsePositiveProperty) {
@@ -1416,9 +1450,9 @@ public class UIMA_Util {
 	// annotationsToInsert) {
 	// Map<Long, CCPTextAnnotation> alreadyInsertedAnnotations = new HashMap<Long,
 	// CCPTextAnnotation>();
-	//		
-	//		
-	//		
+	//
+	//
+	//
 	// }
 
 	public void putTextAnnotationsIntoJCas(JCas jcas, Collection<TextAnnotation> textAnnotations) {
@@ -1444,17 +1478,17 @@ public class UIMA_Util {
 		// System.out.println("#############################################");
 	}
 
-//	/**
-//	 * Adds processing of syntactic annotations to previous method
-//	 */
-//	public void putTextAnnotationsIntoJCas(JCas jcas, List<TextAnnotation> textAnnotations,
-//			boolean processSyntacticAnnotations) {
-//		putTextAnnotationsIntoJCas(jcas, textAnnotations);
-//
-//		if (processSyntacticAnnotations) {
-//			UIMASyntacticAnnotation_Util.normalizeSyntacticAnnotations(jcas);
-//		}
-//	}
+	// /**
+	// * Adds processing of syntactic annotations to previous method
+	// */
+	// public void putTextAnnotationsIntoJCas(JCas jcas, List<TextAnnotation> textAnnotations,
+	// boolean processSyntacticAnnotations) {
+	// putTextAnnotationsIntoJCas(jcas, textAnnotations);
+	//
+	// if (processSyntacticAnnotations) {
+	// UIMASyntacticAnnotation_Util.normalizeSyntacticAnnotations(jcas);
+	// }
+	// }
 
 	private void createUIMAAnnotation(TextAnnotation ta, JCas jcas, HashMap<String, String> alreadyCreatedAnnotations,
 			HashMap<String, CCPClassMention> alreadyCreatedMentions, CCPClassMention classMention) {
@@ -1468,14 +1502,20 @@ public class UIMA_Util {
 			UIMA_Util.swapAnnotationInfo(ta, ccpTextAnnotation, jcas);
 
 			/**
-			 * This has the potential to introduce a duplicate comment, however when working with knowtator annotations - where there is no meta data, this is the only way to transfer comments
+			 * This has the potential to introduce a duplicate comment, however when working with
+			 * knowtator annotations - where there is no meta data, this is the only way to transfer
+			 * comments
 			 */
 			String comment = ta.getAnnotationComment();
 			if (comment != null)
 				UIMA_Annotation_Util.addAnnotationCommentProperty(ccpTextAnnotation, comment, jcas);
-			
-//			assert ta.getAnnotationComment().equals(UIMA_Annotation_Util.getAnnotationCommentPropertyValue(ccpTextAnnotation, jcas)) : String.format("Expected annotation comment \"%s\" but observed: \"%s\"", ta.getAnnotationComment(),UIMA_Annotation_Util.getAnnotationCommentPropertyValue(ccpTextAnnotation, jcas)) ;
-			
+
+			// assert
+			// ta.getAnnotationComment().equals(UIMA_Annotation_Util.getAnnotationCommentPropertyValue(ccpTextAnnotation,
+			// jcas)) : String.format("Expected annotation comment \"%s\" but observed: \"%s\"",
+			// ta.getAnnotationComment(),UIMA_Annotation_Util.getAnnotationCommentPropertyValue(ccpTextAnnotation,
+			// jcas)) ;
+
 			// add key to alreadyAddedAnnotations
 			alreadyCreatedAnnotations.put(ta.getSingleLineRepresentation(), "");
 
@@ -2285,8 +2325,7 @@ public class UIMA_Util {
 		}
 		return -1;
 	}
-	
-	
+
 	public static int indexOf(StringArray strArray, String strValue) {
 		if (strArray == null) {
 			return -1;
@@ -2312,7 +2351,7 @@ public class UIMA_Util {
 	}
 
 	public static IntegerArray removeArrayIndex(IntegerArray intArray, int index, JCas jcas) {
-//		logger.debug("RemoveArrayIndex: intArray size: " + intArray.size() + " index: " + index);
+		// logger.debug("RemoveArrayIndex: intArray size: " + intArray.size() + " index: " + index);
 		IntegerArray updatedArray = null;
 		if (intArray != null) {
 			if (index < intArray.size()) {
@@ -2332,9 +2371,8 @@ public class UIMA_Util {
 		return updatedArray;
 	}
 
-	
 	public static StringArray removeArrayIndex(StringArray strArray, int index, JCas jcas) {
-//		logger.debug("RemoveArrayIndex: strArray size: " + strArray.size() + " index: " + index);
+		// logger.debug("RemoveArrayIndex: strArray size: " + strArray.size() + " index: " + index);
 		StringArray updatedArray = null;
 		if (strArray != null) {
 			if (index < strArray.size()) {
@@ -2354,8 +2392,6 @@ public class UIMA_Util {
 		return updatedArray;
 	}
 
-	
-	
 	public static LongArray removeArrayIndex(LongArray longArray, int index, JCas jcas) {
 		LongArray updatedArray = null;
 		if (longArray != null) {
@@ -2707,8 +2743,9 @@ public class UIMA_Util {
 		// Get all the spans from the base annotation
 		FSArray spans = annotation.getSpans();
 		if (spans == null) {
-			sortIn(textSpans, new TextSpan(annotation.getBegin(), annotation.getEnd(), data.substring(annotation
-					.getBegin(), annotation.getEnd())));
+			sortIn(textSpans,
+					new TextSpan(annotation.getBegin(), annotation.getEnd(), data.substring(annotation.getBegin(),
+							annotation.getEnd())));
 		} else {
 			for (int i = 0; i < spans.size(); i++) {
 				Object jcasSpan = spans.get(i);
@@ -2717,8 +2754,9 @@ public class UIMA_Util {
 					span = (CCPSpan) jcasSpan;
 				}
 				if (span != null) {
-					sortIn(textSpans, new TextSpan(span.getSpanStart(), span.getSpanEnd(), data.substring(span
-							.getSpanStart(), span.getSpanEnd())));
+					sortIn(textSpans,
+							new TextSpan(span.getSpanStart(), span.getSpanEnd(), data.substring(span.getSpanStart(),
+									span.getSpanEnd())));
 				}
 			}
 		}
@@ -2776,7 +2814,8 @@ public class UIMA_Util {
 	}
 
 	public static Iterator<CCPTextAnnotation> getAnnotationsWithinSpan(Span span, JCas jcas) {
-		return LegacyCollectionsUtil.checkIterator(getAnnotationsWithinSpan(span, jcas, CCPTextAnnotation.type), CCPTextAnnotation.class);
+		return LegacyCollectionsUtil.checkIterator(getAnnotationsWithinSpan(span, jcas, CCPTextAnnotation.type),
+				CCPTextAnnotation.class);
 	}
 
 	/**
@@ -2834,8 +2873,8 @@ public class UIMA_Util {
 		FSMatchConstraint testBoth = cf.and(testBegin, testEnd);
 
 		/* Create a filtered iterator that uses this constraint */
-		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas
-				.getJFSIndexRepository().getAnnotationIndex(annotationType).iterator(), testBoth);
+		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas.getJFSIndexRepository()
+				.getAnnotationIndex(annotationType).iterator(), testBoth);
 
 		return iter;
 
@@ -2890,15 +2929,14 @@ public class UIMA_Util {
 		FSMatchConstraint testBoth = cf.and(testBegin, testEnd);
 
 		/* Create a filtered iterator that uses this constraint */
-		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas
-				.getAnnotationIndex(annotationType).iterator(), testBoth);
+		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(
+				jcas.getAnnotationIndex(annotationType).iterator(), testBoth);
 
 		return iter;
 
 	}
 
-	public static Iterator<Annotation> getOverlappingAnnotations(CCPTextAnnotation ccpTA, JCas jcas,
-			int annotType) {
+	public static Iterator<Annotation> getOverlappingAnnotations(CCPTextAnnotation ccpTA, JCas jcas, int annotType) {
 		Span span = null;
 		try {
 			span = new Span(ccpTA.getBegin(), ccpTA.getEnd());
@@ -2911,7 +2949,8 @@ public class UIMA_Util {
 	}
 
 	public static Iterator<CCPTextAnnotation> getAnnotationsEncompassingSpan(Span span, JCas jcas) {
-		return LegacyCollectionsUtil.checkIterator(getAnnotationsEncompassingSpan(span, jcas, CCPTextAnnotation.type), CCPTextAnnotation.class);
+		return LegacyCollectionsUtil.checkIterator(getAnnotationsEncompassingSpan(span, jcas, CCPTextAnnotation.type),
+				CCPTextAnnotation.class);
 	}
 
 	/**
@@ -3004,8 +3043,8 @@ public class UIMA_Util {
 		FSMatchConstraint testBoth123 = cf.or(testBoth12, testBoth3);
 
 		/* Create a filtered iterator that uses this constraint */
-		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas
-				.getJFSIndexRepository().getAnnotationIndex(annotType).iterator(), testBoth123);
+		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas.getJFSIndexRepository()
+				.getAnnotationIndex(annotType).iterator(), testBoth123);
 
 		return iter;
 
@@ -3088,8 +3127,8 @@ public class UIMA_Util {
 		FSMatchConstraint testStart = cf.embedConstraint(pathToBeginValue, eqToSpanStart);
 
 		/* Create a filtered iterator that uses this constraint */
-		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas
-				.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type).iterator(), testStart);
+		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas.getJFSIndexRepository()
+				.getAnnotationIndex(CCPTextAnnotation.type).iterator(), testStart);
 
 		return iter;
 
@@ -3133,8 +3172,8 @@ public class UIMA_Util {
 		FSMatchConstraint testStart = cf.embedConstraint(pathToEndValue, ltSpanStart);
 
 		/* Create a filtered iterator that uses this constraint */
-		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas
-				.getJFSIndexRepository().getAnnotationIndex(ccpAnnotationType).iterator(), testStart);
+		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas.getJFSIndexRepository()
+				.getAnnotationIndex(ccpAnnotationType).iterator(), testStart);
 
 		return iter;
 
@@ -3229,9 +3268,8 @@ public class UIMA_Util {
 					if (shouldBeSM instanceof CCPSlotMention) {
 						return validateCCPSlotMention((CCPSlotMention) shouldBeSM);
 					} else {
-						logger
-								.error("Invalid mention structure detected. Unexpected object found in FSArray holding CCPSlotMentions for the CCPClassMention: \""
-										+ ccpCM.getMentionName() + "\" -- " + shouldBeSM.getClass().getName());
+						logger.error("Invalid mention structure detected. Unexpected object found in FSArray holding CCPSlotMentions for the CCPClassMention: \""
+								+ ccpCM.getMentionName() + "\" -- " + shouldBeSM.getClass().getName());
 						logger.debug("Returning false from validateCCPClassMention() mid1");
 						return false;
 					}
@@ -3257,8 +3295,7 @@ public class UIMA_Util {
 		} else if (ccpSM instanceof CCPPrimitiveSlotMention) {
 			return validateCCPPrimitiveSlotMention((CCPPrimitiveSlotMention) ccpSM);
 		} else {
-			logger
-					.error("The superclass CCPSlotMention was found to occupy a slot. Only subclasses of CCPSlotMention are allowed.");
+			logger.error("The superclass CCPSlotMention was found to occupy a slot. Only subclasses of CCPSlotMention are allowed.");
 			logger.debug("Returning false from validateCCPSlotMention() end");
 			return false;
 		}
@@ -3283,9 +3320,8 @@ public class UIMA_Util {
 					if (shouldBeAClassMention instanceof CCPClassMention) {
 						isValid = isValid && validateCCPClassMention((CCPClassMention) shouldBeAClassMention);
 					} else {
-						logger
-								.error("Invalid mention structure discovered. Instead of a CCPClassMention, this slot filler for this CCPComplexSlotMention is a: "
-										+ shouldBeAClassMention.getClass().getName());
+						logger.error("Invalid mention structure discovered. Instead of a CCPClassMention, this slot filler for this CCPComplexSlotMention is a: "
+								+ shouldBeAClassMention.getClass().getName());
 						logger.debug("Returning false from validateCCPComplexSlotMention()");
 						return false;
 					}
@@ -3314,40 +3350,42 @@ public class UIMA_Util {
 	}
 
 	public static UUID getMentionIDForTraversal(CCPMention mention, UUID traversalID) {
-//		logger.debug("Requesting mentionID for traversal: " + traversalID + " type: " + mention.getClass().getName());
+		// logger.debug("Requesting mentionID for traversal: " + traversalID + " type: " +
+		// mention.getClass().getName());
 		StringArray traversalIDs = mention.getTraversalIDs();
 
 		int index = UIMA_Util.indexOf(traversalIDs, traversalID.toString());
 		if (index > -1) {
 			return UUID.fromString(mention.getTraversalMentionIDs(index));
 		}
-//		logger.debug("Requested mention ID for traversal: " + traversalID
-//				+ " but did not find one. This is not necessarily an error. Returning null. ");
+		// logger.debug("Requested mention ID for traversal: " + traversalID
+		// + " but did not find one. This is not necessarily an error. Returning null. ");
 		return null;
 	}
 
 	public static void removeMentionIDForTraversal(CCPMention mention, UUID traversalID, JCas jcas) {
-//		logger.debug("Removing traversalID: " + traversalID + " type: " + mention.getClass().getName());
+		// logger.debug("Removing traversalID: " + traversalID + " type: " +
+		// mention.getClass().getName());
 		StringArray traversalIDs = mention.getTraversalIDs();
 		int index = UIMA_Util.indexOf(traversalIDs, traversalID.toString());
 		if (index > -1) {
-//			logger.debug("Traversal ID is at index: " + index);
+			// logger.debug("Traversal ID is at index: " + index);
 			StringArray updatedTraversalIDs = UIMA_Util.removeArrayIndex(traversalIDs, index, jcas);
 			mention.setTraversalIDs(updatedTraversalIDs);
-			StringArray updatedTraversalMentionIDs = UIMA_Util.removeArrayIndex(mention.getTraversalMentionIDs(), index,
-					jcas);
+			StringArray updatedTraversalMentionIDs = UIMA_Util.removeArrayIndex(mention.getTraversalMentionIDs(),
+					index, jcas);
 			mention.setTraversalMentionIDs(updatedTraversalMentionIDs);
 		}
 	}
-	
+
 	public static void showCasDebugInfo(JCas jcas, String s) throws CASException {
 		System.out.println(">>>====== " + s + "   " + jcas.getViewName());
 		Iterator i = jcas.getViewIterator();
 		while (i.hasNext()) {
 			JCas aCas = (JCas) i.next();
-			System.out.println(">>-----" + aCas.getViewName() + " : " + aCas.size()); 
+			System.out.println(">>-----" + aCas.getViewName() + " : " + aCas.size());
 			AnnotationIndex ai = aCas.getAnnotationIndex();
-			Iterator annotationIterator =  ai.iterator();
+			Iterator annotationIterator = ai.iterator();
 			while (annotationIterator.hasNext()) {
 				System.out.println("    " + annotationIterator.next());
 			}
@@ -3357,10 +3395,12 @@ public class UIMA_Util {
 	}
 
 	public static void setMentionIDForTraversal(CCPMention mention, UUID mentionID, UUID traversalID, JCas jcas) {
-//		logger.debug("Setting traversalID: " + traversalID + " -- mentionID: " + mentionID + " type: "
-//				+ mention.getClass().getName());
+		// logger.debug("Setting traversalID: " + traversalID + " -- mentionID: " + mentionID +
+		// " type: "
+		// + mention.getClass().getName());
 		removeMentionIDForTraversal(mention, traversalID, jcas);
-		StringArray traversalMentionIDs = UIMA_Util.addToStringArray(mention.getTraversalMentionIDs(), mentionID.toString(), jcas);
+		StringArray traversalMentionIDs = UIMA_Util.addToStringArray(mention.getTraversalMentionIDs(),
+				mentionID.toString(), jcas);
 		StringArray traversalIDs = UIMA_Util.addToStringArray(mention.getTraversalIDs(), traversalID.toString(), jcas);
 		mention.setTraversalMentionIDs(traversalMentionIDs);
 		mention.setTraversalIDs(traversalIDs);
