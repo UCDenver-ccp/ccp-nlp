@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<synonym>
+	<token id="GO:0000015" canonical="phosphopyruvate hydratase complex">
+		<variant base="phosphopyruvate hydratase complex" />
+		<variant base="enolase complex" />
+	</token>
+	<token id="GO:0000109" canonical="nucleotide-excision repair complex">
+		<variant base="nucleotide-excision repair complex" />
+	</token>
+	<token id="GO:0000110" canonical="nucleotide-excision repair factor 1 complex">
+		<variant base="nucleotide-excision repair factor 1 complex" />
+		<variant base="NEF1 complex" />
+		<variant base="XPA-ERCC1-ERCC4 complex" />
+	</token>
+</synonym>

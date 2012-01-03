@@ -5,7 +5,6 @@
   <version>1.0</version>
   <vendor/>
   <imports>
-    <import name="edu.ucdenver.ccp.nlp.wrapper.conceptmapper.Sentence"/>
     <import name="edu.ucdenver.ccp.nlp.wrapper.conceptmapper.OntologyTerm"/>
   </imports>
 </typeSystemDescription>
