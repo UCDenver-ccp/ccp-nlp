@@ -36,7 +36,7 @@ public class ConceptMapperAaeFactory {
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public AnalysisEngineDescription getOffsetTokenizerConceptMapperPipelineDescription(TypeSystemDescription tsd,
+	public static AnalysisEngineDescription getOffsetTokenizerConceptMapperPipelineDescription(TypeSystemDescription tsd,
 			File dictionaryFile, CaseMatchParamValue caseMatchParamValue,
 			SearchStrategyParamValue searchStrategyParamValue, Class<? extends Annotation> spanFeatureStructureClass) throws UIMAException, IOException {
 
