@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.Test;
+import org.junit.Assert;
+
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.ComplexSlotMention;
@@ -1262,7 +1265,12 @@ public class TestTextAnnotationCreator {
         return id2annotationMap;
     }
 
-    
+	@Test
+	public void dummyTestMethod() throws Exception {
+		// dummy test to allow this class to have a Test.java suffix, and thus not be included in the code coverage
+		// computations
+		Assert.assertTrue(true);
+	}
     
     
   
