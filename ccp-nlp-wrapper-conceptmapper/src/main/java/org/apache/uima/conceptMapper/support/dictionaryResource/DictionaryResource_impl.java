@@ -950,6 +950,7 @@ public class DictionaryResource_impl implements DictionaryResource, SharedResour
         throw new DictionaryLoaderException(e);
       } catch (IOException e) {
     	  getLogger().logError("++++++++++++++++++++ IOEXCEPTION +++++++++++++++++++++++: " + e.getMessage());
+    	  e.printStackTrace();
         throw new DictionaryLoaderException(e);
       }
       getLogger().logInfo("Finished loading " + term_cnt + " entries");
