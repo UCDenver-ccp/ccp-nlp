@@ -272,7 +272,7 @@ public class DictionaryResource_impl implements DictionaryResource, SharedResour
       // System.out.print ("Loading Dictionary: '" + dictLoader.dataResource.getUri().toString() +
       // "'...");
       // System.out.print ("Loading Dictionary...");
-      logger.logInfo("Loading Dictionary... +++++++++++++++++++++++++++++++++++++++ BILL'S VERSION +++++++++++++++++++++++++++++++++++");
+      logger.logInfo("Loading Dictionary... +++++++++++++++++++++++++++++++++++++++ BILL'S VERSION +++++++++++++++++++++++++++++++++++ dictStream is null: " + (dictStream==null));
       dictLoader.setDictionary(dictStream, NumOfInitialDictEntries, tokenAnnotationName,
               tokenTypeFeatureName, tokenClassFeatureName, tokenizerDescriptor, tokenFilter,
               tokenNormalizer, langID, entryPropertiesRoot);
