@@ -23,12 +23,16 @@ package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.typesystem;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.conceptMapper.support.tokenizer.TokenAnnotation;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
+import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.component.JCasAnnotator_ImplBase;
+import org.uimafit.factory.AnalysisEngineFactory;
 
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.OntologyTerm;
@@ -81,6 +85,10 @@ public class ConceptMapper2CCPTypeSystemConverter_AE extends JCasAnnotator_ImplB
 		for (Annotation annot : annotations2remove) {
 			annot.removeFromIndexes();
 		}
+	}
 
+	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd)
+			throws ResourceInitializationException {
+		return AnalysisEngineFactory.createPrimitiveDescription(ConceptMapper2CCPTypeSystemConverter_AE.class, tsd);
 	}
 }
