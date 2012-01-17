@@ -15,8 +15,6 @@ import edu.ucdenver.ccp.nlp.ext.uima.annotators.entitydetection.ABNER_AE;
 import edu.ucdenver.ccp.nlp.ext.uima.annotators.entitydetection.BannerEntityTagger_AE;
 import edu.ucdenver.ccp.nlp.ext.uima.annotators.filter.AnnotationConsensusFilter_AE;
 import edu.ucdenver.ccp.nlp.ext.uima.annotators.filter.AnnotationSetFilter_AE;
-import edu.ucdenver.ccp.nlp.ext.uima.annotators.sentencedetectors.LingPipeSentenceDetector_AE;
-import edu.ucdenver.ccp.nlp.ext.uima.annotators.sentencedetectors.SentenceDetector_AE;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
@@ -25,11 +23,8 @@ import edu.ucdenver.ccp.nlp.ext.uima.annotators.sentencedetectors.SentenceDetect
 public class ProOntologyProteinNormalization_AAE {
 
 	public static AnalysisEngineDescription getAggregateDescription(TypeSystemDescription tsd,
-			File proOntologyDictionaryDirectory) throws ResourceInitializationException {
-
-		AnalysisEngineDescription sentenceDetectorDescription = AnalysisEngineFactory.createPrimitiveDescription(
-				LingPipeSentenceDetector_AE.class, tsd,
-				SentenceDetector_AE.PARAM_TREAT_LINE_BREAKS_AS_SENTENCE_BOUNDARIES, true);
+			File proOntologyDictionaryDirectory, AnalysisEngineDescription sentenceDetectorDescription)
+			throws ResourceInitializationException {
 
 		AnalysisEngineDescription abnerBcDescription = ABNER_AE.createAnalysisEngineDescription_BioCreative(tsd);
 		AnalysisEngineDescription abnerNlpbaDescription = ABNER_AE.createAnalysisEngineDescription_NLPBA(tsd);
@@ -49,7 +44,7 @@ public class ProOntologyProteinNormalization_AAE {
 		// zero is typically the annotation set for gold standard annotations
 		AnalysisEngineDescription annotationSetFilter = AnalysisEngineFactory.createPrimitiveDescription(
 				AnnotationSetFilter_AE.class, tsd, AnnotationSetFilter_AE.PARAM_ANNOTATIONSET_IDS_TO_KEEP_LIST,
-				new int[] { 88 , 0});
+				new int[] { 88, 0 });
 
 		AnalysisEngineDescription proOntologyProteinNormalizer = ProOntologyProteinNormalizer_AE
 				.createAnalysisEngineDescription(tsd, proOntologyDictionaryDirectory);
