@@ -4,6 +4,7 @@
 package edu.ucdenver.ccp.nlp.ext.dictionary.berkeleydb.impl.gene;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
@@ -27,7 +28,9 @@ import edu.ucdenver.ccp.nlp.ext.dictionary.berkeleydb.BerkeleyDbDictionary;
 public class HomologeneDictionaryBuilderTest extends DefaultTestCase {
 
 	private static final String SAMPLE_EG_INFO_FILE_NAME = "gene_info";
+	private static final String SAMPLE_EG_INFO_READY_FILE = "gene_info.ready";
 	private static final String SAMPLE_HOMOLOGENE_FILE_NAME = "homologene.data";
+	private static final String SAMPLE_HOMOLOGENE_DATA_FILE_READY_FILE = "homologene.data.ready";
 
 	/**
 	 * @param dataDirectory
@@ -36,6 +39,8 @@ public class HomologeneDictionaryBuilderTest extends DefaultTestCase {
 	private void createTestDataFiles(File dataDirectory) throws IOException {
 		ClassPathUtil.copyClasspathResourceToDirectory(getClass(), SAMPLE_EG_INFO_FILE_NAME, dataDirectory);
 		ClassPathUtil.copyClasspathResourceToDirectory(getClass(), SAMPLE_HOMOLOGENE_FILE_NAME, dataDirectory);
+		assertTrue(new File(dataDirectory, SAMPLE_HOMOLOGENE_DATA_FILE_READY_FILE).createNewFile());
+		assertTrue(new File(dataDirectory, SAMPLE_EG_INFO_READY_FILE).createNewFile());
 	}
 
 	@Test
@@ -43,7 +48,7 @@ public class HomologeneDictionaryBuilderTest extends DefaultTestCase {
 		File dictionaryDirectory = folder.newFolder("homolo-dict");
 		File dataDirectory = folder.newFolder("data");
 		createTestDataFiles(dataDirectory);
-		assertEquals(2, dataDirectory.list().length);
+		assertEquals(4, dataDirectory.list().length);
 
 		HomologeneDictionaryBuilder dictBuilder = new HomologeneDictionaryBuilder(dictionaryDirectory, dataDirectory,
 				false);
@@ -84,7 +89,6 @@ public class HomologeneDictionaryBuilderTest extends DefaultTestCase {
 		assertEquals("search for entry1 alias failed.", 1, entry1Hits.size());
 		assertEquals("HOMOLOGENE_GROUP_52", CollectionsUtil.getSingleElement(entry1Hits).getDictionaryKey());
 
-		
 		dictionary.shutdown();
 
 	}
