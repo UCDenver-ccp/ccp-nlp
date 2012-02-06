@@ -82,23 +82,23 @@ public class ConceptMapperFactory {
 		 */
 		TOKEN_CLASS_FEATURE_NAME(ConceptMapper.PARAM_TOKENCLASSFEATURENAME),
 		/**
-		 * * <multiValued>false</multiValued> <mandatory>false</mandatory>
+		 * <multiValued>false</multiValued> <mandatory>false</mandatory>
 		 */
 		TOKEN_TEXT_FEATURE_NAME(ConceptMapper.PARAM_TOKENTEXTFEATURENAME),
 		/**
-		 * * Type of annotation which corresponds to spans of data for processing (e.g. a Sentence)
+		 * Type of annotation which corresponds to spans of data for processing (e.g. a Sentence)
 		 * </description> <type>String</type> <multiValued>false</multiValued>
 		 * <mandatory>true</mandatory>
 		 */
 		SPAN_FEATURE_STRUCTURE("SpanFeatureStructure"),
 		/**
-		 * * True if should ignore element order during lookup (i.e., "top box" would equal
+		 * True if should ignore element order during lookup (i.e., "top box" would equal
 		 * "box top"). Default is False. </description> <type>Boolean</type>
 		 * <multiValued>false</multiValued> <mandatory>false</mandatory>
 		 */
 		ORDER_INDEPENDENT_LOOKUP(ConceptMapper.PARAM_ORDERINDEPENDENTLOOKUP),
 		/**
-		 * * Name of feature used when doing lookups against IncludedTokenTypes and
+		 * Name of feature used when doing lookups against IncludedTokenTypes and
 		 * ExcludedTokenTypes </description> <type>String</type> <multiValued>false</multiValued>
 		 * <mandatory>false</mandatory>
 		 */
