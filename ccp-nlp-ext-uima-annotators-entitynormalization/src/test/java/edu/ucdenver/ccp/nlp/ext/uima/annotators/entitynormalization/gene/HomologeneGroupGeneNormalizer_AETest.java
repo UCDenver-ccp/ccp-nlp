@@ -6,6 +6,7 @@ package edu.ucdenver.ccp.nlp.ext.uima.annotators.entitynormalization.gene;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +40,9 @@ import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.entity.bio.impl.CcpGeneIdA
 public class HomologeneGroupGeneNormalizer_AETest extends DefaultUIMATestCase {
 
 	private static final String SAMPLE_EG_INFO_FILE_NAME = "gene_info";
+	private static final String SAMPLE_EG_INFO_READY_FILE_NAME = "gene_info.ready";
 	private static final String SAMPLE_HOMOLOGENE_FILE_NAME = "homologene.data";
+	private static final String SAMPLE_HOMOLOGENE_READY_FILE_NAME = "homologene.data.ready";
 
 	/*
 	 * (non-Javadoc)
@@ -65,6 +68,8 @@ public class HomologeneGroupGeneNormalizer_AETest extends DefaultUIMATestCase {
 		File dataDirectory = folder.newFolder("data");
 		ClassPathUtil.copyClasspathResourceToDirectory(getClass(), SAMPLE_EG_INFO_FILE_NAME, dataDirectory);
 		ClassPathUtil.copyClasspathResourceToDirectory(getClass(), SAMPLE_HOMOLOGENE_FILE_NAME, dataDirectory);
+		assertTrue(new File(dataDirectory, SAMPLE_HOMOLOGENE_READY_FILE_NAME).createNewFile());
+		assertTrue(new File(dataDirectory, SAMPLE_EG_INFO_READY_FILE_NAME).createNewFile());
 		HomologeneDictionaryBuilder dictBuilder = new HomologeneDictionaryBuilder(dictionaryDirectory, dataDirectory,
 				false);
 		dictBuilder.buildDictionary(LoadMode.OVERWRITE);
