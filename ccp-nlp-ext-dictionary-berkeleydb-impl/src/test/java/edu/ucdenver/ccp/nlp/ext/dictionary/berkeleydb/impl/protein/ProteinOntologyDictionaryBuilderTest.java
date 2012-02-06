@@ -5,6 +5,7 @@ package edu.ucdenver.ccp.nlp.ext.dictionary.berkeleydb.impl.protein;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import edu.ucdenver.ccp.nlp.ext.dictionary.berkeleydb.impl.gene.GeneNameRegulari
 public class ProteinOntologyDictionaryBuilderTest extends DefaultTestCase {
 
 	private static final String SAMPLE_PRO_OBO_FILE_NAME = "pro.obo";
+	private static final String SAMPLE_PRO_OBO_READY_FILE_NAME = "pro.obo.ready";
 
 	/**
 	 * @param dataDirectory
@@ -36,6 +38,7 @@ public class ProteinOntologyDictionaryBuilderTest extends DefaultTestCase {
 	 */
 	private void createTestDataFiles(File dataDirectory) throws IOException {
 		ClassPathUtil.copyClasspathResourceToDirectory(getClass(), SAMPLE_PRO_OBO_FILE_NAME, dataDirectory);
+		assertTrue(new File(dataDirectory, SAMPLE_PRO_OBO_READY_FILE_NAME).createNewFile());
 	}
 
 	@Test
@@ -43,7 +46,7 @@ public class ProteinOntologyDictionaryBuilderTest extends DefaultTestCase {
 		File dictionaryDirectory = folder.newFolder("pro-dict");
 		File dataDirectory = folder.newFolder("data");
 		createTestDataFiles(dataDirectory);
-		assertEquals(1, dataDirectory.list().length);
+		assertEquals(2, dataDirectory.list().length);
 
 		ProteinOntologyDictionaryBuilder dictBuilder = new ProteinOntologyDictionaryBuilder(dictionaryDirectory, dataDirectory,
 				false);
