@@ -188,7 +188,7 @@ public class ProOntologyProteinNormalizer_AE extends JCasAnnotator_ImplBase {
 						if (id == null)
 							logger.log(Level.WARNING,"Unable to resolve ID: " + entry.getDictionaryKey() + " Please update the DataSourceIdResolver to handle this condition.");
 						else
-							geneIdAnnotationDecorator.addAnnotationAttribute(annot, id);
+							geneIdAnnotationDecorator.addGeneIdentifierAttribute(annot, id);
 					}
 				}
 			}
