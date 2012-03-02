@@ -73,6 +73,18 @@ public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 	private Set<Integer> annotatorIDsToIgnore;
 
 	/**
+	 * Constant that can be used as the identifier for the gold standard annotator during annotation
+	 * comparisons
+	 */
+	public static final int GOLD_ANNOTATOR_ID = 99099099;
+
+	/**
+	 * Constant that can be used as the identifier for the evaluation set (test set) annotator
+	 * during annotation comparisons
+	 */
+	public static final int EVAL_ANNOTATOR_ID = 11011011;
+
+	/**
 	 * cycle through all annotations and set the annotation set
 	 */
 	@Override
@@ -112,12 +124,53 @@ public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 
 	}
 
-	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
-			int annotatorId, String firstName, String lastName, String affiliation, int[] ignoreIds)
+	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd, int annotatorId,
+			String firstName, String lastName, String affiliation, int[] ignoreIds)
 			throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(AnnotatorOverrider_AE.class, tsd, PARAM_ANNOTATOR_ID,
 				annotatorId, PARAM_FIRST_NAME, firstName, PARAM_LAST_NAME, lastName, PARAM_AFFILIATION, affiliation,
 				PARAM_ANNOTATOR_IDS_TO_IGNORE, ignoreIds);
+	}
+
+	/**
+	 * Returns the description for an {@link AnalysisEngine} that will override the annotator for
+	 * all annotations in the CAS and set a new annotator to be the GOLD annotator. The GOLD
+	 * annotator is meant to define the gold standard set of annotations to use during an annotation
+	 * comparison pipeline.
+	 * 
+	 * @param tsd
+	 * @param ignoreIds
+	 *            annotators with IDs in this array will not be overriden
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
+	public static AnalysisEngineDescription createGoldAnnotatorAnalysisEngineDescription(TypeSystemDescription tsd,
+			int[] ignoreIds) throws ResourceInitializationException {
+		String goldAnnotatorName = "gold annotator";
+		String goldAnnotatorAffiliation = "gold";
+		return AnalysisEngineFactory.createPrimitiveDescription(AnnotatorOverrider_AE.class, tsd, PARAM_ANNOTATOR_ID,
+				GOLD_ANNOTATOR_ID, PARAM_FIRST_NAME, goldAnnotatorName, PARAM_LAST_NAME, goldAnnotatorName,
+				PARAM_AFFILIATION, goldAnnotatorAffiliation, PARAM_ANNOTATOR_IDS_TO_IGNORE, ignoreIds);
+	}
+
+	/**
+	 * Returns the description for an {@link AnalysisEngine} that will override the annotator for
+	 * all annotations in the CAS and set a new annotator to be the EVAL annotator. The EVAL
+	 * annototar defines the set of annotations to be evaluated in an annotation comparison
+	 * pipeline. Annotators identified by the GOLD_ANNOTATOR_ID are not overriden by this AE.
+	 * 
+	 * @param tsd
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
+	public static AnalysisEngineDescription createEvalAnnotatorAnalysisEngineDescription(TypeSystemDescription tsd)
+			throws ResourceInitializationException {
+		String evalAnnotatorName = "eval annotator";
+		String evalAnnotatorAffiliation = "eval";
+		return AnalysisEngineFactory.createPrimitiveDescription(AnnotatorOverrider_AE.class, tsd, PARAM_ANNOTATOR_ID,
+				GOLD_ANNOTATOR_ID, PARAM_FIRST_NAME, evalAnnotatorName, PARAM_LAST_NAME, evalAnnotatorName,
+				PARAM_AFFILIATION, evalAnnotatorAffiliation, PARAM_ANNOTATOR_IDS_TO_IGNORE,
+				new int[] { GOLD_ANNOTATOR_ID });
 	}
 
 }
