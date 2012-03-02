@@ -58,6 +58,8 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 			return new WrappedCCPIntegerSlotMention((CCPIntegerSlotMention) ccpPrimitiveSlotMention);
 		} else if (ccpPrimitiveSlotMention instanceof CCPFloatSlotMention) {
 			return new WrappedCCPFloatSlotMention((CCPFloatSlotMention) ccpPrimitiveSlotMention);
+		} else if (ccpPrimitiveSlotMention instanceof CCPDoubleSlotMention) {
+			return new WrappedCCPDoubleSlotMention((CCPDoubleSlotMention) ccpPrimitiveSlotMention);
 		} else {
 			throw new KnowledgeRepresentationWrapperException("Unknown CCPrimitiveSlotMention type: "
 					+ ccpPrimitiveSlotMention.getClass().getName()
@@ -77,6 +79,8 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 			ccpPSM = initializeIntegerSlotMention(slotMentionName, (Integer) slotValue, jcas);
 		} else if (slotValue instanceof Float) {
 			ccpPSM = initializeFloatSlotMention(slotMentionName, (Float) slotValue, jcas);
+		} else if (slotValue instanceof Double) {
+			ccpPSM = initializeDoubleSlotMention(slotMentionName, (Double) slotValue, jcas);
 		} else if (slotValue instanceof Boolean) {
 			ccpPSM = initializeBooleanSlotMention(slotMentionName, (Boolean) slotValue, jcas);
 		} else {
@@ -102,6 +106,8 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 			ccpPSM = initializeIntegerSlotMention(slotMentionName, castToInteger(slotValues), jcas);
 		} else if (firstSlotValue instanceof Float) {
 			ccpPSM = initializeFloatSlotMention(slotMentionName, castToFloat(slotValues), jcas);
+		} else if (firstSlotValue instanceof Double) {
+			ccpPSM = initializeDoubleSlotMention(slotMentionName, castToDouble(slotValues), jcas);
 		} else if (firstSlotValue instanceof Boolean) {
 			ccpPSM = initializeBooleanSlotMention(slotMentionName, castToBoolean(slotValues), jcas);
 		} else {
@@ -166,6 +172,18 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 			strings.add((Float) obj);
 			} else {
 				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName() + " to Float!!!");
+			}
+		}
+		return strings;
+	}
+	
+	private static Collection<Double> castToDouble(Collection<Object> input) throws KnowledgeRepresentationWrapperException {
+		Collection<Double> strings = new ArrayList<Double>();
+		for (Object obj : input) {
+			if (obj instanceof Double) {
+			strings.add((Double) obj);
+			} else {
+				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName() + " to Double!!!");
 			}
 		}
 		return strings;
