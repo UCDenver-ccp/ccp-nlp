@@ -115,18 +115,18 @@ public class LinnaeusTagger_AE extends JCasAnnotator_ImplBase {
 		Collection<Mention> matches = linnaeusUtil.searchText(documentId, jCas.getDocumentText());
 
 		for (Mention mention : matches) {
-			System.out.println("toString: " + mention.toString());
-			System.out.println("comment: " + mention.getComment());
-			System.out.println("docid: " + mention.getDocid());
-			System.out.println("end: " + mention.getEnd());
-			System.out.println("idsToString: " + mention.getIdsToString());
-			System.out.println("most probable id: " + mention.getMostProbableID());
-			System.out.println("most probable id with id line: " + mention.getMostProbableIDWithIdLine());
-			System.out.println("start: " + mention.getStart());
-			System.out.println("text: " + mention.getText());
-			System.out.println("ids[]: " + Arrays.toString(mention.getIds()));
-			System.out.println("idsWithLineNumbers[]: " + Arrays.toString(mention.getIdsWithLineNumbers()));
-			System.out.println("probabilities: " + Arrays.toString(mention.getProbabilities()));
+//			System.out.println("toString: " + mention.toString());
+//			System.out.println("comment: " + mention.getComment());
+//			System.out.println("docid: " + mention.getDocid());
+//			System.out.println("end: " + mention.getEnd());
+//			System.out.println("idsToString: " + mention.getIdsToString());
+//			System.out.println("most probable id: " + mention.getMostProbableID());
+//			System.out.println("most probable id with id line: " + mention.getMostProbableIDWithIdLine());
+//			System.out.println("start: " + mention.getStart());
+//			System.out.println("text: " + mention.getText());
+//			System.out.println("ids[]: " + Arrays.toString(mention.getIds()));
+//			System.out.println("idsWithLineNumbers[]: " + Arrays.toString(mention.getIdsWithLineNumbers()));
+//			System.out.println("probabilities: " + Arrays.toString(mention.getProbabilities()));
 			Span span = new Span(mention.getStart(), mention.getEnd());
 			Annotation annotation = annotationDecorator.newAnnotation(jCas, mention.getMostProbableID(), span);
 			annotationDecorator.addAnnotationAttribute(annotation, ATTRIBUTE_IS_AMBIGUOUS, mention.isAmbigous());
