@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.uima.UIMAException;
@@ -12,7 +11,6 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
@@ -21,9 +19,7 @@ import org.uimafit.util.JCasUtil;
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.nlp.core.uima.test.DefaultUIMATestCase;
-import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Annotation_Util;
-import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
-import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.CmConfigParam.SearchStrategyParamValue;
+import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.SearchStrategyParamValue;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.TokenNormalizerConfigParam.CaseMatchParamValue;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.tokenizer.OffsetTokenizerFactory;
 

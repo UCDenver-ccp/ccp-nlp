@@ -26,7 +26,6 @@ import org.uimafit.factory.TypeSystemDescriptionFactory;
 
 import uima.tt.TokenAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
-import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.CmConfigParam.SearchStrategyParamValue;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.TokenNormalizerConfigParam.CaseMatchParamValue;
 
 /**
@@ -98,8 +97,8 @@ public class ConceptMapperFactory {
 		 */
 		ORDER_INDEPENDENT_LOOKUP(ConceptMapper.PARAM_ORDERINDEPENDENTLOOKUP),
 		/**
-		 * Name of feature used when doing lookups against IncludedTokenTypes and
-		 * ExcludedTokenTypes </description> <type>String</type> <multiValued>false</multiValued>
+		 * Name of feature used when doing lookups against IncludedTokenTypes and ExcludedTokenTypes
+		 * </description> <type>String</type> <multiValued>false</multiValued>
 		 * <mandatory>false</mandatory>
 		 */
 		TOKEN_TYPE_FEATURE_NAME(ConceptMapper.PARAM_TOKENTYPEFEATURENAME),
@@ -142,23 +141,6 @@ public class ConceptMapperFactory {
 
 		DICTIONARY_FILE(ConceptMapper.PARAM_DICT_FILE);
 
-		public enum SearchStrategyParamValue implements UimaConfigParamValue<String> {
-			CONTIGUOUS_MATCH(ConceptMapper.PARAMVALUE_CONTIGUOUSMATCH),
-			SKIP_ANY_MATCH(ConceptMapper.PARAMVALUE_SKIPANYMATCH),
-			SKIP_ANY_MATCH_ALLOW_OVERLAP(ConceptMapper.PARAMVALUE_SKIPANYMATCHALLOWOVERLAP);
-
-			private final String paramValue;
-
-			private SearchStrategyParamValue(String paramValue) {
-				this.paramValue = paramValue;
-			}
-
-			@Override
-			public String paramValue() {
-				return paramValue;
-			}
-		}
-
 		private final String paramName;
 
 		private CmConfigParam(String paramName) {
@@ -168,6 +150,23 @@ public class ConceptMapperFactory {
 		@Override
 		public String paramName() {
 			return paramName;
+		}
+	}
+
+	public enum SearchStrategyParamValue implements UimaConfigParamValue<String> {
+		CONTIGUOUS_MATCH(ConceptMapper.PARAMVALUE_CONTIGUOUSMATCH),
+		SKIP_ANY_MATCH(ConceptMapper.PARAMVALUE_SKIPANYMATCH),
+		SKIP_ANY_MATCH_ALLOW_OVERLAP(ConceptMapper.PARAMVALUE_SKIPANYMATCHALLOWOVERLAP);
+
+		private final String paramValue;
+
+		private SearchStrategyParamValue(String paramValue) {
+			this.paramValue = paramValue;
+		}
+
+		@Override
+		public String paramValue() {
+			return paramValue;
 		}
 	}
 
@@ -292,6 +291,13 @@ public class ConceptMapperFactory {
 	}
 
 	private static final String CONCEPT_MAPPER_DESCRIPTOR_PATH = "analysis_engine.primitive.ConceptMapperOffsetTokenizer";
+
+	public static TypeSystemDescription getDefaultConceptMapperTypeSystem() {
+		return TypeSystemDescriptionFactory.createTypeSystemDescription("edu.ucdenver.ccp.nlp.core.uima.TypeSystem",
+				"edu.ucdenver.ccp.nlp.wrapper.conceptmapper.TypeSystem",
+				"edu.ucdenver.ccp.nlp.wrapper.conceptmapper.TestTypeSystem", "analysis_engine.primitive.DictTerm",
+				"org.apache.uima.conceptMapper.support.tokenizer.TokenAnnotation");
+	}
 
 	/**
 	 * Returns an {@link AnalysisEngineDescription} initialized using the input configuration data.
