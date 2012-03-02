@@ -50,6 +50,7 @@ import org.apache.uima.cas.Type;
 import org.apache.uima.cas.TypeSystem;
 import org.apache.uima.cas.text.AnnotationIndex;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.DoubleArray;
 import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.cas.FloatArray;
 import org.apache.uima.jcas.cas.IntegerArray;
@@ -2314,6 +2315,18 @@ public class UIMA_Util {
 		return floatArrayToReturn;
 	}
 
+	public static DoubleArray addToDoubleArray(DoubleArray doubleArray, Double doubleToAdd, JCas jcas) {
+		if (doubleArray == null) {
+			doubleArray = new DoubleArray(jcas, 0);
+		}
+		DoubleArray doubleArrayToReturn = new DoubleArray(jcas, doubleArray.size() + 1);
+		for (int i = 0; i < doubleArray.size(); i++) {
+			doubleArrayToReturn.set(i, doubleArray.get(i));
+		}
+		doubleArrayToReturn.set(doubleArray.size(), doubleToAdd);
+		return doubleArrayToReturn;
+	}
+	
 	public static int indexOf(IntegerArray intArray, Integer intValue) {
 		if (intArray == null) {
 			return -1;

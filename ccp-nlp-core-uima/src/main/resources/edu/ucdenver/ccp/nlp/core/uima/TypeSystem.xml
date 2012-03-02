@@ -327,6 +327,18 @@
       </features>
     </typeDescription>
     <typeDescription>
+      <name>edu.ucdenver.ccp.nlp.core.uima.mention.CCPDoubleSlotMention</name>
+      <description/>
+      <supertypeName>edu.ucdenver.ccp.nlp.core.uima.mention.CCPPrimitiveSlotMention</supertypeName>
+      <features>
+        <featureDescription>
+          <name>slotValues</name>
+          <description/>
+          <rangeTypeName>uima.cas.DoubleArray</rangeTypeName>
+        </featureDescription>
+      </features>
+    </typeDescription>
+    <typeDescription>
       <name>edu.ucdenver.ccp.nlp.core.uima.mention.CCPBooleanSlotMention</name>
       <description/>
       <supertypeName>edu.ucdenver.ccp.nlp.core.uima.mention.CCPPrimitiveSlotMention</supertypeName>

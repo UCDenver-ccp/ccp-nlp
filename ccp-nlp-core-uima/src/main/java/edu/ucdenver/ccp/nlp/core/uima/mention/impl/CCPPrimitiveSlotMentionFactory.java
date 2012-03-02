@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import org.apache.log4j.Logger;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.DoubleArray;
 import org.apache.uima.jcas.cas.FloatArray;
 import org.apache.uima.jcas.cas.IntegerArray;
 import org.apache.uima.jcas.cas.StringArray;
@@ -13,6 +14,7 @@ import org.apache.uima.jcas.cas.StringArray;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.KnowledgeRepresentationWrapperException;
 import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPBooleanSlotMention;
+import edu.ucdenver.ccp.nlp.core.uima.mention.CCPDoubleSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPFloatSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPPrimitiveSlotMention;
@@ -33,6 +35,8 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 			ccpPSM = getWrappedCCPIntegerSlotMention(slotMentionName, (Integer) slotValue, jcas);
 		} else if (slotValue instanceof Float) {
 			ccpPSM = getWrappedCCPFloatSlotMention(slotMentionName, (Float) slotValue, jcas);
+		} else if (slotValue instanceof Double) {
+			ccpPSM = getWrappedCCPDoubleSlotMention(slotMentionName, (Double) slotValue, jcas);
 		} else if (slotValue instanceof Boolean) {
 			ccpPSM = getWrappedCCPBooleanSlotMention(slotMentionName, (Boolean) slotValue, jcas);
 		} else {
@@ -195,6 +199,11 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 			JCas jcas) {
 		return new WrappedCCPFloatSlotMention(initializeFloatSlotMention(slotMentionName, slotValue, jcas));
 	}
+	
+	private static WrappedCCPDoubleSlotMention getWrappedCCPDoubleSlotMention(String slotMentionName, Double slotValue,
+			JCas jcas) {
+		return new WrappedCCPDoubleSlotMention(initializeDoubleSlotMention(slotMentionName, slotValue, jcas));
+	}
 
 	private static WrappedCCPBooleanSlotMention getWrappedCCPBooleanSlotMention(String slotMentionName,
 			Boolean slotValue, JCas jcas) {
@@ -281,6 +290,7 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 		return initializeFloatSlotMention(slotMentionName, slotValues, jcas);
 	}
 	
+	
 	private static CCPFloatSlotMention initializeFloatSlotMention(String slotMentionName,
 			Collection<Float> slotValues, JCas jcas) {
 		FloatArray slotValuesArray = new FloatArray(jcas, slotValues.size());
@@ -295,6 +305,26 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 		return ccpSSM;
 	}
 
+	private static CCPDoubleSlotMention initializeDoubleSlotMention(String slotMentionName, Double slotValue, JCas jcas) {
+		Collection<Double> slotValues =new ArrayList<Double>();
+		slotValues.add(slotValue);
+		return initializeDoubleSlotMention(slotMentionName, slotValues, jcas);
+	}
+	
+	private static CCPDoubleSlotMention initializeDoubleSlotMention(String slotMentionName,
+			Collection<Double> slotValues, JCas jcas) {
+		DoubleArray slotValuesArray = new DoubleArray(jcas, slotValues.size());
+		int index = 0;
+		for (Double slotValue : slotValues) {
+			slotValuesArray.set(index++, slotValue);
+		}
+
+		CCPDoubleSlotMention ccpSSM = new CCPDoubleSlotMention(jcas);
+		ccpSSM.setSlotValues(slotValuesArray);
+		ccpSSM.setMentionName(slotMentionName);
+		return ccpSSM;
+	}
+	
 	/**
 	 * Initializes a new CCPBooleanSlotMention
 	 * 
