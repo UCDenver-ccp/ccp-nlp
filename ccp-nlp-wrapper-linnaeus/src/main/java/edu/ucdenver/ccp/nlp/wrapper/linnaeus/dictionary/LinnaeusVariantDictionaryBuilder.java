@@ -21,17 +21,19 @@ public abstract class LinnaeusVariantDictionaryBuilder {
 
 	private final File outputDictionaryFile;
 	private final CharacterEncoding encoding;
+	private final boolean caseSensitive;
 
-	public LinnaeusVariantDictionaryBuilder(File outputDictionaryFile, CharacterEncoding encoding) {
+	public LinnaeusVariantDictionaryBuilder(File outputDictionaryFile, CharacterEncoding encoding, boolean caseSensitive) {
 		this.outputDictionaryFile = outputDictionaryFile;
 		this.encoding = encoding;
+		this.caseSensitive = caseSensitive;
 	}
 
 	public void buildDictionary() throws IOException {
 		BufferedWriter writer = FileWriterUtil.initBufferedWriter(outputDictionaryFile, encoding, WriteMode.OVERWRITE,
 				FileSuffixEnforcement.OFF);
 		try {
-			for (Iterator<LinnaeusVariantDictionaryItem> itemIter = getDictionaryItemIterator(); itemIter.hasNext();) {
+			for (Iterator<LinnaeusVariantDictionaryItem> itemIter = getDictionaryItemIterator(caseSensitive); itemIter.hasNext();) {
 				LinnaeusVariantDictionaryItem dictEntry = itemIter.next();
 				String dictionaryEntryString = dictEntry.getDictionaryEntryString(FilterTermVariants.ON);
 				if (dictionaryEntryString != null) {
@@ -44,6 +46,6 @@ public abstract class LinnaeusVariantDictionaryBuilder {
 		}
 	}
 
-	protected abstract Iterator<LinnaeusVariantDictionaryItem> getDictionaryItemIterator() throws IOException;
+	protected abstract Iterator<LinnaeusVariantDictionaryItem> getDictionaryItemIterator(boolean caseSensitive) throws IOException;
 
 }
