@@ -37,6 +37,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
@@ -421,7 +422,7 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		}
 
 		/* assign tp, fp, and fn properties to the annotations in the JCas */
-		if (assignEvaluationResultPropertiesToAnnotations) 
+		if (assignEvaluationResultPropertiesToAnnotations)
 			assignTpFpFnMetaPropertiesToAnnotations(jcas, comparisonGroupID2ScoreForThisCASOnly);
 	}
 
@@ -866,7 +867,17 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 			boolean useStrict, boolean useOverlap, boolean useSharedStart, boolean useSharedEnd,
 			boolean useSharedEither, boolean useSub, boolean useIgnore, File evaluationResultsOutputFile,
 			boolean useIdenticalMentionComparator) throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitive(AnnotationComparator_AE.class, tsd, PARAM_CONFIG_FILE,
+		return AnalysisEngineFactory.createPrimitive(createAnalysisEngineDescription(tsd, configurationFile, useStrict,
+				useOverlap, useSharedStart, useSharedEnd, useSharedEither, useSub, useIgnore,
+				evaluationResultsOutputFile, useIdenticalMentionComparator));
+	}
+
+	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
+			File configurationFile, boolean useStrict, boolean useOverlap, boolean useSharedStart,
+			boolean useSharedEnd, boolean useSharedEither, boolean useSub, boolean useIgnore,
+			File evaluationResultsOutputFile, boolean useIdenticalMentionComparator)
+			throws ResourceInitializationException {
+		return AnalysisEngineFactory.createPrimitiveDescription(AnnotationComparator_AE.class, tsd, PARAM_CONFIG_FILE,
 				configurationFile.getAbsolutePath(), PARAM_USE_STRICT_SPAN_COMPARATOR, useStrict,
 				PARAM_USE_OVERLAP_SPAN_COMPARATOR, useOverlap, PARAM_USE_SHARED_START_SPAN_COMPARATOR, useSharedStart,
 				PARAM_USE_SHARED_END_SPAN_COMPARATOR, useSharedEnd, PARAM_USE_SHARED_START_OR_END_SPAN_COMPARATOR,
@@ -875,4 +886,5 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 				(evaluationResultsOutputFile != null) ? evaluationResultsOutputFile.getAbsolutePath() : null,
 				PARAM_USE_IDENTICAL_MENTION_COMPARATOR, useIdenticalMentionComparator);
 	}
+
 }
