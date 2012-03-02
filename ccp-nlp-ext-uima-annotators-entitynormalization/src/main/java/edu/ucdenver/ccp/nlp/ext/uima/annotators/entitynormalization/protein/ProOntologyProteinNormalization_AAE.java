@@ -35,7 +35,7 @@ public class ProOntologyProteinNormalization_AAE {
 				tsd, "protein", new String[] { "gene" });
 
 		AnalysisEngineDescription consensusFilter = AnalysisEngineFactory.createPrimitiveDescription(
-				AnnotationConsensusFilter_AE.class, tsd, AnnotationConsensusFilter_AE.PARAM_CONSENSUS_THRESHOLD, 2,
+				AnnotationConsensusFilter_AE.class, tsd, AnnotationConsensusFilter_AE.PARAM_CONSENSUS_THRESHOLD, 1,
 				AnnotationConsensusFilter_AE.PARAM_ANNOTATION_TYPE_OF_INTEREST, "protein",
 				AnnotationConsensusFilter_AE.PARAM_ANNOTATION_SETS_TO_IGNORE, new int[] {});
 
