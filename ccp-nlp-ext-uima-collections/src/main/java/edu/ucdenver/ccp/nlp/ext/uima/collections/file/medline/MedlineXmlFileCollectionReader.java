@@ -105,16 +105,20 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 	@Override
 	protected boolean hasNextDocument() throws IOException, CollectionException {
 		if (nextDocument == null) {
-			if (medlineXmlDeserializer.hasNext()) {
-				MedlineCitation nextCitation = medlineXmlDeserializer.next();
-				StringBuffer documentText = new StringBuffer();
-				documentText.append(nextCitation.getArticle().getArticleTitle());
-				for (AbstractText abstractText : nextCitation.getArticle().getTheAbstract().getAbstractTexts())
-					documentText.append(StringConstants.NEW_LINE + abstractText.getAbstractText());
-				nextDocument = new GenericDocument(nextCitation.getPmid().getPmid());
-				nextDocument.setDocumentText(documentText.toString());
-				return true;
+			while (medlineXmlDeserializer.hasNext() && nextDocument == null) {
+				Object next = medlineXmlDeserializer.next();
+				if (next instanceof MedlineCitation) {
+					MedlineCitation nextCitation = (MedlineCitation) next;
+					StringBuffer documentText = new StringBuffer();
+					documentText.append(nextCitation.getArticle().getArticleTitle());
+					for (AbstractText abstractText : nextCitation.getArticle().getTheAbstract().getAbstractTexts())
+						documentText.append(StringConstants.NEW_LINE + abstractText.getAbstractText());
+					nextDocument = new GenericDocument(nextCitation.getPmid().getPmid());
+					nextDocument.setDocumentText(documentText.toString());
+				}
 			}
+			if (nextDocument != null)
+				return true;
 			return false;
 		}
 		return true;
