@@ -14,7 +14,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
-public interface AnnotationDecorator<T> {
+public interface AnnotationDecorator {
 
 	/**
 	 * Creates a new annotation in the input JCas using the specified type
@@ -26,7 +26,7 @@ public interface AnnotationDecorator<T> {
 	 */
 	public Annotation newAnnotation(JCas jcas, String type, Span span);
 
-	public void addAnnotationAttribute(Annotation annotation, T attribute);
+//	public void addAnnotationAttribute(Annotation annotation, Object attribute);
 	
 	public void addAnnotationAttribute(Annotation annotation, String attributeType, Object attribute);
 

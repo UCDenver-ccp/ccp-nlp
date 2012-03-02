@@ -14,7 +14,7 @@ import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.impl.CcpAnnotationDecorato
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
-public class CcpGeneIdAnnotationDecorator extends CcpAnnotationDecorator<DataSourceIdentifier<?>> implements
+public class CcpGeneIdAnnotationDecorator extends CcpAnnotationDecorator implements
 		GeneIdAnnotationDecorator {
 
 	public static final String ENTREZ_GENE_ID_SLOT_NAME = SlotMentionTypes.PROTEIN_ENTREZGENEID;
@@ -47,29 +47,38 @@ public class CcpGeneIdAnnotationDecorator extends CcpAnnotationDecorator<DataSou
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDecorator#addAnnotationAttribute
-	 * (org.apache.uima.jcas.tcas.Annotation, java.lang.Object)
-	 */
-	@Override
-	public void addAnnotationAttribute(Annotation annotation, DataSourceIdentifier<?> id) {
-		String slotName = getSlotName(id);
-		addPrimitiveSlot(annotation, slotName, id.getDataElement());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.entity.bio.GeneIdAnnotationDecorator#
-	 * addGeneIdentifierAttribute(org.apache.uima.jcas.tcas.Annotation,
-	 * edu.ucdenver.ccp.datasource.identifiers.DataSourceIdentifier)
+	/* (non-Javadoc)
+	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.entity.bio.GeneIdAnnotationDecorator#addGeneIdentifierAttribute(org.apache.uima.jcas.tcas.Annotation, edu.ucdenver.ccp.datasource.identifiers.DataSourceIdentifier)
 	 */
 	@Override
 	public void addGeneIdentifierAttribute(Annotation annotation, DataSourceIdentifier<?> geneId) {
-		addAnnotationAttribute(annotation, geneId);
+		String slotName = getSlotName(geneId);
+		addAnnotationAttribute(annotation, slotName, geneId.getDataElement());
 	}
+
+//	/*
+//	 * (non-Javadoc)
+//	 * 
+//	 * @see
+//	 * edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDecorator#addAnnotationAttribute
+//	 * (org.apache.uima.jcas.tcas.Annotation, java.lang.Object)
+//	 */
+//	@Override
+//	public void addAnnotationAttribute(Annotation annotation, DataSourceIdentifier<?> id) {
+//		String slotName = getSlotName(id);
+//		addPrimitiveSlot(annotation, slotName, id.getDataElement());
+//	}
+
+//	/*
+//	 * (non-Javadoc)
+//	 * 
+//	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.entity.bio.GeneIdAnnotationDecorator#
+//	 * addGeneIdentifierAttribute(org.apache.uima.jcas.tcas.Annotation,
+//	 * edu.ucdenver.ccp.datasource.identifiers.DataSourceIdentifier)
+//	 */
+//	@Override
+//	public void addGeneIdentifierAttribute(Annotation annotation, DataSourceIdentifier<?> geneId) {
+//		addAnnotationAttribute(annotation, geneId);
+//	}
 
 }

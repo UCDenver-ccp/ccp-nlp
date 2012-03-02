@@ -17,7 +17,7 @@ import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDecorator;
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
-public abstract class CcpAnnotationDecorator<T> implements AnnotationDecorator<T> {
+public class CcpAnnotationDecorator implements AnnotationDecorator {
 
 	/*
 	 * (non-Javadoc)
