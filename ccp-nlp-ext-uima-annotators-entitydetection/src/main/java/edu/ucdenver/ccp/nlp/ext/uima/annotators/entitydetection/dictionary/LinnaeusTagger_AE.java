@@ -5,10 +5,10 @@ package edu.ucdenver.ccp.nlp.ext.uima.annotators.entitydetection.dictionary;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -35,6 +35,7 @@ import edu.ucdenver.ccp.nlp.wrapper.linnaeus.LinnaeusUtil;
  * 
  */
 public class LinnaeusTagger_AE extends JCasAnnotator_ImplBase {
+	private static final Logger logger = Logger.getLogger(LinnaeusTagger_AE.class);
 
 	public final static String ATTRIBUTE_IS_AMBIGUOUS = "isAmbiguous";
 	public final static String ATTRIBUTE_HAS_IDENTIFIER = "hasIdentifier";
@@ -129,6 +130,9 @@ public class LinnaeusTagger_AE extends JCasAnnotator_ImplBase {
 			// System.out.println("idsWithLineNumbers[]: " +
 			// Arrays.toString(mention.getIdsWithLineNumbers()));
 			// System.out.println("probabilities: " + Arrays.toString(mention.getProbabilities()));
+			logger.info("AnnotDec is null: " + (annotationDecorator == null));
+			logger.info("mention is null: " + (mention == null));
+			logger.info("most prob id: " + mention.getMostProbableID());
 			Span span = new Span(mention.getStart(), mention.getEnd());
 			Annotation annotation = annotationDecorator.newAnnotation(jCas, mention.getMostProbableID(), span);
 			annotationDecorator.addAnnotationAttribute(annotation, ATTRIBUTE_IS_AMBIGUOUS, mention.isAmbigous());
