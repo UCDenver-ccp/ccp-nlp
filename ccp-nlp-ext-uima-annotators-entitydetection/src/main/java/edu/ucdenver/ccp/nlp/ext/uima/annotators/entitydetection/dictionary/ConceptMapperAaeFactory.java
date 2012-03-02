@@ -13,7 +13,7 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.factory.AnalysisEngineFactory;
 
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory;
-import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.CmConfigParam.SearchStrategyParamValue;
+import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.SearchStrategyParamValue;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.TokenNormalizerConfigParam.CaseMatchParamValue;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.tokenizer.OffsetTokenizerFactory;
 
