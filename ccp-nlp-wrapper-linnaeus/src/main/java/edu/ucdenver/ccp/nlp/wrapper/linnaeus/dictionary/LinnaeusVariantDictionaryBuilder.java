@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
+
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
@@ -19,6 +21,8 @@ import edu.ucdenver.ccp.nlp.wrapper.linnaeus.dictionary.LinnaeusVariantDictionar
  */
 public abstract class LinnaeusVariantDictionaryBuilder {
 
+	private static final Logger logger = Logger.getLogger(LinnaeusVariantDictionaryBuilder.class);
+	
 	private final File outputDictionaryFile;
 	private final CharacterEncoding encoding;
 	private final boolean caseSensitive;
@@ -33,7 +37,10 @@ public abstract class LinnaeusVariantDictionaryBuilder {
 		BufferedWriter writer = FileWriterUtil.initBufferedWriter(outputDictionaryFile, encoding, WriteMode.OVERWRITE,
 				FileSuffixEnforcement.OFF);
 		try {
+			int count = 0;
 			for (Iterator<LinnaeusVariantDictionaryItem> itemIter = getDictionaryItemIterator(caseSensitive); itemIter.hasNext();) {
+				if (count++ % 100000 == 0)
+					logger.info("Dictionary build progress: " + (count-1) + " entries processed.");
 				LinnaeusVariantDictionaryItem dictEntry = itemIter.next();
 				String dictionaryEntryString = dictEntry.getDictionaryEntryString(FilterTermVariants.ON);
 				if (dictionaryEntryString != null) {
