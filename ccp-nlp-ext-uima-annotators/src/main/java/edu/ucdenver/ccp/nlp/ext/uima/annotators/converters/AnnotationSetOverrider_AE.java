@@ -71,6 +71,18 @@ public class AnnotationSetOverrider_AE extends JCasAnnotator_ImplBase {
 	private Set<Integer> annotationSetsToIgnore;
 
 	/**
+	 * Constant that can be used as the identifier for the gold standard annotation set during
+	 * annotation comparisons
+	 */
+	public static final int GOLD_ANNOTATION_SET_ID = 99099099;
+
+	/**
+	 * Constant that can be used as the identifier for the evaluation set (test set) annotation set
+	 * during annotation comparisons
+	 */
+	public static final int EVAL_ANNOTATION_SET_ID = 11011011;
+
+	/**
 	 * cycle through all annotations and set the annotation set
 	 */
 	@Override
@@ -118,11 +130,52 @@ public class AnnotationSetOverrider_AE extends JCasAnnotator_ImplBase {
 		return ignore;
 	}
 
-	
-	
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd, int setId,
 			String setName, String setDescription, int[] setsToIgnore) throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitiveDescription(AnnotationSetOverrider_AE.class, tsd, PARAM_SETID, setId, PARAM_SETNAME, setName, PARAM_SETDESCRIPTION, setDescription, PARAM_ANNOTATION_SETS_TO_IGNORE, setsToIgnore);
+		return AnalysisEngineFactory.createPrimitiveDescription(AnnotationSetOverrider_AE.class, tsd, PARAM_SETID,
+				setId, PARAM_SETNAME, setName, PARAM_SETDESCRIPTION, setDescription, PARAM_ANNOTATION_SETS_TO_IGNORE,
+				setsToIgnore);
 	}
-	
+
+	/**
+	 * Returns the description for an {@link AnalysisEngine} that will override the annotation set
+	 * for all annotations in the CAS and assign each annotation to the gold standard annotation
+	 * set. The GOLD annotation set is meant to define the gold standard set of annotations to use
+	 * during an annotation comparison pipeline.
+	 * 
+	 * @param tsd
+	 * @param setsToIgnore
+	 *            annotations assigned to sets with IDs in this array will not be assigned to the
+	 *            gold set
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
+	public static AnalysisEngineDescription createGoldSetOverriderDescription(TypeSystemDescription tsd,
+			int[] setsToIgnore) throws ResourceInitializationException {
+		String goldSetName = "gold set";
+		String goldSetDescription = "This annotation set defines the annotations that are members of the gold standard set.";
+		return AnalysisEngineFactory.createPrimitiveDescription(AnnotationSetOverrider_AE.class, tsd, PARAM_SETID,
+				GOLD_ANNOTATION_SET_ID, PARAM_SETNAME, goldSetName, PARAM_SETDESCRIPTION, goldSetDescription,
+				PARAM_ANNOTATION_SETS_TO_IGNORE, setsToIgnore);
+	}
+
+	/**
+	 * Returns the description for an {@link AnalysisEngine} that will override the annotation set
+	 * for all annotations in the CAS and add each annotation to the EVAL annotation set. The EVAL
+	 * annotation set defines the set of annotations to be evaluated in an annotation comparison
+	 * pipeline. Annotation sets identified by the GOLD_ANNOTATION_SET_ID are not overriden by this
+	 * AE.
+	 * 
+	 * @param tsd
+	 * @return
+	 */
+	public static AnalysisEngineDescription createEvalSetOverriderDescription(TypeSystemDescription tsd)
+			throws ResourceInitializationException {
+		String evalSetName = "eval set";
+		String evalSetDescription = "This annotation set defines the annotations that are members of the evaluation set that will be tested against the gold standard.";
+		return AnalysisEngineFactory.createPrimitiveDescription(AnnotationSetOverrider_AE.class, tsd, PARAM_SETID,
+				GOLD_ANNOTATION_SET_ID, PARAM_SETNAME, evalSetName, PARAM_SETDESCRIPTION, evalSetDescription,
+				PARAM_ANNOTATION_SETS_TO_IGNORE, new int[] { GOLD_ANNOTATION_SET_ID });
+	}
+
 }
