@@ -5,6 +5,7 @@ package edu.ucdenver.ccp.nlp.ext.uima.annotators.entitydetection.dictionary;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -46,7 +47,7 @@ public class LinnaeusTagger_AETest extends DefaultUIMATestCase {
 	}
 
 	private File initGeneVariantFile() throws IOException {
-		List<String> lines = CollectionsUtil.createList("12345\t|abc-1|abc1|a", "56789\txyz56");
+		List<String> lines = CollectionsUtil.createList("12345\t|abc-1|abc1|a", "56789\txyz56", "7777\tabc-1");
 		File geneVariantFile = folder.newFile("geneVariants.ascii");
 		FileWriterUtil.printLines(lines, geneVariantFile, CharacterEncoding.US_ASCII);
 		return geneVariantFile;
@@ -66,11 +67,12 @@ public class LinnaeusTagger_AETest extends DefaultUIMATestCase {
 
 		if (annotIter.hasNext()) {
 			CCPTextAnnotation ccpTa = annotIter.next();
-			assertEquals("12345", ccpTa.getClassMention().getMentionName());
+			assertTrue(ccpTa.getClassMention().getMentionName().equals("7777")
+					|| ccpTa.getClassMention().getMentionName().equals("12345"));
 			assertEquals("abc-1", ccpTa.getCoveredText());
 		} else
 			fail("There should be another sentence annotation");
-
+		
 		if (annotIter.hasNext()) {
 			CCPTextAnnotation ccpTa = annotIter.next();
 			assertEquals("56789", ccpTa.getClassMention().getMentionName());
