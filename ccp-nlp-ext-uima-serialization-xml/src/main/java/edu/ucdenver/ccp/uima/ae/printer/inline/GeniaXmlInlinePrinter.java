@@ -17,9 +17,9 @@ import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
-public class GeniaXmlInlinePrinter extends XmlInlinePrinter{
+public class GeniaXmlInlinePrinter extends XmlInlinePrinter {
 
 	/**
 	 * Inserts an XML header at the top of each output file, e.g.
@@ -32,7 +32,7 @@ public class GeniaXmlInlinePrinter extends XmlInlinePrinter{
 	 *      edu.ucdenver.ccp.common.file.CharacterEncoding)
 	 */
 	@Override
-	protected void insertOutputFileHeader(BufferedWriter writer, CharacterEncoding documentEncoding) {
+	protected void insertOutputFileHeader(BufferedWriter writer, String documentEncoding) {
 		super.insertOutputFileHeader(writer, documentEncoding);
 		try {
 			writer.append("<article>");
@@ -41,24 +41,22 @@ public class GeniaXmlInlinePrinter extends XmlInlinePrinter{
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	@Override
-	protected void insertOutputFileFooter(BufferedWriter writer,
-			CharacterEncoding documentEncoding) {
+	protected void insertOutputFileFooter(BufferedWriter writer, String documentEncoding) {
 		try {
-		writer.append("</article>");
-		writer.newLine();
+			writer.append("</article>");
+			writer.newLine();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	
+
 	/**
 	 * Returns an initialized {@link XmlInlinePrinter} in the form of a UIMA {@link AnalysisEngine}.
-	 * This class differs from its parent {@link InlinePrinter_AE} in two important ways. First, an XML
-	 * header is inserted at the top of the inlined output file. And second, characters that cannot
-	 * be included in their raw form inside an XML document are escaped. {@see
+	 * This class differs from its parent {@link InlinePrinter_AE} in two important ways. First, an
+	 * XML header is inserted at the top of the inlined output file. And second, characters that
+	 * cannot be included in their raw form inside an XML document are escaped. {@see
 	 * XmlUtil#escapeForXml(char)}
 	 * 
 	 * @param tsd
@@ -73,8 +71,8 @@ public class GeniaXmlInlinePrinter extends XmlInlinePrinter{
 	 *            an implementation of {@link DocumentMetaDataExtractor} to use to extract document
 	 *            identifier and encoding information from the {@JCas}
 	 * @param annotationExtractorClasses
-	 *            implementation(s) of {@link InlineTagExtractor} that will be used to
-	 *            generate the annotations that will be inlined with the document text in the output
+	 *            implementation(s) of {@link InlineTagExtractor} that will be used to generate the
+	 *            annotations that will be inlined with the document text in the output
 	 * @return an initialized {@link AnalysisEngine} that will print inlined XML annotations to
 	 *         files in the specified output directory. An XML header will be included and certain
 	 *         XML characters will be escaped
@@ -83,8 +81,7 @@ public class GeniaXmlInlinePrinter extends XmlInlinePrinter{
 	 */
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File outputDirectory,
 			String viewNameToProcess, Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass,
-			Class<? extends InlineTagExtractor>... annotationExtractorClasses)
-			throws ResourceInitializationException {
+			Class<? extends InlineTagExtractor>... annotationExtractorClasses) throws ResourceInitializationException {
 		String[] annotationExtractorClassNames = new String[annotationExtractorClasses.length];
 		int i = 0;
 		for (Class<? extends InlineTagExtractor> extractorClass : annotationExtractorClasses)
@@ -96,12 +93,12 @@ public class GeniaXmlInlinePrinter extends XmlInlinePrinter{
 
 	/**
 	 * Returns an initialized {@link XmlInlinePrinter} in the form of a UIMA {@link AnalysisEngine}.
-	 * This class differs from its parent {@link InlinePrinter_AE} in two important ways. First, an XML
-	 * header is inserted at the top of the inlined output file. And second, characters that cannot
-	 * be included in their raw form inside an XML document are escaped. {@see
+	 * This class differs from its parent {@link InlinePrinter_AE} in two important ways. First, an
+	 * XML header is inserted at the top of the inlined output file. And second, characters that
+	 * cannot be included in their raw form inside an XML document are escaped. {@see
 	 * XmlUtil#escapeForXml(char)}. This method can be used if only a single
-	 * {@link InlineTagExtractor} is needed. It prevents a compiler warning dealing with
-	 * arrays of generics.
+	 * {@link InlineTagExtractor} is needed. It prevents a compiler warning dealing with arrays of
+	 * generics.
 	 * 
 	 * @param tsd
 	 *            the relevant {@link TypeSystemDescription}; will depend on the pipline being run
@@ -115,8 +112,8 @@ public class GeniaXmlInlinePrinter extends XmlInlinePrinter{
 	 *            an implementation of {@link DocumentMetaDataExtractor} to use to extract document
 	 *            identifier and encoding information from the {@JCas}
 	 * @param annotationExtractorClasses
-	 *            implementation(s) of {@link InlineTagExtractor} that will be used to
-	 *            generate the annotations that will be inlined with the document text in the output
+	 *            implementation(s) of {@link InlineTagExtractor} that will be used to generate the
+	 *            annotations that will be inlined with the document text in the output
 	 * @return an initialized {@link AnalysisEngine} that will print inlined XML annotations to
 	 *         files in the specified output directory. An XML header will be included and certain
 	 *         XML characters will be escaped

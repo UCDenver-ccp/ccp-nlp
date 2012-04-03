@@ -9,7 +9,7 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationTypeExtractor;
+import edu.ucdenver.ccp.uima.shims.annotation.AnnotationTypeExtractor;
 
 public class CcpCraftAnnotationTypeExtractor implements AnnotationTypeExtractor {
 	private static final String CRAFT_TAXONOMY_ID_SLOT = "taxonomy ID";

@@ -16,7 +16,6 @@ import org.junit.Test;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.FileUtil;
-import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.inline.InlinePrinter;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.impl.CcpAnnotationDataExtractor;
@@ -26,6 +25,7 @@ import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTag.InlinePostfixTag;
 import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTag.InlinePrefixTag;
 import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTagExtractor_ImplBase;
 import edu.ucdenver.ccp.uima.ae.printer.inline.XmlInlinePrinter;
+import edu.ucdenver.ccp.uima.shims.annotation.Span;
 
 /**
  * This test case tests the {@link InlinePrinter} {@link AnalysisEngine}

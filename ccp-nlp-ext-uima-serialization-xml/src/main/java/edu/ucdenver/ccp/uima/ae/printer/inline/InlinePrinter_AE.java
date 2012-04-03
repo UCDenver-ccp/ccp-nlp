@@ -273,12 +273,12 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 	 *            the {@link CharacterEncoding} associated with the current {@link JCas}
 	 */
 	protected void insertOutputFileHeader(@SuppressWarnings("unused") BufferedWriter writer,
-			@SuppressWarnings("unused") CharacterEncoding documentEncoding) {
+			@SuppressWarnings("unused") String documentEncoding) {
 		// to be overwritten by an extension of InlinePrinter that wants to add a header to the
 		// output file
 	}
 	
-	protected void insertOutputFileFooter(BufferedWriter writer, CharacterEncoding documentEncoding) {
+	protected void insertOutputFileFooter(BufferedWriter writer, String documentEncoding) {
 		// to be overwritten by an extension of InlinePrinter that wants to add a footer to the
 		// output file
 	}
@@ -374,7 +374,8 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 	 */
 	private BufferedWriter initializeOutputFileWriter(JCas jCas) throws FileNotFoundException {
 		String documentId = metaDataExtractor.extractDocumentId(jCas);
-		CharacterEncoding encoding = metaDataExtractor.extractDocumentEncoding(jCas);
+		String encodingStr = metaDataExtractor.extractDocumentEncoding(jCas);
+		CharacterEncoding encoding = CharacterEncoding.getEncoding(encodingStr);
 		File outputFile = new File(outputDirectory, documentId + OUTPUT_FILE_SUFFIX);
 		return FileWriterUtil.initBufferedWriter(outputFile, encoding, WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
 	}

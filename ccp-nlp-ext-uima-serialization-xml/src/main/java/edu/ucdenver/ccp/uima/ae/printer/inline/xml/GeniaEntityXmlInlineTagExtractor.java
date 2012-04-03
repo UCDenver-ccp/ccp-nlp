@@ -13,8 +13,6 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
 import edu.ucdenver.ccp.annotation.SpanUtilExtra;
-import edu.ucdenver.ccp.common.collections.CollectionsUtil;
-import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
@@ -22,6 +20,7 @@ import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTag;
 import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTag.InlinePostfixTag;
 import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTag.InlinePrefixTag;
 import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTagExtractor_ImplBase;
+import edu.ucdenver.ccp.uima.shims.annotation.Span;
 
 /**
  * Extension of the {@link InlineTagExtractor_ImplBase} base class to support generation of GENIA

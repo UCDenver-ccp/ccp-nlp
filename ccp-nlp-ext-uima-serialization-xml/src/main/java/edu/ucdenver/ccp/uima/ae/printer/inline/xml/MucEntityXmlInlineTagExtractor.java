@@ -7,12 +7,12 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.uima.jcas.tcas.Annotation;
 
-import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
 import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTag;
 import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTag.InlinePostfixTag;
 import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTag.InlinePrefixTag;
 import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTagExtractor_ImplBase;
+import edu.ucdenver.ccp.uima.shims.annotation.Span;
 
 
 /**

@@ -35,7 +35,7 @@ public class XmlInlinePrinter extends InlinePrinter_AE {
 	 *      edu.ucdenver.ccp.common.file.CharacterEncoding)
 	 */
 	@Override
-	protected void insertOutputFileHeader(BufferedWriter writer, CharacterEncoding documentEncoding) {
+	protected void insertOutputFileHeader(BufferedWriter writer, String documentEncoding) {
 		try {
 			writer.append(XmlUtil.getXmlHeader1_0(documentEncoding));
 			writer.newLine();

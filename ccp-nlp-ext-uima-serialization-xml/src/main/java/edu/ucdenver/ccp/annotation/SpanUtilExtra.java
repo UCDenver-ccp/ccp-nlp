@@ -7,22 +7,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import edu.ucdenver.ccp.common.string.StringConstants;
-import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
+import edu.ucdenver.ccp.uima.shims.annotation.Span;
 
 public class SpanUtilExtra {
-	  /**
-     * Returns a Comparator that compares TextAnnotations based on their respective spans
-     * 
-     * @return
-     */
-    public static Comparator<Span> ASCENDING() {
-            return new Comparator<Span>() {
-                    public int compare(Span span1, Span span2) {
-                            return new StrictSpanComparator().compare(span1, span2);
-                    }
-            };
-    }
+	
 
     /**
      * Compares input spans and returns any intervening spans if the input spans are not contiguous.
@@ -36,7 +25,7 @@ public class SpanUtilExtra {
             if (inputSpans.size() < 2)
                     return Collections.emptyList();
             List<Span> spanList = new ArrayList<Span>(inputSpans);
-            Collections.sort(spanList, ASCENDING());
+            Collections.sort(spanList, Span.ASCENDING());
             Collection<Span> interveningSpans = new ArrayList<Span>();
             for (int i = 1; i < spanList.size(); i++) {
                     if (spanList.get(i - 1).getSpanEnd() < spanList.get(i).getSpanStart())
@@ -126,7 +115,7 @@ public class SpanUtilExtra {
             List<Span> spanList = new ArrayList<Span>();
             spanList.add(span1);
             spanList.add(span2);
-            Collections.sort(spanList, ASCENDING());
+            Collections.sort(spanList, Span.ASCENDING());
 
             int spanStart1 = spanList.get(0).getSpanStart();
             int spanStart2 = spanList.get(1).getSpanStart();

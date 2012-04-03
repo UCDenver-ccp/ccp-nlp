@@ -6,7 +6,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 import org.cleartk.token.type.Token;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
-import edu.ucdenver.ccp.nlp.ext.syntax.PartOfSpeech;
+import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.syntax.PartOfSpeech;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.syntax.TokenAttributeExtractor;
 
 public class ClearTkTokenAttributeExtractor implements TokenAttributeExtractor {

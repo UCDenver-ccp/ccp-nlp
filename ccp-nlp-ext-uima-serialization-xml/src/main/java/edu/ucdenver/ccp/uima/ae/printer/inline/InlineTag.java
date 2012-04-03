@@ -2,7 +2,8 @@ package edu.ucdenver.ccp.uima.ae.printer.inline;
 
 import java.util.Comparator;
 
-import edu.ucdenver.ccp.nlp.core.annotation.Span;
+import edu.ucdenver.ccp.uima.shims.annotation.Span;
+
 
 
 /**
