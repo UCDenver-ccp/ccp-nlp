@@ -11,8 +11,8 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationSpanExtractor;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationTypeExtractor;
+import edu.ucdenver.ccp.uima.shims.annotation.AnnotationSpanExtractor;
+import edu.ucdenver.ccp.uima.shims.annotation.AnnotationTypeExtractor;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu

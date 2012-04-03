@@ -28,14 +28,13 @@ import org.openrdf.model.impl.URIImpl;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.string.CodePointUtil;
-import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.rdf.AnnotationRdfGenerator;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.rdf.shims.RdfAnnotationDataExtractor;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationCreatorExtractor.Annotator;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
 import edu.ucdenver.ccp.rdf.UriFactory;
-import edu.ucdenver.ccp.rdf.dc.DcUriUtil;
 import edu.ucdenver.ccp.rdf.pav.PavUriUtil;
+import edu.ucdenver.ccp.uima.shims.annotation.Span;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
