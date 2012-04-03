@@ -57,6 +57,28 @@ public class GoDictionaryFactory {
 
 		GeneOntologyClassIterator goIter = new GeneOntologyClassIterator(workDirectory, cleanWorkDirectory);
 
+		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, goIter);
+	}
+
+	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File goOboFile,
+			File outputDirectory) throws IOException, OBOParseException {
+		if (namespacesToInclude.isEmpty())
+			return null;
+
+		GeneOntologyClassIterator goIter = new GeneOntologyClassIterator(goOboFile);
+
+		return buildConceptMapperDictionary(namespacesToInclude, outputDirectory, goIter);
+	}
+
+	/**
+	 * @param namespacesToInclude
+	 * @param outputDirectory
+	 * @param goIter
+	 * @return
+	 * @throws IOException
+	 */
+	private static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File outputDirectory,
+			GeneOntologyClassIterator goIter) throws IOException {
 		String dictionaryKey = "";
 		List<String> nsKeys = new ArrayList<String>();
 		for (GoNamespace ns : namespacesToInclude)
@@ -65,7 +87,7 @@ public class GoDictionaryFactory {
 		for (String ns : nsKeys)
 			dictionaryKey += ns;
 
-		File dictionaryFile = new File(workDirectory, "cmDict-GO-" + dictionaryKey + ".xml");
+		File dictionaryFile = new File(outputDirectory, "cmDict-GO-" + dictionaryKey + ".xml");
 		Set<String> namespaces = new HashSet<String>();
 		for (GoNamespace ns : namespacesToInclude)
 			namespaces.add(ns.namespace());
