@@ -21,9 +21,7 @@
 		<module>ccp-nlp-core</module>
 		<module>ccp-nlp-core-uima</module>
 		<module>ccp-nlp-ext-bionlp</module>
-		<module>ccp-nlp-ext-syntax</module>
 		<module>ccp-nlp-ext-uima-annotators</module>
-		<module>ccp-nlp-ext-uima-annotators-biolemmatizer</module>
 		<module>ccp-nlp-ext-uima-annotators-entitydetection</module>
 		<module>ccp-nlp-ext-uima-annotators-entitynormalization</module>
 		<module>ccp-nlp-ext-uima-annotators-postaggers</module>
