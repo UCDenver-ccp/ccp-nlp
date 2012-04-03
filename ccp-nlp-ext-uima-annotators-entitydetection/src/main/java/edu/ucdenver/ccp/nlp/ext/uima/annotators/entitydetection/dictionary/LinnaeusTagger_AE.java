@@ -22,6 +22,7 @@ import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
 import uk.ac.man.entitytagger.Mention;
+import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDecorator;
@@ -156,6 +157,27 @@ public class LinnaeusTagger_AE extends JCasAnnotator_ImplBase {
 				LinnaeusTagger_AE.PARAM_LINNAEUS_PROPERTIES_FILE, propertiesFile.getAbsolutePath(),
 				LinnaeusTagger_AE.PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetadataExtractorClass.getName(),
 				LinnaeusTagger_AE.PARAM_ANNOTATION_DECORATOR_CLASS, annotationDecoratorClass.getName());
+	}
+
+	/**
+	 * Uses a properties file available on the classpath that comes as part of the Linnaeus
+	 * distribution
+	 * 
+	 * @param tsd
+	 * @return
+	 * @throws IOException
+	 * @throws ResourceInitializationException
+	 */
+	public static AnalysisEngineDescription getDefaultSpeciesAnalysisEngineDescription(TypeSystemDescription tsd)
+			throws IOException, ResourceInitializationException {
+		File propertiesFile = File.createTempFile("linnaeus-properties", "conf");
+		ClassPathUtil.copyClasspathResourceToFile(LinnaeusTagger_AE.class, "resources-linnaeus/properties.conf",
+				propertiesFile);
+		return AnalysisEngineFactory.createPrimitiveDescription(LinnaeusTagger_AE.class, tsd,
+				LinnaeusTagger_AE.PARAM_LINNAEUS_PROPERTIES_FILE, propertiesFile.getAbsolutePath(),
+				LinnaeusTagger_AE.PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS,
+				CcpDocumentMetaDataExtractor.class.getName(), LinnaeusTagger_AE.PARAM_ANNOTATION_DECORATOR_CLASS,
+				CcpAnnotationDecorator.class.getName());
 	}
 
 	public static AnalysisEngineDescription getAnalysisEngineDescription(TypeSystemDescription tsd,
