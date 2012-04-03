@@ -7,10 +7,10 @@ import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.tcas.Annotation;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
-import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPSpan;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationSpanExtractor;
+import edu.ucdenver.ccp.uima.shims.annotation.AnnotationSpanExtractor;
+import edu.ucdenver.ccp.uima.shims.annotation.Span;
 
 /**
  * Implementation of {@link AnnotationSpanExtractor} for use with the CCP type system
@@ -49,7 +49,7 @@ public class CcpAnnotationSpanExtractor implements AnnotationSpanExtractor {
 	}
 
 	/**
-	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationSpanExtractor#getCoveredText(org.apache.uima.jcas.tcas.Annotation)
+	 * @see edu.ucdenver.ccp.uima.shims.annotation.AnnotationSpanExtractor#getCoveredText(org.apache.uima.jcas.tcas.Annotation)
 	 */
 	@Override
 	public String getCoveredText(Annotation annotation) {

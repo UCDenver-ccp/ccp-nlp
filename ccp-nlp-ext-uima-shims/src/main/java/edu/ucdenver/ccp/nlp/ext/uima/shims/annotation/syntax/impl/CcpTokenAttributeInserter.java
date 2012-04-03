@@ -5,14 +5,13 @@ package edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.syntax.impl;
 
 import org.apache.uima.jcas.tcas.Annotation;
 
-import edu.ucdenver.ccp.common.string.StringConstants;
 import edu.ucdenver.ccp.nlp.core.mention.SlotMentionTypes;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
-import edu.ucdenver.ccp.nlp.ext.syntax.Lemma;
-import edu.ucdenver.ccp.nlp.ext.syntax.PartOfSpeech;
-import edu.ucdenver.ccp.nlp.ext.syntax.Stem;
+import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.syntax.Lemma;
+import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.syntax.PartOfSpeech;
+import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.syntax.Stem;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.syntax.TokenAttributeInserter;
 
 /**

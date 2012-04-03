@@ -2,8 +2,6 @@ package edu.ucdenver.ccp.nlp.ext.uima.shims.document;
 
 import org.apache.uima.jcas.JCas;
 
-import edu.ucdenver.ccp.common.file.CharacterEncoding;
-
 /**
  * The DocumentMetaDataExtractor interface provides a standard interface for retrieve document meta
  * data from a JCas.
@@ -31,7 +29,7 @@ public interface DocumentMetaDataExtractor {
 	 *            the {@link JCas} from which to extract the character encoding
 	 * @return the {@link CharacterEncoding} used by the document stored in the input {@link JCas}
 	 */
-	public CharacterEncoding extractDocumentEncoding(JCas jCas);
+	public String extractDocumentEncoding(JCas jCas);
 	
 	
 	
@@ -39,6 +37,6 @@ public interface DocumentMetaDataExtractor {
 	
 	public void setDocumentId(JCas jCas, String documentId);
 	
-	public void setDocumentEncoding(JCas jCas, CharacterEncoding encoding);
+	public void setDocumentEncoding(JCas jCas, String encoding);
 
 }

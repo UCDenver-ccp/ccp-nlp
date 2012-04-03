@@ -15,16 +15,16 @@ import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
 public class CcpDocumentMetaDataExtractor implements DocumentMetaDataExtractor {
 
 	/**
-	 * @see edu.ucdenver.ccp.nlp.core.uima.shim.document.uchsc.ccp.uima.shim.DocumentMetaDataExtractor#extractDocumentEncoding(org.apache.uima.jcas.JCas)
+	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.document.shim.document.uchsc.ccp.uima.shim.DocumentMetaDataExtractor#extractDocumentEncoding(org.apache.uima.jcas.JCas)
 	 */
 	@Override
-	public CharacterEncoding extractDocumentEncoding(JCas jCas) {
-		return CharacterEncoding.UTF_8;
+	public String extractDocumentEncoding(JCas jCas) {
+		return CharacterEncoding.UTF_8.getCharacterSetName();
 //		return UIMA_Util.getDocumentEncoding(jCas);
 	}
 
 	/**
-	 * @see edu.ucdenver.ccp.nlp.core.uima.shim.document.uchsc.ccp.uima.shim.DocumentMetaDataExtractor#extractDocumentId(org.apache.uima.jcas.JCas)
+	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.document.shim.document.uchsc.ccp.uima.shim.DocumentMetaDataExtractor#extractDocumentId(org.apache.uima.jcas.JCas)
 	 */
 	@Override
 	public String extractDocumentId(JCas jCas) {
@@ -43,8 +43,9 @@ public class CcpDocumentMetaDataExtractor implements DocumentMetaDataExtractor {
 	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#setDocumentEncoding(org.apache.uima.jcas.JCas, edu.ucdenver.ccp.common.file.CharacterEncoding)
 	 */
 	@Override
-	public void setDocumentEncoding(JCas jCas, CharacterEncoding encoding) {
-		UIMA_Util.setDocumentEncoding(jCas, encoding);
+	public void setDocumentEncoding(JCas jCas, String encoding) {
+		String enc = encoding.replaceAll("-", "_");
+		UIMA_Util.setDocumentEncoding(jCas, CharacterEncoding.valueOf(enc));
 	}
 
 }

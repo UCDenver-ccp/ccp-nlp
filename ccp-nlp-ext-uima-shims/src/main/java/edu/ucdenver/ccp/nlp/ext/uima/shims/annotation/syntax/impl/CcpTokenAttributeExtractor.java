@@ -13,7 +13,7 @@ import edu.ucdenver.ccp.nlp.core.mention.SlotMentionTypes;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
-import edu.ucdenver.ccp.nlp.ext.syntax.PartOfSpeech;
+import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.syntax.PartOfSpeech;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.syntax.TokenAttributeExtractor;
 
 /**

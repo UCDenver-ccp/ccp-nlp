@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.apache.uima.jcas.tcas.Annotation;
 
-import edu.ucdenver.ccp.nlp.core.annotation.Span;
+import edu.ucdenver.ccp.uima.shims.annotation.AnnotationSpanExtractor;
+import edu.ucdenver.ccp.uima.shims.annotation.AnnotationTypeExtractor;
+import edu.ucdenver.ccp.uima.shims.annotation.Span;
 
 /**
  * Base class that combines several interfaces useful for extracting information from UIMA
@@ -94,7 +96,7 @@ public abstract class AnnotationDataExtractor implements AnnotationTypeExtractor
 	}
 
 	/**
-	 * @see edu.ucdenver.ccp.nlp.core.uima.shim.annotation.uchsc.ccp.uima.shim.AnnotationTypeExtractor#getAnnotationType(org.apache.uima.jcas.tcas.Annotation)
+	 * @see edu.ucdenver.ccp.uima.shims.annotation.shim.annotation.uchsc.ccp.uima.shim.AnnotationTypeExtractor#getAnnotationType(org.apache.uima.jcas.tcas.Annotation)
 	 */
 	@Override
 	public String getAnnotationType(Annotation annotation) {
@@ -110,7 +112,7 @@ public abstract class AnnotationDataExtractor implements AnnotationTypeExtractor
 	}
 
 	/**
-	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationSpanExtractor#getCoveredText(org.apache.uima.jcas.tcas.Annotation)
+	 * @see edu.ucdenver.ccp.uima.shims.annotation.AnnotationSpanExtractor#getCoveredText(org.apache.uima.jcas.tcas.Annotation)
 	 */
 	@Override
 	public String getCoveredText(Annotation annotation) {
