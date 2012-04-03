@@ -227,7 +227,7 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 				view.setDocumentLanguage(this.language);
 		}
 		documentMetaDataExtractor.setDocumentId(jcas, documentId);
-		documentMetaDataExtractor.setDocumentEncoding(jcas, encoding);
+		documentMetaDataExtractor.setDocumentEncoding(jcas, encoding.getCharacterSetName());
 
 		logger.info("Processing document " + processedDocumentCount + " of " + documentsToBeProcessedCount
 				+ ".  Loading view: " + this.viewName);
