@@ -159,6 +159,11 @@ public class AnnotationSetOverrider_AE extends JCasAnnotator_ImplBase {
 				PARAM_ANNOTATION_SETS_TO_IGNORE, setsToIgnore);
 	}
 
+	public static AnalysisEngineDescription createGoldSetOverriderDescription(TypeSystemDescription tsd)
+			throws ResourceInitializationException {
+		return createGoldSetOverriderDescription(tsd, new int[0]);
+	}
+
 	/**
 	 * Returns the description for an {@link AnalysisEngine} that will override the annotation set
 	 * for all annotations in the CAS and add each annotation to the EVAL annotation set. The EVAL
