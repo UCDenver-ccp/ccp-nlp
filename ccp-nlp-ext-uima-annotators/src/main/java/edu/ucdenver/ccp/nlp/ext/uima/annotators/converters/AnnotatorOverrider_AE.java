@@ -152,6 +152,11 @@ public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 				GOLD_ANNOTATOR_ID, PARAM_FIRST_NAME, goldAnnotatorName, PARAM_LAST_NAME, goldAnnotatorName,
 				PARAM_AFFILIATION, goldAnnotatorAffiliation, PARAM_ANNOTATOR_IDS_TO_IGNORE, ignoreIds);
 	}
+	
+	public static AnalysisEngineDescription createGoldAnnotatorAnalysisEngineDescription(TypeSystemDescription tsd)
+			throws ResourceInitializationException {
+		return createGoldAnnotatorAnalysisEngineDescription(tsd, new int[0]);
+	}
 
 	/**
 	 * Returns the description for an {@link AnalysisEngine} that will override the annotator for
@@ -168,7 +173,7 @@ public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 		String evalAnnotatorName = "eval annotator";
 		String evalAnnotatorAffiliation = "eval";
 		return AnalysisEngineFactory.createPrimitiveDescription(AnnotatorOverrider_AE.class, tsd, PARAM_ANNOTATOR_ID,
-				GOLD_ANNOTATOR_ID, PARAM_FIRST_NAME, evalAnnotatorName, PARAM_LAST_NAME, evalAnnotatorName,
+				EVAL_ANNOTATOR_ID, PARAM_FIRST_NAME, evalAnnotatorName, PARAM_LAST_NAME, evalAnnotatorName,
 				PARAM_AFFILIATION, evalAnnotatorAffiliation, PARAM_ANNOTATOR_IDS_TO_IGNORE,
 				new int[] { GOLD_ANNOTATOR_ID });
 	}
