@@ -59,12 +59,11 @@ public class AnnotationGroup {
 		this.annotationTypeRegexList = new ArrayList<String>();
 	}
 	
-	public AnnotationGroup(int groupID, int annotatorID, int annotationSetID, String regex) {
+	public AnnotationGroup(int groupID, int annotatorID, int annotationSetID) {
 		this();
 		this.groupID = groupID;
 		this.annotationSetID = annotationSetID;
 		this.annotatorID = annotatorID;
-		this.annotationTypeRegexList.add(regex);
 	}
 
 	/* returns true if all fields in the AnnotationGroup are non-null */
