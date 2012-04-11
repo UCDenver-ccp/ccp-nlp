@@ -56,4 +56,14 @@ public class LingPipeSentenceDetector_AE extends SentenceDetector_AE {
 						SentenceDetector_AE.PARAM_TREAT_LINE_BREAKS_AS_SENTENCE_BOUNDARIES,
 						treatLineBreaksAsSentenceBoundaries);
 	}
+
+	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
+			Class<? extends SentenceCasInserter> sentenceCasInserterClass) throws ResourceInitializationException {
+		boolean treatLineBreaksAsSentenceBoundaries = true;
+		return AnalysisEngineFactory
+				.createPrimitiveDescription(LingPipeSentenceDetector_AE.class, tsd,
+						SentenceDetector_AE.PARAM_SENTENCE_CAS_INSERTER_CLASS, sentenceCasInserterClass.getName(),
+						SentenceDetector_AE.PARAM_TREAT_LINE_BREAKS_AS_SENTENCE_BOUNDARIES,
+						treatLineBreaksAsSentenceBoundaries);
+	}
 }
