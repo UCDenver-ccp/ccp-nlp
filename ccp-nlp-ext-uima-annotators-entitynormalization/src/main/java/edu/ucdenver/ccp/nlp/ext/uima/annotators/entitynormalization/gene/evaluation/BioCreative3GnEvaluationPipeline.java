@@ -37,6 +37,8 @@ import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
 import edu.ucdenver.ccp.nlp.core.uima.util.View_Util;
 import edu.ucdenver.ccp.nlp.ext.uima.annotators.comparison.AnnotationComparator_AE;
+import edu.ucdenver.ccp.nlp.ext.uima.annotators.comparison.AnnotationComparator_AE.MentionComparatorType;
+import edu.ucdenver.ccp.nlp.ext.uima.annotators.comparison.AnnotationComparator_AE.SpanComparatorType;
 import edu.ucdenver.ccp.nlp.ext.uima.annotators.converters.AnnotationSetOverrider_AE;
 import edu.ucdenver.ccp.nlp.ext.uima.annotators.converters.AnnotatorOverrider_AE;
 import edu.ucdenver.ccp.nlp.ext.uima.annotators.converters.ClassMentionConverter_AE;
@@ -72,13 +74,11 @@ public class BioCreative3GnEvaluationPipeline {
 	private AnalysisEngine annotationSetOverrider_TestSet;
 	private AnalysisEngine annotatorOverrider_GoldStandard;
 	private AnalysisEngine annotatorOverrider_TestSet;
-	
+
 	private static final int GS_ANNOTATOR_ID = 0;
 	private static final int GS_ANNOTATION_SET_ID = 0;
 	private static final int TEST_SET_ANNOTATOR_ID = 1;
 	private static final int TEST_ANNOTATION_SET_ID = 1;
-	
-	
 
 	public BioCreative3GnEvaluationPipeline(TypeSystemDescription tsd) {
 		this.tsd = tsd;
@@ -87,39 +87,42 @@ public class BioCreative3GnEvaluationPipeline {
 					View.DEFAULT.name(), XSLT_FILE_RESOURCE_PATH, PmcDtdEntityResolver.class);
 			this.documentLevelAnnotationCreator_GS_EG = AnalysisEngineFactory
 					.createPrimitive(DocumentLevelAnnotationCreator_AE.createAnalysisEngineDescription(tsd, "protein",
-							new String[] { CcpGeneIdAnnotationDecorator.ENTREZ_GENE_ID_SLOT_NAME }, new Integer[TEST_SET_ANNOTATOR_ID]));
+							new String[] { CcpGeneIdAnnotationDecorator.ENTREZ_GENE_ID_SLOT_NAME },
+							new Integer[TEST_SET_ANNOTATOR_ID]));
 			this.documentLevelAnnotationCreator_GS_HG = AnalysisEngineFactory
-					.createPrimitive(DocumentLevelAnnotationCreator_AE
-							.createAnalysisEngineDescription(tsd, "protein",
-									new String[] { CcpGeneIdAnnotationDecorator.HOMOLOGENE_GROUP_ID_SLOT_NAME },
-									new Integer[TEST_SET_ANNOTATOR_ID]));
-			
-			
+					.createPrimitive(DocumentLevelAnnotationCreator_AE.createAnalysisEngineDescription(tsd, "protein",
+							new String[] { CcpGeneIdAnnotationDecorator.HOMOLOGENE_GROUP_ID_SLOT_NAME },
+							new Integer[TEST_SET_ANNOTATOR_ID]));
+
 			this.documentLevelAnnotationCreator_TEST_SET_EG = AnalysisEngineFactory
 					.createPrimitive(DocumentLevelAnnotationCreator_AE.createAnalysisEngineDescription(tsd, "protein",
-							new String[] { CcpGeneIdAnnotationDecorator.ENTREZ_GENE_ID_SLOT_NAME }, new Integer[GS_ANNOTATOR_ID]));
+							new String[] { CcpGeneIdAnnotationDecorator.ENTREZ_GENE_ID_SLOT_NAME },
+							new Integer[GS_ANNOTATOR_ID]));
 			this.documentLevelAnnotationCreator_TEST_SET_HG = AnalysisEngineFactory
-					.createPrimitive(DocumentLevelAnnotationCreator_AE
-							.createAnalysisEngineDescription(tsd, "protein",
-									new String[] { CcpGeneIdAnnotationDecorator.HOMOLOGENE_GROUP_ID_SLOT_NAME },
-									new Integer[GS_ANNOTATOR_ID]));
-			
+					.createPrimitive(DocumentLevelAnnotationCreator_AE.createAnalysisEngineDescription(tsd, "protein",
+							new String[] { CcpGeneIdAnnotationDecorator.HOMOLOGENE_GROUP_ID_SLOT_NAME },
+							new Integer[GS_ANNOTATOR_ID]));
+
 			File comparatorConfigFile = File.createTempFile("bc3gnComparatorConfig", "xml");
 			ClassPathUtil.copyClasspathResourceToFile(getClass(), BC3_GN_COMPARATOR_CONFIG_FILE_NAME,
 					comparatorConfigFile);
-			this.annotationComparator = AnnotationComparator_AE.createAnalysisEngine(tsd, comparatorConfigFile, false,
-					false, false, false, false, false, true, null, true);
+			this.annotationComparator = AnnotationComparator_AE.createAnalysisEngine(tsd, comparatorConfigFile,
+					SpanComparatorType.STRICT, MentionComparatorType.IDENTICAL, null);
 
 			annotationSetOverrider_GoldStandard = AnalysisEngineFactory.createPrimitive(AnnotationSetOverrider_AE
-					.createAnalysisEngineDescription(tsd, GS_ANNOTATION_SET_ID, "GS", "Gold Standard", new int[] { TEST_ANNOTATION_SET_ID }));
+					.createAnalysisEngineDescription(tsd, GS_ANNOTATION_SET_ID, "GS", "Gold Standard",
+							new int[] { TEST_ANNOTATION_SET_ID }));
 			annotationSetOverrider_TestSet = AnalysisEngineFactory.createPrimitive(AnnotationSetOverrider_AE
-					.createAnalysisEngineDescription(tsd, TEST_ANNOTATION_SET_ID, "TS", "TestSet", new int[] { GS_ANNOTATION_SET_ID }));
+					.createAnalysisEngineDescription(tsd, TEST_ANNOTATION_SET_ID, "TS", "TestSet",
+							new int[] { GS_ANNOTATION_SET_ID }));
 
 			annotatorOverrider_GoldStandard = AnalysisEngineFactory.createPrimitive(AnnotatorOverrider_AE
-					.createAnalysisEngineDescription(tsd, GS_ANNOTATOR_ID, "GS", "GS", "BC3", new int[] { TEST_SET_ANNOTATOR_ID }));
+					.createAnalysisEngineDescription(tsd, GS_ANNOTATOR_ID, "GS", "GS", "BC3",
+							new int[] { TEST_SET_ANNOTATOR_ID }));
 
 			annotatorOverrider_TestSet = AnalysisEngineFactory.createPrimitive(AnnotatorOverrider_AE
-					.createAnalysisEngineDescription(tsd, TEST_SET_ANNOTATOR_ID, "TS", "TS", "CCP", new int[] { GS_ANNOTATOR_ID }));
+					.createAnalysisEngineDescription(tsd, TEST_SET_ANNOTATOR_ID, "TS", "TS", "CCP",
+							new int[] { GS_ANNOTATOR_ID }));
 
 		} catch (ResourceInitializationException e) {
 			throw new RuntimeException(e);
@@ -183,37 +186,39 @@ public class BioCreative3GnEvaluationPipeline {
 	public PRFResult evaluateNormalizationPipeline(AnalysisEngineDescription normalizationDescription,
 			AnalysisEngineType aeType) throws AnalysisEngineProcessException, ResourceInitializationException {
 
-		
-		
-		AnalysisEngine sentenceDetector = AnalysisEngineFactory.createPrimitive(AnalysisEngineFactory.createPrimitiveDescription(
-				LingPipeSentenceDetector_AE.class, tsd,
-				SentenceDetector_AE.PARAM_TREAT_LINE_BREAKS_AS_SENTENCE_BOUNDARIES, true));
+		AnalysisEngine sentenceDetector = AnalysisEngineFactory.createPrimitive(AnalysisEngineFactory
+				.createPrimitiveDescription(LingPipeSentenceDetector_AE.class, tsd,
+						SentenceDetector_AE.PARAM_TREAT_LINE_BREAKS_AS_SENTENCE_BOUNDARIES, true));
 
-		AnalysisEngine abnerBcDescription = AnalysisEngineFactory.createPrimitive(ABNER_AE.createAnalysisEngineDescription_BioCreative(tsd));
-		AnalysisEngine abnerNlpbaDescription = AnalysisEngineFactory.createPrimitive(ABNER_AE.createAnalysisEngineDescription_NLPBA(tsd));
+		AnalysisEngine abnerBcDescription = AnalysisEngineFactory.createPrimitive(ABNER_AE
+				.createAnalysisEngineDescription_BioCreative(tsd));
+		AnalysisEngine abnerNlpbaDescription = AnalysisEngineFactory.createPrimitive(ABNER_AE
+				.createAnalysisEngineDescription_NLPBA(tsd));
 		AnalysisEngine bannerBcDescription = AnalysisEngineFactory.createPrimitive(BannerEntityTagger_AE
 				.createAnalysisEngineDescription_BioCreative(tsd));
 
-		AnalysisEngine geneToProteinConverter = AnalysisEngineFactory.createPrimitive(ClassMentionConverter_AE.createAnalysisEngineDescription(
-				tsd, "protein", new String[] { "gene" }));
+		AnalysisEngine geneToProteinConverter = AnalysisEngineFactory.createPrimitive(ClassMentionConverter_AE
+				.createAnalysisEngineDescription(tsd, "protein", new String[] { "gene" }));
 
-		AnalysisEngine consensusFilter = AnalysisEngineFactory.createPrimitive(AnalysisEngineFactory.createPrimitiveDescription(
-				AnnotationConsensusFilter_AE.class, tsd, AnnotationConsensusFilter_AE.PARAM_CONSENSUS_THRESHOLD, 2,
-				AnnotationConsensusFilter_AE.PARAM_ANNOTATION_TYPE_OF_INTEREST, "protein",
-				AnnotationConsensusFilter_AE.PARAM_ANNOTATION_SETS_TO_IGNORE, new int[] {}));
+		AnalysisEngine consensusFilter = AnalysisEngineFactory.createPrimitive(AnalysisEngineFactory
+				.createPrimitiveDescription(AnnotationConsensusFilter_AE.class, tsd,
+						AnnotationConsensusFilter_AE.PARAM_CONSENSUS_THRESHOLD, 2,
+						AnnotationConsensusFilter_AE.PARAM_ANNOTATION_TYPE_OF_INTEREST, "protein",
+						AnnotationConsensusFilter_AE.PARAM_ANNOTATION_SETS_TO_IGNORE, new int[] {}));
 
-//		// the annotation set id for consensus annotations is 88 - this AE will remove all other
-//		// annotations
-//		// zero is typically the annotation set for gold standard annotations
-//		AnalysisEngine annotationSetFilter = AnalysisEngineFactory.createPrimitive(AnalysisEngineFactory.createPrimitiveDescription(
-//				AnnotationSetFilter_AE.class, tsd, AnnotationSetFilter_AE.PARAM_ANNOTATIONSET_IDS_TO_KEEP_LIST,
-//				new int[] { 88 , 0}));
-//
-//		AnalysisEngine homologeneGroupNormalizer = AnalysisEngineFactory.createPrimitive(HomologeneGroupGeneNormalizer_AE
-//				.createAnalysisEngineDescription(tsd, homologeneDictionaryDirectory));
-		
-		
-		
+		// // the annotation set id for consensus annotations is 88 - this AE will remove all other
+		// // annotations
+		// // zero is typically the annotation set for gold standard annotations
+		// AnalysisEngine annotationSetFilter =
+		// AnalysisEngineFactory.createPrimitive(AnalysisEngineFactory.createPrimitiveDescription(
+		// AnnotationSetFilter_AE.class, tsd,
+		// AnnotationSetFilter_AE.PARAM_ANNOTATIONSET_IDS_TO_KEEP_LIST,
+		// new int[] { 88 , 0}));
+		//
+		// AnalysisEngine homologeneGroupNormalizer =
+		// AnalysisEngineFactory.createPrimitive(HomologeneGroupGeneNormalizer_AE
+		// .createAnalysisEngineDescription(tsd, homologeneDictionaryDirectory));
+
 		AnalysisEngine normalizationEngine = null;
 		if (aeType.equals(AnalysisEngineType.PRIMITIVE))
 			normalizationEngine = AnalysisEngineFactory.createPrimitive(normalizationDescription);
@@ -224,7 +229,7 @@ public class BioCreative3GnEvaluationPipeline {
 			JCas jCas = jCasIter.next();
 
 			logger.info("INITIAL ANNOTATION COUNT: " + getAnnotationCount(jCas));
-			
+
 			logger.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Adding GS annotations to the CAS");
 			addGoldStandardDocumentAnnotations(jCas);
 			logger.info("AFTER GS INSERTION ANNOTATION COUNT: " + getAnnotationCount(jCas));
@@ -234,16 +239,15 @@ public class BioCreative3GnEvaluationPipeline {
 			logger.info("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Adding TEST SET annotations to the CAS");
 			logger.info("BEFORE NORM ANNOTATION COUNT: " + getAnnotationCount(jCas));
 			normalizationEngine.process(jCas);
-						
+
 			logger.info("AFTER NORM ANNOTATION COUNT: " + getAnnotationCount(jCas));
-//			documentLevelAnnotationCreator_TEST_SET_EG.process(jCas);
-//			logger.info("AFTER TEST EG DOC LEVEL ANNOTATION COUNT: " + getAnnotationCount(jCas));
-//			documentLevelAnnotationCreator_TEST_SET_HG.process(jCas);
-//			logger.info("AFTER TEST HG DOC LEVEL ANNOTATION COUNT: " + getAnnotationCount(jCas));
+			// documentLevelAnnotationCreator_TEST_SET_EG.process(jCas);
+			// logger.info("AFTER TEST EG DOC LEVEL ANNOTATION COUNT: " + getAnnotationCount(jCas));
+			// documentLevelAnnotationCreator_TEST_SET_HG.process(jCas);
+			// logger.info("AFTER TEST HG DOC LEVEL ANNOTATION COUNT: " + getAnnotationCount(jCas));
 			annotationSetOverrider_TestSet.process(jCas);
 			annotatorOverrider_TestSet.process(jCas);
 
-			
 			logger.info("BEFORE COMPARISON ANNOTATION COUNT: " + getAnnotationCount(jCas));
 			annotationComparator.process(jCas);
 			break;
@@ -255,11 +259,10 @@ public class BioCreative3GnEvaluationPipeline {
 
 	}
 
-	
 	private int getAnnotationCount(JCas jcas) {
 		return jcas.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type).size();
 	}
-	
+
 	/**
 	 * @param jCas
 	 */
