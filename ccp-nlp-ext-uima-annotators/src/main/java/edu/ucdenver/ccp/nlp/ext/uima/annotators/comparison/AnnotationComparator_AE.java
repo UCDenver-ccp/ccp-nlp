@@ -90,53 +90,85 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 
 	private static Logger logger = Logger.getLogger(AnnotationComparator_AE.class);
 
+	public enum SpanComparatorType {
+		STRICT,
+		OVERLAP,
+		SHARED_START,
+		SHARED_END,
+		SHARED_START_OR_END,
+		SUB_SPAN,
+		IGNORE_SPAN
+	}
+
+	public enum MentionComparatorType {
+		IDENTICAL
+	}
+
 	/* comparator configuration file */
 	public static final String PARAM_CONFIG_FILE = ConfigurationParameterFactory.createConfigurationParameterName(
 			AnnotationComparator_AE.class, "configFile");
 	@ConfigurationParameter(mandatory = true)
 	private File configFile;
 
-	/* span comparison strategies */
-	public static final String PARAM_USE_STRICT_SPAN_COMPARATOR = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "useStrictSpanComparator");
-	@ConfigurationParameter(defaultValue = "false")
-	private boolean useStrictSpanComparator;
+	public static final String PARAM_SPAN_COMPARATOR_TYPE_NAME = ConfigurationParameterFactory
+			.createConfigurationParameterName(AnnotationComparator_AE.class, "spanComparatorTypeName");
+	@ConfigurationParameter(defaultValue = "STRICT")
+	private String spanComparatorTypeName;
 
-	public static final String PARAM_USE_OVERLAP_SPAN_COMPARATOR = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "useOverlapSpanComparator");
-	@ConfigurationParameter(defaultValue = "false")
-	private boolean useOverlapSpanComparator;
+	public static final String PARAM_MENTION_COMPARATOR_TYPE_NAME = ConfigurationParameterFactory
+			.createConfigurationParameterName(AnnotationComparator_AE.class, "mentionComparatorTypeName");
+	@ConfigurationParameter(defaultValue = "IDENTICAL")
+	private String mentionComparatorTypeName;
 
-	public static final String PARAM_USE_SHARED_START_SPAN_COMPARATOR = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "useSharedStartSpanComparator");
-	@ConfigurationParameter(defaultValue = "false")
-	private boolean useSharedStartSpanComparator;
-
-	public static final String PARAM_USE_SHARED_END_SPAN_COMPARATOR = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "useSharedEndSpanComparator");
-	@ConfigurationParameter(defaultValue = "false")
-	private boolean useSharedEndSpanComparator;
-
-	public static final String PARAM_USE_SHARED_START_OR_END_SPAN_COMPARATOR = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "useSharedStartOrEndSpanComparator");
-	@ConfigurationParameter(defaultValue = "false")
-	private boolean useSharedStartOrEndSpanComparator;
-
-	public static final String PARAM_USE_SUB_SPAN_COMPARATOR = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "useSubSpanComparator");
-	@ConfigurationParameter(defaultValue = "false")
-	private boolean useSubSpanComparator;
-
-	public static final String PARAM_USE_IGNORE_SPAN_COMPARATOR = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "useIgnoreSpanComparator");
-	@ConfigurationParameter(defaultValue = "false")
-	private boolean useIgnoreSpanComparator;
-
-	/* mention comparison strategies */
-	public static final String PARAM_USE_IDENTICAL_MENTION_COMPARATOR = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "useIdenticalMentionComparator");
-	@ConfigurationParameter(defaultValue = "false")
-	private boolean useIdenticalMentionComparator;
+	// /* span comparison strategies */
+	// public static final String PARAM_USE_STRICT_SPAN_COMPARATOR = ConfigurationParameterFactory
+	// .createConfigurationParameterName(AnnotationComparator_AE.class, "useStrictSpanComparator");
+	// @ConfigurationParameter(defaultValue = "false")
+	// private boolean useStrictSpanComparator;
+	//
+	// public static final String PARAM_USE_OVERLAP_SPAN_COMPARATOR = ConfigurationParameterFactory
+	// .createConfigurationParameterName(AnnotationComparator_AE.class, "useOverlapSpanComparator");
+	// @ConfigurationParameter(defaultValue = "false")
+	// private boolean useOverlapSpanComparator;
+	//
+	// public static final String PARAM_USE_SHARED_START_SPAN_COMPARATOR =
+	// ConfigurationParameterFactory
+	// .createConfigurationParameterName(AnnotationComparator_AE.class,
+	// "useSharedStartSpanComparator");
+	// @ConfigurationParameter(defaultValue = "false")
+	// private boolean useSharedStartSpanComparator;
+	//
+	// public static final String PARAM_USE_SHARED_END_SPAN_COMPARATOR =
+	// ConfigurationParameterFactory
+	// .createConfigurationParameterName(AnnotationComparator_AE.class,
+	// "useSharedEndSpanComparator");
+	// @ConfigurationParameter(defaultValue = "false")
+	// private boolean useSharedEndSpanComparator;
+	//
+	// public static final String PARAM_USE_SHARED_START_OR_END_SPAN_COMPARATOR =
+	// ConfigurationParameterFactory
+	// .createConfigurationParameterName(AnnotationComparator_AE.class,
+	// "useSharedStartOrEndSpanComparator");
+	// @ConfigurationParameter(defaultValue = "false")
+	// private boolean useSharedStartOrEndSpanComparator;
+	//
+	// public static final String PARAM_USE_SUB_SPAN_COMPARATOR = ConfigurationParameterFactory
+	// .createConfigurationParameterName(AnnotationComparator_AE.class, "useSubSpanComparator");
+	// @ConfigurationParameter(defaultValue = "false")
+	// private boolean useSubSpanComparator;
+	//
+	// public static final String PARAM_USE_IGNORE_SPAN_COMPARATOR = ConfigurationParameterFactory
+	// .createConfigurationParameterName(AnnotationComparator_AE.class, "useIgnoreSpanComparator");
+	// @ConfigurationParameter(defaultValue = "false")
+	// private boolean useIgnoreSpanComparator;
+	//
+	// /* mention comparison strategies */
+	// public static final String PARAM_USE_IDENTICAL_MENTION_COMPARATOR =
+	// ConfigurationParameterFactory
+	// .createConfigurationParameterName(AnnotationComparator_AE.class,
+	// "useIdenticalMentionComparator");
+	// @ConfigurationParameter(defaultValue = "false")
+	// private boolean useIdenticalMentionComparator;
 
 	/* if filled, TP, FP, and FN annotations will be printed to file */
 	public static final String PARAM_ANNOTATION_OUTPUT_FILE = ConfigurationParameterFactory
@@ -201,7 +233,7 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 			}
 
 		/* Parse the configuration file */
-		parseConfigFile(context);
+		parseConfigFile();
 
 		/* Print the configuration for this comparator to the log */
 		printConfigurationInformationToLog();
@@ -226,53 +258,38 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 	 * @throws ResourceInitializationException
 	 */
 	protected void assignComparatorsToUse() throws ResourceInitializationException {
-
-		/* check for more than one comparator being specified */
-		int comparatorCount = 0;
-		if (useStrictSpanComparator) {
-			comparatorCount++;
+		switch (SpanComparatorType.valueOf(spanComparatorTypeName)) {
+		case STRICT:
 			spanComparator = new StrictSpanComparator();
-		}
-		if (useOverlapSpanComparator) {
-			comparatorCount++;
+			break;
+		case OVERLAP:
 			spanComparator = new SloppySpanComparator();
-		}
-		if (useSharedStartSpanComparator) {
-			comparatorCount++;
+			break;
+		case SHARED_START:
 			spanComparator = new SharedStartSpanComparator();
-		}
-		if (useSharedEndSpanComparator) {
-			comparatorCount++;
+			break;
+		case SHARED_END:
 			spanComparator = new SharedEndSpanComparator();
-		}
-		if (useSharedStartOrEndSpanComparator) {
-			comparatorCount++;
+			break;
+		case SHARED_START_OR_END:
 			spanComparator = new SharedStartOrEndSpanComparator();
-		}
-		if (useIgnoreSpanComparator) {
-			comparatorCount++;
-			spanComparator = new IgnoreSpanComparator();
-		}
-		if (useSubSpanComparator) {
-			comparatorCount++;
+			break;
+		case SUB_SPAN:
 			spanComparator = new SubSpanComparator();
+			break;
+		case IGNORE_SPAN:
+			spanComparator = new IgnoreSpanComparator();
+			break;
+		default:
+			throw new IllegalArgumentException("Unhandled span comparator type: " + spanComparatorTypeName);
 		}
 
-		if (comparatorCount > 1)
-			throw new ResourceInitializationException(
-					new IllegalArgumentException(
-							"Multiple span comparators select, can only use one at a time. Please select only a single span comparator for use."));
-
-		if (comparatorCount == 0)
-			throw new ResourceInitializationException(
-					new IllegalArgumentException(
-							"The Annotation Comparator requires a span comparator to be selected. Please select a single span comparator for use."));
-
-		if (useIdenticalMentionComparator) {
+		switch (MentionComparatorType.valueOf(mentionComparatorTypeName)) {
+		case IDENTICAL:
 			mentionComparator = new IdenticalMentionComparator();
-		} else {
-			logger.warn("No MentionComparator chosen. Please check your CPE descriptor file. Using IdenticalMentionComparator by default.");
-			mentionComparator = new IdenticalMentionComparator();
+			break;
+		default:
+			throw new IllegalArgumentException("Unhandled mention comparator type: " + spanComparatorTypeName);
 		}
 
 		spanComparatorUsed = spanComparator.getClass().getName()
@@ -290,11 +307,11 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 	 * standard comparison group was indicated, then by default the first comparison group is
 	 * treated as the gold standard.
 	 */
-	protected void parseConfigFile(UimaContext context) {
-		/* read in input parameter for the configuration file name */
-		String configFileName = (String) context.getConfigParameterValue(PARAM_CONFIG_FILE);
-
-		File configFile = new File(configFileName);
+	protected void parseConfigFile() {
+//		/* read in input parameter for the configuration file name */
+//		String configFileName = (String) context.getConfigParameterValue(PARAM_CONFIG_FILE);
+//
+//		File configFile = new File(configFileName);
 		if (configFile.exists()) {
 			logger.info("Loading Annotation Comparator config file: " + configFile);
 			ComparatorConfigurator configurator = new ComparatorConfigurator(configFile);
@@ -302,7 +319,7 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 			comparisonGroupID2GroupMap = configurator.getComparisonGroupList();
 			annotationGroupID2ComparisonGroupIDMap = configurator.getAnnotationGroupID2ComparisonGroupIDMap();
 		} else {
-			logger.error("Invalid comparator configuration file detected. File does not exist: " + configFileName
+			logger.error("Invalid comparator configuration file detected. File does not exist: " + configFile.getAbsolutePath()
 					+ "\nNo comparisons will be made until a valid configuration file is used.");
 			annotationGroupID2GroupMap = new HashMap<Integer, AnnotationGroup>();
 			comparisonGroupID2GroupMap = new HashMap<Integer, ComparisonGroup>();
@@ -864,27 +881,19 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 	}
 
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File configurationFile,
-			boolean useStrict, boolean useOverlap, boolean useSharedStart, boolean useSharedEnd,
-			boolean useSharedEither, boolean useSub, boolean useIgnore, File evaluationResultsOutputFile,
-			boolean useIdenticalMentionComparator) throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitive(createAnalysisEngineDescription(tsd, configurationFile, useStrict,
-				useOverlap, useSharedStart, useSharedEnd, useSharedEither, useSub, useIgnore,
-				evaluationResultsOutputFile, useIdenticalMentionComparator));
+			SpanComparatorType spanComparatorType, MentionComparatorType mentionComparatorType,
+			File evaluationResultsOutputFile) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createPrimitive(createAnalysisEngineDescription(tsd, configurationFile,
+				spanComparatorType, mentionComparatorType, evaluationResultsOutputFile));
 	}
 
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
-			File configurationFile, boolean useStrict, boolean useOverlap, boolean useSharedStart,
-			boolean useSharedEnd, boolean useSharedEither, boolean useSub, boolean useIgnore,
-			File evaluationResultsOutputFile, boolean useIdenticalMentionComparator)
-			throws ResourceInitializationException {
+			File configurationFile, SpanComparatorType spanComparatorType, MentionComparatorType mentionComparatorType,
+			File evaluationResultsOutputFile) throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(AnnotationComparator_AE.class, tsd, PARAM_CONFIG_FILE,
-				configurationFile.getAbsolutePath(), PARAM_USE_STRICT_SPAN_COMPARATOR, useStrict,
-				PARAM_USE_OVERLAP_SPAN_COMPARATOR, useOverlap, PARAM_USE_SHARED_START_SPAN_COMPARATOR, useSharedStart,
-				PARAM_USE_SHARED_END_SPAN_COMPARATOR, useSharedEnd, PARAM_USE_SHARED_START_OR_END_SPAN_COMPARATOR,
-				useSharedEither, PARAM_USE_SUB_SPAN_COMPARATOR, useSub, PARAM_USE_IGNORE_SPAN_COMPARATOR, useIgnore,
-				PARAM_ANNOTATION_OUTPUT_FILE,
-				(evaluationResultsOutputFile != null) ? evaluationResultsOutputFile.getAbsolutePath() : null,
-				PARAM_USE_IDENTICAL_MENTION_COMPARATOR, useIdenticalMentionComparator);
+				configurationFile.getAbsolutePath(), PARAM_SPAN_COMPARATOR_TYPE_NAME, spanComparatorType.name(),
+				PARAM_MENTION_COMPARATOR_TYPE_NAME, mentionComparatorType.name(), PARAM_ANNOTATION_OUTPUT_FILE,
+				(evaluationResultsOutputFile != null) ? evaluationResultsOutputFile.getAbsolutePath() : null);
 	}
 
 }
