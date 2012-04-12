@@ -54,6 +54,8 @@ import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
+import edu.ucdenver.ccp.common.string.RegExPatterns;
+import edu.ucdenver.ccp.common.string.StringConstants;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotationUtil;
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.AnnotationComparator;
@@ -308,10 +310,10 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 	 * treated as the gold standard.
 	 */
 	protected void parseConfigFile() {
-//		/* read in input parameter for the configuration file name */
-//		String configFileName = (String) context.getConfigParameterValue(PARAM_CONFIG_FILE);
-//
-//		File configFile = new File(configFileName);
+		// /* read in input parameter for the configuration file name */
+		// String configFileName = (String) context.getConfigParameterValue(PARAM_CONFIG_FILE);
+		//
+		// File configFile = new File(configFileName);
 		if (configFile.exists()) {
 			logger.info("Loading Annotation Comparator config file: " + configFile);
 			ComparatorConfigurator configurator = new ComparatorConfigurator(configFile);
@@ -319,7 +321,8 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 			comparisonGroupID2GroupMap = configurator.getComparisonGroupList();
 			annotationGroupID2ComparisonGroupIDMap = configurator.getAnnotationGroupID2ComparisonGroupIDMap();
 		} else {
-			logger.error("Invalid comparator configuration file detected. File does not exist: " + configFile.getAbsolutePath()
+			logger.error("Invalid comparator configuration file detected. File does not exist: "
+					+ configFile.getAbsolutePath()
 					+ "\nNo comparisons will be made until a valid configuration file is used.");
 			annotationGroupID2GroupMap = new HashMap<Integer, AnnotationGroup>();
 			comparisonGroupID2GroupMap = new HashMap<Integer, ComparisonGroup>();
@@ -655,14 +658,15 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 					annotationOutputWriter.write(output.toString());
 					annotationOutputWriter.newLine();
 					prf.printAnnotations(annotationOutputWriter);
-				}
-				/*
-				 * Tokenize on new lines and print each line to the logger separately... it just
-				 * looks better this way
-				 */
-				String[] toks = (output + "\n" + prf.tpFpFnAnnotationsToString()).split("\\n");
-				for (String tok : toks) {
-					logger.debug(tok);
+				} else {
+					/*
+					 * Tokenize on new lines and print each line to the logger separately... it just
+					 * looks better this way
+					 */
+					String[] toks = (output + "\n" + prf.tpFpFnAnnotationsToString()).split("\\n");
+					for (String tok : toks) {
+						logger.debug(tok);
+					}
 				}
 			}
 
@@ -759,11 +763,12 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 					prf = comparisonGroupID2ScoreMap.get(comparisonGroupID);
 					int testTpFn = prf.getTruePositiveCount() + prf.getFalseNegativeCount();
 					if (gsTpFn != testTpFn) {
-						logger.error("Gold Standard's TP + FN does not equal the TP+FN sum for id: "
-								+ comparisonGroupID + ". values are: GS:" + gsTpFn + " testgroup: " + testTpFn);
-					} else {
-						logger.info("TP + FN test passed for id: " + comparisonGroupID + " " + gsTpFn + ", " + testTpFn);
+						String errorMessage = "Gold Standard's TP + FN does not equal the TP+FN sum for id: "
+								+ comparisonGroupID + ". values are: GS:" + gsTpFn + " testgroup: " + testTpFn;
+						logger.error(errorMessage);
+						throw new IllegalStateException(errorMessage);
 					}
+					logger.info("TP + FN test passed for id: " + comparisonGroupID + " " + gsTpFn + ", " + testTpFn);
 				}
 			}
 
@@ -772,11 +777,14 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 			if (annotationOutputWriter != null) {
 				annotationOutputWriter.write(sanityCheckStr);
 				annotationOutputWriter.newLine();
+			} else {
+				logger.info(sanityCheckStr);
 			}
-			logger.info(sanityCheckStr);
 			outputResultsForComparisonGroupID(goldStandardComparisonGroupID);
 
 			printAnnotationProfileUsageSummary();
+
+			printPRFOnLastLine();
 
 			/* close the output file if there is one */
 			if (annotationOutputWriter != null) {
@@ -785,6 +793,46 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		} catch (IOException e) {
 			throw new AnalysisEngineProcessException(e);
 		}
+	}
+
+	/**
+	 * Redundant printing of PRF stats on the last line of the file. This is useful for
+	 * automatically processing the results, i.e. provides an easy way to extract the PRF stats from
+	 * this file.
+	 * 
+	 * @throws IOException
+	 */
+	private void printPRFOnLastLine() throws IOException {
+		for (Integer comparisonGroupID : comparisonGroupID2GroupMap.keySet()) {
+			if (!comparisonGroupID.equals(goldStandardComparisonGroupID)) {
+				ComparisonGroup comparisonGroup = comparisonGroupID2GroupMap.get(comparisonGroupID);
+				PRFResult prf = comparisonGroupID2ScoreMap.get(comparisonGroupID);
+
+				String outStr = comparisonGroup.getDescription() + StringConstants.TAB + prf.getTruePositiveCount()
+						+ StringConstants.TAB + prf.getFalsePositiveCount() + StringConstants.TAB
+						+ prf.getFalseNegativeCount() + StringConstants.TAB + "P=" + prf.getPrecision()
+						+ StringConstants.TAB + "R=" + prf.getRecall() + StringConstants.TAB + "F=" + prf.getFmeasure();
+				annotationOutputWriter.write(outStr);
+				annotationOutputWriter.newLine();
+				logger.info(outStr);
+			}
+		}
+	}
+
+	/**
+	 * @param line
+	 * @return a {@link PRFResult} parsed from the input {@link String} which uses the format
+	 *         produced by the {{@link #printPRFOnLastLine()} method.
+	 */
+	public static PRFResult deserializeSummaryLine(String line) {
+		String[] toks = line.split(RegExPatterns.TAB);
+		String description = toks[0];
+		int tp = Integer.parseInt(toks[1]);
+		int fp = Integer.parseInt(toks[2]);
+		int fn = Integer.parseInt(toks[3]);
+		PRFResult prf = new PRFResult(tp, fp, fn);
+		prf.setTitle(description);
+		return prf;
 	}
 
 	/**
@@ -799,43 +847,47 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		String annotationProfilesUsedDescriptionStr = "Listed below are profiles for annotations that were included in the comparisons. Each profile matches at least one AnnotationGroup set in your configuration file.";
 		String annotationProfilesNOTUsedStr = "=========== ANNOTATION PROFILES *NOT* USED DURING THE COMPARISONS ===========";
 		String annotationProfilesNOTUsedDescriptionStr = "Listed below are profiles for annotations that were not included in the comparisons. Please check this list to make sure everything you wanted to be included in the comparisons was.";
-		logger.info("");
-		logger.info(annotationProfilesUsedStr);
-		logger.info(annotationProfilesUsedDescriptionStr);
 		if (annotationOutputWriter != null) {
 			annotationOutputWriter.newLine();
 			annotationOutputWriter.write(annotationProfilesUsedStr);
 			annotationOutputWriter.newLine();
 			annotationOutputWriter.write(annotationProfilesUsedDescriptionStr);
 			annotationOutputWriter.newLine();
+		} else {
+			logger.info("");
+			logger.info(annotationProfilesUsedStr);
+			logger.info(annotationProfilesUsedDescriptionStr);
 		}
 		for (String annotationProfile : annotationGroupProfilesUsedDuringComparisons2CountMap.keySet()) {
-			logger.info("USED PROFILE: " + annotationProfile + "("
-					+ annotationGroupProfilesUsedDuringComparisons2CountMap.get(annotationProfile) + ")");
 			if (annotationOutputWriter != null) {
 				annotationOutputWriter.write("USED PROFILE: " + annotationProfile + "("
 						+ annotationGroupProfilesUsedDuringComparisons2CountMap.get(annotationProfile) + ")");
 				annotationOutputWriter.newLine();
+			} else {
+				logger.info("USED PROFILE: " + annotationProfile + "("
+						+ annotationGroupProfilesUsedDuringComparisons2CountMap.get(annotationProfile) + ")");
 			}
 		}
 
-		logger.info("");
-		logger.info(annotationProfilesNOTUsedStr);
-		logger.info(annotationProfilesNOTUsedDescriptionStr);
 		if (annotationOutputWriter != null) {
 			annotationOutputWriter.newLine();
 			annotationOutputWriter.write(annotationProfilesNOTUsedStr);
 			annotationOutputWriter.newLine();
 			annotationOutputWriter.write(annotationProfilesNOTUsedDescriptionStr);
 			annotationOutputWriter.newLine();
+		} else {
+			logger.info("");
+			logger.info(annotationProfilesNOTUsedStr);
+			logger.info(annotationProfilesNOTUsedDescriptionStr);
 		}
 		for (String annotationProfile : annotationGroupProfilesNotUsedDuringComparisons2CountMap.keySet()) {
-			logger.info("NOT USED PROFILE: " + annotationProfile + "("
-					+ annotationGroupProfilesNotUsedDuringComparisons2CountMap.get(annotationProfile) + ")");
 			if (annotationOutputWriter != null) {
 				annotationOutputWriter.write("NOT USED PROFILE: " + annotationProfile + "("
 						+ annotationGroupProfilesNotUsedDuringComparisons2CountMap.get(annotationProfile) + ")");
 				annotationOutputWriter.newLine();
+			} else {
+				logger.info("NOT USED PROFILE: " + annotationProfile + "("
+						+ annotationGroupProfilesNotUsedDuringComparisons2CountMap.get(annotationProfile) + ")");
 			}
 		}
 	}
@@ -862,12 +914,13 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		// for (String tok : toks) {
 		// logger.info(tok);
 		// }
-		logger.info(prf.toString());
 
 		if (annotationOutputWriter != null) {
 			annotationOutputWriter.newLine();
 			annotationOutputWriter.write(outStr);
 			annotationOutputWriter.newLine();
+		} else {
+			logger.info(prf.toString());
 		}
 
 	}
