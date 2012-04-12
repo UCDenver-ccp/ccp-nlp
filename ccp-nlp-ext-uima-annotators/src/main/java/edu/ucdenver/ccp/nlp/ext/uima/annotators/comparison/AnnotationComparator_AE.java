@@ -492,6 +492,7 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 					erp = new FalseNegativeProperty(jcas);
 				} else {
 					logger.error("neither TP nor FP nor FN... should never be here.");
+					throw new IllegalStateException("neither TP nor FP nor FN... should never be here.");
 				}
 				metaDataProperties.set(metaDataProperties.size() - 1, erp);
 				metaData.setMetadataProperties(metaDataProperties);
