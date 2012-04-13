@@ -886,10 +886,10 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 				annotationOutputWriter.write("NOT USED PROFILE: " + annotationProfile + "("
 						+ annotationGroupProfilesNotUsedDuringComparisons2CountMap.get(annotationProfile) + ")");
 				annotationOutputWriter.newLine();
-			} else {
-				logger.info("NOT USED PROFILE: " + annotationProfile + "("
-						+ annotationGroupProfilesNotUsedDuringComparisons2CountMap.get(annotationProfile) + ")");
 			}
+			logger.info("NOT USED PROFILE: " + annotationProfile + "("
+					+ annotationGroupProfilesNotUsedDuringComparisons2CountMap.get(annotationProfile) + ")");
+
 		}
 	}
 
