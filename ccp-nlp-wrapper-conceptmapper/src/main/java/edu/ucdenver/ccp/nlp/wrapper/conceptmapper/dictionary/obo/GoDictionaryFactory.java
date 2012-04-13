@@ -12,9 +12,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.BasicConfigurator;
 import org.geneontology.oboedit.dataadapter.OBOParseException;
 
+import edu.ucdenver.ccp.common.file.FileUtil.CleanDirectory;
 import edu.ucdenver.ccp.fileparsers.geneontology.GeneOntologyClassIterator;
 
 /**
@@ -51,11 +51,12 @@ public class GoDictionaryFactory {
 	 * @throws OBOParseException
 	 */
 	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File workDirectory,
-			boolean cleanWorkDirectory) throws IOException, OBOParseException {
+			CleanDirectory cleanWorkDirectory) throws IOException, OBOParseException {
 		if (namespacesToInclude.isEmpty())
 			return null;
 
-		GeneOntologyClassIterator goIter = new GeneOntologyClassIterator(workDirectory, cleanWorkDirectory);
+		boolean doClean = cleanWorkDirectory.equals(CleanDirectory.YES);
+		GeneOntologyClassIterator goIter = new GeneOntologyClassIterator(workDirectory, doClean);
 
 		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, goIter);
 	}
@@ -95,17 +96,17 @@ public class GoDictionaryFactory {
 		return dictionaryFile;
 	}
 
-	public static void main(String[] args) {
-		BasicConfigurator.configure();
-		File workDirectory = new File("test-output");
-		try {
-			GoDictionaryFactory.buildConceptMapperDictionary(EnumSet.of(GoNamespace.CC), workDirectory, false);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OBOParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		BasicConfigurator.configure();
+//		File workDirectory = new File("test-output");
+//		try {
+//			GoDictionaryFactory.buildConceptMapperDictionary(EnumSet.of(GoNamespace.CC), workDirectory, false);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (OBOParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 }
