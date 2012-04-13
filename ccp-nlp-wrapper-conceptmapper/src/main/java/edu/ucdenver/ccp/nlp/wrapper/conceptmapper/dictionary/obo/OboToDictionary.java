@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.geneontology.oboedit.datamodel.Namespace;
 import org.geneontology.oboedit.datamodel.OBOClass;
 import org.geneontology.oboedit.datamodel.Synonym;
@@ -43,7 +44,9 @@ import edu.ucdenver.ccp.nlp.wrapper.oboedit.OboEdit_Util;
  */
 public class OboToDictionary {
 
-	OboEdit_Util oboEditUtil;
+	private static final Logger logger = Logger.getLogger(OboToDictionary.class);
+	
+	private OboEdit_Util oboEditUtil;
 
 	public static String TOKEN_TAG = "token";
 	public static String SYNONYM_TAG = "variant";
@@ -82,7 +85,6 @@ public class OboToDictionary {
 
 	public static void buildDictionary(File outputFile, OboClassIterator oboClsIter, Set<String> namespacesToInclude)
 			throws IOException {
-		System.out.println("Include namespaces: " + namespacesToInclude.toString());
 		BufferedWriter writer = FileWriterUtil.initBufferedWriter(outputFile, CharacterEncoding.UTF_8, WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<synonym>");
 		writer.newLine();
@@ -137,7 +139,8 @@ public class OboToDictionary {
 		// buf.append("\t<"+SYNONYM_TAG +" base=\"" + name + "\"" + "/>\n");
 		Set<Synonym> syns = oboObj.getSynonyms();
 		for (Synonym syn : syns) {
-			buf.append(buildSynonymLine(syn.getText()));
+			String variantStr = XmlUtil.convertXmlEscapeCharacters(syn.getText());
+			buf.append(buildSynonymLine(variantStr));
 			// buf.append("\t<"+SYNONYM_TAG +" base=\"" + syn.getText() + "\"" + "/>\n");
 		}
 		buf.append("</" + TOKEN_TAG + ">\n");
@@ -147,9 +150,6 @@ public class OboToDictionary {
 	private static String buildSynonymLine(String name) {
 		if (filterSingleLetterTerms && name.length() <= 1)
 			return "";
-
-		// String name = XmlUtil.convertXmlEscapeCharacters(input);
-		// String name = fixString(input);
 
 		StringBuffer buf = new StringBuffer();
 		buf.append("\t<");
