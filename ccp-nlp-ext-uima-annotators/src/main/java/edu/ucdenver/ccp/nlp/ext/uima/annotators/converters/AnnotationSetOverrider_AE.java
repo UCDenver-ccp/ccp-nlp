@@ -179,7 +179,7 @@ public class AnnotationSetOverrider_AE extends JCasAnnotator_ImplBase {
 		String evalSetName = "eval set";
 		String evalSetDescription = "This annotation set defines the annotations that are members of the evaluation set that will be tested against the gold standard.";
 		return AnalysisEngineFactory.createPrimitiveDescription(AnnotationSetOverrider_AE.class, tsd, PARAM_SETID,
-				GOLD_ANNOTATION_SET_ID, PARAM_SETNAME, evalSetName, PARAM_SETDESCRIPTION, evalSetDescription,
+				EVAL_ANNOTATION_SET_ID, PARAM_SETNAME, evalSetName, PARAM_SETDESCRIPTION, evalSetDescription,
 				PARAM_ANNOTATION_SETS_TO_IGNORE, new int[] { GOLD_ANNOTATION_SET_ID });
 	}
 
