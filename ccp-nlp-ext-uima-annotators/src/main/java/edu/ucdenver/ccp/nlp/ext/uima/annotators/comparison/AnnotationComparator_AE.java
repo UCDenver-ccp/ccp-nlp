@@ -813,8 +813,10 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 						+ StringConstants.TAB + prf.getFalsePositiveCount() + StringConstants.TAB
 						+ prf.getFalseNegativeCount() + StringConstants.TAB + "P=" + prf.getPrecision()
 						+ StringConstants.TAB + "R=" + prf.getRecall() + StringConstants.TAB + "F=" + prf.getFmeasure();
-				annotationOutputWriter.write(outStr);
-				annotationOutputWriter.newLine();
+				if (annotationOutputWriter != null) {
+					annotationOutputWriter.write(outStr);
+					annotationOutputWriter.newLine();
+				}
 				logger.info(outStr);
 			}
 		}
