@@ -22,21 +22,23 @@
 package edu.ucdenver.ccp.nlp.ext.uima.annotators.converters;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
+import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
@@ -45,20 +47,20 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 
+
 /**
- * @author helen l johnson
- * 
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
  */
 public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 	private static Logger logger = Logger.getLogger(SlotValueToClassMentionPromoter_AE.class);
 
-	public final static String PARAM_PROMOTE_SLOT_OF_MENTION_TYPE_REGEX = ConfigurationParameterFactory
+	public final static String PARAM_CLASS_MENTION_NAME_REGEX = ConfigurationParameterFactory
 			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "mentionTypeRegexString");
 	@ConfigurationParameter(mandatory = true, description = "A regex designed to match the class mention name for annotations that may contain the slot whose value will be promoted to a class mention type")
 	private String mentionTypeRegexString;
-	private Pattern mentionTypeRegex;
 
-	public final static String PARAM_PROMOTE_SLOT_TYPE = ConfigurationParameterFactory
+	public final static String PARAM_SLOT_NAME_TO_PROMOTE = ConfigurationParameterFactory
 			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "slotNameToPromote");
 	@ConfigurationParameter(mandatory = true, description = "The name of the slot whose value will be promoted to a class mention type")
 	private String slotNameToPromote;
@@ -68,76 +70,62 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(description = "If true, then the new annotations that are created will have the same slot values as the original. If false, then the slot values are not transferred and the new annotations are linked to ClassMentions with no slots.", defaultValue = "true")
 	private boolean transferSlotValues;
 
+	public final static String PARAM_DELETE_SOURCE_ANNOTATION = ConfigurationParameterFactory
+			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "deleteSourceAnnotation");
+	@ConfigurationParameter(description = "If true, then the annotation that contains the slot value being promoted is removed from the CAS after the slot value has been promoted.", defaultValue = "false")
+	private boolean deleteSourceAnnotation;
+
 	@Override
 	public void initialize(UimaContext uc) throws ResourceInitializationException {
 		super.initialize(uc);
-		mentionTypeRegex = Pattern.compile(mentionTypeRegexString);
 		logger.info("Initialized to promote values from slot <" + slotNameToPromote + "> of classMentionType <"
 				+ mentionTypeRegexString + "> to class mention status.");
 	}
 
-//	private Set<String> coveredTextWithMatches = new HashSet<String>();
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.apache.uima.analysis_component.JCasAnnotator_ImplBase#process(org.apache.uima.jcas.JCas)
+	/**
+	 * Cycles through all CCPTextAnnotations in the CAS and promotes slot values to full annotations
+	 * as specified by the AE configuration
 	 */
 	@Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {
 		List<CCPTextAnnotation> annotationsToAddToJcas = new ArrayList<CCPTextAnnotation>();
-
-		FSIterator annotIter = jcas.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type).iterator();
-		while (annotIter.hasNext()) {
-			CCPTextAnnotation annot = (CCPTextAnnotation) annotIter.next();
-
-			// process those annotations that match the regex slotsOfClassMentionsToPromote
-			String annotMentionName = annot.getClassMention().getMentionName();
-			Matcher matcher = mentionTypeRegex.matcher(annotMentionName);
-
-			// if that CM has a mentionName of the type specified,
-			if (matcher.find()) {
-				try {
-					List<String> slotValuesToPromote = getSlotValuesOfInterest(annot);
-					if (slotValuesToPromote.size() > 1)
-//						coveredTextWithMatches.add(annot.getCoveredText() + " -- " + slotValuesToPromote.toString());
-					for (String slotValue : slotValuesToPromote) {
-						CCPTextAnnotation newCCPTA = UIMA_Util.cloneAnnotation(annot, jcas);
-						if (transferSlotValues)
-							newCCPTA.getClassMention().setMentionName(slotValue);
-						else {
-							CCPClassMention cm = new CCPClassMention(jcas);
-							cm.setMentionName(slotValue);
-							cm.setCcpTextAnnotation(newCCPTA);
-							newCCPTA.setClassMention(cm);
+		List<CCPTextAnnotation> annotationsToDeleteFromJcas = new ArrayList<CCPTextAnnotation>();
+		try {
+			for (Iterator<CCPTextAnnotation> annotIter = UIMA_Util.getTextAnnotationIterator(jcas); annotIter.hasNext();) {
+				CCPTextAnnotation ccpTa = annotIter.next();
+				if (ccpTa.getClassMention().getMentionName().matches(mentionTypeRegexString)) {
+					List<String> slotValuesToPromote = getSlotValuesOfInterest(ccpTa);
+					if (slotValuesToPromote.size() > 0) {
+						for (String slotValue : slotValuesToPromote) {
+							CCPTextAnnotation newCCPTA = UIMA_Util.cloneAnnotation(ccpTa, jcas);
+							if (transferSlotValues) {
+								newCCPTA.getClassMention().setMentionName(slotValue);
+							} else {
+								CCPClassMention cm = new CCPClassMention(jcas);
+								cm.setMentionName(slotValue);
+								cm.setCcpTextAnnotation(newCCPTA);
+								newCCPTA.setClassMention(cm);
+							}
+							annotationsToAddToJcas.add(newCCPTA);
 						}
-						annotationsToAddToJcas.add(newCCPTA);
 					}
-				} catch (CASException ce) {
-					throw new AnalysisEngineProcessException(ce);
+				}
+				if (deleteSourceAnnotation) {
+					annotationsToDeleteFromJcas.add(ccpTa);
 				}
 			}
+		} catch (CASException ce) {
+			throw new AnalysisEngineProcessException(ce);
 		}
 
 		for (CCPTextAnnotation ta : annotationsToAddToJcas) {
 			ta.addToIndexes();
 		}
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.apache.uima.analysis_component.AnalysisComponent_ImplBase#collectionProcessComplete()
-	 */
-	@Override
-	public void collectionProcessComplete() throws AnalysisEngineProcessException {
-		super.collectionProcessComplete();
-//		System.out.println("CoveredText/LotsOfMatches");
-//		for (String s : coveredTextWithMatches)
-//			System.out.println("MATCH: " + s);
-
+		for (CCPTextAnnotation ta : annotationsToDeleteFromJcas) {
+			ta.removeFromIndexes();
+			ta = null;
+		}
 	}
 
 	/**
@@ -152,11 +140,28 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 		WrappedCCPTextAnnotation wrappedTa = new WrappedCCPTextAnnotation(ccpTa);
 		PrimitiveSlotMention<?> slot = wrappedTa.getClassMention().getPrimitiveSlotMentionByName(slotNameToPromote);
 		if (slot != null) {
-			for (Object slotValue : slot.getSlotValues())
+			for (Object slotValue : slot.getSlotValues()) {
 				slotValues.add(slotValue.toString());
+			}
 		}
-
 		return slotValues;
+	}
+
+	/**
+	 * @param tsd
+	 * @param slotNameToPromote
+	 * @param classMentionNameRegex
+	 * @param transferSlotValues
+	 * @param deleteSourceAnnotation
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
+	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
+			String slotNameToPromote, String classMentionNameRegex, boolean transferSlotValues,
+			boolean deleteSourceAnnotation) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createPrimitiveDescription(SlotValueToClassMentionPromoter_AE.class, tsd,
+				PARAM_SLOT_NAME_TO_PROMOTE, slotNameToPromote, PARAM_CLASS_MENTION_NAME_REGEX, classMentionNameRegex,
+				PARAM_TRANSFER_SLOT_VALUES, transferSlotValues, PARAM_DELETE_SOURCE_ANNOTATION, deleteSourceAnnotation);
 	}
 
 }
