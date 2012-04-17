@@ -24,6 +24,10 @@ import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
  */
 public abstract class DefaultUIMATestCase extends DefaultTestCase {
 
+	/**
+	 * 
+	 */
+	public static final String HAS_ENTREZ_GENE_ID_SLOT_NAME = "has Entrez Gene ID";
 	protected TypeSystemDescription tsd;
 	protected JCas jcas;
 
@@ -65,14 +69,14 @@ public abstract class DefaultUIMATestCase extends DefaultTestCase {
 	protected CCPTextAnnotation addGeneAnnotationToJCas(int spanStart, int spanEnd, int entrezGeneID)
 			throws CASException {
 		CCPTextAnnotation ccpTA = addTextAnnotationToJCas(spanStart, spanEnd, ClassMentionTypes.GENE);
-		UIMA_Util.addSlotValue(ccpTA.getClassMention(), "has Entrez Gene ID", Integer.toString(entrezGeneID));
+		UIMA_Util.addSlotValue(ccpTA.getClassMention(), HAS_ENTREZ_GENE_ID_SLOT_NAME, Integer.toString(entrezGeneID));
 		return ccpTA;
 	}
 
 	protected CCPTextAnnotation addTranscriptAnnotationToJCas(int spanStart, int spanEnd, int entrezGeneID)
 			throws CASException {
 		CCPTextAnnotation ccpTA = addTextAnnotationToJCas(spanStart, spanEnd, ClassMentionTypes.TRANSCRIPT);
-		UIMA_Util.addSlotValue(ccpTA.getClassMention(), "has Entrez Gene ID", Integer.toString(entrezGeneID));
+		UIMA_Util.addSlotValue(ccpTA.getClassMention(), HAS_ENTREZ_GENE_ID_SLOT_NAME, Integer.toString(entrezGeneID));
 		return ccpTA;
 	}
 
