@@ -44,7 +44,7 @@ public class SlotValueToClassMentionPromoter_AETest extends DefaultUIMATestCase 
 		boolean deleteSourceAnnotation = false;
 		AnalysisEngineDescription aeDesc = SlotValueToClassMentionPromoter_AE.createAnalysisEngineDescription(
 				getTypeSystem(), HAS_ENTREZ_GENE_ID_SLOT_NAME, ClassMentionTypes.GENE, transferSlotValues,
-				deleteSourceAnnotation);
+				deleteSourceAnnotation,"");
 		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(aeDesc);
 		ae.process(jcas);
 
@@ -70,7 +70,7 @@ public class SlotValueToClassMentionPromoter_AETest extends DefaultUIMATestCase 
 		boolean deleteSourceAnnotation = true;
 		AnalysisEngineDescription aeDesc = SlotValueToClassMentionPromoter_AE.createAnalysisEngineDescription(
 				getTypeSystem(), HAS_ENTREZ_GENE_ID_SLOT_NAME, ClassMentionTypes.GENE, transferSlotValues,
-				deleteSourceAnnotation);
+				deleteSourceAnnotation,"");
 		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(aeDesc);
 		ae.process(jcas);
 
@@ -88,6 +88,31 @@ public class SlotValueToClassMentionPromoter_AETest extends DefaultUIMATestCase 
 		}
 		assertTrue(hasEgIdAnnot);
 		assertFalse(hasGeneAnnot);
+	}
+	
+	@Test
+	public void testSlotValuePromotion_UseValuePrefix() throws ResourceInitializationException, AnalysisEngineProcessException {
+		boolean transferSlotValues = false;
+		boolean deleteSourceAnnotation = false;
+		AnalysisEngineDescription aeDesc = SlotValueToClassMentionPromoter_AE.createAnalysisEngineDescription(
+				getTypeSystem(), HAS_ENTREZ_GENE_ID_SLOT_NAME, ClassMentionTypes.GENE, transferSlotValues,
+				deleteSourceAnnotation, "EG:");
+		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(aeDesc);
+		ae.process(jcas);
+
+		boolean hasGeneAnnot = false;
+		boolean hasEgIdAnnot = false;
+		for (Iterator<CCPTextAnnotation> annotIter = UIMA_Util.getTextAnnotationIterator(jcas); annotIter.hasNext();) {
+			CCPTextAnnotation ccpTa = annotIter.next();
+			String mentionName = ccpTa.getClassMention().getMentionName();
+			if (mentionName.equals(ClassMentionTypes.GENE)) {
+				hasGeneAnnot = true;
+			}
+			if (mentionName.equals("EG:12345")) {
+				hasEgIdAnnot = true;
+			}
+		}
+		assertTrue(hasEgIdAnnot && hasGeneAnnot);
 	}
 
 }

@@ -44,10 +44,9 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 
-
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 	private static Logger logger = Logger.getLogger(SlotValueToClassMentionPromoter_AE.class);
@@ -61,6 +60,11 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "slotNameToPromote");
 	@ConfigurationParameter(mandatory = true, description = "The name of the slot whose value will be promoted to a class mention type")
 	private String slotNameToPromote;
+
+	public final static String PARAM_SLOT_VALUE_PREFIX_TO_ADD = ConfigurationParameterFactory
+			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "slotValuePrefixToAdd");
+	@ConfigurationParameter(mandatory = false, description = "This prefix, if specified, will be added to the slot value when creating the promoted class name. For example, a prefix of \"NCBITaxon:\" might be useful when promoting taxonomy ID slot fillers that are simply integers to full-fledged annotations, e.g. \"NCBITaxon:9606\".", defaultValue="")
+	private String slotValuePrefixToAdd;
 
 	public final static String PARAM_TRANSFER_SLOT_VALUES = ConfigurationParameterFactory
 			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "transferSlotValues");
@@ -94,12 +98,13 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 					List<String> slotValuesToPromote = getSlotValuesOfInterest(ccpTa);
 					if (slotValuesToPromote.size() > 0) {
 						for (String slotValue : slotValuesToPromote) {
+							String newMentionName = slotValuePrefixToAdd + slotValue;
 							CCPTextAnnotation newCCPTA = UIMA_Util.cloneAnnotation(ccpTa, jcas);
 							if (transferSlotValues) {
-								newCCPTA.getClassMention().setMentionName(slotValue);
+								newCCPTA.getClassMention().setMentionName(newMentionName);
 							} else {
 								CCPClassMention cm = new CCPClassMention(jcas);
-								cm.setMentionName(slotValue);
+								cm.setMentionName(newMentionName);
 								cm.setCcpTextAnnotation(newCCPTA);
 								newCCPTA.setClassMention(cm);
 							}
@@ -155,10 +160,10 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 	 */
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
 			String slotNameToPromote, String classMentionNameRegex, boolean transferSlotValues,
-			boolean deleteSourceAnnotation) throws ResourceInitializationException {
+			boolean deleteSourceAnnotation, String slotValuePrefixToAdd) throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(SlotValueToClassMentionPromoter_AE.class, tsd,
 				PARAM_SLOT_NAME_TO_PROMOTE, slotNameToPromote, PARAM_CLASS_MENTION_NAME_REGEX, classMentionNameRegex,
-				PARAM_TRANSFER_SLOT_VALUES, transferSlotValues, PARAM_DELETE_SOURCE_ANNOTATION, deleteSourceAnnotation);
+				PARAM_TRANSFER_SLOT_VALUES, transferSlotValues, PARAM_DELETE_SOURCE_ANNOTATION, deleteSourceAnnotation, PARAM_SLOT_VALUE_PREFIX_TO_ADD, slotValuePrefixToAdd);
 	}
 
 }
