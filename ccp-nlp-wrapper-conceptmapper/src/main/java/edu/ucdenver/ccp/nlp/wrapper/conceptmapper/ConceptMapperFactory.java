@@ -199,7 +199,8 @@ public class ConceptMapperFactory {
 		public enum CaseMatchParamValue implements UimaConfigParamValue<String> {
 			CASE_INSENSITIVE("insensitive"),
 			CASE_FOLD_DIGITS("digitfold"),
-			CASE_IGNORE("ignoreall");
+			CASE_IGNORE("ignoreall"),
+			CASE_SENSITIVE("sensitive");
 
 			private final String paramValue;
 
@@ -431,15 +432,31 @@ public class ConceptMapperFactory {
 		return configData;
 	}
 
+	/**
+	 * @param tsd
+	 * @param dictionaryFile
+	 * @param caseMatchParamValue
+	 * @param searchStrategyParamValue
+	 * @param stemmerClass
+	 * @param stopwords
+	 * @param orderIndependentLookup
+	 * @param findAllMatches
+	 * @param replaceCommaWithAnd
+	 * @param spanFeatureStructureClass
+	 * @param tokenizerDescription
+	 * @return
+	 * @throws UIMAException
+	 * @throws IOException
+	 */
 	public static AnalysisEngineDescription buildConceptMapperDescription(TypeSystemDescription tsd,
 			File dictionaryFile, CaseMatchParamValue caseMatchParamValue,
-			SearchStrategyParamValue searchStrategyParamValue, Class<? extends Annotation> spanFeatureStructureClass,
-			AnalysisEngineDescription tokenizerDescription) throws UIMAException, IOException {
+			SearchStrategyParamValue searchStrategyParamValue, Class<? extends Stemmer> stemmerClass,
+			String[] stopwords, boolean orderIndependentLookup, boolean findAllMatches, boolean replaceCommaWithAnd,
+			Class<? extends Annotation> spanFeatureStructureClass, AnalysisEngineDescription tokenizerDescription)
+			throws UIMAException, IOException {
 		String[] attributeList = new String[] { "canonical", "id" };
 		String[] featureList = new String[] { "DictCanon", "ID" };
-		boolean findAllMatches = false;
 		String matchedTokensFeatureName = "matchedTokens";
-		boolean orderIndependentLookup = false;
 		String resultingAnnotationMatchedTextFeature = "matchedText";
 		Class<? extends Annotation> resultingAnnotationClass = OntologyTerm.class;
 		String resultingEnclosingSpanName = "enclosingSpan";
@@ -448,14 +465,11 @@ public class ConceptMapperFactory {
 		String[] tokenClassWriteBackFeatureNames = new String[0];
 		String tokenTextFeatureName = null;
 		String tokenTypeFeatureName = null;
-		boolean replaceCommaWithAnd = false;
-		Class<? extends Stemmer> stemmerClass = null;
 		File stemmerDictionaryFile = null;
 		String[] excludedTokenClasses = new String[0];
 		Integer[] excludedTokenTypes = new Integer[0];
 		String[] includedTokenClasses = new String[0];
 		Integer[] includedTokenTypes = new Integer[0];
-		String[] stopwords = new String[0];
 		String languageId = "en";
 		boolean printDictionary = false;
 
