@@ -58,7 +58,24 @@
 			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>gov.sandia.foundry</groupId>
+			<artifactId>porter-stemmer</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>biolemmatizer-core</artifactId>
+			<version>1.1</version>
+		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>bionlp-sourceforge</id>
+			<url>http://bionlp.svn.sourceforge.net/viewvc/bionlp/repo/</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>
