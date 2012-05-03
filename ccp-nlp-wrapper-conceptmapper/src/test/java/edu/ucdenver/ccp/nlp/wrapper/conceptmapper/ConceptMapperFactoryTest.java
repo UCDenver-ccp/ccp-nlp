@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.conceptMapper.support.stemmer.Stemmer;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Test;
@@ -94,8 +95,14 @@ public class ConceptMapperFactoryTest extends DefaultUIMATestCase {
 		/* Init the concept mapper */
 		SearchStrategyParamValue searchStrategyParamValue = SearchStrategyParamValue.CONTIGUOUS_MATCH;
 		Class<? extends Annotation> spanFeatureStructureClass = Sentence.class;
+		Class<? extends Stemmer> stemmerClass = null;
+		String[] stopwords = new String[0];
+		boolean orderIndependentLookup = false;
+		boolean replaceCommaWithAnd = false;
+		boolean findAllMatches = false;
 		AnalysisEngineDescription conceptMapperDescription = ConceptMapperFactory.buildConceptMapperDescription(tsd,
-				dictionaryFile, caseMatchParamValue, searchStrategyParamValue, spanFeatureStructureClass,
+				dictionaryFile, caseMatchParamValue, searchStrategyParamValue, stemmerClass, stopwords,
+				orderIndependentLookup, findAllMatches, replaceCommaWithAnd, spanFeatureStructureClass,
 				offsetTokenizerDescription);
 
 		/* Init the aggregate engine */
