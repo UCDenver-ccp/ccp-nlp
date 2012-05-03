@@ -44,7 +44,7 @@ public class OffsetTokenizerFactory {
 		}
 	}
 
-	public static Object[] buildConfigurationData(CaseMatchParamValue caseMatchParamValue, Class<Stemmer> stemmerClass,
+	public static Object[] buildConfigurationData(CaseMatchParamValue caseMatchParamValue, Class<? extends Stemmer> stemmerClass,
 			String tokenDelimiters) {
 		/* @formatter:off */
 		return new Object[] {
@@ -78,7 +78,7 @@ public class OffsetTokenizerFactory {
 	 * @param stemmerClass
 	 * @return
 	 */
-	public static Object[] buildConfigurationData(CaseMatchParamValue caseMatchParamValue, Class<Stemmer> stemmerClass) {
+	public static Object[] buildConfigurationData(CaseMatchParamValue caseMatchParamValue, Class<? extends Stemmer> stemmerClass) {
 		/* @formatter:off */
 		return new Object[] {
 				OffsetTokenizerConfigParam.CASE_MATCH.paramName(), caseMatchParamValue.paramValue(),
