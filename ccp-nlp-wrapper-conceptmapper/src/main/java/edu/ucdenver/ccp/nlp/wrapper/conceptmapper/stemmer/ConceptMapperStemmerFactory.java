@@ -3,7 +3,6 @@
  */
 package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.stemmer;
 
-import org.apache.uima.conceptMapper.support.stemmer.JunkStemmer;
 import org.apache.uima.conceptMapper.support.stemmer.Stemmer;
 
 /**
@@ -23,7 +22,7 @@ public class ConceptMapperStemmerFactory {
 		case BIOLEMMATIZER:
 			return ConceptMapperBioLemmatizer.class;
 		case NONE:
-			return JunkStemmer.class;
+			return ConceptMapperNullStemmer.class;
 		default:
 			throw new IllegalArgumentException("Unhandled stemmer type: " + stemmerType.name());
 		}
