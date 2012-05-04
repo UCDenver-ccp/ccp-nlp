@@ -39,21 +39,21 @@ public class ConceptMapperPermutationFactory {
 	/**
 	 * 
 	 */
-	private static final String CASE_MATCH_KEY = "CaseMatch:";
+	public static final String CASE_MATCH_KEY = "CaseMatch:";
 
 	/**
 	 * 
 	 */
-	private static final String SEARCH_STRATEGY_KEY = "SearchStrategy:";
+	public static final String SEARCH_STRATEGY_KEY = "SearchStrategy:";
 
-	private static final String STEMMER_KEY = "Stemmer:";
-	private static final String STOPWORDS_KEY = "Stopwords:";
+	public static final String STEMMER_KEY = "Stemmer:";
+	public static final String STOPWORDS_KEY = "Stopwords:";
 
-	private static final String ORDER_INDEPENDENT_LOOKUP_KEY = "OrderIndependentLookup:";
+	public static final String ORDER_INDEPENDENT_LOOKUP_KEY = "OrderIndependentLookup:";
 
-	private static final String REPLACE_COMMA_WITH_AND_KEY = "ReplaceCommaWithAnd:";
+	public static final String REPLACE_COMMA_WITH_AND_KEY = "ReplaceCommaWithAnd:";
 
-	private static final String FIND_ALL_MATCHES_KEY = "FindAllMatches:";
+	public static final String FIND_ALL_MATCHES_KEY = "FindAllMatches:";
 
 	public static final List<List<String>> PARAM_COMBINATIONS = CollectionsUtil.createList(CombinationsUtil
 			.computeCombinations(buildParameterValueLists()));;
