@@ -17,6 +17,7 @@ import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
+import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.fileparsers.obo.OboUtil;
 import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
@@ -50,7 +51,7 @@ public class ProTermDisambiguatorAE extends JCasAnnotator_ImplBase {
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		try {
-			oboUtil = new OboUtil(proOboFile);
+			oboUtil = new OboUtil(proOboFile, CharacterEncoding.ISO_8859_1);
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
 		}
