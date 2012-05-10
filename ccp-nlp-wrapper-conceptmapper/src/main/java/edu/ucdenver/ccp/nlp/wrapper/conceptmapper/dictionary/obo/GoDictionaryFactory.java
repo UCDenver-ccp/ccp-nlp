@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.geneontology.oboedit.dataadapter.OBOParseException;
 
+import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileUtil.CleanDirectory;
 import edu.ucdenver.ccp.fileparsers.geneontology.GeneOntologyClassIterator;
 
@@ -58,17 +59,17 @@ public class GoDictionaryFactory {
 		boolean doClean = cleanWorkDirectory.equals(CleanDirectory.YES);
 		GeneOntologyClassIterator goIter = new GeneOntologyClassIterator(workDirectory, doClean);
 
-		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, goIter);
+		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, goIter, doClean);
 	}
 
 	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File goOboFile,
-			File outputDirectory) throws IOException, OBOParseException {
+			File outputDirectory, boolean cleanDictFile) throws IOException, OBOParseException {
 		if (namespacesToInclude.isEmpty())
 			return null;
 
 		GeneOntologyClassIterator goIter = new GeneOntologyClassIterator(goOboFile);
 
-		return buildConceptMapperDictionary(namespacesToInclude, outputDirectory, goIter);
+		return buildConceptMapperDictionary(namespacesToInclude, outputDirectory, goIter, cleanDictFile);
 	}
 
 	/**
@@ -79,16 +80,25 @@ public class GoDictionaryFactory {
 	 * @throws IOException
 	 */
 	private static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File outputDirectory,
-			GeneOntologyClassIterator goIter) throws IOException {
+			GeneOntologyClassIterator goIter, boolean cleanDictFile) throws IOException {
 		String dictionaryKey = "";
 		List<String> nsKeys = new ArrayList<String>();
-		for (GoNamespace ns : namespacesToInclude)
+		for (GoNamespace ns : namespacesToInclude) {
 			nsKeys.add(ns.name());
+		}
 		Collections.sort(nsKeys);
-		for (String ns : nsKeys)
+		for (String ns : nsKeys) {
 			dictionaryKey += ns;
+		}
 
 		File dictionaryFile = new File(outputDirectory, "cmDict-GO-" + dictionaryKey + ".xml");
+		if (dictionaryFile.exists()) {
+			if (cleanDictFile) {
+				FileUtil.deleteFile(dictionaryFile);
+			} else {
+				return dictionaryFile;
+			}
+		}
 		Set<String> namespaces = new HashSet<String>();
 		for (GoNamespace ns : namespacesToInclude)
 			namespaces.add(ns.namespace());
@@ -96,17 +106,18 @@ public class GoDictionaryFactory {
 		return dictionaryFile;
 	}
 
-//	public static void main(String[] args) {
-//		BasicConfigurator.configure();
-//		File workDirectory = new File("test-output");
-//		try {
-//			GoDictionaryFactory.buildConceptMapperDictionary(EnumSet.of(GoNamespace.CC), workDirectory, false);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (OBOParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
+	// public static void main(String[] args) {
+	// BasicConfigurator.configure();
+	// File workDirectory = new File("test-output");
+	// try {
+	// GoDictionaryFactory.buildConceptMapperDictionary(EnumSet.of(GoNamespace.CC), workDirectory,
+	// false);
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// } catch (OBOParseException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
 }
