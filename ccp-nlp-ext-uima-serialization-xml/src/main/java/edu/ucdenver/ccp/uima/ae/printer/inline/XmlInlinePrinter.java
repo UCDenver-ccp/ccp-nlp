@@ -90,7 +90,7 @@ public class XmlInlinePrinter extends InlinePrinter_AE {
 			annotationExtractorClassNames[i++] = extractorClass.getName();
 
 		return createAnalysisEngine(XmlInlinePrinter.class, tsd, outputDirectory, viewNameToProcess,
-				documentMetaDataExtractorClass, annotationExtractorClassNames);
+				documentMetaDataExtractorClass, annotationExtractorClassNames, ".xml");
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class XmlInlinePrinter extends InlinePrinter_AE {
 			Class<? extends InlineTagExtractor> annotationExtractorClass) throws ResourceInitializationException {
 		String[] annotationExtractorClassNames = new String[] { annotationExtractorClass.getName() };
 		return createAnalysisEngine(XmlInlinePrinter.class, tsd, outputDirectory, viewNameToProcess,
-				documentMetaDataExtractorClass, annotationExtractorClassNames);
+				documentMetaDataExtractorClass, annotationExtractorClassNames, ".xml");
 	}
 
 }

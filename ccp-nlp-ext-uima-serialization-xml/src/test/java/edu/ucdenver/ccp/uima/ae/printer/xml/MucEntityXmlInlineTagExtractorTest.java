@@ -47,7 +47,7 @@ public class MucEntityXmlInlineTagExtractorTest extends InlineXmlPrinterTestBase
 		AnalysisEngine inlineXmlPrinterAe = XmlInlinePrinter.createAnalysisEngine(tsd, outputDirectory,
 				CAS.NAME_DEFAULT_SOFA, CcpDocumentMetaDataExtractor.class, CcpMucEntityXmlInlineTagExtractor.class);
 		inlineXmlPrinterAe.process(jcas);
-		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + InlinePrinter.OUTPUT_FILE_SUFFIX);
+		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + ".xml");
 		assertTrue("output file should exist", expectedOutputFile.exists());
 		String inlinedAnnotationOutput = FileUtil.copyToString(expectedOutputFile, SAMPLE_DOCUMENT_ENCODING);
 		System.err.println("EXPCTED: " + expectedOutput);

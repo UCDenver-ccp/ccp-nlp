@@ -103,7 +103,6 @@ public abstract class GeniaPosXmlInlineTagExtractor extends InlineTagExtractor_I
 	protected List<InlineTag> getInlineTags(Annotation annotation) {
 		List<InlineTag> inlineTagList = new ArrayList<InlineTag>();
 		String type = getAnnotationDataExtractor().getAnnotationType(annotation);
-		System.out.println("type: " + type);
 		List<Span> annotationSpans = getAnnotationDataExtractor().getAnnotationSpans(annotation);
 		if (type.equalsIgnoreCase("token")) {
 			List<PartOfSpeech> partsOfSpeech = tokenAttributeExtractor.getPartsOfSpeech(annotation);

@@ -55,7 +55,7 @@ public class InlineXmlPrinterTest extends InlineXmlPrinterTestBase {
 		AnalysisEngine inlineXmlPrinterAe = XmlInlinePrinter.createAnalysisEngine(TSD, outputDirectory,
 				CAS.NAME_DEFAULT_SOFA, CcpDocumentMetaDataExtractor.class, SimpleInlineAnnotationExtractor.class);
 		inlineXmlPrinterAe.process(jcas);
-		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + InlinePrinter.OUTPUT_FILE_SUFFIX);
+		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + ".xml");
 		assertTrue("output file should exist", expectedOutputFile.exists());
 		String inlinedAnnotationOutput = FileUtil.copyToString(expectedOutputFile, SAMPLE_DOCUMENT_ENCODING);
 		assertEquals(String.format("Inlined output should be as expected"), expectedOutput, inlinedAnnotationOutput);
@@ -83,7 +83,7 @@ public class InlineXmlPrinterTest extends InlineXmlPrinterTestBase {
 		AnalysisEngine inlineXmlPrinterAe = XmlInlinePrinter.createAnalysisEngine(TSD, outputDirectory,
 				CAS.NAME_DEFAULT_SOFA, CcpDocumentMetaDataExtractor.class, SimpleInlineAnnotationExtractor.class);
 		inlineXmlPrinterAe.process(jcas);
-		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + InlinePrinter.OUTPUT_FILE_SUFFIX);
+		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + ".xml");
 		assertTrue("output file should exist", expectedOutputFile.exists());
 		String inlinedAnnotationOutput = FileUtil.copyToString(expectedOutputFile, SAMPLE_DOCUMENT_ENCODING);
 		assertEquals(String.format("Inlined output should be as expected"), expectedOutput, inlinedAnnotationOutput);

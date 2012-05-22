@@ -88,7 +88,7 @@ public class GeniaXmlInlinePrinter extends XmlInlinePrinter {
 			annotationExtractorClassNames[i++] = extractorClass.getName();
 
 		return createAnalysisEngine(GeniaXmlInlinePrinter.class, tsd, outputDirectory, viewNameToProcess,
-				documentMetaDataExtractorClass, annotationExtractorClassNames);
+				documentMetaDataExtractorClass, annotationExtractorClassNames, ".xml");
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class GeniaXmlInlinePrinter extends XmlInlinePrinter {
 			Class<? extends InlineTagExtractor> annotationExtractorClass) throws ResourceInitializationException {
 		String[] annotationExtractorClassNames = new String[] { annotationExtractorClass.getName() };
 		return createAnalysisEngine(GeniaXmlInlinePrinter.class, tsd, outputDirectory, viewNameToProcess,
-				documentMetaDataExtractorClass, annotationExtractorClassNames);
+				documentMetaDataExtractorClass, annotationExtractorClassNames, ".xml");
 	}
 
 }

@@ -48,7 +48,7 @@ public class GeniaEntityXmlInlineTagExtractorTest extends InlineXmlPrinterTestBa
 		AnalysisEngine inlineXmlPrinterAe = GeniaXmlInlinePrinter.createAnalysisEngine(tsd, outputDirectory,
 				CAS.NAME_DEFAULT_SOFA, CcpDocumentMetaDataExtractor.class, CcpGeniaEntityXmlInlineTagExtractor.class);
 		inlineXmlPrinterAe.process(jcas);
-		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + InlinePrinter_AE.OUTPUT_FILE_SUFFIX);
+		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + ".xml");
 		assertTrue("output file should exist", expectedOutputFile.exists());
 		String inlinedAnnotationOutput = FileUtil.copyToString(expectedOutputFile, SAMPLE_DOCUMENT_ENCODING);
 		System.err.println("EXPCTED: " + expectedOutput);
@@ -64,7 +64,7 @@ public class GeniaEntityXmlInlineTagExtractorTest extends InlineXmlPrinterTestBa
 	 * @throws IOException
 	 * @throws AnalysisEngineProcessException
 	 */
-	@Ignore("Need to work on split-span handling, especially for non-coordinated cases")
+//	@Ignore("Need to work on split-span handling, especially for non-coordinated cases")
 	@Test
 	public void testGeniaEntityXmlInlineTagExtractor_CoordinatedSplitSpanCase() throws ResourceInitializationException,
 			IOException, AnalysisEngineProcessException {
@@ -75,7 +75,7 @@ public class GeniaEntityXmlInlineTagExtractorTest extends InlineXmlPrinterTestBa
 		AnalysisEngine inlineXmlPrinterAe = GeniaXmlInlinePrinter.createAnalysisEngine(tsd, outputDirectory,
 				CAS.NAME_DEFAULT_SOFA, CcpDocumentMetaDataExtractor.class, CcpGeniaEntityXmlInlineTagExtractor.class);
 		inlineXmlPrinterAe.process(jcas);
-		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + InlinePrinter_AE.OUTPUT_FILE_SUFFIX);
+		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + ".xml");
 		assertTrue("output file should exist", expectedOutputFile.exists());
 		String inlinedAnnotationOutput = FileUtil.copyToString(expectedOutputFile, SAMPLE_DOCUMENT_ENCODING);
 		System.err.println("EXPCTED: " + expectedOutput);

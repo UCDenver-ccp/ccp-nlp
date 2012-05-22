@@ -50,10 +50,18 @@ import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTag.InlinePrefixTag;
 @SofaCapability
 public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 	private static final Logger logger = Logger.getLogger(InlinePrinter_AE.class);
+
 	/**
-	 * output files written by the JCasAnnotator will be appened with the ".inline" suffix
+	 * Parameter name used in the UIMA descriptor file indicating the output file suffix
 	 */
-	public static final String OUTPUT_FILE_SUFFIX = ".inline";
+	public static final String PARAM_OUTPUT_FILE_SUFFIX = ConfigurationParameterFactory
+			.createConfigurationParameterName(InlinePrinter_AE.class, "outputFileSuffix");
+
+	/**
+	 * the output file suffix
+	 */
+	@ConfigurationParameter(description = "name of the view to process", defaultValue = ".inline")
+	private String outputFileSuffix;
 
 	/**
 	 * Parameter name used in the UIMA descriptor file indicating which view should be processed
@@ -112,15 +120,14 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 	private String[] inlineAnnotationExtractorClassNames;
 
 	/**
-	 * The collection of {@link InlineTagExtractor} implementations that will be used to
-	 * generate inline annotations
+	 * The collection of {@link InlineTagExtractor} implementations that will be used to generate
+	 * inline annotations
 	 */
 	private Collection<InlineTagExtractor> inlineTagExtractors;
 
 	/**
 	 * This initialize method extracts the configuration parameters then initializes a
-	 * {@link DocumentMetaDataExtractor} and one or more {@link InlineTagExtractor}
-	 * implementations.
+	 * {@link DocumentMetaDataExtractor} and one or more {@link InlineTagExtractor} implementations.
 	 * 
 	 * @see org.uimafit.component.JCasAnnotator_ImplBase#initialize(org.apache.uima.UimaContext)
 	 */
@@ -199,7 +206,7 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 					throw new IllegalStateException("Unknown type of InlineTag: " + tag.getClass().getName());
 			}
 		}
-//		logger.info("offsetToTagMap: " + offsetToTagMap.toString());
+		// logger.info("offsetToTagMap: " + offsetToTagMap.toString());
 		return offsetToTagMap;
 	}
 
@@ -244,7 +251,7 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 		}
 		printInlinePostfixTags(charArray.length, characterOffsetToTagMap, writer);
 		insertOutputFileFooter(writer, metaDataExtractor.extractDocumentEncoding(jCas));
-		
+
 	}
 
 	/**
@@ -264,8 +271,8 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 
 	/**
 	 * This method is intentionally left empty. It is designed as a hook for a subclass of
-	 * {@link InlinePrinter_AE} in case the subclass would like to add a header to the output file (as
-	 * is the case when generating inline XML).
+	 * {@link InlinePrinter_AE} in case the subclass would like to add a header to the output file
+	 * (as is the case when generating inline XML).
 	 * 
 	 * @param writer
 	 *            a {@link BufferedWriter} initialized to the output file
@@ -277,7 +284,7 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 		// to be overwritten by an extension of InlinePrinter that wants to add a header to the
 		// output file
 	}
-	
+
 	protected void insertOutputFileFooter(BufferedWriter writer, String documentEncoding) {
 		// to be overwritten by an extension of InlinePrinter that wants to add a footer to the
 		// output file
@@ -305,7 +312,7 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 		List<InlinePrefixTag> prefixTags = isolateTagType(characterOffsetToTagMap.get(offset), InlinePrefixTag.class);
 		Collections.sort(prefixTags, InlineTag.getInlinePrefixTagComparator());
 		for (InlinePrefixTag prefixTag : prefixTags) {
-//			System.out.println("Printing pre-fix tag: " + prefixTag.getTagContents());
+			// System.out.println("Printing pre-fix tag: " + prefixTag.getTagContents());
 			writer.append(prefixTag.getTagContents());
 		}
 	}
@@ -332,7 +339,7 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 		List<InlinePostfixTag> postfixTags = isolateTagType(characterOffsetToTagMap.get(offset), InlinePostfixTag.class);
 		Collections.sort(postfixTags, InlineTag.getInlinePostfixTagComparator());
 		for (InlinePostfixTag postfixTag : postfixTags) {
-//			System.out.println("Printing post-fix tag: " + postfixTag.getTagContents());
+			// System.out.println("Printing post-fix tag: " + postfixTag.getTagContents());
 			writer.append(postfixTag.getTagContents());
 		}
 	}
@@ -376,7 +383,7 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 		String documentId = metaDataExtractor.extractDocumentId(jCas);
 		String encodingStr = metaDataExtractor.extractDocumentEncoding(jCas);
 		CharacterEncoding encoding = CharacterEncoding.getEncoding(encodingStr);
-		File outputFile = new File(outputDirectory, documentId + OUTPUT_FILE_SUFFIX);
+		File outputFile = new File(outputDirectory, documentId + outputFileSuffix);
 		return FileWriterUtil.initBufferedWriter(outputFile, encoding, WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
 	}
 
@@ -395,8 +402,8 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 	 *            an implementation of {@link DocumentMetaDataExtractor} to use to extract document
 	 *            identifier and encoding information from the {@JCas}
 	 * @param annotationExtractorClasses
-	 *            implementation(s) of {@link InlineTagExtractor} that will be used to
-	 *            generate the annotations that will be inlined with the document text in the output
+	 *            implementation(s) of {@link InlineTagExtractor} that will be used to generate the
+	 *            annotations that will be inlined with the document text in the output
 	 * @return an initialized {@link AnalysisEngine} that will print inlined annotations to files in
 	 *         the specified output directory
 	 * @throws ResourceInitializationException
@@ -404,7 +411,7 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 	 */
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File outputDirectory,
 			String viewNameToProcess, Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass,
-			Class<? extends InlineTagExtractor>... annotationExtractorClasses)
+			String outputFileSuffix, Class<? extends InlineTagExtractor>... annotationExtractorClasses)
 			throws ResourceInitializationException {
 		String[] annotationExtractorClassNames = new String[annotationExtractorClasses.length];
 		int i = 0;
@@ -412,13 +419,13 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 			annotationExtractorClassNames[i++] = extractorClass.getName();
 
 		return createAnalysisEngine(InlinePrinter_AE.class, tsd, outputDirectory, viewNameToProcess,
-				documentMetaDataExtractorClass, annotationExtractorClassNames);
+				documentMetaDataExtractorClass, annotationExtractorClassNames, outputFileSuffix);
 	}
 
 	/**
 	 * Returns an initialized {@link InlinePrinter_AE} in the form of a UIMA {@link AnalysisEngine}.
-	 * This method can be used if only a single {@link InlineTagExtractor} is needed. It
-	 * prevents a compiler warning dealing with arrays of generics.
+	 * This method can be used if only a single {@link InlineTagExtractor} is needed. It prevents a
+	 * compiler warning dealing with arrays of generics.
 	 * 
 	 * @param tsd
 	 *            the relevant {@link TypeSystemDescription}; will depend on the pipline being run
@@ -432,8 +439,8 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 	 *            an implementation of {@link DocumentMetaDataExtractor} to use to extract document
 	 *            identifier and encoding information from the {@JCas}
 	 * @param annotationExtractorClasses
-	 *            implementation(s) of {@link InlineTagExtractor} that will be used to
-	 *            generate the annotations that will be inlined with the document text in the output
+	 *            implementation(s) of {@link InlineTagExtractor} that will be used to generate the
+	 *            annotations that will be inlined with the document text in the output
 	 * @return an initialized {@link AnalysisEngine} that will print inlined annotations to files in
 	 *         the specified output directory
 	 * @throws ResourceInitializationException
@@ -441,10 +448,11 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 	 */
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File outputDirectory,
 			String viewNameToProcess, Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass,
-			Class<? extends InlineTagExtractor> annotationExtractorClass) throws ResourceInitializationException {
+			Class<? extends InlineTagExtractor> annotationExtractorClass, String outputFileSuffix)
+			throws ResourceInitializationException {
 		String[] annotationExtractorClassNames = new String[] { annotationExtractorClass.getName() };
 		return createAnalysisEngine(InlinePrinter_AE.class, tsd, outputDirectory, viewNameToProcess,
-				documentMetaDataExtractorClass, annotationExtractorClassNames);
+				documentMetaDataExtractorClass, annotationExtractorClassNames, outputFileSuffix);
 	}
 
 	/**
@@ -471,11 +479,12 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 	protected static AnalysisEngine createAnalysisEngine(Class<? extends InlinePrinter_AE> inlinePrinterClass,
 			TypeSystemDescription tsd, File outputDirectory, String viewNameToProcess,
 			Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass,
-			String[] annotationExtractorClassNames) throws ResourceInitializationException {
+			String[] annotationExtractorClassNames, String outputFileSuffix) throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitive(inlinePrinterClass, tsd, InlinePrinter_AE.PARAM_OUTPUT_DIRECTORY,
 				outputDirectory.getAbsolutePath(), InlinePrinter_AE.PARAM_VIEW_NAME_TO_PROCESS, viewNameToProcess,
 				InlinePrinter_AE.PARAM_DOCUMENT_META_DATA_EXTRACTOR_CLASS, documentMetaDataExtractorClass.getName(),
-				InlinePrinter_AE.PARAM_INLINE_ANNOTATION_EXTRACTOR_CLASSES, annotationExtractorClassNames);
+				InlinePrinter_AE.PARAM_INLINE_ANNOTATION_EXTRACTOR_CLASSES, annotationExtractorClassNames,
+				InlinePrinter_AE.PARAM_OUTPUT_FILE_SUFFIX, outputFileSuffix);
 	}
 
 }

@@ -13,6 +13,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
 import edu.ucdenver.ccp.annotation.SpanUtilExtra;
+import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
@@ -96,7 +97,8 @@ public abstract class GeniaEntityXmlInlineTagExtractor extends InlineTagExtracto
 	 *            the {@link AnnotationDataExtractor} implementation to use with the specified
 	 *            annotation type
 	 */
-	protected GeniaEntityXmlInlineTagExtractor(Collection<Integer> annotationTypes, AnnotationDataExtractor annotationDataExtractor) {
+	protected GeniaEntityXmlInlineTagExtractor(Collection<Integer> annotationTypes,
+			AnnotationDataExtractor annotationDataExtractor) {
 		super(annotationTypes, annotationDataExtractor);
 		this.overlapsSplitSpanAnnotations = new ArrayList<Annotation>();
 	}
@@ -115,30 +117,31 @@ public abstract class GeniaEntityXmlInlineTagExtractor extends InlineTagExtracto
 		List<InlineTag> inlineTagList = new ArrayList<InlineTag>();
 		String type = getAnnotationDataExtractor().getAnnotationType(annotation);
 		if (!type.equals("syntactic context") && !(type.equals("continuant"))) {
-		List<Span> annotationSpans = getAnnotationDataExtractor().getAnnotationSpans(annotation);
-		if (annotationSpans.size() == 1) {
+			List<Span> annotationSpans = getAnnotationDataExtractor().getAnnotationSpans(annotation);
+			// if (annotationSpans.size() == 1) {
 			// in the future we need to look into how to represent split span annotations
-//		if (!overlapsWithSplitSpanAnnotation(annotation)) {
-			String startTagContents = String.format("<%s %s=\"%s\">", GENIA_ENTITY_TAG_NAME,
-					GENIA_ENTITY_TYPE_ATTRIBUTE_NAME, type);
-			String endTagContents = String.format("</%s>", GENIA_ENTITY_TAG_NAME);
-			InlineTag startTag = new InlinePrefixTag(startTagContents, annotationSpans.get(0));
-			InlineTag endTag = new InlinePostfixTag(endTagContents, annotationSpans.get(0));
-			inlineTagList.add(startTag);
-			inlineTagList.add(endTag);
-		} else {
-			overlapsSplitSpanAnnotations.add(annotation);
-			UIMA_Util.printCCPTextAnnotation((CCPTextAnnotation) annotation, System.err);
-		}
-		// logger
-		// .warn(String
-		// .format(
-		// "Although the GENIA inline term annotation representation allows for discontinous annotations, "
-		// +
-		// "it cannot handle overlapping discontinuous annotations. Due to this limitation, this inline output "
-		// + "tool will not output discontinuous annotations in the GENIA format."
-		// + "An annotation with multiple spans has been observed and will not be included in the "
-		// + "GENIA XML output: type=%s spans=%s", type, annotationSpans.toString()));
+			if (!overlapsWithSplitSpanAnnotation(annotation)) {
+				String startTagContents = String.format("<%s %s=\"%s\">", GENIA_ENTITY_TAG_NAME,
+						GENIA_ENTITY_TYPE_ATTRIBUTE_NAME, type);
+				String endTagContents = String.format("</%s>", GENIA_ENTITY_TAG_NAME);
+				InlineTag startTag = new InlinePrefixTag(startTagContents, annotationSpans.get(0));
+				InlineTag endTag = new InlinePostfixTag(endTagContents, annotationSpans.get(0));
+				inlineTagList.add(startTag);
+				inlineTagList.add(endTag);
+			} else {
+				overlapsSplitSpanAnnotations.add(annotation);
+				UIMA_Util.printCCPTextAnnotation((CCPTextAnnotation) annotation, System.err);
+			}
+			// logger
+			// .warn(String
+			// .format(
+			// "Although the GENIA inline term annotation representation allows for discontinous annotations, "
+			// +
+			// "it cannot handle overlapping discontinuous annotations. Due to this limitation, this inline output "
+			// + "tool will not output discontinuous annotations in the GENIA format."
+			// +
+			// "An annotation with multiple spans has been observed and will not be included in the "
+			// + "GENIA XML output: type=%s spans=%s", type, annotationSpans.toString()));
 		}
 		return inlineTagList;
 	}
@@ -159,13 +162,16 @@ public abstract class GeniaEntityXmlInlineTagExtractor extends InlineTagExtracto
 	 */
 	private boolean overlapsWithSplitSpanAnnotation(Annotation annotation) {
 		List<Span> annotationSpans = getAnnotationDataExtractor().getAnnotationSpans(annotation);
-		for (Span span : annotationSpans)
+		for (Span span : annotationSpans) {
 			for (Annotation splitSpanAnnot : getPreFetchedAnnotations()) {
 				List<Span> prefetchSpans = getAnnotationDataExtractor().getAnnotationSpans(splitSpanAnnot);
-				for (Span prefetchSpan : prefetchSpans)
-					if (span.overlaps(prefetchSpan))
+				for (Span prefetchSpan : prefetchSpans) {
+					if (span.overlaps(prefetchSpan)) {
 						return true;
+					}
+				}
 			}
+		}
 		return false;
 	}
 
@@ -175,13 +181,13 @@ public abstract class GeniaEntityXmlInlineTagExtractor extends InlineTagExtracto
 	@Override
 	protected void preFetchAnnotations(JCas jcas) {
 		super.preFetchAnnotations(jcas);
-		for (int annotationType : getAnnotationTypes()) 
-		for (FSIterator annotationIter = jcas.getJFSIndexRepository().getAnnotationIndex(annotationType)
-				.iterator(); annotationIter.hasNext();) {
-			Annotation annotation = (Annotation) annotationIter.next();
-			if (getAnnotationDataExtractor().getAnnotationSpans(annotation).size() > 1)
-				addPreFetchedAnnotation(annotation);
-		}
+		for (int annotationType : getAnnotationTypes())
+			for (FSIterator annotationIter = jcas.getJFSIndexRepository().getAnnotationIndex(annotationType).iterator(); annotationIter
+					.hasNext();) {
+				Annotation annotation = (Annotation) annotationIter.next();
+				if (getAnnotationDataExtractor().getAnnotationSpans(annotation).size() > 1)
+					addPreFetchedAnnotation(annotation);
+			}
 	}
 
 	/**
@@ -189,38 +195,40 @@ public abstract class GeniaEntityXmlInlineTagExtractor extends InlineTagExtracto
 	 */
 	@Override
 	protected void generateSupplementalTags(String documentText) {
-		System.out.println("# split span annotations skipped in output: " + overlapsSplitSpanAnnotations.size());
-//		while (overlapsSplitSpanAnnotations.size() > 0) {
-//			Annotation annotation = overlapsSplitSpanAnnotations.get(0);
-//			Collection<Annotation> overlappingAnnotations = new ArrayList<Annotation>();
-//			for (Annotation annot : overlapsSplitSpanAnnotations)
-//				if (overlaps(annotation, annot))
-//					overlappingAnnotations.add(annot);
-//
-//			Collection<Span> interveningSpans = getInterveningSpans(overlappingAnnotations);
-//
-//			if (overlappingAnnotations.size() == 2) {
-//				if (interveningSpans.size() == 1) {
-//					Span onlySpan = CollectionsUtil.getSingleElement(interveningSpans);
-//					String interveningText = documentText.substring(onlySpan.getSpanStart(), onlySpan.getSpanEnd())
-//							.trim();
-//					logger.info("checking intervening text: " + interveningText);
-//					if (interveningText.equals("and") || interveningText.equals("or")) {
-//						Collection<Span> sharedSpans = getSharedSpans(overlappingAnnotations);
-//						Map<Span, String> uniqueSpans = getUniqueSpansToMentionNameMap(documentText,
-//								overlappingAnnotations);
-//						createSupplementalTags(interveningText, sharedSpans, uniqueSpans);
-//						for (Annotation annot : overlappingAnnotations)
-//							overlapsSplitSpanAnnotations.remove(annot);
-//					}
-//				} else {
-//					logger.info("multiple intervening spans: " + interveningSpans.toString());
-//				}
-//			} else {
-//				logger.info(">2 overlapping annotations");
-//			}
-//
-//		}
+		// System.out.println("# split span annotations skipped in output: " +
+		// overlapsSplitSpanAnnotations.size());
+		while (overlapsSplitSpanAnnotations.size() > 0) {
+			Annotation annotation = overlapsSplitSpanAnnotations.get(0);
+			Collection<Annotation> overlappingAnnotations = new ArrayList<Annotation>();
+			for (Annotation annot : overlapsSplitSpanAnnotations)
+				if (overlaps(annotation, annot))
+					overlappingAnnotations.add(annot);
+
+			Collection<Span> interveningSpans = getInterveningSpans(overlappingAnnotations);
+
+			if (overlappingAnnotations.size() == 2) {
+				if (interveningSpans.size() == 1) {
+					Span onlySpan = CollectionsUtil.getSingleElement(interveningSpans);
+					String interveningText = documentText.substring(onlySpan.getSpanStart(), onlySpan.getSpanEnd())
+							.trim();
+					logger.info("checking intervening text: " + interveningText);
+					if (interveningText.equals("and") || interveningText.equals("or")) {
+						Collection<Span> sharedSpans = getSharedSpans(overlappingAnnotations);
+						Map<Span, String> uniqueSpans = getUniqueSpansToMentionNameMap(documentText,
+								overlappingAnnotations);
+						createSupplementalTags(interveningText, sharedSpans, uniqueSpans);
+						for (Annotation annot : overlappingAnnotations) {
+							overlapsSplitSpanAnnotations.remove(annot);
+						}
+					}
+				} else {
+					logger.info("multiple intervening spans: " + interveningSpans.toString());
+				}
+			} else {
+				logger.info(">2 overlapping annotations");
+			}
+
+		}
 	}
 
 	/**
