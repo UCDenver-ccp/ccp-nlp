@@ -18,14 +18,17 @@
 
 package edu.ucdenver.ccp.nlp.extension.uima.serialization.knowtator;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.uimafit.component.JCasAnnotator_ImplBase;
+import org.uimafit.factory.AnalysisEngineFactory;
 
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
@@ -40,29 +43,30 @@ import edu.ucdenver.ccp.wrapper.knowtator.KnowtatorUtil;
  * 
  */
 public class KnowtatorProjectPipe extends JCasAnnotator_ImplBase {
-private static Logger logger = Logger.getLogger(KnowtatorProjectPipe.class);
+	private static Logger logger = Logger.getLogger(KnowtatorProjectPipe.class);
 	private final boolean DEBUG = false;
 
 	/**
-	 * Represented by "KnowtatorProject" in the descriptor file, this String specifies the path to the Knowtator project
-	 * that will be used as a sink for the UIMA annotations.
+	 * Represented by "KnowtatorProject" in the descriptor file, this String specifies the path to
+	 * the Knowtator project that will be used as a sink for the UIMA annotations.
 	 */
 	public static final String PARAM_KNOWTATORPROJECT = "KnowtatorProjectFile";
 
 	private KnowtatorUtil knowtatorUtil;
 
 	// private AnnotatorValidator annotatorValidator;
-	//    
+	//
 	// private AnnotationSetValidator annotationSetValidator;
 
 	private int count = 0;
 
 	/**
-	 * Initializes the CAS Consumer by reading in parameters from the descriptor file and initalizing a new
-	 * KnowtatorUtil object.
+	 * Initializes the CAS Consumer by reading in parameters from the descriptor file and
+	 * initalizing a new KnowtatorUtil object.
 	 */
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
+		super.initialize(context);
 		String knowtatorProjectFilename = (String) context.getConfigParameterValue(PARAM_KNOWTATORPROJECT);
 
 		try {
@@ -75,30 +79,30 @@ private static Logger logger = Logger.getLogger(KnowtatorProjectPipe.class);
 			throw new ResourceInitializationException();
 		}
 
-		super.initialize(context);
 	}
 
 	/**
-	 * For each annotation in the CAS, create a corresponding annotation in the assigned Knowtator project.
+	 * For each annotation in the CAS, create a corresponding annotation in the assigned Knowtator
+	 * project.
 	 */
 	@Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {
-//		JCas jcas;
-//		try {
-//			jcas = aCAS.getJCas();
-//		} catch (CASException e) {
-//			System.out.println("Exception getting CAS in KnowtatorProjectPipe");
-//			e.printStackTrace();
-//			throw new ResourceProcessException(e);
-//		}
+		// JCas jcas;
+		// try {
+		// jcas = aCAS.getJCas();
+		// } catch (CASException e) {
+		// System.out.println("Exception getting CAS in KnowtatorProjectPipe");
+		// e.printStackTrace();
+		// throw new ResourceProcessException(e);
+		// }
 
 		// /* ********************* *
 		// * Document level fields *
 		// * ********************* */
 		// String docID;
 		// int docCollectionID;
-		//        
-		//        
+		//
+		//
 		// Iterator docInfoIter =
 		// jcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentInformation.type).iterator();
 		// //Iterator docSectionIter =
@@ -107,7 +111,7 @@ private static Logger logger = Logger.getLogger(KnowtatorProjectPipe.class);
 		// jcas.getJFSIndexRepository().getAnnotationIndex(SyntacticAnnotation.type).iterator();
 		// Iterator semanticAnnotationIter =
 		// jcas.getJFSIndexRepository().getAnnotationIndex(SemanticAnnotation.type).iterator();
-		//        
+		//
 		// // get the document ID and document collection ID
 		// if (docInfoIter.hasNext()) {
 		// CCPDocumentInformation docInfo = (CCPDocumentInformation) docInfoIter.next();
@@ -137,16 +141,17 @@ private static Logger logger = Logger.getLogger(KnowtatorProjectPipe.class);
 
 		}
 
-//		logger.info(String.format("Inserting annotations into knowtator project. Document length: %d", jcas.getDocumentText().length()));
-		
+		// logger.info(String.format("Inserting annotations into knowtator project. Document length: %d",
+		// jcas.getDocumentText().length()));
+
 		// insert TextAnnotations into the Knowtator project
 		knowtatorUtil.addTextAnnotationsToKnowtatorProject(textAnnotations);
 		System.err.println(count++);
 	}
 
 	/**
-	 * When all CASes have been processed, and all annotations added to the Knowtator project, then save the Knowtator
-	 * project.
+	 * When all CASes have been processed, and all annotations added to the Knowtator project, then
+	 * save the Knowtator project.
 	 */
 	@Override
 	public void collectionProcessComplete() throws AnalysisEngineProcessException {
@@ -156,11 +161,17 @@ private static Logger logger = Logger.getLogger(KnowtatorProjectPipe.class);
 		super.collectionProcessComplete();
 	}
 
-//	@Override
-//	public void batchProcessComplete(ProcessTrace arg0) throws ResourceProcessException, IOException {
-//		System.out.println("BatchProcessComplete... saving Knowtator Project");
-//		knowtatorUtil.saveProject();
-//		super.batchProcessComplete(arg0);
-//	}
+	public static AnalysisEngineDescription getDescription(File outputPprjFile) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createPrimitiveDescription(KnowtatorProjectPipe.class, PARAM_KNOWTATORPROJECT,
+				outputPprjFile.getAbsolutePath());
+	}
+
+	// @Override
+	// public void batchProcessComplete(ProcessTrace arg0) throws ResourceProcessException,
+	// IOException {
+	// System.out.println("BatchProcessComplete... saving Knowtator Project");
+	// knowtatorUtil.saveProject();
+	// super.batchProcessComplete(arg0);
+	// }
 
 }
