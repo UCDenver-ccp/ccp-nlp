@@ -54,7 +54,15 @@ public class CcpAnnotationSpanExtractor implements AnnotationSpanExtractor {
 	@Override
 	public String getCoveredText(Annotation annotation) {
 		List<Span> spans = getAnnotationSpans(annotation);
-		return CollectionsUtil.createDelimitedString(spans, "..");
+		String coveredText = annotation.getCoveredText();
+
+		List<String> spanTexts = new ArrayList<String>();
+		int minSpanOffset = spans.get(0).getSpanStart();
+		for (Span span : spans) {
+			spanTexts
+					.add(coveredText.substring(span.getSpanStart() - minSpanOffset, span.getSpanEnd() - minSpanOffset));
+		}
+		return CollectionsUtil.createDelimitedString(spanTexts, " .. ");
 	}
 
 }
