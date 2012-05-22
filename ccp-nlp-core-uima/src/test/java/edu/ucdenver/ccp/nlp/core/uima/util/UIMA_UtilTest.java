@@ -52,6 +52,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.Annotator;
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
+import edu.ucdenver.ccp.nlp.core.mention.ComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.IntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
@@ -60,6 +61,7 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotationSet;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotator;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPSpan;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
+import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPStringSlotMention;
@@ -729,6 +731,12 @@ public class UIMA_UtilTest {
 		UIMA_Util.addSlotValue(ccpTA_A.getClassMention(), SAME_AS_SLOT, ccpTA_D.getClassMention());
 		slotValues = UIMA_Util.getComplexSlotValues(ccpTA_A, SAME_AS_SLOT);
 		assertEquals(3, slotValues.size());
+		
+		
+		TextAnnotation ta = new WrappedCCPTextAnnotation(ccpTA_A);
+		assertEquals(1,ta.getClassMention().getComplexSlotMentions().size());
+		ta.getClassMention().setComplexSlotMentions(new ArrayList<ComplexSlotMention>());
+		assertEquals(0,ta.getClassMention().getComplexSlotMentions().size());
 
 	}
 
