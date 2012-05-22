@@ -205,6 +205,14 @@ public class FileSystemCollectionReader extends JCasCollectionReader_ImplBase {
 				recurse);
 	}
 
+	public static CollectionReader createCollectionReader(TypeSystemDescription tsd, File baseFileOrDirectory,
+			CharacterEncoding encoding, boolean recurse, int numToSkip, String... fileSuffixesToProcess)
+			throws ResourceInitializationException {
+		return CollectionReaderFactory.createCollectionReader(FileSystemCollectionReader.class, tsd, PARAM_BASE_FILE,
+				baseFileOrDirectory.getAbsolutePath(), PARAM_ENCODING, encoding.getCharacterSetName(), PARAM_RECURSE,
+				recurse, PARAM_NUM2SKIP, numToSkip, PARAM_FILESUFFIXES_TO_PROCESS, fileSuffixesToProcess);
+	}
+
 	public static void exportXmlDescriptor(File baseDescriptorDirectory, String version) {
 		try {
 			Class<FileSystemCollectionReader> cls = FileSystemCollectionReader.class;
@@ -301,8 +309,8 @@ public class FileSystemCollectionReader extends JCasCollectionReader_ImplBase {
 			throw new CollectionException(e);
 		}
 		File file = fileIterator.next();
-		logger.info("Processing document " + processedDocumentCount + " of " + documentsToBeProcessedCount + ".  Loading view: "
-				+ view.getViewName() + " with contents of file:" + file);
+		logger.info("Processing document " + processedDocumentCount + " of " + documentsToBeProcessedCount
+				+ ".  Loading view: " + view.getViewName() + " with contents of file:" + file);
 		String text = FileUtil.copyToString(file, CharacterEncoding.valueOf(this.encoding.replaceAll("-", "_")));
 		// TODO sofa data string should depend on the view, e.g. xml for the xmlView
 		view.setSofaDataString(text, "text/plain");
