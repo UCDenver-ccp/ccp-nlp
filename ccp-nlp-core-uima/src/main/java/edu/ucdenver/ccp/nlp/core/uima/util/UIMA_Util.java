@@ -2102,16 +2102,23 @@ public class UIMA_Util {
 		List<CCPSlotMention> slotMentionsToKeep = new ArrayList<CCPSlotMention>();
 		FSArray slotMentions = ccpCM.getSlotMentions();
 		if (slotMentions != null) {
+//			logger.info("REMOVING SLOT MENTIONS: STARTED WITH: " + slotMentions.size());
 			for (int i = 0; i < slotMentions.size(); i++) {
-				if (!(slotMentions.get(i).getClass().isInstance(slotType))) {
+//				logger.info("REMOVING SLOT MENTIONS: CLASS = " + slotMentions.get(i).getClass().getName()
+//						+ " EQUALS EXPECTED TYPE (" + slotType.getName() + "): "
+//						+ (slotMentions.get(i).getClass().isInstance(slotType)));
+				if (!(slotType.isInstance(slotMentions.get(i)))) {
 					slotMentionsToKeep.add((CCPSlotMention) slotMentions.get(i));
 				}
 			}
+//			logger.info("REMOVING SLOT MENTIONS: TO KEEP: " + slotMentionsToKeep.size());
+
 		}
 		FSArray updatedSlotMentions = new FSArray(jcas, slotMentionsToKeep.size());
 		for (int i = 0; i < slotMentionsToKeep.size(); i++) {
 			updatedSlotMentions.set(i, slotMentionsToKeep.get(i));
 		}
+//		logger.info("REMOVING SLOT MENTIONS: UPDATED SIZE: " + updatedSlotMentions.size());
 		ccpCM.setSlotMentions(updatedSlotMentions);
 	}
 
@@ -2160,7 +2167,7 @@ public class UIMA_Util {
 		Set<String> slotNames = new HashSet<String>();
 		FSArray ccpSlotMentions = ccpCM.getSlotMentions();
 		for (int i = 0; i < ccpSlotMentions.size(); i++) {
-			if (ccpSlotMentions.get(i).getClass().isInstance(slotType)) {
+			if (slotType.isInstance(ccpSlotMentions.get(i))) {
 				slotNames.add(((CCPSlotMention) ccpSlotMentions.get(i)).getMentionName());
 			}
 		}
@@ -2326,7 +2333,7 @@ public class UIMA_Util {
 		doubleArrayToReturn.set(doubleArray.size(), doubleToAdd);
 		return doubleArrayToReturn;
 	}
-	
+
 	public static int indexOf(IntegerArray intArray, Integer intValue) {
 		if (intArray == null) {
 			return -1;
