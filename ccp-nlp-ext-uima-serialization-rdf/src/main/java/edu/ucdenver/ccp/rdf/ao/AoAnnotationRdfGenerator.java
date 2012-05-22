@@ -28,6 +28,9 @@ import org.openrdf.model.impl.URIImpl;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.string.CodePointUtil;
+import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
+import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
+import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.rdf.AnnotationRdfGenerator;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.rdf.shims.RdfAnnotationDataExtractor;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationCreatorExtractor.Annotator;
@@ -86,11 +89,14 @@ public abstract class AoAnnotationRdfGenerator implements AnnotationRdfGenerator
 			@SuppressWarnings("unused") Map<String, URI> annotationKeyToSemanticInstanceUriMap) {
 		Collection<Statement> stmts = new ArrayList<Statement>();
 
-		if (annotationDataExtractor.getComponentAnnotations(annotation).size() > 0)
+		if (annotationDataExtractor.getComponentAnnotations(annotation).size() > 0) {
+			CCPTextAnnotation ccpTa = (CCPTextAnnotation) annotation;
+			TextAnnotation ta = new WrappedCCPTextAnnotation((CCPTextAnnotation)annotation);
 			throw new IllegalArgumentException(
 					"The AO format does not currently handle complex annotation types, i.e. annotations "
 							+ "that are comprised of other annotations. A complex annotation type was observed: "
-							+ annotationDataExtractor.getAnnotationType(annotation));
+							+ annotationDataExtractor.getAnnotationType(annotation) + ta.toString());
+		}
 
 		URI denotedClass = uriFactory.getResourceUri(annotationDataExtractor, annotation);
 		URI annotationUri = uriFactory.getAnnotationUri();
