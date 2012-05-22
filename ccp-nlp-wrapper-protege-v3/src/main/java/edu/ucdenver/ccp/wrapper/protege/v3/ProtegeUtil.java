@@ -70,10 +70,11 @@ public class ProtegeUtil {
 	private static final String HAS_CORRESPONDING_CONCEPTS_SLOT = "has corresponding concepts";
 	private static final String HAS_CORRESPONDING_CONCEPT_SLOT = "has corresponding concept";
 
+	private static final String EG_ROOT_REGION_CLS_NAME = "region";
 	private static final String GENE_OR_TRANSCRIPT_OR_POLYPEPTIDE_OR_MACROMOLECULAR_COMPLEX_CLS_NAME = "gene or transcript or polypeptide or macromolecular complex";
 	private static final String CDNA_CLS_NAME = "cDNA";
 	private static final String PROMOTER_CLS_NAME = "promoter";
-	
+
 	private static final String HAS_ENTREZ_GENE_ID_SLOT_NAME = "has Entrez Gene ID";
 
 	private static final String ORGANISM_CLS_NAME = "organism";
@@ -85,6 +86,8 @@ public class ProtegeUtil {
 	private static final String TAXONOMY_ID_SLOT_NAME = "taxonomy ID";
 
 	private static final String MACROMOLECULAR_COMPLEX_OR_PROTEIN_AMBIGUITY_SLOT = "macromolecular complex or protein ambiguity";
+
+	private static final String TAXONOMIC_RANK_CLS_NAME = "taxonomic_rank";
 
 	private Project project;
 	private final String projectFileName;
@@ -468,8 +471,7 @@ public class ProtegeUtil {
 		return knowtatorSupportCls != null;
 	}
 
-	private static void fillOboTermSlotsForCopiedClasses(ProtegeUtil fromPU, ProtegeUtil toPU,
-			Set<String> rootClsNames) {
+	private static void fillOboTermSlotsForCopiedClasses(ProtegeUtil fromPU, ProtegeUtil toPU, Set<String> rootClsNames) {
 		if (hasOboTermCls(fromPU.getKnowledgeBase())) {
 			Iterator<Cls> fromClassIter = fromPU.getClasses(rootClsNames);
 			int count = 0;
@@ -545,7 +547,7 @@ public class ProtegeUtil {
 	// Iterator<Cls> clsesToInsertIter = fromPU.getMetaClasses();
 	// int count = 0;
 	// while (clsesToInsertIter.hasNext()) {
-	//			
+	//
 	// Cls clsToInsert = clsesToInsertIter.next();
 	// Collection<Instance> instancesToInsert = clsToInsert.getInstances();
 	// Iterator<Instance> instanceToInsertIter = instancesToInsert.iterator();
@@ -558,7 +560,7 @@ public class ProtegeUtil {
 	// }
 	// }
 	// }
-	//	
+	//
 
 	/**
 	 * Returns true if the input Cls object is an descendant of any of the root class IDs.
@@ -715,7 +717,7 @@ public class ProtegeUtil {
 	// }
 	// Cls clsToInsert = clsesToInsertIter.next();
 	// Set<String> alreadyCreatedClasses = new HashSet<String>();
-	//			
+	//
 	// toPU.createOntologyClass(clsToInsert.getName(), fromPU.getKnowledgeBase(), pathsToRoot,
 	// superClsNames, alreadyCreatedClasses);
 	// }
@@ -1122,7 +1124,7 @@ public class ProtegeUtil {
 		ProtegeUtil fromPU = new ProtegeUtil(protegeProjectFile.getAbsolutePath());
 		// Protege_Util toPU = new Protege_Util(toProjectName);
 
-		if (protegeProjectFile.getName().contains("Entrez_Gene")) {
+		if (protegeProjectFile.getName().contains("EG")) {
 			/*
 			 * for the gene-or-gene product project and taxonomy id project, there are no meta
 			 * classes/slots
@@ -1134,19 +1136,21 @@ public class ProtegeUtil {
 			rootClsNames.add(CDNA_CLS_NAME);
 			rootClsNames.add(PROMOTER_CLS_NAME);
 			copyClses(fromPU, this, fromPU.getClasses(rootClsNames), null);
-			copySlot(fromPU.getKnowledgeBase().getSlot(HAS_ENTREZ_GENE_ID_SLOT_NAME), fromPU.getKnowledgeBase(), this
-					.getKnowledgeBase(), STANDARD_SLOT);
+			copySlot(fromPU.getKnowledgeBase().getSlot(HAS_ENTREZ_GENE_ID_SLOT_NAME), fromPU.getKnowledgeBase(),
+					this.getKnowledgeBase(), STANDARD_SLOT);
 
 		} else if (protegeProjectFile.getName().contains("organism")) {
 			rootClsNames = new HashSet<String>();
 			rootClsNames.add(ORGANISM_CLS_NAME);
+			rootClsNames.add(TAXONOMIC_RANK_CLS_NAME);
+			
 			copyClses(fromPU, this, fromPU.getClasses(rootClsNames), null);
-			copySlot(fromPU.getKnowledgeBase().getSlot(COMMON_NAME_SLOT_NAME), fromPU.getKnowledgeBase(), this
-					.getKnowledgeBase(), STANDARD_SLOT);
-			copySlot(fromPU.getKnowledgeBase().getSlot(TAXON_ABIGUITY_SLOT_NAME), fromPU.getKnowledgeBase(), this
-					.getKnowledgeBase(), STANDARD_SLOT);
-			copySlot(fromPU.getKnowledgeBase().getSlot(TAXONOMY_ID_SLOT_NAME), fromPU.getKnowledgeBase(), this
-					.getKnowledgeBase(), STANDARD_SLOT);
+			copySlot(fromPU.getKnowledgeBase().getSlot(COMMON_NAME_SLOT_NAME), fromPU.getKnowledgeBase(),
+					this.getKnowledgeBase(), STANDARD_SLOT);
+			copySlot(fromPU.getKnowledgeBase().getSlot(TAXON_ABIGUITY_SLOT_NAME), fromPU.getKnowledgeBase(),
+					this.getKnowledgeBase(), STANDARD_SLOT);
+			copySlot(fromPU.getKnowledgeBase().getSlot(TAXONOMY_ID_SLOT_NAME), fromPU.getKnowledgeBase(),
+					this.getKnowledgeBase(), STANDARD_SLOT);
 			copySlot(fromPU.getKnowledgeBase().getSlot(HAS_CORRESPONDING_CONCEPTS_SLOT), fromPU.getKnowledgeBase(),
 					this.getKnowledgeBase(), STANDARD_SLOT);
 		} else {
@@ -1162,9 +1166,7 @@ public class ProtegeUtil {
 
 			// save();
 			/* copy class-level obo relationships */
-			logger
-					.info(String.format("Importing class-level obo relationships from: %s", protegeProjectFile
-							.getName()));
+			logger.info(String.format("Importing class-level obo relationships from: %s", protegeProjectFile.getName()));
 			copySlots(fromPU, this, CLS_LEVEL_OBO_RELATIONSHIP_CLS_NAME, CLS_LEVEL_OBO_RELATIONSHIP_CLS_NAME);
 			/*
 			 * This is a hack - here we copy the "has corresponding concepts" slot - this avoid
@@ -1173,14 +1175,14 @@ public class ProtegeUtil {
 			 */
 
 			if (fromPU.getKnowledgeBase().getSlot(HAS_CORRESPONDING_CONCEPTS_SLOT) != null) {
-				logger.info(String.format("Importing has-corresponding-concepts slot from: %s", protegeProjectFile
-						.getName()));
+				logger.info(String.format("Importing has-corresponding-concepts slot from: %s",
+						protegeProjectFile.getName()));
 				copySlot(fromPU.getKnowledgeBase().getSlot(HAS_CORRESPONDING_CONCEPTS_SLOT), fromPU.getKnowledgeBase(),
 						this.getKnowledgeBase(), STANDARD_SLOT);
 			}
 			if (fromPU.getKnowledgeBase().getSlot(HAS_CORRESPONDING_CONCEPT_SLOT) != null) {
-				logger.info(String.format("Importing has-corresponding-concept slot from: %s", protegeProjectFile
-						.getName()));
+				logger.info(String.format("Importing has-corresponding-concept slot from: %s",
+						protegeProjectFile.getName()));
 				copySlot(fromPU.getKnowledgeBase().getSlot(HAS_CORRESPONDING_CONCEPT_SLOT), fromPU.getKnowledgeBase(),
 						this.getKnowledgeBase(), STANDARD_SLOT);
 			}
@@ -1188,8 +1190,8 @@ public class ProtegeUtil {
 			if (fromPU.getKnowledgeBase().getSlot(MACROMOLECULAR_COMPLEX_OR_PROTEIN_AMBIGUITY_SLOT) != null) {
 				logger.info(String.format("Importing macromolecular complex or protein ambiguity slot from: %s",
 						protegeProjectFile.getName()));
-				copySlot(fromPU.getKnowledgeBase().getSlot(MACROMOLECULAR_COMPLEX_OR_PROTEIN_AMBIGUITY_SLOT), fromPU
-						.getKnowledgeBase(), this.getKnowledgeBase(), STANDARD_SLOT);
+				copySlot(fromPU.getKnowledgeBase().getSlot(MACROMOLECULAR_COMPLEX_OR_PROTEIN_AMBIGUITY_SLOT),
+						fromPU.getKnowledgeBase(), this.getKnowledgeBase(), STANDARD_SLOT);
 			}
 
 			saveAndReload();
@@ -1224,10 +1226,9 @@ public class ProtegeUtil {
 				Map<String, Map<String, Set<String>>> relationType2domain2allowedClassesMap = new HashMap<String, Map<String, Set<String>>>();
 				Map<String, Map<String, Set<String>>> domain2relationType2allowedClassesMap = new HashMap<String, Map<String, Set<String>>>();
 
-				// logger.info("Transfering relations for class: " + cls.getName());
+//				logger.info("Transfering relations for class: " + cls.getName());
 				for (Slot fromSlot : slots) {
-					// logger.info("Transfering slot: " + fromSlot.getName() + " for class: " +
-					// cls.getName());
+//					logger.info("Transfering slot: " + fromSlot.getName() + " for class: " + cls.getName());
 
 					// Collection<Object> slotValues = cls.getTemplateSlotValues(slot);
 					// Collection<Object> slotValues = cls.getOwnSlotValues(slot);
@@ -1237,14 +1238,16 @@ public class ProtegeUtil {
 					// if (slotValues != null) {
 					Slot slot = toPU.getKnowledgeBase().getSlot(fromSlot.getName());
 					if (slot == null) {
-						logger.error("NULL SLOT DETECTED: " + fromSlot.getName() + "cls name: " + cls.getName());
+						logger.error("NULL SLOT DETECTED: " + fromSlot.getName() + " cls name: " + cls.getName());
 					}
-					toPU.getKnowledgeBase().getCls(cls.getName()).setTemplateSlotAllowedClses(
-							toPU.getKnowledgeBase().getSlot(fromSlot.getName()),
-							cls.getTemplateSlotAllowedClses(fromSlot));
-					toPU.getKnowledgeBase().getCls(cls.getName()).setTemplateSlotAllowedClses(
-							toPU.getKnowledgeBase().getSlot(DIRECT_DOMAIN_SLOT_NAME),
-							getClses(toPU.getKnowledgeBase(), getClsNames(fromSlot.getDirectDomain())));
+					toPU.getKnowledgeBase()
+							.getCls(cls.getName())
+							.setTemplateSlotAllowedClses(toPU.getKnowledgeBase().getSlot(fromSlot.getName()),
+									cls.getTemplateSlotAllowedClses(fromSlot));
+					toPU.getKnowledgeBase()
+							.getCls(cls.getName())
+							.setTemplateSlotAllowedClses(toPU.getKnowledgeBase().getSlot(DIRECT_DOMAIN_SLOT_NAME),
+									getClses(toPU.getKnowledgeBase(), getClsNames(fromSlot.getDirectDomain())));
 					// logger.info(" allowed classes: " +
 					// getClsNames(cls.getTemplateSlotAllowedClses(fromSlot)).toString()
 					// + " and domain: " + getClsNames(fromSlot.getDirectDomain()).toString());
@@ -1355,9 +1358,10 @@ public class ProtegeUtil {
 			return true;
 		Cls parent = getCls(parentClsName);
 		Cls child = getCls(childClsName);
-		if (parent == null || child == null) 
+		if (parent == null || child == null)
 			return false;
-		logger.debug(String.format("checking for parent/child relation: %s -- %s ------ %b", parentClsName, childClsName, child.hasSuperclass(parent)));
+		logger.debug(String.format("checking for parent/child relation: %s -- %s ------ %b", parentClsName,
+				childClsName, child.hasSuperclass(parent)));
 		return child.hasSuperclass(parent);
 	}
 
