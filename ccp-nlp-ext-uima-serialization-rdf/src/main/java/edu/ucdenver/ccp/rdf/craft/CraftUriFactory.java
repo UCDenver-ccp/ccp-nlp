@@ -1,6 +1,7 @@
 package edu.ucdenver.ccp.rdf.craft;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.apache.uima.jcas.tcas.Annotation;
 import org.openrdf.model.URI;
@@ -12,10 +13,20 @@ import edu.ucdenver.ccp.datasource.identifiers.ncbi.gene.EntrezGeneID;
 import edu.ucdenver.ccp.datasource.identifiers.ncbi.taxonomy.NcbiTaxonomyID;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
 import edu.ucdenver.ccp.rdf.DataSourceIdentifierUriFactory;
+import edu.ucdenver.ccp.rdfizer.rdf.RdfNamespace;
+import edu.ucdenver.ccp.rdfizer.rdf.RdfUtil;
 
 public class CraftUriFactory extends DataSourceIdentifierUriFactory {
 
+	private static final Set<String> TAXONOMIC_RANKS = CollectionsUtil.createSet("taxonomic_rank", "class", "family",
+			"forma", "genus", "infraclass", "infraorder", "kingdom", "order", "parvorder", "phylum", "species",
+			"species_group", "species_subgroup", "subclass", "subfamily", "subgenus", "subkingdom", "suborder",
+			"subphylum", "subspecies", "subtribe", "superclass", "superfamily", "superkingdom", "superorder",
+			"superphylum", "tribe", "varietas");
+
 	private static final String CRAFT_NAMESPACE = "http://craft.ucdenver.edu/";
+
+	public static final URI CONTINUANT_URI = new URIImpl("http://www.ifomis.org/bfo/1.1/snap#Continuant");
 
 	// TODO: this can't have a trailing slash b/c the UUID gets appended to it. Future generation of
 	// annotation URIs could check for the slash and remove it if necessary
@@ -28,11 +39,15 @@ public class CraftUriFactory extends DataSourceIdentifierUriFactory {
 		CraftEntrezGeneAnnotationAttributeExtractor egAttributeExtractor = (CraftEntrezGeneAnnotationAttributeExtractor) annotationDataExtractor
 				.getAnnotationAttributeExtractor(CraftAnnotationAttribute.ENTREZ_GENE_ID);
 		String type = annotationDataExtractor.getAnnotationType(annotation);
-		if (type.equalsIgnoreCase("organism")) {
+		if (type.equals("continuant")) {
+			return CONTINUANT_URI;
+		} else if (type.equalsIgnoreCase("organism")) {
 			Collection<NcbiTaxonomyID> taxIds = taxIdAttributeExtractor.getAnnotationAttributes(annotation);
 			if (taxIds == null || taxIds.size() != 1)
 				throw new RuntimeException("Zero or Multiple taxonomy Ids observed in one annotation");
 			return getUri(new NcbiTaxonomyID(CollectionsUtil.getSingleElement(taxIds).toString()));
+		} else if (TAXONOMIC_RANKS.contains(type)) {
+			return new URIImpl(RdfUtil.createUri(RdfNamespace.NCBI_TAXON, "NCBITaxon_" + type).toString());
 		} else if (egAttributeExtractor.getAnnotationAttributes(annotation) != null) {
 			Collection<EntrezGeneID> entrezGeneIdSlotFillers = egAttributeExtractor.getAnnotationAttributes(annotation);
 			if (entrezGeneIdSlotFillers.size() != 1)
