@@ -15,11 +15,16 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Level;
 import org.apache.uima.util.Logger;
 import org.uimafit.component.JCasAnnotator_ImplBase;
+import org.uimafit.descriptor.ConfigurationParameter;
+import org.uimafit.factory.ConfigurationParameterFactory;
 
+import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
+import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
+import edu.ucdenver.ccp.uima.shims.annotation.AnnotationDataExtractor;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
@@ -27,6 +32,37 @@ import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
  */
 public abstract class SentenceAnnotationProcessor extends JCasAnnotator_ImplBase {
 
+	/* ==== AnnotationDataExtractor configuration ==== */
+	/**
+	 * Parameter name used in the UIMA descriptor file for the annotation data extractor
+	 * implementation to use
+	 */
+	public static final String PARAM_ANNOTATION_DATA_EXTRACTOR_CLASS = ConfigurationParameterFactory
+			.createConfigurationParameterName(SentenceAnnotationProcessor.class, "annotationDataExtractorClassName");
+
+	@ConfigurationParameter(mandatory = true, description = "name of the AnnotationDataExtractor implementation to use", defaultValue = "edu.ucdenver.ccp.uima.shims.annotation.impl.DefaultAnnotationDataExtractor")
+	private String annotationDataExtractorClassName;
+
+	/**
+	 * this {@link DocumentMetaDataExtractor} will be initialized based on the class name specified
+	 * by the documentMetadataExtractorClassName parameter
+	 */
+	private AnnotationDataExtractor annotationDataExtractor;
+
+
+	
+	/**
+	 * Parameter name used in the UIMA descriptor file for the annotation data extractor
+	 * implementation to use
+	 */
+	public static final String PARAM_SENTENCE_ANNOTATION_NAME = ConfigurationParameterFactory
+			.createConfigurationParameterName(SentenceAnnotationProcessor.class, "sentenceAnnotationName");
+
+	@ConfigurationParameter(description = "name of the sentence annotation type to process", defaultValue = "sentence")
+	private String sentenceAnnotationName;
+
+	
+	
 	private Logger logger;
 
 	/*
@@ -38,6 +74,8 @@ public abstract class SentenceAnnotationProcessor extends JCasAnnotator_ImplBase
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		logger = context.getLogger();
+		annotationDataExtractor = (AnnotationDataExtractor) ConstructorUtil
+				.invokeConstructor(annotationDataExtractorClassName);
 	}
 
 	/*
@@ -59,12 +97,15 @@ public abstract class SentenceAnnotationProcessor extends JCasAnnotator_ImplBase
 		 */
 		List<TextAnnotation> annotationsToPutInCas = new ArrayList<TextAnnotation>();
 		int sentenceCount = 0;
-		for (FSIterator<Annotation> annotIter = jCas.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type)
+		for (FSIterator<Annotation> annotIter = jCas.getJFSIndexRepository().getAnnotationIndex()
 				.iterator(); annotIter.hasNext();) {
-			CCPTextAnnotation ccpTa = (CCPTextAnnotation) annotIter.next();
-			if (ccpTa.getClassMention().getMentionName().equalsIgnoreCase(ClassMentionTypes.SENTENCE)) {
+			Annotation annot = annotIter.next();
+			String type = annotationDataExtractor.getAnnotationType(annot);
+			if (type.toLowerCase().endsWith(sentenceAnnotationName)) {
+//			CCPTextAnnotation ccpTa = (CCPTextAnnotation) annotIter.next();
+//			if (ccpTa.getClassMention().getMentionName().equalsIgnoreCase(ClassMentionTypes.SENTENCE)) {
 				sentenceCount++;
-				annotationsToPutInCas.addAll(processSentence(ccpTa.getCoveredText(), ccpTa.getBegin(), jCas));
+				annotationsToPutInCas.addAll(processSentence(annot.getCoveredText().replaceAll("\\n"," "), annot.getBegin(), jCas));
 			}
 		}
 		if (sentenceCount == 0) {
