@@ -89,6 +89,12 @@ public class ProtegeUtil {
 
 	private static final String TAXONOMIC_RANK_CLS_NAME = "taxonomic_rank";
 
+	private static final String TYPOGRAPHY_CLS_NAME = "typography";
+
+	private static final String SECTION_CLS_NAME = "section";
+
+	private static final String SECTION_NAME_SLOT_NAME = "section name";
+
 	private Project project;
 	private final String projectFileName;
 
@@ -1124,7 +1130,15 @@ public class ProtegeUtil {
 		ProtegeUtil fromPU = new ProtegeUtil(protegeProjectFile.getAbsolutePath());
 		// Protege_Util toPU = new Protege_Util(toProjectName);
 
-		if (protegeProjectFile.getName().contains("EG")) {
+		if (protegeProjectFile.getName().contains("typography")) {
+			rootClsNames = new HashSet<String>();
+			rootClsNames.add(TYPOGRAPHY_CLS_NAME);
+			rootClsNames.add(SECTION_CLS_NAME);
+			
+			copyClses(fromPU, this, fromPU.getClasses(rootClsNames), null);
+			copySlot(fromPU.getKnowledgeBase().getSlot(SECTION_NAME_SLOT_NAME), fromPU.getKnowledgeBase(),
+					this.getKnowledgeBase(), STANDARD_SLOT);
+		} else if (protegeProjectFile.getName().contains("EG")) {
 			/*
 			 * for the gene-or-gene product project and taxonomy id project, there are no meta
 			 * classes/slots
