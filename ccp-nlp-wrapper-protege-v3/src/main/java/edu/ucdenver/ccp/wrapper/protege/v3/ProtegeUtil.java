@@ -70,7 +70,7 @@ public class ProtegeUtil {
 	private static final String HAS_CORRESPONDING_CONCEPTS_SLOT = "has corresponding concepts";
 	private static final String HAS_CORRESPONDING_CONCEPT_SLOT = "has corresponding concept";
 
-	private static final String EG_ROOT_REGION_CLS_NAME = "region";
+	private static final String EG_ROOT_REGION_CLS_NAME = "Entrez Gene sequence";
 	private static final String GENE_OR_TRANSCRIPT_OR_POLYPEPTIDE_OR_MACROMOLECULAR_COMPLEX_CLS_NAME = "gene or transcript or polypeptide or macromolecular complex";
 	private static final String CDNA_CLS_NAME = "cDNA";
 	private static final String PROMOTER_CLS_NAME = "promoter";
@@ -1143,12 +1143,15 @@ public class ProtegeUtil {
 			 * for the gene-or-gene product project and taxonomy id project, there are no meta
 			 * classes/slots
 			 */
+//			rootClsNames = new HashSet<String>();
+//			rootClsNames.add(GENE_OR_TRANSCRIPT_OR_POLYPEPTIDE_OR_MACROMOLECULAR_COMPLEX_CLS_NAME);
+//			copyClses(fromPU, this, fromPU.getClasses(rootClsNames), null);
+//			rootClsNames = new HashSet<String>();
+//			rootClsNames.add(CDNA_CLS_NAME);
+//			rootClsNames.add(PROMOTER_CLS_NAME);
+			
 			rootClsNames = new HashSet<String>();
-			rootClsNames.add(GENE_OR_TRANSCRIPT_OR_POLYPEPTIDE_OR_MACROMOLECULAR_COMPLEX_CLS_NAME);
-			copyClses(fromPU, this, fromPU.getClasses(rootClsNames), null);
-			rootClsNames = new HashSet<String>();
-			rootClsNames.add(CDNA_CLS_NAME);
-			rootClsNames.add(PROMOTER_CLS_NAME);
+			rootClsNames.add(EG_ROOT_REGION_CLS_NAME);
 			copyClses(fromPU, this, fromPU.getClasses(rootClsNames), null);
 			copySlot(fromPU.getKnowledgeBase().getSlot(HAS_ENTREZ_GENE_ID_SLOT_NAME), fromPU.getKnowledgeBase(),
 					this.getKnowledgeBase(), STANDARD_SLOT);
