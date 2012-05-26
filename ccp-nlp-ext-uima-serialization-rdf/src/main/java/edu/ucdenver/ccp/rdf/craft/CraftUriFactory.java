@@ -27,6 +27,12 @@ public class CraftUriFactory extends DataSourceIdentifierUriFactory {
 	private static final String CRAFT_NAMESPACE = "http://craft.ucdenver.edu/";
 
 	public static final URI CONTINUANT_URI = new URIImpl("http://www.ifomis.org/bfo/1.1/snap#Continuant");
+	public static final URI ITALIC_URI = new URIImpl("http://craft.ucdenver.edu/iao/italic");
+	public static final URI BOLD_URI = new URIImpl("http://craft.ucdenver.edu/iao/bold");
+	public static final URI SUP_URI = new URIImpl("http://craft.ucdenver.edu/iao/sup");
+	public static final URI SUB_URI = new URIImpl("http://craft.ucdenver.edu/iao/sub");
+	public static final URI UNDERLINE_URI = new URIImpl("http://craft.ucdenver.edu/iao/underline");
+	public static final URI SECTION_URI = new URIImpl("http://purl.obolibrary.org/obo/IAO_0000314"); //iao:document part
 
 	// TODO: this can't have a trailing slash b/c the UUID gets appended to it. Future generation of
 	// annotation URIs could check for the slash and remove it if necessary
@@ -39,7 +45,19 @@ public class CraftUriFactory extends DataSourceIdentifierUriFactory {
 		CraftEntrezGeneAnnotationAttributeExtractor egAttributeExtractor = (CraftEntrezGeneAnnotationAttributeExtractor) annotationDataExtractor
 				.getAnnotationAttributeExtractor(CraftAnnotationAttribute.ENTREZ_GENE_ID);
 		String type = annotationDataExtractor.getAnnotationType(annotation);
-		if (type.equals("continuant")) {
+		if (type.equals("italic")) {
+			return ITALIC_URI;
+		} else if (type.equals("bold")) {
+			return BOLD_URI;
+		} else if (type.equals("sup")) {
+			return SUP_URI;
+		} else if (type.equals("sub")) {
+			return SUB_URI;
+		} else if (type.equals("underline")) {
+			return UNDERLINE_URI;
+		} else if (type.equals("section")) {
+			return SECTION_URI;
+		} else if (type.equals("independent_continuant")) {
 			return CONTINUANT_URI;
 		} else if (type.equalsIgnoreCase("organism")) {
 			Collection<NcbiTaxonomyID> taxIds = taxIdAttributeExtractor.getAnnotationAttributes(annotation);
