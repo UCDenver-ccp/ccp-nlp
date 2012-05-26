@@ -18,6 +18,7 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.component.JCasAnnotator_ImplBase;
@@ -32,9 +33,11 @@ import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
+import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
 import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTag.InlinePostfixTag;
 import edu.ucdenver.ccp.uima.ae.printer.inline.InlineTag.InlinePrefixTag;
+import edu.ucdenver.ccp.uima.shims.annotation.Span;
 
 /**
  * This JCas annotator is capable of outputting to file the document text from a specified view and
@@ -166,23 +169,60 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		BufferedWriter writer = null;
+		BufferedWriter excludedAnnotationWriter = null;
 		try {
 			JCas viewToProcess = jCas.getView(viewNameToProcess);
 			writer = initializeOutputFileWriter(viewToProcess);
 			Map<Integer, Collection<InlineTag>> characterOffsetToTagMap = computeCharacterOffsetToTagMap(viewToProcess);
 			outputAnnotationsInline(characterOffsetToTagMap, viewToProcess.getDocumentText(), writer, jCas);
+
+			for (InlineTagExtractor tagExtractor : inlineTagExtractors) {
+				Collection<String> excludedAnnotations = tagExtractor.getExcludedAnnotations();
+				logger.info("GOT EXCLUDED ANNOTATIONS ("+excludedAnnotations.size()+"): " + excludedAnnotations.toString());
+				if (!excludedAnnotations.isEmpty()) {
+					if (excludedAnnotationWriter == null) {
+						excludedAnnotationWriter = initializeExcludedAnnotationFileWriter(jCas);
+					}
+					writeExcludedAnnotations(metaDataExtractor.extractDocumentId(jCas), excludedAnnotations, excludedAnnotationWriter, tagExtractor.getAnnotationDataExtractor());
+				}
+			}
 		} catch (IOException ioe) {
 			throw new AnalysisEngineProcessException(ioe);
 		} catch (CASException e) {
 			throw new AnalysisEngineProcessException(e);
 		} finally {
 			try {
-				if (writer != null)
+				if (writer != null) {
 					writer.close();
+				}
+				if (excludedAnnotationWriter != null) {
+					excludedAnnotationWriter.close();
+				}
 			} catch (IOException ioe) {
 				throw new AnalysisEngineProcessException(ioe);
 			}
 		}
+	}
+
+	/**
+	 * @param excludedAnnotations
+	 * @param excludedAnnotationWriter
+	 * @throws IOException 
+	 */
+	private void writeExcludedAnnotations(String documentId, Collection<String> excludedAnnotations,
+			BufferedWriter writer, AnnotationDataExtractor annotationDataExtractor) throws IOException {
+		logger.info("ANNOTATION DATA EXTRACTOR IS NULL???: " + (annotationDataExtractor==null));
+		logger.info("ANNOTATION DATA EXTRACTOR CLASS: " + (annotationDataExtractor.getClass().getName()));
+		for (String excludedAnnot : excludedAnnotations) {
+//			String annotationType = annotationDataExtractor.getAnnotationType(excludedAnnot);
+//			List<Span> annotationSpans = annotationDataExtractor.getAnnotationSpans(excludedAnnot);
+//			String coveredText = annotationDataExtractor.getCoveredText(excludedAnnot);
+//			String outStr = documentId + "\t" + annotationType + "\t" + annotationSpans.toString() + "\t" + coveredText;
+//			String outStr = documentId + "\t" +  "\t" + annotationSpans.toString() + "\t" + coveredText;
+			writer.write(excludedAnnot);
+			writer.newLine();
+		}
+		
 	}
 
 	/**
@@ -384,6 +424,26 @@ public class InlinePrinter_AE extends JCasAnnotator_ImplBase {
 		String encodingStr = metaDataExtractor.extractDocumentEncoding(jCas);
 		CharacterEncoding encoding = CharacterEncoding.getEncoding(encodingStr);
 		File outputFile = new File(outputDirectory, documentId + outputFileSuffix);
+		return FileWriterUtil.initBufferedWriter(outputFile, encoding, WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
+	}
+
+	/**
+	 * Initializes a new {@link BufferedWriter} to write to an output file for a particular
+	 * {@link JCas}. The output file name is composed of the document identifier (extracted from the
+	 * {@link JCas}) appended with ".inline".
+	 * 
+	 * @param jCas
+	 *            used to extract the document identifier and character encoding
+	 * @return an initialized {@link BufferedWriter} to the output file designated for the input
+	 *         {@link JCas}
+	 * @throws FileNotFoundException
+	 *             if an error occurs while initializing the {@link BufferedWriter}
+	 */
+	private BufferedWriter initializeExcludedAnnotationFileWriter(JCas jCas) throws FileNotFoundException {
+		String documentId = metaDataExtractor.extractDocumentId(jCas);
+		String encodingStr = metaDataExtractor.extractDocumentEncoding(jCas);
+		CharacterEncoding encoding = CharacterEncoding.getEncoding(encodingStr);
+		File outputFile = new File(outputDirectory, documentId + outputFileSuffix + ".excluded_annotations");
 		return FileWriterUtil.initBufferedWriter(outputFile, encoding, WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
 	}
 

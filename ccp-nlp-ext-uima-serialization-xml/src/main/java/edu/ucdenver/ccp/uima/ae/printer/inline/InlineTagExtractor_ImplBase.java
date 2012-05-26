@@ -13,7 +13,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
-
+import edu.ucdenver.ccp.uima.shims.annotation.Span;
 
 /**
  * Base implementation for {@link InlineTagExtractor} instances. This abstract class provides logic
@@ -29,7 +29,7 @@ import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
 public abstract class InlineTagExtractor_ImplBase implements InlineTagExtractor {
 
 	private static final Logger logger = Logger.getLogger(InlineTagExtractor_ImplBase.class);
-	
+
 	/**
 	 * Specifies the types of annotation to process when extracting {@link InlineTag} instances
 	 */
@@ -57,6 +57,12 @@ public abstract class InlineTagExtractor_ImplBase implements InlineTagExtractor 
 	private Collection<Annotation> preFetchedAnnotations;
 
 	/**
+	 * Stores annotations that are excluded from output due to incompatibilities with the inline tag
+	 * format. Split-span annotations are one such example (they are sometimes incompatible).
+	 */
+	private Collection<String> excludedAnnotations;
+
+	/**
 	 * Initializes a new {@link InlineTagExtractor} instance to process annotations identified by
 	 * the UIMA annotation type integer.
 	 * 
@@ -67,13 +73,15 @@ public abstract class InlineTagExtractor_ImplBase implements InlineTagExtractor 
 	 *            To be used by extensions of this class to extracts type and span information (and
 	 *            possibly other things).
 	 */
-	protected InlineTagExtractor_ImplBase(Collection<Integer> annotationTypes, AnnotationDataExtractor annotationDataExtractor) {
+	protected InlineTagExtractor_ImplBase(Collection<Integer> annotationTypes,
+			AnnotationDataExtractor annotationDataExtractor) {
 		this.annotationTypes = annotationTypes;
 		this.annotationDataExtractor = annotationDataExtractor;
 		this.supplementalTags = new ArrayList<InlineTag>();
 		this.preFetchedAnnotations = new ArrayList<Annotation>();
+		this.excludedAnnotations = new ArrayList<String>();
 	}
-	
+
 	protected InlineTagExtractor_ImplBase(int annotationType, AnnotationDataExtractor annotationDataExtractor) {
 		this(CollectionsUtil.createList(annotationType), annotationDataExtractor);
 	}
@@ -83,6 +91,7 @@ public abstract class InlineTagExtractor_ImplBase implements InlineTagExtractor 
 	 */
 	@Override
 	public Iterator<InlineTag> getInlineTagIterator(final JCas view) {
+		this.excludedAnnotations = new ArrayList<String>();
 		preFetchAnnotations(view);
 		final FSIterator annotationIter = view.getJFSIndexRepository().getAnnotationIndex().iterator();
 		return new Iterator<InlineTag>() {
@@ -99,7 +108,7 @@ public abstract class InlineTagExtractor_ImplBase implements InlineTagExtractor 
 						tagsToReturn = getInlineTags(annotation);
 						if (tagsToReturn.size() > 0)
 							return true;
-						}
+					}
 				}
 				generateSupplementalTags(view.getDocumentText());
 				if (supplementalTags != null && supplementalTags.size() > 0) {
@@ -133,16 +142,17 @@ public abstract class InlineTagExtractor_ImplBase implements InlineTagExtractor 
 	protected void preFetchAnnotations(JCas jcas) {
 		this.preFetchedAnnotations = new ArrayList<Annotation>();
 	}
-	
+
 	/**
 	 * @return the pre-fetched annotations
 	 */
 	protected Collection<Annotation> getPreFetchedAnnotations() {
 		return preFetchedAnnotations;
 	}
-	
+
 	/**
 	 * Adds an annotation to the pre-fetched collection
+	 * 
 	 * @param annotation
 	 */
 	protected void addPreFetchedAnnotation(Annotation annotation) {
@@ -150,10 +160,31 @@ public abstract class InlineTagExtractor_ImplBase implements InlineTagExtractor 
 	}
 
 	/**
+	 * @return the excluded annotations
+	 */
+	public Collection<String> getExcludedAnnotations() {
+		logger.info("RETRIEVING EXCLUDED ANNOTATIONS ("+excludedAnnotations.size()+"): " + excludedAnnotations.toString());
+		return excludedAnnotations;
+	}
+
+	/**
+	 * Adds an annotation to the excluded collection
+	 * 
+	 * @param annotation
+	 */
+	protected void addExcludedAnnotation(Annotation annotation) {
+		String annotationType = annotationDataExtractor.getAnnotationType(annotation);
+		List<Span> annotationSpans = annotationDataExtractor.getAnnotationSpans(annotation);
+		String coveredText = annotationDataExtractor.getCoveredText(annotation);
+		String outStr = annotationType + "\t" + annotationSpans.toString() + "\t" + coveredText;
+		excludedAnnotations.add(outStr);
+	}
+
+	/**
 	 * @return the {@link AnnotationDataExtractor} instance being used by this
 	 *         {@link InlineTagExtractor} implementation
 	 */
-	protected AnnotationDataExtractor getAnnotationDataExtractor() {
+	public AnnotationDataExtractor getAnnotationDataExtractor() {
 		return annotationDataExtractor;
 	}
 
