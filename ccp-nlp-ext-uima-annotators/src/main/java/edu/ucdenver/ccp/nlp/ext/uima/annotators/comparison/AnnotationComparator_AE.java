@@ -458,7 +458,7 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 				}
 					throw new IllegalStateException("GOLD STATS: " + goldResult.getStatsString() + "\nEVAL STATS: "
 							+ prf.getStatsString() + "\nTP+FN count mismatch: " + tpFnCount + "!=" + goldTpFnCount
-							+ " for document: " + documentID);
+							+ " for document: " + documentID + "\nGOLD TP's:" + goldResult.getTPAnnotations().toString());
 			}
 		}
 
