@@ -447,7 +447,8 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		for (Entry<Integer, PRFResult> entry : comparisonGroupID2ScoreForThisCASOnly.entrySet()) {
 			PRFResult prf = entry.getValue();
 			int tpFnCount = prf.getTruePositiveCount() + prf.getFalseNegativeCount();
-			if (goldTpFnCount != tpFnCount) {
+			SpanComparatorType spanComparatorType = SpanComparatorType.valueOf(spanComparatorTypeName);
+			if ((spanComparatorType.equals(SpanComparatorType.STRICT) && goldTpFnCount != tpFnCount) || (goldTpFnCount < tpFnCount)) {
 				try {
 				} finally {
 					try {
@@ -785,7 +786,8 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 					/* do TP+FN test */
 					prf = comparisonGroupID2ScoreMap.get(comparisonGroupID);
 					int testTpFn = prf.getTruePositiveCount() + prf.getFalseNegativeCount();
-					if (gsTpFn != testTpFn) {
+					SpanComparatorType spanComparatorType = SpanComparatorType.valueOf(spanComparatorTypeName);
+					if ((spanComparatorType.equals(SpanComparatorType.STRICT) && gsTpFn != testTpFn) || (gsTpFn < testTpFn)) {
 						String errorMessage = "Gold Standard's TP + FN does not equal the TP+FN sum for id: "
 								+ comparisonGroupID + ". values are: GS:" + gsTpFn + " testgroup: " + testTpFn;
 						logger.error(errorMessage);
