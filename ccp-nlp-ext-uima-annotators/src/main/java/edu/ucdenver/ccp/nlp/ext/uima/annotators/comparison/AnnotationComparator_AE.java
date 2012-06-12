@@ -448,6 +448,13 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 			PRFResult prf = entry.getValue();
 			int tpFnCount = prf.getTruePositiveCount() + prf.getFalseNegativeCount();
 			if (goldTpFnCount != tpFnCount) {
+				logger.error("GOLD STATS: " + goldResult.getStatsString());
+				logger.error("EVAL STATS: " + prf.getStatsString());
+				try {
+					annotationOutputWriter.close();
+				} catch (IOException e) {
+					throw new AnalysisEngineProcessException(e);
+				}
 				throw new IllegalStateException("TP+FN count mismatch: " + tpFnCount + "!=" + goldTpFnCount + " for document: " + documentID);
 			}
 		}
