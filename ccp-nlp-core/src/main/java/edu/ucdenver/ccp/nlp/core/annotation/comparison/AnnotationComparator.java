@@ -194,7 +194,7 @@ public class AnnotationComparator implements Comparator<TextAnnotation> {
 				// false));
 				// }
 				while (indexInTestAnnotationSpansList < testTaList.size()
-						&& (goldTA.getAnnotationSpanStart() >= testTaList.get(indexInTestAnnotationSpansList).getAnnotationSpanStart() & !goldTA
+						&& (goldTA.getAnnotationSpanStart() >= testTaList.get(indexInTestAnnotationSpansList).getAnnotationSpanStart() && !goldTA
 								.overlaps(testTaList.get(indexInTestAnnotationSpansList)))) {
 
 					// logger.debug("advancing pointer... gold does not overlap with test: "
@@ -214,7 +214,7 @@ public class AnnotationComparator implements Comparator<TextAnnotation> {
 				// logger.debug("place holder = " + indexInTestAnnotationSpansList);
 				int indexPlaceHolder = indexInTestAnnotationSpansList;
 				while (indexInTestAnnotationSpansList < testTaList.size()
-						&& (testTaList.get(indexInTestAnnotationSpansList).getAnnotationSpanEnd() < goldTA.getAnnotationSpanStart() | goldTA
+						&& (testTaList.get(indexInTestAnnotationSpansList).getAnnotationSpanEnd() < goldTA.getAnnotationSpanStart() || goldTA
 								.overlaps(testTaList.get(indexInTestAnnotationSpansList)))) {
 					TextAnnotation testTA = testTaList.get(indexInTestAnnotationSpansList);
 
