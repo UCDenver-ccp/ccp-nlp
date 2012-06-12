@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -440,10 +441,22 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		} catch (IOException e) {
 			throw new AnalysisEngineProcessException(e);
 		}
+		
+		PRFResult goldResult = comparisonGroupID2ScoreForThisCASOnly.get(goldStandardComparisonGroupID);
+		int goldTpFnCount = goldResult.getTruePositiveCount() + goldResult.getFalseNegativeCount();
+		for (Entry<Integer, PRFResult> entry : comparisonGroupID2ScoreForThisCASOnly.entrySet()) {
+			PRFResult prf = entry.getValue();
+			int tpFnCount = prf.getTruePositiveCount() + prf.getFalseNegativeCount();
+			if (goldTpFnCount != tpFnCount) {
+				throw new IllegalStateException("TP+FN count mismatch: " + tpFnCount + "!=" + goldTpFnCount + " for document: " + documentID);
+			}
+		}
+		
 
 		/* assign tp, fp, and fn properties to the annotations in the JCas */
-		if (assignEvaluationResultPropertiesToAnnotations)
+		if (assignEvaluationResultPropertiesToAnnotations) {
 			assignTpFpFnMetaPropertiesToAnnotations(jcas, comparisonGroupID2ScoreForThisCASOnly);
+		}
 	}
 
 	/**
