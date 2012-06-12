@@ -441,24 +441,26 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		} catch (IOException e) {
 			throw new AnalysisEngineProcessException(e);
 		}
-		
+
 		PRFResult goldResult = comparisonGroupID2ScoreForThisCASOnly.get(goldStandardComparisonGroupID);
 		int goldTpFnCount = goldResult.getTruePositiveCount() + goldResult.getFalseNegativeCount();
 		for (Entry<Integer, PRFResult> entry : comparisonGroupID2ScoreForThisCASOnly.entrySet()) {
 			PRFResult prf = entry.getValue();
 			int tpFnCount = prf.getTruePositiveCount() + prf.getFalseNegativeCount();
 			if (goldTpFnCount != tpFnCount) {
-				logger.error("GOLD STATS: " + goldResult.getStatsString());
-				logger.error("EVAL STATS: " + prf.getStatsString());
 				try {
-					annotationOutputWriter.close();
-				} catch (IOException e) {
-					throw new AnalysisEngineProcessException(e);
+				} finally {
+					try {
+						annotationOutputWriter.close();
+					} catch (IOException e) {
+						throw new AnalysisEngineProcessException(e);
+					}
 				}
-				throw new IllegalStateException("TP+FN count mismatch: " + tpFnCount + "!=" + goldTpFnCount + " for document: " + documentID);
+					throw new IllegalStateException("GOLD STATS: " + goldResult.getStatsString() + "\nEVAL STATS: "
+							+ prf.getStatsString() + "\nTP+FN count mismatch: " + tpFnCount + "!=" + goldTpFnCount
+							+ " for document: " + documentID);
 			}
 		}
-		
 
 		/* assign tp, fp, and fn properties to the annotations in the JCas */
 		if (assignEvaluationResultPropertiesToAnnotations) {
