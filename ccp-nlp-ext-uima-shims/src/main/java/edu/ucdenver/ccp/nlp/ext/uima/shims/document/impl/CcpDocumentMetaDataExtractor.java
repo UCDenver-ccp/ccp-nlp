@@ -20,8 +20,8 @@ public class CcpDocumentMetaDataExtractor implements DocumentMetaDataExtractor {
 	 */
 	@Override
 	public String extractDocumentEncoding(JCas jCas) {
-		return CharacterEncoding.UTF_8.getCharacterSetName();
-//		return UIMA_Util.getDocumentEncoding(jCas);
+//		return CharacterEncoding.UTF_8.getCharacterSetName();
+		return UIMA_Util.getDocumentEncoding(jCas).getCharacterSetName();
 	}
 
 	/**
