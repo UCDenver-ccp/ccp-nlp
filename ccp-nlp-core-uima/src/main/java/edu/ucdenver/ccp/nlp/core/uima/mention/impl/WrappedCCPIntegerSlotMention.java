@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.IntegerArray;
 
@@ -19,7 +20,7 @@ public class WrappedCCPIntegerSlotMention extends IntegerSlotMention {
 	private JCas jcas;
 
 	public WrappedCCPIntegerSlotMention(CCPIntegerSlotMention ccpSSM) {
-		super( ccpSSM);
+		super(ccpSSM);
 	}
 
 	@Override
@@ -27,24 +28,29 @@ public class WrappedCCPIntegerSlotMention extends IntegerSlotMention {
 		return wrappedSM;
 	}
 
-//	@Override
-//	public String getStringRepresentation(int indentLevel, boolean showReferencingAnnotationInfo) {
-//		List<Integer> sortedSlotValues = new ArrayList<Integer>();
-//		IntegerArray slotValues = wrappedSM.getSlotValues();
-//		for (int i = 0; i < slotValues.size(); i++) {
-//			sortedSlotValues.add(slotValues.get(i));
-//		}
-//		Collections.sort(sortedSlotValues);
-//		return getStringRepresentation(indentLevel, sortedSlotValues);
-//	}
+	// @Override
+	// public String getStringRepresentation(int indentLevel, boolean showReferencingAnnotationInfo)
+	// {
+	// List<Integer> sortedSlotValues = new ArrayList<Integer>();
+	// IntegerArray slotValues = wrappedSM.getSlotValues();
+	// for (int i = 0; i < slotValues.size(); i++) {
+	// sortedSlotValues.add(slotValues.get(i));
+	// }
+	// Collections.sort(sortedSlotValues);
+	// return getStringRepresentation(indentLevel, sortedSlotValues);
+	// }
 
 	@Override
-	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) throws Exception {
+	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) {
 		if (wrappedObjectPlusGlobalVars.length == 1) {
 			Object wrappedObject = wrappedObjectPlusGlobalVars[0];
 			if (wrappedObject instanceof CCPIntegerSlotMention) {
 				wrappedSM = (CCPIntegerSlotMention) wrappedObject;
-				jcas = wrappedSM.getCAS().getJCas();
+				try {
+					jcas = wrappedSM.getCAS().getJCas();
+				} catch (CASException e) {
+					throw new RuntimeException(e);
+				}
 			} else {
 				throw new KnowledgeRepresentationWrapperException(
 						"Expected CCPNonComplexSlotMention. Cannot wrap class " + wrappedObject.getClass().getName()
@@ -57,10 +63,10 @@ public class WrappedCCPIntegerSlotMention extends IntegerSlotMention {
 		}
 	}
 
-//	@Override
-//	protected void initializeMention() {
-//		// do nothing
-//	}
+	// @Override
+	// protected void initializeMention() {
+	// // do nothing
+	// }
 
 	public void addSlotValue(Integer slotValue) throws InvalidInputException {
 		IntegerArray updatedIntegerArray = UIMA_Util.addToIntegerArray(wrappedSM.getSlotValues(), slotValue, jcas);
@@ -104,24 +110,24 @@ public class WrappedCCPIntegerSlotMention extends IntegerSlotMention {
 
 	@Override
 	public String getMentionName() {
-	return wrappedSM.getMentionName();
+		return wrappedSM.getMentionName();
 	}
 
 	@Override
 	public void setMentionID(long mentionID) {
-wrappedSM.setMentionID(mentionID);
-}
+		wrappedSM.setMentionID(mentionID);
+	}
 
 	@Override
 	protected void setMentionName(String mentionName) {
-wrappedSM.setMentionName(mentionName);
+		wrappedSM.setMentionName(mentionName);
 	}
 
 	// @Override
 	// protected Long getMentionIDForTraversal(int traversalID) {
 	// return UIMA_Util.getMentionIDForTraversal(wrappedNCSM, traversalID);
 	// }
-	//	
+	//
 	// @Override
 	// protected void removeMentionIDForTraversal(int traversalID) {
 	// UIMA_Util.removeMentionIDForTraversal(wrappedNCSM, traversalID, jcas);

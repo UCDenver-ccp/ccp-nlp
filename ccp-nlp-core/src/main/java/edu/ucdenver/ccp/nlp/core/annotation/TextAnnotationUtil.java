@@ -92,7 +92,7 @@ public class TextAnnotationUtil {
 		return documentID2AnnotationsMap;
 	}
 	
-	private static TextAnnotation getAnnotationFromLine(String line) throws Exception {
+	private static TextAnnotation getAnnotationFromLine(String line) {
 		String[] toks = line.split("\\|");
 		if (toks.length > 4) {
 			String documentID = toks[0];
@@ -252,7 +252,7 @@ public class TextAnnotationUtil {
 	 * @param slotValue
 	 * @throws Exception 
 	 */
-	public static <E extends Object> void addSlotValue(TextAnnotation ta, String slotName, E slotValue) throws Exception {
+	public static <E extends Object> void addSlotValue(TextAnnotation ta, String slotName, E slotValue) {
 		if (slotValue instanceof DefaultClassMention) {
 			ComplexSlotMention csm = ta.getClassMention().getComplexSlotMentionByName(slotName);
 			if (csm == null) {

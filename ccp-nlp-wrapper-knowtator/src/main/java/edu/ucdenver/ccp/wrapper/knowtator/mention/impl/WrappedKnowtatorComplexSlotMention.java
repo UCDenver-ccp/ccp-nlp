@@ -27,7 +27,7 @@ public class WrappedKnowtatorComplexSlotMention extends ComplexSlotMention {
 	}
 
 	@Override
-	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) throws Exception {
+	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) {
 		Object wrappedObject = wrappedObjectPlusGlobalVars[0];
 		if (wrappedObject instanceof DefaultSimpleInstance) {
 			setGlobalVars(wrappedObjectPlusGlobalVars);

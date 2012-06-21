@@ -530,7 +530,7 @@ public class DefaultTextAnnotation extends TextAnnotation {
 	}
 
 	@Override
-	protected void initializeFromWrappedAnnotation(Object... wrappedObject) throws Exception {
+	protected void initializeFromWrappedAnnotation(Object... wrappedObject) {
 		throw new UnsupportedOperationException("The " + this.getClass().getSimpleName()
 				+ " class does not support wrapping of another object.");
 	}

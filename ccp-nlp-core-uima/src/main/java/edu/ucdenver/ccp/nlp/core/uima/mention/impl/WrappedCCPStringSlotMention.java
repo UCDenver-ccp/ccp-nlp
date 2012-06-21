@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.StringArray;
 
@@ -39,12 +40,16 @@ public class WrappedCCPStringSlotMention extends StringSlotMention {
 //	}
 
 	@Override
-	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) throws Exception {
+	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars)  {
 		if (wrappedObjectPlusGlobalVars.length == 1) {
 			Object wrappedObject = wrappedObjectPlusGlobalVars[0];
 			if (wrappedObject instanceof CCPStringSlotMention) {
 				wrappedSM = (CCPStringSlotMention) wrappedObject;
-				jcas = wrappedSM.getCAS().getJCas();
+				try {
+					jcas = wrappedSM.getCAS().getJCas();
+				} catch (CASException e) {
+					throw new RuntimeException(e);
+				}
 			} else {
 				throw new KnowledgeRepresentationWrapperException(
 						"Expected CCPNonComplexSlotMention. Cannot wrap class " + wrappedObject.getClass().getName()

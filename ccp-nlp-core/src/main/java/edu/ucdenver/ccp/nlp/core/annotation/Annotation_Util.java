@@ -65,7 +65,7 @@ public class Annotation_Util {
 	 * @return a <code>ClassMention</code> representing a token
 	 * @throws Exception 
 	 */
-	public static ClassMention createTokenMention(String posLabel, String posTagSet, String stem, String lemma, Integer tokenNumber) throws Exception {
+	public static ClassMention createTokenMention(String posLabel, String posTagSet, String stem, String lemma, Integer tokenNumber) {
 		ClassMention cm = new DefaultClassMention(ClassMentionTypes.TOKEN);
 
 		if (posLabel != null) {
@@ -104,7 +104,7 @@ public class Annotation_Util {
 		return cm;
 	}
 
-	public static ClassMention createPhraseMention(String phraseTypeLabel, String tagSet) throws Exception {
+	public static ClassMention createPhraseMention(String phraseTypeLabel, String tagSet) {
 		ClassMention cm = new DefaultClassMention(ClassMentionTypes.PHRASE);
 
 		if (phraseTypeLabel != null) {
@@ -123,7 +123,7 @@ public class Annotation_Util {
 		return cm;
 	}
 
-	public static ClassMention createClauseMention(String clauseTypeLabel, String tagSet) throws Exception {
+	public static ClassMention createClauseMention(String clauseTypeLabel, String tagSet) {
 		ClassMention cm = new DefaultClassMention(ClassMentionTypes.CLAUSE);
 
 		if (clauseTypeLabel != null) {

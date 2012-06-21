@@ -45,10 +45,14 @@ public class WrappedCCPClassMention extends ClassMention {
 	}
 
 	@Override
-	protected void initializeFromWrappedMention(Object... wrappedObjectPlustGlobalVars) throws Exception {
+	protected void initializeFromWrappedMention(Object... wrappedObjectPlustGlobalVars) {
 		if (wrappedObjectPlustGlobalVars[0] instanceof CCPClassMention) {
 			wrappedCM = (CCPClassMention) wrappedObjectPlustGlobalVars[0];
-			jcas = wrappedCM.getCAS().getJCas();
+			try {
+				jcas = wrappedCM.getCAS().getJCas();
+			} catch (CASException e) {
+				throw new RuntimeException(e);
+			}
 			
 //			mentionName = wrappedCM.getMentionName();
 		} else {
@@ -57,7 +61,7 @@ public class WrappedCCPClassMention extends ClassMention {
 		}
 	}
 
-	public void addComplexSlotMention(ComplexSlotMention csm) throws Exception {
+	public void addComplexSlotMention(ComplexSlotMention csm) {
 		if (csm.getWrappedObject() instanceof CCPComplexSlotMention) {
 			CCPComplexSlotMention ccpCSM = (CCPComplexSlotMention) csm.getWrappedObject();
 			FSArray slotMentions = wrappedCM.getSlotMentions();
@@ -70,7 +74,7 @@ public class WrappedCCPClassMention extends ClassMention {
 		}
 	}
 
-	public void addPrimitiveSlotMention(PrimitiveSlotMention sm) throws Exception {
+	public void addPrimitiveSlotMention(PrimitiveSlotMention sm) {
 		if (sm.getWrappedObject() instanceof CCPPrimitiveSlotMention) {
 			CCPPrimitiveSlotMention ccpNCSM = (CCPPrimitiveSlotMention) sm.getWrappedObject();
 			FSArray slotMentions = wrappedCM.getSlotMentions();
@@ -157,7 +161,7 @@ public class WrappedCCPClassMention extends ClassMention {
 		return new WrappedCCPTextAnnotation(wrappedCM.getCcpTextAnnotation());
 	}
 
-	public void setComplexSlotMentions(Collection<ComplexSlotMention> complexSlotMentions) throws Exception {
+	public void setComplexSlotMentions(Collection<ComplexSlotMention> complexSlotMentions) {
 		List<CCPSlotMention> csmList = new ArrayList<CCPSlotMention>();
 		for (ComplexSlotMention csm : complexSlotMentions) {
 			if (csm.getWrappedObject() instanceof CCPComplexSlotMention) {
@@ -171,7 +175,7 @@ public class WrappedCCPClassMention extends ClassMention {
 		UIMA_Util.addSlotMentions(wrappedCM, csmList, jcas);
 	}
 
-	public void setPrimitiveSlotMentions(Collection<PrimitiveSlotMention> primitiveSlotMentions) throws Exception {
+	public void setPrimitiveSlotMentions(Collection<PrimitiveSlotMention> primitiveSlotMentions) {
 		List<CCPSlotMention> psmList = new ArrayList<CCPSlotMention>();
 		for (PrimitiveSlotMention psm : primitiveSlotMentions) {
 			if (psm.getWrappedObject() instanceof CCPPrimitiveSlotMention) {

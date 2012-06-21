@@ -28,7 +28,7 @@ public class WrappedKnowtatorStringSlotMention extends StringSlotMention {
 
 	@Override
 	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars)
-			throws Exception {
+			 {
 		Object wrappedObject = wrappedObjectPlusGlobalVars[0];
 		if (wrappedObject instanceof DefaultSimpleInstance) {
 			setGlobalVars(wrappedObjectPlusGlobalVars);

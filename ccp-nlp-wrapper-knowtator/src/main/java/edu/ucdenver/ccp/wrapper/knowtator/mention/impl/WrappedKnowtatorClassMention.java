@@ -19,8 +19,7 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 	private KnowtatorUtil ku;
 
 	public WrappedKnowtatorClassMention(SimpleInstance knowtatorMention, KnowtatorUtil ku) {
-		super(
-				knowtatorMention, ku);
+		super(knowtatorMention, ku);
 		this.ku = ku;
 	}
 
@@ -30,13 +29,13 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 	}
 
 	@Override
-	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) throws Exception {
+	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) {
 		if (wrappedObjectPlusGlobalVars[0] instanceof SimpleInstance) {
 			SimpleInstance possibleCM = (SimpleInstance) wrappedObjectPlusGlobalVars[0];
 
 			setGlobalVars(wrappedObjectPlusGlobalVars);
-//			System.err.println("KU is null: " + (ku == null));
-//			System.err.println("classmentioncls: " + ku.getClassMentionCls().getName());
+			// System.err.println("KU is null: " + (ku == null));
+			// System.err.println("classmentioncls: " + ku.getClassMentionCls().getName());
 			if (possibleCM.getDirectType().getName().equals(ku.getClassMentionCls().getName())) {
 				knowtatorCM = possibleCM;
 				return;
@@ -55,33 +54,8 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 		}
 	}
 
-//	@Override
-//	protected void initializeMention() {
-//		// do nothing
-//	}
-
-//	@Override
-//	protected void setWrappedObjectMentionID(long mentionID) {
-//		throw new UnsupportedOperationException(
-//				"Mention ID is not supported in the WrappedKnowtatorClassMention class.");
-//	}
-	
-	// @Override
-	// protected Long getMentionIDForTraversal(int traversalID) {
-	// return ku.getMentionIDForTraversal(knowtatorCM, traversalID);
-	// }
-	//
-	// @Override
-	// protected void removeMentionIDForTraversal(int traversalID) {
-	// ku.removeTraversalID(traversalID, knowtatorCM);
-	// }
-	//
-	// @Override
-	// protected void setMentionIDForTraversal(long mentionID, int traversalID) {
-	// ku.setMentionIDForTraversal(mentionID, traversalID, knowtatorCM);
-	// }
-
-	public void addComplexSlotMention(ComplexSlotMention csm) throws Exception {
+	@Override
+	public void addComplexSlotMention(ComplexSlotMention csm) {
 		if (csm instanceof WrappedKnowtatorComplexSlotMention) {
 			ku.addSlotMentionToClassMention(knowtatorCM, ((WrappedKnowtatorComplexSlotMention) csm).getWrappedObject());
 		} else {
@@ -90,7 +64,8 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 		}
 	}
 
-	public void addPrimitiveSlotMention(PrimitiveSlotMention sm) throws Exception {
+	@Override
+	public void addPrimitiveSlotMention(PrimitiveSlotMention sm) {
 		if (sm instanceof WrappedKnowtatorBooleanSlotMention) {
 			ku.addSlotMentionToClassMention(knowtatorCM, ((WrappedKnowtatorBooleanSlotMention) sm).getWrappedObject());
 		} else if (sm instanceof WrappedKnowtatorIntegerSlotMention) {
@@ -105,11 +80,14 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 		}
 	}
 
+	@Override
 	public ComplexSlotMention createComplexSlotMention(String slotMentionName) {
 		return new WrappedKnowtatorComplexSlotMention(ku.createKnowtatorSlotMention(slotMentionName), ku);
 	}
 
-	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValue) throws KnowledgeRepresentationWrapperException {
+	@Override
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValue)
+			throws KnowledgeRepresentationWrapperException {
 		if (slotValue instanceof Boolean) {
 			return new WrappedKnowtatorBooleanSlotMention(ku.createKnowtatorPrimitiveSlotMention(slotMentionName,
 					slotValue), ku);
@@ -130,6 +108,7 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 
 	}
 
+	@Override
 	public ComplexSlotMention getComplexSlotMentionByName(String complexSlotMentionName) {
 		for (ComplexSlotMention csm : getComplexSlotMentions()) {
 			if (csm.getMentionName().equalsIgnoreCase(complexSlotMentionName)) {
@@ -139,10 +118,12 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 		return null;
 	}
 
+	@Override
 	public Collection<String> getComplexSlotMentionNames() {
 		return getSlotMentionNames(ku.getComplexSlotMentions(knowtatorCM));
 	}
 
+	@Override
 	public Collection<ComplexSlotMention> getComplexSlotMentions() {
 		Collection<ComplexSlotMention> csms = new ArrayList<ComplexSlotMention>();
 		Collection<SimpleInstance> complexSlotMentionInstances = ku.getComplexSlotMentions(knowtatorCM);
@@ -152,6 +133,7 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 		return csms;
 	}
 
+	@Override
 	public PrimitiveSlotMention getPrimitiveSlotMentionByName(String slotMentionName) {
 		try {
 			for (PrimitiveSlotMention psm : getPrimitiveSlotMentions()) {
@@ -165,10 +147,15 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 		return null;
 	}
 
+	@Override
 	public Collection<String> getPrimitiveSlotMentionNames() {
 		return getSlotMentionNames(ku.getPrimitiveSlotMentions(knowtatorCM));
 	}
 
+	/**
+	 * @param slotMentionInstances
+	 * @return
+	 */
 	private Collection<String> getSlotMentionNames(Collection<SimpleInstance> slotMentionInstances) {
 		Collection<String> slotMentionNames = new ArrayList<String>();
 		for (SimpleInstance smInstance : slotMentionInstances) {
@@ -177,18 +164,19 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 		return slotMentionNames;
 	}
 
+	@Override
 	public Collection<PrimitiveSlotMention> getPrimitiveSlotMentions() throws KnowledgeRepresentationWrapperException {
 		Collection<PrimitiveSlotMention> primitiveSlotMentions = new ArrayList<PrimitiveSlotMention>();
 		Collection<SimpleInstance> primitiveSlotMentionInstances = ku.getPrimitiveSlotMentions(knowtatorCM);
 		for (SimpleInstance smInstance : primitiveSlotMentionInstances) {
 			if (ku.isBooleanSlotMention(smInstance)) {
-				primitiveSlotMentions.add( new WrappedKnowtatorBooleanSlotMention(smInstance, ku));
+				primitiveSlotMentions.add(new WrappedKnowtatorBooleanSlotMention(smInstance, ku));
 			} else if (ku.isFloatSlotMention(smInstance)) {
-				primitiveSlotMentions.add( new WrappedKnowtatorFloatSlotMention(smInstance, ku));
+				primitiveSlotMentions.add(new WrappedKnowtatorFloatSlotMention(smInstance, ku));
 			} else if (ku.isIntegerSlotMention(smInstance)) {
-				primitiveSlotMentions.add( new WrappedKnowtatorIntegerSlotMention(smInstance, ku));
+				primitiveSlotMentions.add(new WrappedKnowtatorIntegerSlotMention(smInstance, ku));
 			} else if (ku.isStringSlotMention(smInstance)) {
-				primitiveSlotMentions.add( new WrappedKnowtatorStringSlotMention(smInstance, ku));
+				primitiveSlotMentions.add(new WrappedKnowtatorStringSlotMention(smInstance, ku));
 			} else {
 				throw new KnowledgeRepresentationWrapperException(
 						"Cannot create knowtator primitive slot mention for slot value of type: "
@@ -198,11 +186,13 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 		return primitiveSlotMentions;
 	}
 
+	@Override
 	public TextAnnotation getTextAnnotation() {
 		return new WrappedKnowtatorAnnotation(ku.getKnowtatorAnnotationFromClassMention(knowtatorCM), ku);
 	}
 
-	public void setComplexSlotMentions(Collection<ComplexSlotMention> complexSlotMentions) throws Exception {
+	@Override
+	public void setComplexSlotMentions(Collection<ComplexSlotMention> complexSlotMentions) {
 		Collection<SimpleInstance> complexSlotMentionInstances = new ArrayList<SimpleInstance>();
 		for (ComplexSlotMention csm : complexSlotMentions) {
 			if (csm.getWrappedObject() instanceof SimpleInstance) {
@@ -212,7 +202,8 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 		ku.setComplexSlotMentions(knowtatorCM, complexSlotMentionInstances);
 	}
 
-	public void setPrimitiveSlotMentions(Collection<PrimitiveSlotMention> primitiveSlotMentions) throws Exception {
+	@Override
+	public void setPrimitiveSlotMentions(Collection<PrimitiveSlotMention> primitiveSlotMentions) {
 		Collection<SimpleInstance> primitiveSlotMentionInstances = new ArrayList<SimpleInstance>();
 		for (PrimitiveSlotMention psm : primitiveSlotMentions) {
 			if (psm.getWrappedObject() instanceof SimpleInstance) {
@@ -222,6 +213,7 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 		ku.setPrimitiveSlotMentions(knowtatorCM, primitiveSlotMentionInstances);
 	}
 
+	@Override
 	public void setTextAnnotation(TextAnnotation textAnnotation) throws InvalidInputException {
 		if (textAnnotation.getWrappedObject() instanceof SimpleInstance) {
 			ku.setKnowtatorAnnotationForClassMention(knowtatorCM, (SimpleInstance) textAnnotation.getWrappedObject());
@@ -232,7 +224,7 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 		}
 
 	}
-	
+
 	@Override
 	public long getMentionID() {
 		return ku.getMentionID(knowtatorCM);
@@ -241,7 +233,7 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 	@Override
 	public String getMentionName() {
 		return ku.getClassMentionName(knowtatorCM);
-}
+	}
 
 	@Override
 	public void setMentionID(long mentionID) {

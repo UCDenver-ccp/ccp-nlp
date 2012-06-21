@@ -13,15 +13,15 @@ public interface IClassMention {
 
 	public Collection<ComplexSlotMention> getComplexSlotMentions();
 
-	public void setComplexSlotMentions(Collection<ComplexSlotMention> complexSlotMentions) throws Exception;
+	public void setComplexSlotMentions(Collection<ComplexSlotMention> complexSlotMentions);
 
 	public Collection<PrimitiveSlotMention> getPrimitiveSlotMentions() throws KnowledgeRepresentationWrapperException;
 
-	public void setPrimitiveSlotMentions(Collection<PrimitiveSlotMention> primitiveSlotMentions) throws Exception;
+	public void setPrimitiveSlotMentions(Collection<PrimitiveSlotMention> primitiveSlotMentions);
 
-	public void addComplexSlotMention(ComplexSlotMention csm) throws Exception;
+	public void addComplexSlotMention(ComplexSlotMention csm);
 
-	public void addPrimitiveSlotMention(PrimitiveSlotMention sm) throws Exception;
+	public void addPrimitiveSlotMention(PrimitiveSlotMention sm);
 
 	public Collection<String> getPrimitiveSlotMentionNames();
 

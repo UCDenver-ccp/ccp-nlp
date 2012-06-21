@@ -47,7 +47,7 @@ public abstract class Mention implements Comparable<Mention> {
 
 	protected abstract void setMentionName(String mentionName);
 
-	protected abstract void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) throws Exception;
+	protected abstract void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars);
 
 	public abstract Object getWrappedObject();
 
