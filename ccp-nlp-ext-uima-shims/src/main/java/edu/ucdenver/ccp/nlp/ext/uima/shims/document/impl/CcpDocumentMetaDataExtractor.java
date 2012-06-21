@@ -3,6 +3,7 @@ package edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl;
 import org.apache.uima.jcas.JCas;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
+import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentInformation;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
 
@@ -47,5 +48,15 @@ public class CcpDocumentMetaDataExtractor implements DocumentMetaDataExtractor {
 		String enc = encoding.replaceAll("-", "_");
 		UIMA_Util.setDocumentEncoding(jCas, CharacterEncoding.valueOf(enc));
 	}
+
+	/* (non-Javadoc)
+	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#getMetaDataContainer(org.apache.uima.jcas.JCas)
+	 */
+	@Override
+	public CCPDocumentInformation getMetaDataContainer(JCas jCas) {
+		return UIMA_Util.getDocumentInfo(jCas);
+	}
+	
+	
 
 }
