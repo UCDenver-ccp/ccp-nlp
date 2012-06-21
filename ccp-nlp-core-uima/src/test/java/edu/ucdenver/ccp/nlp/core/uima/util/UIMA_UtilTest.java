@@ -66,15 +66,12 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPStringSlotMention;
 
-
 public class UIMA_UtilTest {
 	private static Logger logger = Logger.getLogger(UIMA_UtilTest.class);
 	static {
 		BasicConfigurator.configure();
 		Logger.getRootLogger().setLevel(Level.INFO);
 	}
-	
-	
 
 	AnnotationSet testAnnotationSet;
 
@@ -175,7 +172,8 @@ public class UIMA_UtilTest {
 		jcas = initializeJCas(documentID, documentText);
 
 		// // init a new JCas to use for testing
-		// // AnalysisEngineDescription aed = UIMAFramework.getXMLParser().parseAnalysisEngineDescription(
+		// // AnalysisEngineDescription aed =
+		// UIMAFramework.getXMLParser().parseAnalysisEngineDescription(
 		// // new XMLInputSource(TestProperties.SAMPLE_ANALYSISENGINE_DESCRIPTORFILE));
 		// // CAS cas = CasCreationUtils.createCas(aed);
 		// // jcas = cas.getJCas();
@@ -207,7 +205,8 @@ public class UIMA_UtilTest {
 
 		// Annotator: ID = 3, FirstName = "TestAnnotatorFirst", LastName =
 		// "TestAnnotatorLast", Affiliation = "TestAnnotatorAffiliation"
-		testAnnotator = new Annotator(new Integer(3), "TestAnnotatorFirst", "TestAnnotatorLast", "TestAnnotatorAffiliation");
+		testAnnotator = new Annotator(new Integer(3), "TestAnnotatorFirst", "TestAnnotatorLast",
+				"TestAnnotatorAffiliation");
 
 		// CCPAnnotator: ID = 5, FirstName = "TestCCPFirst", LastName =
 		// "TestCCPLast", Affiliation = "TestCCPAffiliation"
@@ -261,8 +260,8 @@ public class UIMA_UtilTest {
 		/**
 		 * TextAnnotation: <br>
 		 * nuclear gated transport <br>
-		 * --- transport origin ------- nucleus --- transport location ------- nucleus --- transport participants
-		 * ------- e2f4 --- transported entities ------- e2f4
+		 * --- transport origin ------- nucleus --- transport location ------- nucleus --- transport
+		 * participants ------- e2f4 --- transported entities ------- e2f4
 		 */
 
 		// ===== testTextAnnotation1 =====
@@ -274,8 +273,8 @@ public class UIMA_UtilTest {
 		DefaultClassMention nucleusMention = new DefaultClassMention("nucleus");
 		transportOriginMention.addClassMention(nucleusMention);
 		@SuppressWarnings("unused")
-		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(45, 52, "nuclear", testAnnotator, testAnnotationSet, -1, 2, "14635",
-				0, nucleusMention);
+		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(45, 52, "nuclear", testAnnotator,
+				testAnnotationSet, -1, 2, "14635", 0, nucleusMention);
 		transportMention.addComplexSlotMention(transportOriginMention);
 
 		/* --- Complex Slot Mention: transport location ------- nucleus */
@@ -293,16 +292,16 @@ public class UIMA_UtilTest {
 		e2f4ProteinMention.addPrimitiveSlotMention(entrezIDSlotMention);
 		transportParticipantsMention.addClassMention(e2f4ProteinMention);
 		@SuppressWarnings("unused")
-		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(63, 68, "E2F-4", testAnnotator, testAnnotationSet, -1, 2, "14635", 0,
-				e2f4ProteinMention);
+		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(63, 68, "E2F-4", testAnnotator, testAnnotationSet,
+				-1, 2, "14635", 0, e2f4ProteinMention);
 		transportMention.addComplexSlotMention(transportParticipantsMention);
 
 		/* --- Complex Slot Mention: transported entities ------- e2f4 protein */
 		DefaultComplexSlotMention transportedEntitiesMention = new DefaultComplexSlotMention("transported entities");
 		transportedEntitiesMention.addClassMention(e2f4ProteinMention);
 		transportMention.addComplexSlotMention(transportedEntitiesMention);
-		testTextAnnotation1 = new DefaultTextAnnotation(15, 37, "coveredText1", testAnnotator, testAnnotationSet, 1010, 2, "33", 1,
-				transportMention);
+		testTextAnnotation1 = new DefaultTextAnnotation(15, 37, "coveredText1", testAnnotator, testAnnotationSet, 1010,
+				2, "33", 1, transportMention);
 
 		/* ===== testTextAnnotation2 ===== */
 		/* Class Mention - EBV LMP1 protein */
@@ -310,8 +309,8 @@ public class UIMA_UtilTest {
 		entrezIDSlotMention = new DefaultIntegerSlotMention("entrez_gene_id");
 		entrezIDSlotMention.addSlotValue(888888);
 		proteinMention.addPrimitiveSlotMention(entrezIDSlotMention);
-		testTextAnnotation2 = new DefaultTextAnnotation(0, 8, "EBV LMP1", testAnnotator, testAnnotationSet, 1011, 2, "33", 1,
-				proteinMention);
+		testTextAnnotation2 = new DefaultTextAnnotation(0, 8, "EBV LMP1", testAnnotator, testAnnotationSet, 1011, 2,
+				"33", 1, proteinMention);
 
 		// System.err.println("TEST ANNOTATIONS:");
 		// System.err.println("testCCPTextAnnotation1 #################################################:");
@@ -325,7 +324,8 @@ public class UIMA_UtilTest {
 	}
 
 	private JCas initializeJCas(String documentID, String documentText) throws Exception {
-		TypeSystemDescription tsd = TypeSystemDescriptionFactory.createTypeSystemDescription("edu.ucdenver.ccp.nlp.core.uima.TypeSystem");
+		TypeSystemDescription tsd = TypeSystemDescriptionFactory
+				.createTypeSystemDescription("edu.ucdenver.ccp.nlp.core.uima.TypeSystem");
 		JCas jcas = JCasFactory.createJCas(tsd);
 		jcas.setDocumentText(documentText);
 		UIMA_Util.setDocumentID(jcas, documentID);
@@ -342,12 +342,14 @@ public class UIMA_UtilTest {
 		final String comment = "this is an annotation comment";
 		edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationMetadata annotationMetadata = new edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationMetadata();
 		edu.ucdenver.ccp.nlp.core.annotation.metadata.TruePositiveProperty tpProp = new edu.ucdenver.ccp.nlp.core.annotation.metadata.TruePositiveProperty();
-//		edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty dmapProp = new edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty();
-		edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty commentProp = new edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty(comment);
-		
-//		dmapProp.setPattern(dmapPattern);
+		// edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty dmapProp = new
+		// edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty();
+		edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty commentProp = new edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty(
+				comment);
+
+		// dmapProp.setPattern(dmapPattern);
 		annotationMetadata.addMetadataProperty(tpProp);
-//		annotationMetadata.addMetadataProperty(dmapProp);
+		// annotationMetadata.addMetadataProperty(dmapProp);
 		annotationMetadata.addMetadataProperty(commentProp);
 
 		assertEquals(2, annotationMetadata.getMetadataProperties().size());
@@ -359,27 +361,31 @@ public class UIMA_UtilTest {
 		assertEquals(2, ccpAnnotationMetadata.getMetadataProperties().size());
 		FSArray ccpMetadataProperties = ccpAnnotationMetadata.getMetadataProperties();
 		boolean hasTPProp = false;
-//		boolean hasDMAPProp = false;
+		// boolean hasDMAPProp = false;
 		boolean hasCommentProp = false;
 		for (int i = 0; i < ccpMetadataProperties.size(); i++) {
 			if (ccpMetadataProperties.get(i) instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.TruePositiveProperty) {
 				hasTPProp = true;
 			}
-//			if (ccpMetadataProperties.get(i) instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) {
-//				hasDMAPProp = true;
-//				edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty ccpDmapProp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) ccpMetadataProperties
-//						.get(i);
-//				assertEquals(dmapProp.getPattern(), ccpDmapProp.getPattern());
-//			}
+			// if (ccpMetadataProperties.get(i) instanceof
+			// edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) {
+			// hasDMAPProp = true;
+			// edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty
+			// ccpDmapProp =
+			// (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty)
+			// ccpMetadataProperties
+			// .get(i);
+			// assertEquals(dmapProp.getPattern(), ccpDmapProp.getPattern());
+			// }
 			if (ccpMetadataProperties.get(i) instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) {
 				hasCommentProp = true;
 				edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty ccpCommentProp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) ccpMetadataProperties
-				.get(i);
-		assertEquals(commentProp.getComment(), ccpCommentProp.getComment());
+						.get(i);
+				assertEquals(commentProp.getComment(), ccpCommentProp.getComment());
 			}
 		}
 		assertTrue(hasTPProp);
-//		assertTrue(hasDMAPProp);
+		// assertTrue(hasDMAPProp);
 		assertTrue(hasCommentProp);
 
 		/* Now swap from UIMA to non-UIMa */
@@ -389,9 +395,8 @@ public class UIMA_UtilTest {
 		assertTrue(annotationMetadata.isTruePositive());
 		assertFalse(annotationMetadata.isFalseNegative());
 		assertFalse(annotationMetadata.isFalsePositive());
-//		assertEquals(dmapPattern, annotationMetadata.getOpenDMAPPattern());
+		// assertEquals(dmapPattern, annotationMetadata.getOpenDMAPPattern());
 		assertEquals(comment, annotationMetadata.getAnnotationComment());
-		
 
 	}
 
@@ -473,9 +478,10 @@ public class UIMA_UtilTest {
 		assertEquals(testCCPTextAnnotation1.getDocumentSectionID(), swapToAnnotation.getDocumentSectionID());
 		assertEquals(testCCPTextAnnotation1.getNumberOfSpans(), swapToAnnotation.getNumberOfSpans());
 		assertEquals(testCCPTextAnnotation1.getSpans().size(), swapToAnnotation.getSpans().size());
-		assertEquals(testCCPTextAnnotation1.getClassMention().getMentionName(), swapToAnnotation.getClassMention().getMentionName());
-		assertEquals(testCCPTextAnnotation1.getClassMention().getSlotMentions().size(), swapToAnnotation.getClassMention()
-				.getSlotMentions().size());
+		assertEquals(testCCPTextAnnotation1.getClassMention().getMentionName(), swapToAnnotation.getClassMention()
+				.getMentionName());
+		assertEquals(testCCPTextAnnotation1.getClassMention().getSlotMentions().size(), swapToAnnotation
+				.getClassMention().getSlotMentions().size());
 	}
 
 	/**
@@ -521,8 +527,9 @@ public class UIMA_UtilTest {
 
 		// System.err.println("SWAPPING TO REGULAR TA...");
 		/* now test the conversion from the UIMA TextAnnotation to a non-UIMA TextAnnotation */
-		TextAnnotation emptyTA = new DefaultTextAnnotation(0, 1, "nocoveredText", new Annotator(-1, "noname", "noname", "noaffiliation"),
-				new AnnotationSet(-1, "nonameset", "nonameset"), -1, -1, "-1", -1, new DefaultClassMention("nonamemention"));
+		TextAnnotation emptyTA = new DefaultTextAnnotation(0, 1, "nocoveredText", new Annotator(-1, "noname", "noname",
+				"noaffiliation"), new AnnotationSet(-1, "nonameset", "nonameset"), -1, -1, "-1", -1,
+				new DefaultClassMention("nonamemention"));
 		UIMA_Util.swapAnnotationInfo(emptyCCPTA, emptyTA, jcas);
 		// System.err.println("DONE SWAPPING TO REGULAR TA...");
 		// System.err.println("REGULAR TA: ");
@@ -565,8 +572,8 @@ public class UIMA_UtilTest {
 		UIMA_Util.addSlotValue(testCCPClassMention, "slotMentionName", "slotValue");
 
 		// it should now return a slot mention
-		CCPStringSlotMention ccpNonComplexSlotMention = (CCPStringSlotMention) UIMA_Util.getSlotMentionByName(testCCPClassMention,
-				"slotMentionName");
+		CCPStringSlotMention ccpNonComplexSlotMention = (CCPStringSlotMention) UIMA_Util.getSlotMentionByName(
+				testCCPClassMention, "slotMentionName");
 		assertNotNull(ccpNonComplexSlotMention);
 
 		// and the value of the returned slot should equal "slotValue"
@@ -679,11 +686,11 @@ public class UIMA_UtilTest {
 		}
 
 		/*
-		 * for testCCPTextAnnotation1, make the mention structure invalid by placing the nucleus mention in the
-		 * transport slotmention list
+		 * for testCCPTextAnnotation1, make the mention structure invalid by placing the nucleus
+		 * mention in the transport slotmention list
 		 */
-		CCPComplexSlotMention originSlot = (CCPComplexSlotMention) UIMA_Util.getSlotMentionByName(testCCPTextAnnotation1,
-				"transport origin");
+		CCPComplexSlotMention originSlot = (CCPComplexSlotMention) UIMA_Util.getSlotMentionByName(
+				testCCPTextAnnotation1, "transport origin");
 		FSArray originSlotValues = originSlot.getClassMentions();
 		testCCPTextAnnotation1.getClassMention().getSlotMentions().set(0, originSlotValues);
 
@@ -702,7 +709,8 @@ public class UIMA_UtilTest {
 	@Test
 	public void testGetComplexSlotValues() throws Exception {
 		final String SAME_AS_SLOT = "sameAs";
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription("edu.ucdenver.ccp.nlp.core.uima.TypeSystem");
+		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory
+				.createTypeSystemDescription("edu.ucdenver.ccp.nlp.core.uima.TypeSystem");
 		JCas jcas = JCasFactory.createJCas(typeSystemDescription);
 		/*
 		 * ______________________________1_________2_________3_________4_________5_________6_________7_________8_________9
@@ -731,36 +739,11 @@ public class UIMA_UtilTest {
 		UIMA_Util.addSlotValue(ccpTA_A.getClassMention(), SAME_AS_SLOT, ccpTA_D.getClassMention());
 		slotValues = UIMA_Util.getComplexSlotValues(ccpTA_A, SAME_AS_SLOT);
 		assertEquals(3, slotValues.size());
-		
-		
+
 		TextAnnotation ta = new WrappedCCPTextAnnotation(ccpTA_A);
-		assertEquals(1,ta.getClassMention().getComplexSlotMentions().size());
+		assertEquals(1, ta.getClassMention().getComplexSlotMentions().size());
 		ta.getClassMention().setComplexSlotMentions(new ArrayList<ComplexSlotMention>());
-		assertEquals(0,ta.getClassMention().getComplexSlotMentions().size());
-
-	}
-
-	@Test
-	public void testMentionTraversalIDs() throws Exception {
-		UUID traversalId = UUID.randomUUID();
-		UUID mentionId = UUID.randomUUID();
-		UUID traversalId2 = UUID.randomUUID();
-		UUID mentionId2 = UUID.randomUUID();
-		
-		assertNull(UIMA_Util.getMentionIDForTraversal(testCCPClassMention, traversalId));
-
-		UIMA_Util.setMentionIDForTraversal(testCCPClassMention, mentionId, traversalId, jcas);
-		assertEquals(mentionId, UIMA_Util.getMentionIDForTraversal(testCCPClassMention, traversalId));
-		UIMA_Util.setMentionIDForTraversal(testCCPClassMention, mentionId2, traversalId2, jcas);
-		assertEquals(mentionId, UIMA_Util.getMentionIDForTraversal(testCCPClassMention, traversalId));
-		assertEquals(mentionId2, UIMA_Util.getMentionIDForTraversal(testCCPClassMention, traversalId2));
-
-		UIMA_Util.removeMentionIDForTraversal(testCCPClassMention, traversalId2, jcas);
-		assertNull(UIMA_Util.getMentionIDForTraversal(testCCPClassMention, traversalId2));
-
-		UUID mentionId3 = UUID.randomUUID();
-		UIMA_Util.setMentionIDForTraversal(testCCPClassMention, mentionId3, traversalId, jcas);
-		assertEquals(mentionId3, UIMA_Util.getMentionIDForTraversal(testCCPClassMention, traversalId));
+		assertEquals(0, ta.getClassMention().getComplexSlotMentions().size());
 
 	}
 
@@ -792,12 +775,11 @@ public class UIMA_UtilTest {
 		updatedArray = UIMA_Util.addToIntegerArray(intArray, 4, jcas);
 		assertEquals(4, updatedArray.size());
 		assertEquals(2, UIMA_Util.indexOf(intArray, 2));
-		
+
 		updatedArray = UIMA_Util.removeArrayIndex(intArray, 0, jcas);
 		updatedArray = UIMA_Util.removeArrayIndex(updatedArray, 0, jcas);
 		updatedArray = UIMA_Util.removeArrayIndex(updatedArray, 0, jcas);
 		assertEquals(0, updatedArray.size());
-		
 
 	}
 

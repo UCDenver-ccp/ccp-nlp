@@ -17,7 +17,7 @@ public class WrappedKnowtatorComplexSlotMention extends ComplexSlotMention {
 	private KnowtatorUtil ku;
 
 	public WrappedKnowtatorComplexSlotMention(SimpleInstance knowtatorMention, KnowtatorUtil ku) {
-		super(new KnowtatorMentionTraversalTracker(knowtatorMention, ku), knowtatorMention, ku);
+		super( knowtatorMention, ku);
 		this.ku = ku;
 	}
 
@@ -27,7 +27,7 @@ public class WrappedKnowtatorComplexSlotMention extends ComplexSlotMention {
 	}
 
 	@Override
-	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) throws Exception {
+	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) {
 		Object wrappedObject = wrappedObjectPlusGlobalVars[0];
 		if (wrappedObject instanceof DefaultSimpleInstance) {
 			setGlobalVars(wrappedObjectPlusGlobalVars);

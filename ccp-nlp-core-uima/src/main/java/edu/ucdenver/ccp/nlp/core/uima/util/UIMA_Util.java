@@ -3379,35 +3379,7 @@ public class UIMA_Util {
 		return true;
 	}
 
-	public static UUID getMentionIDForTraversal(CCPMention mention, UUID traversalID) {
-		// logger.debug("Requesting mentionID for traversal: " + traversalID + " type: " +
-		// mention.getClass().getName());
-		StringArray traversalIDs = mention.getTraversalIDs();
-
-		int index = UIMA_Util.indexOf(traversalIDs, traversalID.toString());
-		if (index > -1) {
-			return UUID.fromString(mention.getTraversalMentionIDs(index));
-		}
-		// logger.debug("Requested mention ID for traversal: " + traversalID
-		// + " but did not find one. This is not necessarily an error. Returning null. ");
-		return null;
-	}
-
-	public static void removeMentionIDForTraversal(CCPMention mention, UUID traversalID, JCas jcas) {
-		// logger.debug("Removing traversalID: " + traversalID + " type: " +
-		// mention.getClass().getName());
-		StringArray traversalIDs = mention.getTraversalIDs();
-		int index = UIMA_Util.indexOf(traversalIDs, traversalID.toString());
-		if (index > -1) {
-			// logger.debug("Traversal ID is at index: " + index);
-			StringArray updatedTraversalIDs = UIMA_Util.removeArrayIndex(traversalIDs, index, jcas);
-			mention.setTraversalIDs(updatedTraversalIDs);
-			StringArray updatedTraversalMentionIDs = UIMA_Util.removeArrayIndex(mention.getTraversalMentionIDs(),
-					index, jcas);
-			mention.setTraversalMentionIDs(updatedTraversalMentionIDs);
-		}
-	}
-
+	
 	public static void showCasDebugInfo(JCas jcas, String s) throws CASException {
 		System.out.println(">>>====== " + s + "   " + jcas.getViewName());
 		Iterator i = jcas.getViewIterator();
@@ -3424,17 +3396,7 @@ public class UIMA_Util {
 		System.out.println("======<<<");
 	}
 
-	public static void setMentionIDForTraversal(CCPMention mention, UUID mentionID, UUID traversalID, JCas jcas) {
-		// logger.debug("Setting traversalID: " + traversalID + " -- mentionID: " + mentionID +
-		// " type: "
-		// + mention.getClass().getName());
-		removeMentionIDForTraversal(mention, traversalID, jcas);
-		StringArray traversalMentionIDs = UIMA_Util.addToStringArray(mention.getTraversalMentionIDs(),
-				mentionID.toString(), jcas);
-		StringArray traversalIDs = UIMA_Util.addToStringArray(mention.getTraversalIDs(), traversalID.toString(), jcas);
-		mention.setTraversalMentionIDs(traversalMentionIDs);
-		mention.setTraversalIDs(traversalIDs);
-	}
+	
 }
 
 /**

@@ -11,16 +11,20 @@ import edu.ucdenver.ccp.nlp.core.mention.ComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 
-public class DefaultClassMention extends ClassMention  {
+public class DefaultClassMention extends ClassMention {
 
-//	/**
-//	 * The traversalID2MentionIDMap serves as a means for keeping track of parallel traversals of a mention hierarchy.
-//	 * The mentionID (values in this map) are necessary because they are used to detect cycles in the hierarchy. Without
-//	 * this feedback, cycles would result in an endless traversal due to infinite looping over the cycle. The traversal
-//	 * IDs (keys in this map) permit multiple, simultaneous traversals over the same mention structure from interfering
-//	 * with one another by overwriting mention IDs.
-//	 */
-//	protected Map<Integer, Long> traversalID2MentionIDMap;
+	// /**
+	// * The traversalID2MentionIDMap serves as a means for keeping track of parallel traversals of
+	// a mention hierarchy.
+	// * The mentionID (values in this map) are necessary because they are used to detect cycles in
+	// the hierarchy. Without
+	// * this feedback, cycles would result in an endless traversal due to infinite looping over the
+	// cycle. The traversal
+	// * IDs (keys in this map) permit multiple, simultaneous traversals over the same mention
+	// structure from interfering
+	// * with one another by overwriting mention IDs.
+	// */
+	// protected Map<Integer, Long> traversalID2MentionIDMap;
 
 	private String mentionName;
 	private long mentionID;
@@ -29,37 +33,38 @@ public class DefaultClassMention extends ClassMention  {
 	protected DefaultTextAnnotation textAnnotation;
 
 	public DefaultClassMention(String mentionName) {
-		super(new DefaultMentionTraversalTracker(), (Object[])null);
+		super((Object[]) null);
 		this.mentionName = mentionName;
 		primitiveSlotMentionsMap = new HashMap<String, PrimitiveSlotMention>();
 		complexSlotMentionsMap = new HashMap<String, ComplexSlotMention>();
 	}
-	
-//	@Override
-//	protected void initializeMention() {
-////		traversalID2MentionIDMap = new HashMap<Integer, Long>();
-//	}
 
-//	@Override
-//	protected Long getMentionIDForTraversal(int traversalID) {
-//		return traversalID2MentionIDMap.get(traversalID);
-//	}
-//
-//	@Override
-//	protected void setMentionIDForTraversal(long mentionID, int traversalID) {
-//		traversalID2MentionIDMap.put(traversalID, mentionID);
-//	}
-//
-//	@Override
-//	protected void removeMentionIDForTraversal(int traversalID) {
-//		traversalID2MentionIDMap.remove(traversalID);
-//	}
+	// @Override
+	// protected void initializeMention() {
+	// // traversalID2MentionIDMap = new HashMap<Integer, Long>();
+	// }
 
-	
+	// @Override
+	// protected Long getMentionIDForTraversal(int traversalID) {
+	// return traversalID2MentionIDMap.get(traversalID);
+	// }
+	//
+	// @Override
+	// protected void setMentionIDForTraversal(long mentionID, int traversalID) {
+	// traversalID2MentionIDMap.put(traversalID, mentionID);
+	// }
+	//
+	// @Override
+	// protected void removeMentionIDForTraversal(int traversalID) {
+	// traversalID2MentionIDMap.remove(traversalID);
+	// }
+
+	@Override
 	public Collection<ComplexSlotMention> getComplexSlotMentions() {
 		return complexSlotMentionsMap.values();
 	}
 
+	@Override
 	public void setComplexSlotMentions(Collection<ComplexSlotMention> complexSlotMentions) {
 		this.complexSlotMentionsMap = new HashMap<String, ComplexSlotMention>();
 		for (ComplexSlotMention csm : complexSlotMentions) {
@@ -67,10 +72,12 @@ public class DefaultClassMention extends ClassMention  {
 		}
 	}
 
+	@Override
 	public Collection<PrimitiveSlotMention> getPrimitiveSlotMentions() {
 		return primitiveSlotMentionsMap.values();
 	}
 
+	@Override
 	public void setPrimitiveSlotMentions(Collection<PrimitiveSlotMention> primitiveSlotMentions) {
 		this.primitiveSlotMentionsMap = new HashMap<String, PrimitiveSlotMention>();
 		for (PrimitiveSlotMention psm : primitiveSlotMentions) {
@@ -78,6 +85,7 @@ public class DefaultClassMention extends ClassMention  {
 		}
 	}
 
+	@Override
 	public void addComplexSlotMention(ComplexSlotMention csm) {
 		if (complexSlotMentionsMap.containsKey(csm.getMentionName())) {
 			try {
@@ -90,6 +98,7 @@ public class DefaultClassMention extends ClassMention  {
 		}
 	}
 
+	@Override
 	public void addPrimitiveSlotMention(PrimitiveSlotMention sm) {
 		if (primitiveSlotMentionsMap.containsKey(sm.getMentionName())) {
 			try {
@@ -102,14 +111,17 @@ public class DefaultClassMention extends ClassMention  {
 		}
 	}
 
+	@Override
 	public Collection<String> getPrimitiveSlotMentionNames() {
 		return primitiveSlotMentionsMap.keySet();
 	}
 
+	@Override
 	public Collection<String> getComplexSlotMentionNames() {
 		return complexSlotMentionsMap.keySet();
 	}
 
+	@Override
 	public PrimitiveSlotMention getPrimitiveSlotMentionByName(String slotMentionName) {
 		if (primitiveSlotMentionsMap.containsKey(slotMentionName)) {
 			return primitiveSlotMentionsMap.get(slotMentionName);
@@ -117,6 +129,7 @@ public class DefaultClassMention extends ClassMention  {
 		return null;
 	}
 
+	@Override
 	public ComplexSlotMention getComplexSlotMentionByName(String complexSlotMentionName) {
 		if (complexSlotMentionsMap.containsKey(complexSlotMentionName)) {
 			return complexSlotMentionsMap.get(complexSlotMentionName);
@@ -127,28 +140,30 @@ public class DefaultClassMention extends ClassMention  {
 		return csm;
 	}
 
-//	@Override
-//	protected void setWrappedObjectMentionID(long mentionID) {
-//		throw new UnsupportedOperationException("The " + this.getClass().getSimpleName()
-//				+ " class does not support wrapping of another object.");
-//	}
+	// @Override
+	// protected void setWrappedObjectMentionID(long mentionID) {
+	// throw new UnsupportedOperationException("The " + this.getClass().getSimpleName()
+	// + " class does not support wrapping of another object.");
+	// }
 
 	@Override
-	protected void initializeFromWrappedMention(Object... wrappedObject) throws Exception {
+	protected void initializeFromWrappedMention(Object... wrappedObject) {
 		throw new UnsupportedOperationException("The " + this.getClass().getSimpleName()
 				+ " class does not support wrapping of another object.");
 	}
-	
+
 	@Override
 	public Object getWrappedObject() {
 		throw new UnsupportedOperationException("The " + this.getClass().getSimpleName()
 				+ " class does not support wrapping of another object.");
 	}
 
+	@Override
 	public ComplexSlotMention createComplexSlotMention(String slotMentionName) {
 		return new DefaultComplexSlotMention(slotMentionName);
 	}
 
+	@Override
 	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValue) {
 		try {
 			return DefaultPrimitiveSlotMentionFactory.createPrimitiveSlotMention(slotMentionName, slotValue);
@@ -158,34 +173,37 @@ public class DefaultClassMention extends ClassMention  {
 		}
 	}
 
+	@Override
 	public TextAnnotation getTextAnnotation() {
 		return textAnnotation;
 	}
 
+	@Override
 	public void setTextAnnotation(TextAnnotation textAnnotation) throws InvalidInputException {
 		if (textAnnotation instanceof DefaultTextAnnotation) {
 			this.textAnnotation = (DefaultTextAnnotation) textAnnotation;
 		} else {
-			throw new InvalidInputException("Input text annotation for DefaultClassMention must be of type DefaultTextAnnotation.");
+			throw new InvalidInputException(
+					"Input text annotation for DefaultClassMention must be of type DefaultTextAnnotation.");
 		}
 
 	}
 
 	@Override
 	public long getMentionID() {
-return mentionID;
-}
+		return mentionID;
+	}
 
 	@Override
 	public String getMentionName() {
-return mentionName;
-}
+		return mentionName;
+	}
 
 	@Override
 	public void setMentionID(long mentionID) {
 		this.mentionID = mentionID;
 	}
-	
+
 	@Override
 	protected void setMentionName(String mentionName) {
 		this.mentionName = mentionName;

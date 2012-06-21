@@ -15,7 +15,7 @@ public class WrappedKnowtatorIntegerSlotMention extends IntegerSlotMention {
 	private KnowtatorUtil ku;
 
 	public WrappedKnowtatorIntegerSlotMention(SimpleInstance knowtatorMention, KnowtatorUtil ku) {
-		super(new KnowtatorMentionTraversalTracker(knowtatorMention, ku),
+		super(
 				knowtatorMention, ku);
 		this.ku = ku;
 	}
@@ -26,7 +26,7 @@ public class WrappedKnowtatorIntegerSlotMention extends IntegerSlotMention {
 	}
 
 	@Override
-	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) throws Exception {
+	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) {
 		Object wrappedObject = wrappedObjectPlusGlobalVars[0];
 		if (wrappedObject instanceof DefaultSimpleInstance) {
 			

@@ -20,8 +20,8 @@ public abstract class BooleanSlotMention extends PrimitiveSlotMention<Boolean> {
 //		super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
 //	}
 	
-	public BooleanSlotMention(IMentionTraversalTracker traversalTracker,  Object... wrappedObjectPlusGlobalVars) {
-		super(traversalTracker, wrappedObjectPlusGlobalVars);
+	public BooleanSlotMention(Object... wrappedObjectPlusGlobalVars) {
+		super(wrappedObjectPlusGlobalVars);
 	}
 
 	@Override

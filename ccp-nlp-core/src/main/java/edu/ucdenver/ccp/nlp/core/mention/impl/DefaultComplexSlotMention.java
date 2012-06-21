@@ -24,7 +24,7 @@ public class DefaultComplexSlotMention extends ComplexSlotMention {
 //	protected Map<Integer, Long> traversalID2MentionIDMap;
 
 	public DefaultComplexSlotMention(String mentionName) {
-		super(new DefaultMentionTraversalTracker(), (Object[])null);
+		super((Object[])null);
 		this.mentionName = mentionName;
 		classMentions = new ArrayList<ClassMention>();
 	}

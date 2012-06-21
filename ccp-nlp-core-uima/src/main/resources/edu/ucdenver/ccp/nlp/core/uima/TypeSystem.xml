@@ -144,16 +144,6 @@
           <description/>
           <rangeTypeName>uima.cas.Long</rangeTypeName>
         </featureDescription>
-        <featureDescription>
-          <name>traversalIDs</name>
-          <description/>
-          <rangeTypeName>uima.cas.StringArray</rangeTypeName>
-        </featureDescription>
-        <featureDescription>
-          <name>traversalMentionIDs</name>
-          <description/>
-          <rangeTypeName>uima.cas.StringArray</rangeTypeName>
-        </featureDescription>
       </features>
     </typeDescription>
     <typeDescription>

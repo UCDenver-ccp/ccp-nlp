@@ -13,7 +13,7 @@ public class DefaultIntegerSlotMention extends IntegerSlotMention {
 //	protected Map<Integer, Long> traversalID2MentionIDMap;
 
 	public DefaultIntegerSlotMention(String mentionName) {
-		super(new DefaultMentionTraversalTracker(), (Object[])null);
+		super( (Object[])null);
 		this.mentionName = mentionName;
 		slotValues = new ArrayList<Integer>();
 	}

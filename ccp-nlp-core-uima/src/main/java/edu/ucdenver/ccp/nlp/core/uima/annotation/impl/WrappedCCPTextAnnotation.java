@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 
 import edu.ucdenver.ccp.nlp.core.annotation.AnnotationSet;
@@ -33,12 +34,15 @@ public class WrappedCCPTextAnnotation extends TextAnnotation {
 	}
 
 	@Override
-	protected void initializeFromWrappedAnnotation(Object... wrappedObject) throws Exception {
+	protected void initializeFromWrappedAnnotation(Object... wrappedObject) {
 		if (wrappedObject[0] instanceof CCPTextAnnotation) {
 			CCPTextAnnotation ccpTA = (CCPTextAnnotation) wrappedObject[0];
 			this.wrappedCCPTextAnnotation = ccpTA;
-			jcas = ccpTA.getCAS().getJCas();
-
+			try {
+				jcas = ccpTA.getCAS().getJCas();
+			} catch (CASException e) {
+				throw new RuntimeException(e);
+			}
 		} else {
 			throw new KnowledgeRepresentationWrapperException("Expected CCPTextAnnotation. Cannot wrap "
 					+ wrappedObject.getClass().getName() + " object in a WrappedCCPTextAnnotation");
@@ -69,10 +73,10 @@ public class WrappedCCPTextAnnotation extends TextAnnotation {
 		return new WrappedCCPClassMention(ccpCM);
 	}
 
-//	@Override
-//	public ClassMention getClassMention() {
-//		return new WrappedCCPClassMention(wrappedCCPTextAnnotation.getClassMention());
-//	}
+	// @Override
+	// public ClassMention getClassMention() {
+	// return new WrappedCCPClassMention(wrappedCCPTextAnnotation.getClassMention());
+	// }
 
 	@Override
 	public int getAnnotationID() {

@@ -255,8 +255,8 @@ public class KnowtatorUtil {
 		initializeKnowtatorUtilities(project, projectFileName);
 		Collection<SimpleInstance> knowtatorAnnotations = getKnowtatorAnnotationInstances();
 		populateTextSourceName2AnnotationsMap(knowtatorAnnotations);
-		addMentionIteratorIdSlotToProject();
-		addMentionIdSlotToProject();
+//		addMentionIteratorIdSlotToProject();
+//		addMentionIdSlotToProject();
 		// createUniqueIdentifiersForKnowtatorAnnotations(annotations);
 		populateTextSourceName2InstanceMap();
 	}
@@ -270,8 +270,8 @@ public class KnowtatorUtil {
 		setDirectoryForFileTextSourceCollection(textSourcesDirectory, charset);
 		Collection<SimpleInstance> knowtatorAnnotations = getKnowtatorAnnotationInstances();
 		populateTextSourceName2AnnotationsMap(knowtatorAnnotations);
-		addMentionIteratorIdSlotToProject();
-		addMentionIdSlotToProject();
+//		addMentionIteratorIdSlotToProject();
+//		addMentionIdSlotToProject();
 		// createUniqueIdentifiersForKnowtatorAnnotations(annotations);
 		populateTextSourceName2InstanceMap();
 	}
@@ -500,63 +500,42 @@ public class KnowtatorUtil {
 	// return getKnowtatorInstances(kpu.getMentionCls());
 	// }
 
-	private void addMentionIteratorIdSlotToProject() {
-		Slot slot = pu.createSlotForClass(UNIQUE_ID_SLOT_NAME, kpu.getMentionCls().getName());
-		pu.assignSlotToClass(slot, kpu.getAnnotationCls());
-	}
+//	private void addMentionIteratorIdSlotToProject() {
+//		Slot slot = pu.createSlotForClass(UNIQUE_ID_SLOT_NAME, kpu.getMentionCls().getName());
+//		pu.assignSlotToClass(slot, kpu.getAnnotationCls());
+//	}
+//
+//	private void addMentionIdSlotToProject() {
+//		Slot slot = pu.createSlotForClass(MENTION_ID_SLOT_NAME, kpu.getMentionCls().getName());
+//		slot.setAllowsMultipleValues(false);
+//		// slot.setMaximumCardinality(1);
+//		slot.setValueType(ValueType.STRING);
+//		/*
+//		 * This will store a long, but since there is no long ValueType we will use String. Using
+//		 * integer would present a possible overflow issue
+//		 */
+//		pu.assignSlotToClass(slot, kpu.getAnnotationCls());
+//	}
+//
+//	private void removeMentionIteratorIdSlotFromProject() {
+//		if (kb.getSlot(UNIQUE_ID_SLOT_NAME) != null) {
+//			pu.removeSlotFromClass(UNIQUE_ID_SLOT_NAME, kpu.getMentionCls().getName());
+//			pu.removeSlotFromClass(UNIQUE_ID_SLOT_NAME, kpu.getAnnotationCls().getName());
+//			pu.removeSlot(UNIQUE_ID_SLOT_NAME);
+//		}
+//	}
+//
+//	private void removeMentionIdSlotFromProject() {
+//		if (kb.getSlot(MENTION_ID_SLOT_NAME) != null) {
+//			pu.removeSlotFromClass(MENTION_ID_SLOT_NAME, kpu.getMentionCls().getName());
+//			pu.removeSlotFromClass(MENTION_ID_SLOT_NAME, kpu.getAnnotationCls().getName());
+//			pu.removeSlot(MENTION_ID_SLOT_NAME);
+//		}
+//	}
 
-	private void addMentionIdSlotToProject() {
-		Slot slot = pu.createSlotForClass(MENTION_ID_SLOT_NAME, kpu.getMentionCls().getName());
-		slot.setAllowsMultipleValues(false);
-		// slot.setMaximumCardinality(1);
-		slot.setValueType(ValueType.STRING);
-		/*
-		 * This will store a long, but since there is no long ValueType we will use String. Using
-		 * integer would present a possible overflow issue
-		 */
-		pu.assignSlotToClass(slot, kpu.getAnnotationCls());
-	}
+	
 
-	private void removeMentionIteratorIdSlotFromProject() {
-		if (kb.getSlot(UNIQUE_ID_SLOT_NAME) != null) {
-			pu.removeSlotFromClass(UNIQUE_ID_SLOT_NAME, kpu.getMentionCls().getName());
-			pu.removeSlotFromClass(UNIQUE_ID_SLOT_NAME, kpu.getAnnotationCls().getName());
-			pu.removeSlot(UNIQUE_ID_SLOT_NAME);
-		}
-	}
-
-	private void removeMentionIdSlotFromProject() {
-		if (kb.getSlot(MENTION_ID_SLOT_NAME) != null) {
-			pu.removeSlotFromClass(MENTION_ID_SLOT_NAME, kpu.getMentionCls().getName());
-			pu.removeSlotFromClass(MENTION_ID_SLOT_NAME, kpu.getAnnotationCls().getName());
-			pu.removeSlot(MENTION_ID_SLOT_NAME);
-		}
-	}
-
-	// private void
-	// createUniqueIdentifiersForKnowtatorAnnotationsOrMentions(Collection<SimpleInstance> mentions)
-	// {
-	// int id = 0;
-	// Slot idSlot = kb.getSlot(UNIQUE_ID_SLOT_NAME);
-	// for (SimpleInstance mention : mentions) {
-	// mention.setDirectOwnSlotValue(idSlot, id++);
-	// }
-	// }
-	//
-	// private Collection<SimpleInstance> getClassMentionsForAnnotations(Collection<SimpleInstance>
-	// annotations) {
-	// Collection<SimpleInstance> mentions = new ArrayList<SimpleInstance>();
-	// for (SimpleInstance annotation : annotations) {
-	// SimpleInstance knowtatorMention = annotationUtil.getMention(annotation);
-	// mentions.add(knowtatorMention);
-	// }
-	// return mentions;
-	// }
-
-	private Slot getTraversalIDPairingSlot() {
-		return kb.getSlot(UNIQUE_ID_SLOT_NAME);
-	}
-
+	
 	private Slot getMentionIDSlot() {
 		return kb.getSlot(MENTION_ID_SLOT_NAME);
 	}
@@ -569,125 +548,7 @@ public class KnowtatorUtil {
 		mention.setDirectOwnSlotValue(getMentionIDSlot(), Long.toString(mentionID));
 	}
 
-	// public String getMentionName(SimpleInstance mention) {
-	// return mentionUtil.getMentionCls(mention).getName();
-	// }
-	//	
-	// public void setMentionName(SimpleInstance mention, String mentionName) {
-	// mentionUtil.setMentionCls(mention, kb.getCls(mentionName));
-	// }
 
-	/**
-	 * Returns the mention iterator id slot value for the input mention
-	 * 
-	 * @param mention
-	 * @return
-	 */
-	public Collection<TraversalIDPairing> getTraversalIDPairings(SimpleInstance mention) {
-		if (mention == null) {
-			logger.info("Traversal Pairing slot is null: " + (mention == null));
-			logger.info("Traversal ID Pairing slot is null: " + (getTraversalIDPairingSlot() == null));
-		}
-		// logger.debug("Traversal Pairing slot values are null: " +
-		// (mention.getDirectOwnSlotValues(getTraversalIDPairingSlot()) == null));
-		Collection<String> slotValues = mention.getDirectOwnSlotValues(getTraversalIDPairingSlot());
-		Collection<TraversalIDPairing> traversalIdPairings = new ArrayList<TraversalIDPairing>();
-		if (traversalIdPairings != null) {
-			for (String slotValue : slotValues) {
-				traversalIdPairings.add(new TraversalIDPairing(slotValue));
-			}
-		}
-		return traversalIdPairings;
-	}
-
-	/**
-	 * Sets the traversal ID/ mention ID pairs for this particular mention
-	 * 
-	 * @param traversalIDPairings
-	 * @param mention
-	 */
-	public void setTraversalIDPairings(Collection<TraversalIDPairing> traversalIDPairings, SimpleInstance mention) {
-		Collection<String> slotValues = new ArrayList<String>();
-		for (TraversalIDPairing traversalIDPairing : traversalIDPairings) {
-			slotValues.add(traversalIDPairing.toString());
-		}
-		mention.setDirectOwnSlotValues(getTraversalIDPairingSlot(), slotValues);
-	}
-
-	/**
-	 * Removes the input traversal ID
-	 * 
-	 * @param traversalID
-	 * @param mention
-	 */
-	public void removeTraversalID(UUID traversalID, SimpleInstance mention) {
-		Collection<TraversalIDPairing> traversalIDPairings = getTraversalIDPairings(mention);
-		Collection<String> slotValues = new ArrayList<String>();
-		for (TraversalIDPairing traversalIDPairing : traversalIDPairings) {
-			if (!traversalIDPairing.getTraversalID().equals( traversalID)) {
-				slotValues.add(traversalIDPairing.toString());
-			}
-		}
-		mention.setDirectOwnSlotValues(getTraversalIDPairingSlot(), slotValues);
-	}
-
-	public UUID getMentionIDForTraversal(SimpleInstance mention, UUID traversalID) {
-		Collection<TraversalIDPairing> traversalIDPairings = getTraversalIDPairings(mention);
-		for (TraversalIDPairing traversalIDPairing : traversalIDPairings) {
-			if (traversalIDPairing.getTraversalID().equals(traversalID)) {
-				return traversalIDPairing.getMentionID();
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Adds a traversal ID - mention Id pairing to the input mention
-	 * 
-	 * @param mentionID
-	 * @param traversalID
-	 * @param mention
-	 */
-	public void setMentionIDForTraversal(UUID mentionID, UUID traversalID, SimpleInstance mention) {
-		removeTraversalID(traversalID, mention);
-		Collection<TraversalIDPairing> traversalIDPairings = getTraversalIDPairings(mention);
-		traversalIDPairings.add(new TraversalIDPairing(traversalID, mentionID));
-		setTraversalIDPairings(traversalIDPairings, mention);
-	}
-
-	public class TraversalIDPairing {
-		private final UUID traversalID;
-		private final UUID mentionID;
-
-		public TraversalIDPairing(UUID traversalID, UUID mentionID) {
-			super();
-			this.traversalID = traversalID;
-			this.mentionID = mentionID;
-		}
-
-		public TraversalIDPairing(String stringRep) {
-			String[] toks = stringRep.split("\\t");
-			if (toks.length == 2) {
-				traversalID = UUID.fromString(toks[0]);
-				mentionID = UUID.fromString(toks[1]);
-			} else {
-				throw new Error("TraversalIDPairing string is incorrectly formatted: " + stringRep);
-			}
-		}
-
-		public UUID getTraversalID() {
-			return traversalID;
-		}
-
-		public UUID getMentionID() {
-			return mentionID;
-		}
-
-		@Override
-		public String toString() {
-			return traversalID.toString() + "\t" + mentionID.toString();
-		}
-	}
 
 	/**
 	 * Returns the number of annotations within the knowtator project
@@ -2201,8 +2062,8 @@ public class KnowtatorUtil {
 	// }
 
 	public void saveProject() {
-		removeMentionIteratorIdSlotFromProject();
-		removeMentionIdSlotFromProject();
+//		removeMentionIteratorIdSlotFromProject();
+//		removeMentionIdSlotFromProject();
 		ProtegeUtil.saveProject(project);
 	}
 

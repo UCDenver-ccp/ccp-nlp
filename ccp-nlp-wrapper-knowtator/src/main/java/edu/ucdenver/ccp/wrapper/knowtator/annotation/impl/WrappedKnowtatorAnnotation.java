@@ -25,7 +25,7 @@ public class WrappedKnowtatorAnnotation extends TextAnnotation {
 	}
 
 	@Override
-	protected void initializeFromWrappedAnnotation(Object... wrappedObjectAndGlobalVars) throws Exception {
+	protected void initializeFromWrappedAnnotation(Object... wrappedObjectAndGlobalVars) {
 		if (wrappedObjectAndGlobalVars[0] instanceof SimpleInstance) {
 			this.knowtatorAnnotation = (SimpleInstance) wrappedObjectAndGlobalVars[0];
 			this.ku = (KnowtatorUtil) wrappedObjectAndGlobalVars[1];

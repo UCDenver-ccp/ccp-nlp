@@ -14,7 +14,7 @@ public class DefaultBooleanSlotMention extends BooleanSlotMention {
 //	protected Map<Integer, Long> traversalID2MentionIDMap;
 
 	public DefaultBooleanSlotMention(String mentionName) {
-		super(new DefaultMentionTraversalTracker(), (Object[])null);
+		super((Object[])null);
 		this.mentionName = mentionName;
 		slotValues = new ArrayList<Boolean>();
 	}

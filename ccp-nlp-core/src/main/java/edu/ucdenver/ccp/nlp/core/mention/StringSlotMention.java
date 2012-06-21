@@ -9,8 +9,8 @@ public abstract class StringSlotMention extends PrimitiveSlotMention<String> {
 //		super(mentionName,  traversalTracker, wrappedObjectPlusGlobalVars);
 //	}
 	
-	public StringSlotMention(IMentionTraversalTracker traversalTracker, Object... wrappedObjectPlusGlobalVars) {
-		super(traversalTracker, wrappedObjectPlusGlobalVars);
+	public StringSlotMention(Object... wrappedObjectPlusGlobalVars) {
+		super(wrappedObjectPlusGlobalVars);
 	}
 
 	@Override

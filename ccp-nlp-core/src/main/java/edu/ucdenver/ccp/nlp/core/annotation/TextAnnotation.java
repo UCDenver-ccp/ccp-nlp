@@ -54,7 +54,7 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 		}
 	}
 
-	protected abstract void initializeFromWrappedAnnotation(Object... wrappedObjectAndGlobalVars) throws Exception;
+	protected abstract void initializeFromWrappedAnnotation(Object... wrappedObjectAndGlobalVars);
 
 	public abstract AnnotationMetadata getAnnotationMetadata();
 
