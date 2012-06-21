@@ -20,31 +20,9 @@
 	<modules>
 		<module>ccp-nlp-core</module>
 		<module>ccp-nlp-core-uima</module>
-		<module>ccp-nlp-ext-bionlp</module>
-		<module>ccp-nlp-ext-uima-annotators</module>
-		<module>ccp-nlp-ext-uima-annotators-entitydetection</module>
-		<module>ccp-nlp-ext-uima-annotators-entitynormalization</module>
-		<module>ccp-nlp-ext-uima-annotators-postaggers</module>
-		<module>ccp-nlp-ext-uima-annotators-sentencedetectors</module>
-		<module>ccp-nlp-ext-uima-annotators-tokenizers</module>
 		<module>ccp-nlp-ext-uima-collections</module>
 		<module>ccp-nlp-ext-uima-serialization</module>
-		<module>ccp-nlp-ext-uima-serialization-bionlp</module>
-		<module>ccp-nlp-ext-uima-serialization-knowtator</module>
-		<module>ccp-nlp-ext-uima-serialization-rdf</module>
-		<module>ccp-nlp-ext-uima-serialization-xml</module>
 		<module>ccp-nlp-ext-uima-shims</module>
-		<module>ccp-nlp-wrapper-abner</module>
-		<module>ccp-nlp-wrapper-banner</module>
-		<module>ccp-nlp-wrapper-conceptmapper</module>
-		<module>ccp-nlp-wrapper-knowtator</module>
-		<module>ccp-nlp-wrapper-lingpipe</module>
-		<module>ccp-nlp-wrapper-protege-v3</module>
-		<module>ccp-nlp-ext-dictionary</module>
-		<module>ccp-nlp-ext-dictionary-berkeleydb</module>
-		<module>ccp-nlp-ext-dictionary-berkeleydb-impl</module>
-		<module>ccp-nlp-wrapper-oboedit</module>
-		<module>ccp-nlp-wrapper-linnaeus</module>
 	</modules>
 
 	<dependencyManagement>
