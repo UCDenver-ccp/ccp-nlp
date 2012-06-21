@@ -148,10 +148,19 @@ public class UIMA_Util {
 			CCPDocumentInformation docInfo = (CCPDocumentInformation) it.next();
 			documentID = docInfo.getDocumentID();
 			return documentID;
-		} else {
-			logger.warn("No document ID found, returning -1.");
-			return "-1";
 		}
+		logger.warn("No document ID found, returning -1.");
+		return "-1";
+	}
+
+	public static CCPDocumentInformation getDocumentInfo(JCas jcas) {
+		FSIterator it = jcas.getJFSIndexRepository().getAllIndexedFS(CCPDocumentInformation.type);
+		if (it.hasNext()) { /* there will be at most one CCPDocumentInformation annotation */
+			CCPDocumentInformation docInfo = (CCPDocumentInformation) it.next();
+			return docInfo;
+		}
+		logger.warn("No document ID found, returning -1.");
+		return null;
 	}
 
 	/**
@@ -2102,23 +2111,24 @@ public class UIMA_Util {
 		List<CCPSlotMention> slotMentionsToKeep = new ArrayList<CCPSlotMention>();
 		FSArray slotMentions = ccpCM.getSlotMentions();
 		if (slotMentions != null) {
-//			logger.info("REMOVING SLOT MENTIONS: STARTED WITH: " + slotMentions.size());
+			// logger.info("REMOVING SLOT MENTIONS: STARTED WITH: " + slotMentions.size());
 			for (int i = 0; i < slotMentions.size(); i++) {
-//				logger.info("REMOVING SLOT MENTIONS: CLASS = " + slotMentions.get(i).getClass().getName()
-//						+ " EQUALS EXPECTED TYPE (" + slotType.getName() + "): "
-//						+ (slotMentions.get(i).getClass().isInstance(slotType)));
+				// logger.info("REMOVING SLOT MENTIONS: CLASS = " +
+				// slotMentions.get(i).getClass().getName()
+				// + " EQUALS EXPECTED TYPE (" + slotType.getName() + "): "
+				// + (slotMentions.get(i).getClass().isInstance(slotType)));
 				if (!(slotType.isInstance(slotMentions.get(i)))) {
 					slotMentionsToKeep.add((CCPSlotMention) slotMentions.get(i));
 				}
 			}
-//			logger.info("REMOVING SLOT MENTIONS: TO KEEP: " + slotMentionsToKeep.size());
+			// logger.info("REMOVING SLOT MENTIONS: TO KEEP: " + slotMentionsToKeep.size());
 
 		}
 		FSArray updatedSlotMentions = new FSArray(jcas, slotMentionsToKeep.size());
 		for (int i = 0; i < slotMentionsToKeep.size(); i++) {
 			updatedSlotMentions.set(i, slotMentionsToKeep.get(i));
 		}
-//		logger.info("REMOVING SLOT MENTIONS: UPDATED SIZE: " + updatedSlotMentions.size());
+		// logger.info("REMOVING SLOT MENTIONS: UPDATED SIZE: " + updatedSlotMentions.size());
 		ccpCM.setSlotMentions(updatedSlotMentions);
 	}
 
