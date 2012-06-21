@@ -36,8 +36,8 @@ public abstract class ComplexSlotMention extends SlotMention<ClassMention> {
 //		super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
 //	}
 	
-	public ComplexSlotMention( IMentionTraversalTracker traversalTracker, Object... wrappedObjectPlusGlobalVars ) {
-		super(traversalTracker, wrappedObjectPlusGlobalVars);
+	public ComplexSlotMention(Object... wrappedObjectPlusGlobalVars ) {
+		super(wrappedObjectPlusGlobalVars);
 	}
 
 	public abstract ClassMention createClassMention(String classMentionName);

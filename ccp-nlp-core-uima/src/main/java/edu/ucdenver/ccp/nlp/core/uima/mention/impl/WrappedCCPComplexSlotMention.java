@@ -21,7 +21,7 @@ public class WrappedCCPComplexSlotMention extends ComplexSlotMention {
 	private JCas jcas;
 
 	public WrappedCCPComplexSlotMention(CCPComplexSlotMention ccpCSM) {
-		super( new UimaMentionTraversalTracker(ccpCSM), ccpCSM);
+		super(  ccpCSM);
 	}
 
 	@Override

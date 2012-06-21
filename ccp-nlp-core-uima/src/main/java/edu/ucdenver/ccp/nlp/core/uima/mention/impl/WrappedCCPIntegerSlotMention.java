@@ -19,7 +19,7 @@ public class WrappedCCPIntegerSlotMention extends IntegerSlotMention {
 	private JCas jcas;
 
 	public WrappedCCPIntegerSlotMention(CCPIntegerSlotMention ccpSSM) {
-		super(new UimaMentionTraversalTracker(ccpSSM), ccpSSM);
+		super( ccpSSM);
 	}
 
 	@Override

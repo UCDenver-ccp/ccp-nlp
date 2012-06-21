@@ -13,7 +13,7 @@ public class DefaultFloatSlotMention extends FloatSlotMention {
 //	protected Map<Integer, Long> traversalID2MentionIDMap;
 
 	public DefaultFloatSlotMention(String mentionName) {
-		super(new DefaultMentionTraversalTracker(), (Object[])null);
+		super( (Object[])null);
 		this.mentionName = mentionName;
 		slotValues = new ArrayList<Float>();
 	}

@@ -26,7 +26,7 @@ import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 public class WrappedCCPClassMention extends ClassMention {
 
 	public WrappedCCPClassMention(CCPClassMention ccpCM) {
-		super(new UimaMentionTraversalTracker(ccpCM), ccpCM);
+		super( ccpCM);
 	}
 
 	private static Logger logger = Logger.getLogger(WrappedCCPClassMention.class);

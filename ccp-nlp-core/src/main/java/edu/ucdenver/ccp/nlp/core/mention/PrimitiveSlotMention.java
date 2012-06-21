@@ -18,8 +18,8 @@ public abstract class PrimitiveSlotMention<E> extends SlotMention<E> implements 
 //		super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars );
 //	}
 	
-	public PrimitiveSlotMention(IMentionTraversalTracker traversalTracker, Object... wrappedObjectPlusGlobalVars) {
-		super(traversalTracker, wrappedObjectPlusGlobalVars );
+	public PrimitiveSlotMention(Object... wrappedObjectPlusGlobalVars) {
+		super(wrappedObjectPlusGlobalVars );
 	}
 
 //	public abstract void addSlotValue(String slotValue);

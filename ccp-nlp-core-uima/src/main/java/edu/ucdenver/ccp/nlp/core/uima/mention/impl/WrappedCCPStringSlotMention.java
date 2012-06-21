@@ -19,7 +19,7 @@ public class WrappedCCPStringSlotMention extends StringSlotMention {
 	private JCas jcas;
 
 	public WrappedCCPStringSlotMention(CCPStringSlotMention ccpSSM) {
-		super(new UimaMentionTraversalTracker(ccpSSM), ccpSSM);
+		super( ccpSSM);
 	}
 
 	@Override

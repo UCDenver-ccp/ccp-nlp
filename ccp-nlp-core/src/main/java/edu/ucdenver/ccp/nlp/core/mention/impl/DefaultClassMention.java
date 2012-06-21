@@ -29,7 +29,7 @@ public class DefaultClassMention extends ClassMention  {
 	protected DefaultTextAnnotation textAnnotation;
 
 	public DefaultClassMention(String mentionName) {
-		super(new DefaultMentionTraversalTracker(), (Object[])null);
+		super((Object[])null);
 		this.mentionName = mentionName;
 		primitiveSlotMentionsMap = new HashMap<String, PrimitiveSlotMention>();
 		complexSlotMentionsMap = new HashMap<String, ComplexSlotMention>();

@@ -91,8 +91,8 @@ public abstract class ClassMention extends Mention implements IClassMention {
 //		// setTextAnnotationMemberVariable(linkedAnnotation);
 //	}
 
-	public ClassMention(IMentionTraversalTracker traversalTracker, Object... wrappedObjectPlusGlobalVars) {// , TextAnnotation linkedAnnotation) {
-		super(traversalTracker, wrappedObjectPlusGlobalVars);
+	public ClassMention(Object... wrappedObjectPlusGlobalVars) {// , TextAnnotation linkedAnnotation) {
+		super(wrappedObjectPlusGlobalVars);
 		// setTextAnnotationMemberVariable(linkedAnnotation);
 	}
 

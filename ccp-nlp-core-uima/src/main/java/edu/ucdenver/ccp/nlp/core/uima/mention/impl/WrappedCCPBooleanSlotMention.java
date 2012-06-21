@@ -15,7 +15,7 @@ public class WrappedCCPBooleanSlotMention extends BooleanSlotMention {
 //	private JCas jcas;
 
 	public WrappedCCPBooleanSlotMention(CCPBooleanSlotMention ccpSSM) {
-		super(new UimaMentionTraversalTracker(ccpSSM), ccpSSM);
+		super( ccpSSM);
 	}
 
 	@Override

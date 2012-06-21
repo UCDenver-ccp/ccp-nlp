@@ -19,7 +19,7 @@ public class WrappedKnowtatorClassMention extends ClassMention {
 	private KnowtatorUtil ku;
 
 	public WrappedKnowtatorClassMention(SimpleInstance knowtatorMention, KnowtatorUtil ku) {
-		super(new KnowtatorMentionTraversalTracker(knowtatorMention, ku),
+		super(
 				knowtatorMention, ku);
 		this.ku = ku;
 	}

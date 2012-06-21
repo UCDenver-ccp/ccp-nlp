@@ -19,7 +19,7 @@ public class WrappedCCPDoubleSlotMention extends DoubleSlotMention {
 	private JCas jcas;
 
 	public WrappedCCPDoubleSlotMention(CCPDoubleSlotMention ccpSSM) {
-		super(new UimaMentionTraversalTracker(ccpSSM), ccpSSM);
+		super( ccpSSM);
 	}
 
 	@Override

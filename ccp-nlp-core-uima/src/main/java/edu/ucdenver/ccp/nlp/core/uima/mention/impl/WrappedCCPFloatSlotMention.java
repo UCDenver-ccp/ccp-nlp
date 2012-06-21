@@ -19,7 +19,7 @@ public class WrappedCCPFloatSlotMention extends FloatSlotMention {
 	private JCas jcas;
 
 	public WrappedCCPFloatSlotMention(CCPFloatSlotMention ccpSSM) {
-		super(new UimaMentionTraversalTracker(ccpSSM), ccpSSM);
+		super( ccpSSM);
 	}
 
 	@Override

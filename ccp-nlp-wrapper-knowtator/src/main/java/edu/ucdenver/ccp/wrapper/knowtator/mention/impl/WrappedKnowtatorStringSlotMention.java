@@ -15,7 +15,7 @@ public class WrappedKnowtatorStringSlotMention extends StringSlotMention {
 	private KnowtatorUtil ku;
 	
 	public WrappedKnowtatorStringSlotMention(SimpleInstance knowtatorMention, KnowtatorUtil ku) {
-		super(new KnowtatorMentionTraversalTracker(knowtatorMention, ku), knowtatorMention, ku);
+		super( knowtatorMention, ku);
 	this.ku = ku;
 	}
 
