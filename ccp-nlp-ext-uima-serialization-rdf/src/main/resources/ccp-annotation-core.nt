@@ -1,4 +1,0 @@
-<http://kabob.ucdenver.edu/iao/ResourceAnnotation http://www.w3.org/2000/01/rdf-schema#subClassOf http://purl.org/ao/core/Annotation> .
-<http://kabob.ucdenver.edu/iao/denotesResource http://www.w3.org/2000/01/rdf-schema#subPropertyOf http://purl.org/ao/core/hasTopic> .
-<http://kabob.ucdenver.edu/iao/denotesClass http://www.w3.org/2000/01/rdf-schema#subPropertyOf http://kabob.ucdenver.edu/iao/denotesResource> .
-<http://kabob.ucdenver.edu/iao/denotesProperty http://www.w3.org/2000/01/rdf-schema#subPropertyOf http://kabob.ucdenver.edu/iao/denotesResource> .
