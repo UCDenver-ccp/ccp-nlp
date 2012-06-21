@@ -1,6 +1,9 @@
 package edu.ucdenver.ccp.nlp.ext.uima.shims.document;
 
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.TOP;
+
+import edu.ucdenver.ccp.common.file.CharacterEncoding;
 
 /**
  * The DocumentMetaDataExtractor interface provides a standard interface for retrieve document meta
@@ -38,5 +41,8 @@ public interface DocumentMetaDataExtractor {
 	public void setDocumentId(JCas jCas, String documentId);
 	
 	public void setDocumentEncoding(JCas jCas, String encoding);
+	
+	
+	public TOP getMetaDataContainer(JCas jCas);
 
 }
