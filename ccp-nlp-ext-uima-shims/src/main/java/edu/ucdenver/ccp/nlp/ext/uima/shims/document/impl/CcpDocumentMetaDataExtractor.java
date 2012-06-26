@@ -5,7 +5,7 @@ import org.apache.uima.jcas.JCas;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentInformation;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
+import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
  * An implementation of {@link DocumentMetaDataExtractor} used to work with the CCP type system
@@ -13,7 +13,7 @@ import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
  * @author bill
  * 
  */
-public class CcpDocumentMetaDataExtractor implements DocumentMetaDataExtractor {
+public class CcpDocumentMetaDataExtractor implements DocumentMetadataHandler {
 
 	/**
 	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.document.shim.document.uchsc.ccp.uima.shim.DocumentMetaDataExtractor#extractDocumentEncoding(org.apache.uima.jcas.JCas)
