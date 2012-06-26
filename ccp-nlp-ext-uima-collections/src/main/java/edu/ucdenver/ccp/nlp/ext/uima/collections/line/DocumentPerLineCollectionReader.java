@@ -24,7 +24,7 @@ import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
 import edu.ucdenver.ccp.nlp.ext.uima.collections.file.BaseTextCollectionReader;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
+import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
@@ -161,13 +161,13 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 	 */
 	public static CollectionReader createCollectionReader(TypeSystemDescription tsd, File medlineDumpFile,
 			int numToSkip, int numToProcess, Class<? extends DocumentExtractor> documentExtractorClass,
-			Class<? extends DocumentMetaDataExtractor> documentMetadataExtractorClass)
+			Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass)
 			throws ResourceInitializationException {
 		logger.info("medline dump file is null: " + (medlineDumpFile == null));
 		return CollectionReaderFactory.createCollectionReader(DocumentPerLineCollectionReader.class, tsd,
 				PARAM_COLLECTION_FILE, medlineDumpFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
 				PARAM_DOCUMENT_EXTRACTOR_CLASS, documentExtractorClass.getName(),
-				PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetadataExtractorClass.getName(), PARAM_ENCODING,
+				PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING,
 				"UTF_8", PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME,
 				View.DEFAULT.name());
 	}

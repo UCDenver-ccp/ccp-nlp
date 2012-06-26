@@ -28,7 +28,7 @@ import edu.ucdenver.ccp.common.io.StreamUtil;
 import edu.ucdenver.ccp.common.string.StringConstants;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
+import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
@@ -157,11 +157,11 @@ public class ClasspathCollectionReader extends BaseTextCollectionReader {
 	 * @throws ResourceInitializationException
 	 */
 	public static CollectionReader createCollectionReader(TypeSystemDescription tsd, String collectionPath,
-			int numToSkip, int numToProcess, Class<? extends DocumentMetaDataExtractor> documentMetadataExtractorClass)
+			int numToSkip, int numToProcess, Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass)
 			throws ResourceInitializationException {
 		return CollectionReaderFactory.createCollectionReader(ClasspathCollectionReader.class, tsd,
 				PARAM_COLLECTION_PATH, collectionPath, PARAM_DISABLE_PROGRESS, true,
-				PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetadataExtractorClass.getName(), PARAM_ENCODING,
+				PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING,
 				"UTF_8", PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME,
 				View.DEFAULT.name());
 	}

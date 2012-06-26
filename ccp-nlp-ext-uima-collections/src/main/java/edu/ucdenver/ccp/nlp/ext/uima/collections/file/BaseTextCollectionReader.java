@@ -18,7 +18,6 @@
 
 package edu.ucdenver.ccp.nlp.ext.uima.collections.file;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
@@ -37,12 +36,10 @@ import org.uimafit.descriptor.SofaCapability;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
-import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
-import edu.ucdenver.ccp.nlp.ext.uima.collections.line.DocumentExtractor;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
+import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
  * Contains base functionality required by all Collection Reader implementations.
@@ -127,7 +124,7 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	 * this {@link DocumentMetaDataExtractor} will be initialized based on the class name specified
 	 * by the documentMetadataExtractorClassName parameter
 	 */
-	private DocumentMetaDataExtractor documentMetaDataExtractor;
+	private DocumentMetadataHandler documentMetadataHandler;
 
 	private int processedDocumentCount = 0;
 
@@ -145,7 +142,7 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 			throw new ResourceInitializationException(e);
 		}
 
-		documentMetaDataExtractor = (DocumentMetaDataExtractor) ConstructorUtil
+		documentMetadataHandler = (DocumentMetadataHandler) ConstructorUtil
 				.invokeConstructor(documentMetadataExtractorClassName);
 	}
 
@@ -226,8 +223,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 			if (this.language != null)
 				view.setDocumentLanguage(this.language);
 		}
-		documentMetaDataExtractor.setDocumentId(jcas, documentId);
-		documentMetaDataExtractor.setDocumentEncoding(jcas, encoding.getCharacterSetName());
+		documentMetadataHandler.setDocumentId(jcas, documentId);
+		documentMetadataHandler.setDocumentEncoding(jcas, encoding.getCharacterSetName());
 
 		logger.info("Processing document " + processedDocumentCount + " of " + documentsToBeProcessedCount
 				+ ".  Loading view: " + this.viewName);
