@@ -25,7 +25,7 @@ import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
+import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
  * An {@link AnalysisEngine} implementation that outputs the CAS to an XMI file. This class is
@@ -60,20 +60,20 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
 	 * implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(XmiPrinterAE.class, "documentMetadataExtractorClassName");
+	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = ConfigurationParameterFactory
+			.createConfigurationParameterName(XmiPrinterAE.class, "documentMetadataHandlerClassName");
 
 	/**
 	 * The name of the DocumentMetaDataExtractor implementation to use
 	 */
 	@ConfigurationParameter(mandatory = true, description = "name of the DocumentMetaDataExtractor implementation to use", defaultValue = "edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor")
-	private String documentMetadataExtractorClassName;
+	private String documentMetadataHandlerClassName;
 
 	/**
-	 * this {@link DocumentMetaDataExtractor} will be initialized based on the class name specified
-	 * by the documentMetadataExtractorClassName parameter
+	 * this {@link DocumentMetadataHandler} will be initialized based on the class name specified by
+	 * the documentMetadataExtractorClassName parameter
 	 */
-	private DocumentMetaDataExtractor documentMetaDataExtractor;
+	private DocumentMetadataHandler documentMetaDataExtractor;
 
 	/**
 	 * This method returns an initialized {@link AnalysisEngine} capable of persisting a CAS as an
@@ -95,15 +95,15 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	}
 
 	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd,
-			Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass, File outputDirectory)
+			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, File outputDirectory)
 			throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(XmiPrinterAE.class, tsd,
-				PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetaDataExtractorClass.getName(),
+				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetaDataExtractorClass.getName(),
 				PARAM_OUTPUT_DIRECTORY, outputDirectory.getAbsolutePath());
 	}
 
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd,
-			Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass, File outputDirectory)
+			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, File outputDirectory)
 			throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitive(getDescription(tsd, documentMetaDataExtractorClass,
 				outputDirectory));
@@ -118,8 +118,8 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
-		documentMetaDataExtractor = (DocumentMetaDataExtractor) ConstructorUtil
-				.invokeConstructor(documentMetadataExtractorClassName);
+		documentMetaDataExtractor = (DocumentMetadataHandler) ConstructorUtil
+				.invokeConstructor(documentMetadataHandlerClassName);
 		FileUtil.mkdir(outputDirectory);
 	}
 

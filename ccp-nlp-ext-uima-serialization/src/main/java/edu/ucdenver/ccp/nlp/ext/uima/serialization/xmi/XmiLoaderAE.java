@@ -31,7 +31,7 @@ import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.common.io.StreamUtil;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.common.string.StringConstants;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
+import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
@@ -100,20 +100,20 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
 	 * implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(XmiLoaderAE.class, "documentMetadataExtractorClassName");
+	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = ConfigurationParameterFactory
+			.createConfigurationParameterName(XmiLoaderAE.class, "documentMetadataHandlerClassName");
 
 	/**
 	 * The name of the TokenAttributeExtractor implementation to use
 	 */
 	@ConfigurationParameter(mandatory = true, description = "name of the DocumentMetaDataExtractor implementation to use", defaultValue = "edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor")
-	private String documentMetadataExtractorClassName;
+	private String documentMetadataHandlerClassName;
 
 	/**
-	 * this {@link DocumentMetaDataExtractor} will be initialized based on the class name specified
+	 * this {@link DocumentMetadataHandler} will be initialized based on the class name specified
 	 * by the documentMetadataExtractorClassName parameter
 	 */
-	private DocumentMetaDataExtractor documentMetaDataExtractor;
+	private DocumentMetadataHandler documentMetaDataHandler;
 
 	private Logger logger;
 
@@ -134,9 +134,9 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	public void initialize(UimaContext aContext) throws ResourceInitializationException {
 		super.initialize(aContext);
 		logger = aContext.getLogger();
-		System.out.println("DOCUMENT META DATA EXTRACTOR CLASS: " + documentMetadataExtractorClassName);
-		documentMetaDataExtractor = (DocumentMetaDataExtractor) ConstructorUtil
-				.invokeConstructor(documentMetadataExtractorClassName);
+		System.out.println("DOCUMENT META DATA EXTRACTOR CLASS: " + documentMetadataHandlerClassName);
+		documentMetaDataHandler = (DocumentMetadataHandler) ConstructorUtil
+				.invokeConstructor(documentMetadataHandlerClassName);
 	}
 
 	/*
@@ -148,7 +148,7 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	@Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {
 		XmiSerializationSharedData sharedData = new XmiSerializationSharedData();
-		String documentId = documentMetaDataExtractor.extractDocumentId(jcas);
+		String documentId = documentMetaDataHandler.extractDocumentId(jcas);
 		for (String xmiPathBase : xmiPaths) {
 			System.out.println("XMI PATH BASE: " + xmiPathBase);
 			InputStream xmiStream = initializeXmiInputStream(documentId, xmiPathBase);
@@ -238,7 +238,7 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	/**
 	 * Returns an initialized XmiLoader {@link AnalysisEngine}
 	 * 
-	 * @param documentMetaDataExtractorClass
+	 * @param documentMetaDataHandlerClass
 	 * @param tsd
 	 * @param xmiPathType
 	 * @param xmiDirectories
@@ -246,10 +246,10 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	 * @throws ResourceInitializationException
 	 */
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
-			Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass, XmiPathType xmiPathType,
+			Class<? extends DocumentMetadataHandler> documentMetaDataHandlerClass, XmiPathType xmiPathType,
 			XmiFileCompressionType xmiCompressionType, String... xmiPaths) throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(XmiLoaderAE.class, tsd,
-				XmiLoaderAE.PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetaDataExtractorClass.getName(),
+				XmiLoaderAE.PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetaDataHandlerClass.getName(),
 				PARAM_XMI_PATH_TYPE, xmiPathType.name(), PARAM_XMI_FILE_COMPRESSION_TYPE, xmiCompressionType.name(),
 				XmiLoaderAE.PARAM_XMI_PATH_NAMES, xmiPaths);
 	}

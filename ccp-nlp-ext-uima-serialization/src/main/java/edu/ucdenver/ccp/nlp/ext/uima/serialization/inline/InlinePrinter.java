@@ -34,7 +34,7 @@ import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.inline.InlineTag.InlinePostfixTag;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.inline.InlineTag.InlinePrefixTag;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor;
+import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
  * This JCas annotator is capable of outputting to file the document text from a specified view and
@@ -83,20 +83,20 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 * Parameter name used in the UIMA descriptor file for the document meta data extractor
 	 * implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_META_DATA_EXTRACTOR_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(InlinePrinter.class, "metaDataExtractorClassName");
+	public static final String PARAM_DOCUMENT_META_DATA_HANDLER_CLASS = ConfigurationParameterFactory
+			.createConfigurationParameterName(InlinePrinter.class, "documentMetadataHandlerClassName");
 
 	/**
 	 * The name of the DocumentMetaDataExtractor implementation to use
 	 */
 	@ConfigurationParameter(description = "name of the DocumentMetaDataExtractor implementation to use", defaultValue = "edu.uchsc.ccp.uima.shim.ccp.CcpDocumentMetaDataExtractor")
-	private String metaDataExtractorClassName;
+	private String documentMetadataHandlerClassName;
 
 	/**
 	 * this {@link DocumentMetaDataExtractor} will be initialized based on the class name specified
 	 * by the metaDataExtractor parameter
 	 */
-	private DocumentMetaDataExtractor metaDataExtractor;
+	private DocumentMetadataHandler documentMetadataHandler;
 
 	/**
 	 * Parameter name used in the UIMA descriptor file for the inline annotation extractor
@@ -146,7 +146,7 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 * metaDataExtractorClassName parameter
 	 */
 	private void initializeMetaDataExtractor() {
-		metaDataExtractor = (DocumentMetaDataExtractor) ConstructorUtil.invokeConstructor(metaDataExtractorClassName);
+		documentMetadataHandler = (DocumentMetadataHandler) ConstructorUtil.invokeConstructor(documentMetadataHandlerClassName);
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 */
 	private void outputAnnotationsInline(Map<Integer, Collection<InlineTag>> characterOffsetToTagMap,
 			String documentText, BufferedWriter writer, JCas jCas) throws IOException {
-		insertOutputFileHeader(writer, metaDataExtractor.extractDocumentEncoding(jCas));
+		insertOutputFileHeader(writer, documentMetadataHandler.extractDocumentEncoding(jCas));
 		char[] charArray = documentText.toCharArray();
 		Character previousCharacter = null;
 		for (int i = 0; i < charArray.length; i++) {
@@ -361,8 +361,8 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 *             if an error occurs while initializing the {@link BufferedWriter}
 	 */
 	private BufferedWriter initializeOutputFileWriter(JCas jCas) throws FileNotFoundException {
-		String documentId = metaDataExtractor.extractDocumentId(jCas);
-		String encodingStr = metaDataExtractor.extractDocumentEncoding(jCas);
+		String documentId = documentMetadataHandler.extractDocumentId(jCas);
+		String encodingStr = documentMetadataHandler.extractDocumentEncoding(jCas);
 		CharacterEncoding encoding = CharacterEncoding.getEncoding(encodingStr);
 		File outputFile = new File(outputDirectory, documentId + OUTPUT_FILE_SUFFIX);
 		return FileWriterUtil.initBufferedWriter(outputFile, encoding, WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
@@ -391,7 +391,7 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 *             if an error occurs during {@link AnalysisEngine} initialization
 	 */
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File outputDirectory,
-			String viewNameToProcess, Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass,
+			String viewNameToProcess, Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass,
 			Class<? extends InlineTagExtractor>... annotationExtractorClasses)
 			throws ResourceInitializationException {
 		String[] annotationExtractorClassNames = new String[annotationExtractorClasses.length];
@@ -400,7 +400,7 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 			annotationExtractorClassNames[i++] = extractorClass.getName();
 
 		return createAnalysisEngine(InlinePrinter.class, tsd, outputDirectory, viewNameToProcess,
-				documentMetaDataExtractorClass, annotationExtractorClassNames);
+				documentMetadataHandlerClass, annotationExtractorClassNames);
 	}
 
 	/**
@@ -416,7 +416,7 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 *            they are created
 	 * @param viewNameToProcess
 	 *            the name of the view from which to extract the document text and annotations
-	 * @param documentMetaDataExtractorClass
+	 * @param documentMetadataHandlerClass
 	 *            an implementation of {@link DocumentMetaDataExtractor} to use to extract document
 	 *            identifier and encoding information from the {@JCas}
 	 * @param annotationExtractorClasses
@@ -428,11 +428,11 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 *             if an error occurs during {@link AnalysisEngine} initialization
 	 */
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File outputDirectory,
-			String viewNameToProcess, Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass,
+			String viewNameToProcess, Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass,
 			Class<? extends InlineTagExtractor> annotationExtractorClass) throws ResourceInitializationException {
 		String[] annotationExtractorClassNames = new String[] { annotationExtractorClass.getName() };
 		return createAnalysisEngine(InlinePrinter.class, tsd, outputDirectory, viewNameToProcess,
-				documentMetaDataExtractorClass, annotationExtractorClassNames);
+				documentMetadataHandlerClass, annotationExtractorClassNames);
 	}
 
 	/**
@@ -446,7 +446,7 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 *            they are created
 	 * @param viewNameToProcess
 	 *            the name of the view from which to extract the document text and annotations
-	 * @param documentMetaDataExtractorClass
+	 * @param documentMetadataHandlerClass
 	 *            an implementation of {@link DocumentMetaDataExtractor} to use to extract document
 	 *            identifier and encoding information from the {@JCas}
 	 * @param annotationExtractorClasseNames
@@ -458,11 +458,11 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 */
 	protected static AnalysisEngine createAnalysisEngine(Class<? extends InlinePrinter> inlinePrinterClass,
 			TypeSystemDescription tsd, File outputDirectory, String viewNameToProcess,
-			Class<? extends DocumentMetaDataExtractor> documentMetaDataExtractorClass,
+			Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass,
 			String[] annotationExtractorClassNames) throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitive(inlinePrinterClass, tsd, InlinePrinter.PARAM_OUTPUT_DIRECTORY,
 				outputDirectory.getAbsolutePath(), InlinePrinter.PARAM_VIEW_NAME_TO_PROCESS, viewNameToProcess,
-				InlinePrinter.PARAM_DOCUMENT_META_DATA_EXTRACTOR_CLASS, documentMetaDataExtractorClass.getName(),
+				InlinePrinter.PARAM_DOCUMENT_META_DATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(),
 				InlinePrinter.PARAM_INLINE_ANNOTATION_EXTRACTOR_CLASSES, annotationExtractorClassNames);
 	}
 
