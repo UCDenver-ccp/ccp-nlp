@@ -179,6 +179,7 @@ public class UIMA_Util {
 							+ "The most likely reason for this is the collection reader implementation you are "
 							+ "using did not set the encoding value. Use the FileSystemCollectionReader or "
 							+ "adjust your collection reader accordingly.");
+		encoding = encoding.replaceAll("-", "_");
 		return CharacterEncoding.valueOf(encoding);
 	}
 
