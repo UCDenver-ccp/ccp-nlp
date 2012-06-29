@@ -7,7 +7,7 @@
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>ccp-nlp-ext-uima-serialization</artifactId>
+	<artifactId>ccp-nlp-uima-serialization</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 	<description>UIMA annotation-to-RDF code</description>
@@ -30,18 +30,18 @@
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-nlp-core-uima</artifactId>
+			<artifactId>ccp-nlp-uima</artifactId>
 			<version>${project.version}</version>
 			<type>test-jar</type>
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-nlp-core-uima</artifactId>
+			<artifactId>ccp-nlp-uima</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-nlp-ext-uima-shims</artifactId>
+			<artifactId>ccp-nlp-uima-shims</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- listing commons-io v2.0 b/c v1.4 is imported by default (part of uimafit 
