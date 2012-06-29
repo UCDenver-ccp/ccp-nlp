@@ -8,7 +8,7 @@
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>ccp-nlp-core-uima</artifactId>
+	<artifactId>ccp-nlp-uima</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 	<parent>
