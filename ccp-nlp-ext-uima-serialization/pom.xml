@@ -31,6 +31,7 @@
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>ccp-nlp-core-uima</artifactId>
+			<version>${project.version}</version>
 			<type>test-jar</type>
 		</dependency>
 		<dependency>
