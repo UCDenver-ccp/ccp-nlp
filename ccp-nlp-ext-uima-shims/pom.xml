@@ -7,7 +7,7 @@
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>ccp-nlp-ext-uima-shims</artifactId>
+	<artifactId>ccp-nlp-uima-shims</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 	<parent>
@@ -19,14 +19,9 @@
 	<dependencies>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-nlp-core-uima</artifactId>
+			<artifactId>ccp-nlp-uima</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-nlp-ext-syntax</artifactId>
-			<version>${project.version}</version>
-		</dependency> -->
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>ccp-datasource-identifiers</artifactId>
@@ -35,7 +30,7 @@
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-uima-shims</artifactId>
+			<artifactId>uima-shims</artifactId>
 			<version>0.2-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
