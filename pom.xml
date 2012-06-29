@@ -18,10 +18,10 @@
 
 	<modules>
 		<module>ccp-nlp-core</module>
-		<module>ccp-nlp-core-uima</module>
-		<module>ccp-nlp-ext-uima-collections</module>
-		<module>ccp-nlp-ext-uima-serialization</module>
-		<module>ccp-nlp-ext-uima-shims</module>
+		<module>ccp-nlp-uima</module>
+		<module>ccp-nlp-uima-collections</module>
+		<module>ccp-nlp-uima-serialization</module>
+		<module>ccp-nlp-uima-shims</module>
 	</modules>
 
 	<dependencyManagement>
