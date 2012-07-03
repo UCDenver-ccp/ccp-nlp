@@ -1,4 +1,4 @@
-package edu.ucdenver.ccp.nlp.ext.uima.shims.annotation;
+package edu.ucdenver.ccp.nlp.uima.shims.annotation;
 
 import java.util.Collection;
 import java.util.HashMap;
