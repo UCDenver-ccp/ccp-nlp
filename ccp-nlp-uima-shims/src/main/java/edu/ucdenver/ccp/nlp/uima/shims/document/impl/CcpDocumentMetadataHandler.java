@@ -1,4 +1,4 @@
-package edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl;
+package edu.ucdenver.ccp.nlp.uima.shims.document.impl;
 
 import org.apache.uima.jcas.JCas;
 
@@ -13,7 +13,7 @@ import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
  * @author bill
  * 
  */
-public class CcpDocumentMetaDataExtractor implements DocumentMetadataHandler {
+public class CcpDocumentMetadataHandler implements DocumentMetadataHandler {
 
 	/**
 	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.document.shim.document.uchsc.ccp.uima.shim.DocumentMetaDataExtractor#extractDocumentEncoding(org.apache.uima.jcas.JCas)
