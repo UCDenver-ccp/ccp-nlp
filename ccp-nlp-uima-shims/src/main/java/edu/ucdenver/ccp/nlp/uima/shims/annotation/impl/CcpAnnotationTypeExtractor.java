@@ -1,4 +1,4 @@
-package edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.impl;
+package edu.ucdenver.ccp.nlp.uima.shims.annotation.impl;
 
 import org.apache.uima.jcas.tcas.Annotation;
 
