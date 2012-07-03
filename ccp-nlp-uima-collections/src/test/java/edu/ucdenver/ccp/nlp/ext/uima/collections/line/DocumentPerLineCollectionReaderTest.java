@@ -3,7 +3,9 @@
  */
 package edu.ucdenver.ccp.nlp.ext.uima.collections.line;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,18 +14,16 @@ import java.util.List;
 import org.apache.uima.UIMAException;
 import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ResourceInitializationException;
 import org.junit.Test;
 import org.uimafit.pipeline.JCasIterable;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
-import edu.ucdenver.ccp.common.file.FileReaderUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.TypeSystemUtil;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor;
+import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
@@ -42,7 +42,7 @@ public class DocumentPerLineCollectionReaderTest extends DefaultTestCase {
 		int numToProcess = -1; // process all
 		CollectionReader cr = DocumentPerLineCollectionReader
 				.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(), collectionFile, numToSkip, numToProcess,
-						TabDocumentExtractor.class, CcpDocumentMetaDataExtractor.class);
+						TabDocumentExtractor.class, CcpDocumentMetadataHandler.class);
 
 		JCasIterable jCasIterable = new JCasIterable(cr);
 
@@ -68,7 +68,7 @@ public class DocumentPerLineCollectionReaderTest extends DefaultTestCase {
 		int numToProcess = 1; // process one
 		CollectionReader cr = DocumentPerLineCollectionReader
 				.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(), collectionFile, numToSkip, numToProcess,
-						TabDocumentExtractor.class, CcpDocumentMetaDataExtractor.class);
+						TabDocumentExtractor.class, CcpDocumentMetadataHandler.class);
 
 		JCasIterable jCasIterable = new JCasIterable(cr);
 
@@ -86,7 +86,7 @@ public class DocumentPerLineCollectionReaderTest extends DefaultTestCase {
 		int numToProcess = 1; // process one
 		CollectionReader cr = DocumentPerLineCollectionReader
 				.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(), collectionFile, numToSkip, numToProcess,
-						TabDocumentExtractor.class, CcpDocumentMetaDataExtractor.class);
+						TabDocumentExtractor.class, CcpDocumentMetadataHandler.class);
 
 		JCasIterable jCasIterable = new JCasIterable(cr);
 
@@ -104,7 +104,7 @@ public class DocumentPerLineCollectionReaderTest extends DefaultTestCase {
 		int numToProcess = 1; // process one
 		CollectionReader cr = DocumentPerLineCollectionReader
 				.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(), collectionFile, numToSkip, numToProcess,
-						TabDocumentExtractor.class, CcpDocumentMetaDataExtractor.class);
+						TabDocumentExtractor.class, CcpDocumentMetadataHandler.class);
 
 		JCasIterable jCasIterable = new JCasIterable(cr);
 		assertFalse(jCasIterable.hasNext());

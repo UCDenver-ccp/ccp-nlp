@@ -17,8 +17,6 @@ import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.CollectionReaderFactory;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
-import edu.ucdenver.ccp.common.file.CharacterEncoding;
-import edu.ucdenver.ccp.common.io.StreamUtil;
 import edu.ucdenver.ccp.common.string.StringConstants;
 import edu.ucdenver.ccp.medline.parser.MedlineCitation;
 import edu.ucdenver.ccp.medline.parser.MedlineCitation.AbstractText;
@@ -26,7 +24,7 @@ import edu.ucdenver.ccp.medline.parser.MedlineXmlDeserializer;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
 import edu.ucdenver.ccp.nlp.ext.uima.collections.file.BaseTextCollectionReader;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor;
+import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
 
 /**
  * This collection reader takes as input a file using the Medline XML format (as is downloaded as
@@ -150,11 +148,11 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 	 * @throws ResourceInitializationException
 	 */
 	public static CollectionReader createCollectionReader(TypeSystemDescription tsd, File medlineXmlFile,
-			int numToSkip, int numToProcess, Class<CcpDocumentMetaDataExtractor> documentMetadataExtractorClass)
+			int numToSkip, int numToProcess, Class<CcpDocumentMetadataHandler> documentMetadataHandlerClass)
 			throws ResourceInitializationException {
 		return CollectionReaderFactory.createCollectionReader(MedlineXmlFileCollectionReader.class, tsd,
 				PARAM_MEDLINE_XML_FILE, medlineXmlFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
-				PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetadataExtractorClass.getName(), PARAM_ENCODING,
+				PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING,
 				"UTF_8", PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME,
 				View.DEFAULT.name());
 	}

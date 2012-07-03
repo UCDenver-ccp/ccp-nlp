@@ -17,7 +17,7 @@ import org.uimafit.pipeline.JCasIterable;
 
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.nlp.core.uima.util.TypeSystemUtil;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor;
+import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
@@ -36,7 +36,7 @@ public class ClasspathCollectionReaderTest extends DefaultTestCase {
 		int numToSkip = 0;
 		int numToProcess = -1;
 		CollectionReader cr = ClasspathCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
-				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetaDataExtractor.class);
+				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetadataHandler.class);
 
 		JCasIterable jCasIterable = new JCasIterable(cr);
 
@@ -60,7 +60,7 @@ public class ClasspathCollectionReaderTest extends DefaultTestCase {
 		int numToSkip = 1;
 		int numToProcess = -1;
 		CollectionReader cr = ClasspathCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
-				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetaDataExtractor.class);
+				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetadataHandler.class);
 
 		JCasIterable jCasIterable = new JCasIterable(cr);
 
@@ -81,7 +81,7 @@ public class ClasspathCollectionReaderTest extends DefaultTestCase {
 		int numToSkip = 4;
 		int numToProcess = -1;
 		CollectionReader cr = ClasspathCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
-				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetaDataExtractor.class);
+				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetadataHandler.class);
 
 		JCasIterable jCasIterable = new JCasIterable(cr);
 
@@ -93,7 +93,7 @@ public class ClasspathCollectionReaderTest extends DefaultTestCase {
 		int numToSkip = 0;
 		int numToProcess = 2;
 		CollectionReader cr = ClasspathCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
-				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetaDataExtractor.class);
+				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetadataHandler.class);
 
 		JCasIterable jCasIterable = new JCasIterable(cr);
 

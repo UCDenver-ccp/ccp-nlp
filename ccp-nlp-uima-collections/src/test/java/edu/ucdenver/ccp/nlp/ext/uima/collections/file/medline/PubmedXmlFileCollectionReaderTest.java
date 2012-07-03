@@ -20,7 +20,7 @@ import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.medline.parser.PubmedXmlDeserializerTest;
 import edu.ucdenver.ccp.nlp.core.uima.util.TypeSystemUtil;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor;
+import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
@@ -42,7 +42,7 @@ public class PubmedXmlFileCollectionReaderTest extends DefaultTestCase {
 		int numToSkip = 0;
 		int numToProcess = -1; // process all
 		CollectionReader cr = PubmedXmlFileCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
-				samplePubmedXmlFile, numToSkip, numToProcess, CcpDocumentMetaDataExtractor.class);
+				samplePubmedXmlFile, numToSkip, numToProcess, CcpDocumentMetadataHandler.class);
 
 		JCasIterable jCasIterable = new JCasIterable(cr);
 
