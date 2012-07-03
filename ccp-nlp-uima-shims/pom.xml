@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>uima-shims</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<version>RC0.2-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
