@@ -15,5 +15,5 @@
  * also recommended (and in some cases required) for shim implementations to use a default (or no-argument) constructor. 
  * 
  */
-package edu.ucdenver.ccp.nlp.ext.uima.shims;
+package edu.ucdenver.ccp.nlp.uima.shims;
 
