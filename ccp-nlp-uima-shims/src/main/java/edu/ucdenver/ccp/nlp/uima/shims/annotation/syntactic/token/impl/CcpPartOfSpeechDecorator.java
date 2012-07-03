@@ -124,7 +124,7 @@ public class CcpPartOfSpeechDecorator implements PartOfSpeechDecorator {
 	private static void checkAnnotationType(Annotation annotation) {
 		if (!(annotation instanceof CCPTextAnnotation)) {
 			throw new IllegalArgumentException(
-					"Expecting LemmaAnnotation class. Unable to assign lemma information to annotation of type: "
+					"Expecting CCPTextAnnotation class. Unable to assign lemma information to annotation of type: "
 							+ annotation.getClass().getName());
 		}
 	}
