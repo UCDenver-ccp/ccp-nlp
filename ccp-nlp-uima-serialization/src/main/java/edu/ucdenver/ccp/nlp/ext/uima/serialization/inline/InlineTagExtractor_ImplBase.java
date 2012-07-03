@@ -8,7 +8,7 @@ import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
-import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.AnnotationDataExtractor;
+import edu.ucdenver.ccp.uima.shims.annotation.AnnotationDataExtractor;
 
 /**
  * Base implementation for {@link InlineTagExtractor} instances. This abstract class provides logic
