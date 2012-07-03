@@ -5,12 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 
-import org.apache.tools.ant.filters.ReplaceTokens.Token;
 import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.jcas.JCas;
@@ -19,17 +16,12 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Before;
 import org.junit.Test;
-import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.JCasFactory;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
-import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileUtil;
-import edu.ucdenver.ccp.common.file.FileWriterUtil;
-import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
-import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.test.DefaultUIMATestCase;
@@ -37,8 +29,8 @@ import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Annotation_Util;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.inline.InlineTag.InlinePostfixTag;
 import edu.ucdenver.ccp.nlp.ext.uima.serialization.inline.InlineTag.InlinePrefixTag;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.annotation.impl.CcpAnnotationDataExtractor;
-import edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor;
+import edu.ucdenver.ccp.nlp.uima.shims.annotation.impl.CcpAnnotationDataExtractor;
+import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
 
 /**
  * This test case tests the {@link InlinePrinter} {@link AnalysisEngine}
@@ -203,7 +195,7 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 				"The <%s>cow</%s> jumped over the <%s>moon</%s> & the nai\u0308ve stars, but the cd2 and cd5 receptors were not blocked.", ANIMAL_CLASS, ANIMAL_CLASS,
 				CELESTIAL_BODY_CLASS, CELESTIAL_BODY_CLASS);
 		AnalysisEngine inlinePrinterAe = InlinePrinter.createAnalysisEngine(TSD, outputDirectory,
-				CAS.NAME_DEFAULT_SOFA, CcpDocumentMetaDataExtractor.class, SimpleInlineAnnotationExtractor.class);
+				CAS.NAME_DEFAULT_SOFA, CcpDocumentMetadataHandler.class, SimpleInlineAnnotationExtractor.class);
 		inlinePrinterAe.process(jcas);
 		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + InlinePrinter.OUTPUT_FILE_SUFFIX);
 		assertTrue("output file should exist", expectedOutputFile.exists());
@@ -231,7 +223,7 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 						OUTER_5_CLASS, OUTER_5_CLASS, OUTER_4_CLASS, OUTER_3_CLASS, CELESTIAL_BODY_CLASS, MOON_CLASS,
 						MOON_CLASS, CELESTIAL_BODY_CLASS, OUTER_3_CLASS, OUTER_4_CLASS);
 		AnalysisEngine inlinePrinterAe = InlinePrinter.createAnalysisEngine(TSD, outputDirectory,
-				CAS.NAME_DEFAULT_SOFA, CcpDocumentMetaDataExtractor.class, SimpleInlineAnnotationExtractor.class);
+				CAS.NAME_DEFAULT_SOFA, CcpDocumentMetadataHandler.class, SimpleInlineAnnotationExtractor.class);
 		inlinePrinterAe.process(jcas);
 		File expectedOutputFile = new File(outputDirectory, SAMPLE_DOCUMENT_ID + InlinePrinter.OUTPUT_FILE_SUFFIX);
 		assertTrue("output file should exist", expectedOutputFile.exists());
