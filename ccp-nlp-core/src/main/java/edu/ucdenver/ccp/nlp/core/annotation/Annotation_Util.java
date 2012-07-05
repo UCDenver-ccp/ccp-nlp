@@ -31,10 +31,10 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
-import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.IntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
-import edu.ucdenver.ccp.nlp.core.mention.SlotMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.SlotMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultIntegerSlotMention;
@@ -66,17 +66,17 @@ public class Annotation_Util {
 	 * @throws Exception 
 	 */
 	public static ClassMention createTokenMention(String posLabel, String posTagSet, String stem, String lemma, Integer tokenNumber) {
-		ClassMention cm = new DefaultClassMention(ClassMentionTypes.TOKEN);
+		ClassMention cm = new DefaultClassMention(ClassMentionType.TOKEN.typeName());
 
 		if (posLabel != null) {
 			/* create POS slot */
-			StringSlotMention sm = new DefaultStringSlotMention(SlotMentionTypes.TOKEN_PARTOFSPEECH);
+			StringSlotMention sm = new DefaultStringSlotMention(SlotMentionType.TOKEN_PARTOFSPEECH.typeName());
 			sm.addSlotValue(posLabel);
 
 			if (posTagSet == null) {
 				posTagSet = UNKNOWN_TAGSET;
 			}
-			StringSlotMention tagSetSlot = new DefaultStringSlotMention(SlotMentionTypes.TAGSET);
+			StringSlotMention tagSetSlot = new DefaultStringSlotMention(SlotMentionType.TAGSET.typeName());
 			tagSetSlot.addSlotValue(posTagSet);
 			cm.addPrimitiveSlotMention(sm);
 			cm.addPrimitiveSlotMention(tagSetSlot);
@@ -85,19 +85,19 @@ public class Annotation_Util {
 		StringSlotMention sm;
 		if (stem != null) {
 			/* create stem slot */
-			sm = new DefaultStringSlotMention(SlotMentionTypes.TOKEN_STEM);
+			sm = new DefaultStringSlotMention(SlotMentionType.TOKEN_STEM.typeName());
 			sm.addSlotValue(stem);
 			cm.addPrimitiveSlotMention(sm);
 		}
 		if (lemma != null) {
 			/* create lemma slot */
-			sm = new DefaultStringSlotMention(SlotMentionTypes.TOKEN_LEMMA);
+			sm = new DefaultStringSlotMention(SlotMentionType.TOKEN_LEMMA.typeName());
 			sm.addSlotValue(lemma);
 			cm.addPrimitiveSlotMention(sm);
 		}
 		if (tokenNumber != null) {
 			/* create tokenNumber slot */
-			IntegerSlotMention ism = new DefaultIntegerSlotMention(SlotMentionTypes.TOKEN_NUMBER);
+			IntegerSlotMention ism = new DefaultIntegerSlotMention(SlotMentionType.TOKEN_NUMBER.typeName());
 			ism.addSlotValue(tokenNumber);
 			cm.addPrimitiveSlotMention(ism);
 		}
@@ -105,17 +105,17 @@ public class Annotation_Util {
 	}
 
 	public static ClassMention createPhraseMention(String phraseTypeLabel, String tagSet) {
-		ClassMention cm = new DefaultClassMention(ClassMentionTypes.PHRASE);
+		ClassMention cm = new DefaultClassMention(ClassMentionType.PHRASE.typeName());
 
 		if (phraseTypeLabel != null) {
 			/* create phraseType slot */
-			StringSlotMention sm = new DefaultStringSlotMention(SlotMentionTypes.PHRASE_TYPE);
+			StringSlotMention sm = new DefaultStringSlotMention(SlotMentionType.PHRASE_TYPE.typeName());
 			sm.addSlotValue(phraseTypeLabel);
 			if (tagSet == null) {
 				tagSet = UNKNOWN_TAGSET;
 			}
 
-			StringSlotMention tagSetSlot = new DefaultStringSlotMention(SlotMentionTypes.TAGSET);
+			StringSlotMention tagSetSlot = new DefaultStringSlotMention(SlotMentionType.TAGSET.typeName());
 			tagSetSlot.addSlotValue(tagSet);
 			cm.addPrimitiveSlotMention(sm);
 			cm.addPrimitiveSlotMention(tagSetSlot);
@@ -124,16 +124,16 @@ public class Annotation_Util {
 	}
 
 	public static ClassMention createClauseMention(String clauseTypeLabel, String tagSet) {
-		ClassMention cm = new DefaultClassMention(ClassMentionTypes.CLAUSE);
+		ClassMention cm = new DefaultClassMention(ClassMentionType.CLAUSE.typeName());
 
 		if (clauseTypeLabel != null) {
 			/* create phraseType slot */
-			StringSlotMention sm = new DefaultStringSlotMention(SlotMentionTypes.CLAUSE_TYPE);
+			StringSlotMention sm = new DefaultStringSlotMention(SlotMentionType.CLAUSE_TYPE.typeName());
 			sm.addSlotValue(clauseTypeLabel);
 			if (tagSet == null) {
 				tagSet = UNKNOWN_TAGSET;
 			}
-			StringSlotMention tagSetSlot = new DefaultStringSlotMention(SlotMentionTypes.TAGSET);
+			StringSlotMention tagSetSlot = new DefaultStringSlotMention(SlotMentionType.TAGSET.typeName());
 			tagSetSlot.addSlotValue(tagSet);
 			cm.addPrimitiveSlotMention(sm);
 			cm.addPrimitiveSlotMention(tagSetSlot);

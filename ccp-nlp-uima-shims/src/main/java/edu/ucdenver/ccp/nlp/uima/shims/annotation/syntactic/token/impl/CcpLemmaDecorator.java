@@ -9,8 +9,8 @@ import java.util.List;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
-import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
-import edu.ucdenver.ccp.nlp.core.mention.SlotMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
+import edu.ucdenver.ccp.nlp.core.mention.SlotMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
@@ -33,7 +33,7 @@ public class CcpLemmaDecorator implements LemmaDecorator {
 	 */
 	@Override
 	public Annotation newAnnotation(JCas jcas, @SuppressWarnings("unused") String type, Span span) {
-		return UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.TOKEN, span.getSpanStart(),
+		return UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.TOKEN.typeName(), span.getSpanStart(),
 				span.getSpanEnd(), jcas);
 	}
 
@@ -52,7 +52,7 @@ public class CcpLemmaDecorator implements LemmaDecorator {
 		checkAnnotationType(annotation);
 		WrappedCCPTextAnnotation wrappedCcpTa = new WrappedCCPTextAnnotation((CCPTextAnnotation) annotation);
 		StringSlotMention lemmaSlot = (StringSlotMention) wrappedCcpTa.getClassMention().getPrimitiveSlotMentionByName(
-				SlotMentionTypes.TOKEN_LEMMA);
+				SlotMentionType.TOKEN_LEMMA.typeName());
 		lemmaSlot.addSlotValue(lemma.serializeToString());
 	}
 
@@ -66,7 +66,7 @@ public class CcpLemmaDecorator implements LemmaDecorator {
 		List<Lemma> lemmasToReturn = new ArrayList<Lemma>();
 		WrappedCCPTextAnnotation wrappedCcpTa = new WrappedCCPTextAnnotation((CCPTextAnnotation) annotation);
 		StringSlotMention lemmaSlot = (StringSlotMention) wrappedCcpTa.getClassMention().getPrimitiveSlotMentionByName(
-				SlotMentionTypes.TOKEN_LEMMA);
+				SlotMentionType.TOKEN_LEMMA.typeName());
 		for (String lemmaStr : lemmaSlot.getSlotValues()) {
 			lemmasToReturn.add(Lemma.deserializeFromString(lemmaStr));
 		}

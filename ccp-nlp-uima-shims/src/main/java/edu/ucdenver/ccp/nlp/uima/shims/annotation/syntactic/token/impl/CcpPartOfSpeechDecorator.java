@@ -9,8 +9,8 @@ import java.util.List;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
-import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
-import edu.ucdenver.ccp.nlp.core.mention.SlotMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
+import edu.ucdenver.ccp.nlp.core.mention.SlotMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
@@ -33,7 +33,7 @@ public class CcpPartOfSpeechDecorator implements PartOfSpeechDecorator {
 	 */
 	@Override
 	public Annotation newAnnotation(JCas jcas, @SuppressWarnings("unused") String type, Span span) {
-		return UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.TOKEN, span.getSpanStart(),
+		return UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.TOKEN.typeName(), span.getSpanStart(),
 				span.getSpanEnd(), jcas);
 	}
 
@@ -53,7 +53,7 @@ public class CcpPartOfSpeechDecorator implements PartOfSpeechDecorator {
 		checkAnnotationType(annotation);
 		WrappedCCPTextAnnotation wrappedCcpTa = new WrappedCCPTextAnnotation((CCPTextAnnotation) annotation);
 		StringSlotMention posSlot = (StringSlotMention) wrappedCcpTa.getClassMention().getPrimitiveSlotMentionByName(
-				SlotMentionTypes.TOKEN_PARTOFSPEECH);
+				SlotMentionType.TOKEN_PARTOFSPEECH.typeName());
 		posSlot.addSlotValue(pos.serializeToString());
 	}
 
@@ -67,7 +67,7 @@ public class CcpPartOfSpeechDecorator implements PartOfSpeechDecorator {
 		List<PartOfSpeech> partsOfSpeech = new ArrayList<PartOfSpeech>();
 		WrappedCCPTextAnnotation wrappedCcpTa = new WrappedCCPTextAnnotation((CCPTextAnnotation) annotation);
 		StringSlotMention posSlot = (StringSlotMention) wrappedCcpTa.getClassMention().getPrimitiveSlotMentionByName(
-				SlotMentionTypes.TOKEN_PARTOFSPEECH);
+				SlotMentionType.TOKEN_PARTOFSPEECH.typeName());
 		for (String serializedPos : posSlot.getSlotValues()) {
 			partsOfSpeech.add(PartOfSpeech.deserializeFromString(serializedPos));
 		}

@@ -30,8 +30,8 @@ import org.uimafit.factory.TypeSystemDescriptionFactory;
 
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
-import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
-import edu.ucdenver.ccp.nlp.core.mention.SlotMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
+import edu.ucdenver.ccp.nlp.core.mention.SlotMentionType;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotationSet;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotator;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPSpan;
@@ -166,31 +166,31 @@ public class UIMA_Annotation_UtilTest {
 
 		/* Now we add some protein annotations */
 		List<CCPTextAnnotation> annotationsInCAS = new ArrayList<CCPTextAnnotation>();
-		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN, new int[] { 0, 3 }, jcas));
-		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN, new int[] { 29, 34 }, jcas));
-		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN, new int[] { 36, 41 }, jcas));
-		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN, new int[] { 47, 52 }, jcas));
+		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.PROTEIN.typeName(), new int[] { 0, 3 }, jcas));
+		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.PROTEIN.typeName(), new int[] { 29, 34 }, jcas));
+		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.PROTEIN.typeName(), new int[] { 36, 41 }, jcas));
+		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.PROTEIN.typeName(), new int[] { 47, 52 }, jcas));
 
 		Collection<CCPTextAnnotation> duplicateAnnotations = UIMA_Annotation_Util.getRedundantAnnotations(annotationsInCAS);
 		assertEquals(0, duplicateAnnotations.size());
 
 		/* add one duplicate annotation */
-		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN, new int[] { 0, 3 }, jcas));
+		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.PROTEIN.typeName(), new int[] { 0, 3 }, jcas));
 		duplicateAnnotations = UIMA_Annotation_Util.getRedundantAnnotations(annotationsInCAS);
 		assertEquals(1, duplicateAnnotations.size());
 
 		/* add a different duplicate */
-		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN, new int[] { 36, 41 }, jcas));
+		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.PROTEIN.typeName(), new int[] { 36, 41 }, jcas));
 		duplicateAnnotations = UIMA_Annotation_Util.getRedundantAnnotations(annotationsInCAS);
 		assertEquals(2, duplicateAnnotations.size());
 
 		/* add an identical duplicate */
-		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN, new int[] { 36, 41 }, jcas));
+		annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.PROTEIN.typeName(), new int[] { 36, 41 }, jcas));
 		duplicateAnnotations = UIMA_Annotation_Util.getRedundantAnnotations(annotationsInCAS);
 		assertEquals(3, duplicateAnnotations.size());
 
 		/* add an identical annotatoin with a different annotator */
-		CCPTextAnnotation ta = UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN, new int[] { 36, 41 }, jcas);
+		CCPTextAnnotation ta = UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.PROTEIN.typeName(), new int[] { 36, 41 }, jcas);
 		CCPAnnotator annotator = new CCPAnnotator(jcas);
 		annotator.setAffiliation("BLAH");
 		annotator.setAnnotatorID(99);
@@ -215,10 +215,10 @@ public class UIMA_Annotation_UtilTest {
 		jcas.setDocumentText(proteinConjunctionText);
 		
 		/* Now we add some protein annotations */
-		UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN, new int[] { 0, 3 }, jcas);
+		UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.PROTEIN.typeName(), new int[] { 0, 3 }, jcas);
 		
 		// Create an exact duplicate of this one and try to add
-		CCPTextAnnotation ccpTA = UIMA_Annotation_Util.createCCPTextAnnotationNoDups(ClassMentionTypes.PROTEIN, new int[] { 0, 3 }, jcas);
+		CCPTextAnnotation ccpTA = UIMA_Annotation_Util.createCCPTextAnnotationNoDups(ClassMentionType.PROTEIN.typeName(), new int[] { 0, 3 }, jcas);
 		assertNull(ccpTA);
 		
     }
@@ -309,7 +309,7 @@ public class UIMA_Annotation_UtilTest {
 		ccpAnnotationSet.setAnnotationSetID(23);
 		ccpAnnotationSet.setAnnotationSetDescription("description");
 
-		CCPTextAnnotation proteinAnnot = UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN, new int[] { 0, 3 }, jcas,
+		CCPTextAnnotation proteinAnnot = UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.PROTEIN.typeName(), new int[] { 0, 3 }, jcas,
 				ccpAnnotator, ccpAnnotationSet);
 		assertEquals(1, proteinAnnot.getSpans().size());
 

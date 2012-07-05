@@ -9,7 +9,7 @@ import org.uimafit.factory.JCasFactory;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
 
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
-import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Annotation_Util;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
@@ -59,23 +59,23 @@ public abstract class DefaultUIMATestCase extends DefaultTestCase {
 	}
 
 	protected CCPTextAnnotation addSentenceAnnotationToJCas(int spanStart, int spanEnd) {
-		return addTextAnnotationToJCas(spanStart, spanEnd, ClassMentionTypes.SENTENCE);
+		return addTextAnnotationToJCas(spanStart, spanEnd, ClassMentionType.SENTENCE.typeName());
 	}
 
 	protected CCPTextAnnotation addParagraphAnnotationToJCas(int spanStart, int spanEnd) {
-		return addTextAnnotationToJCas(spanStart, spanEnd, ClassMentionTypes.PARAGRAPH);
+		return addTextAnnotationToJCas(spanStart, spanEnd, ClassMentionType.PARAGRAPH.typeName());
 	}
 
 	protected CCPTextAnnotation addGeneAnnotationToJCas(int spanStart, int spanEnd, int entrezGeneID)
 			throws CASException {
-		CCPTextAnnotation ccpTA = addTextAnnotationToJCas(spanStart, spanEnd, ClassMentionTypes.GENE);
+		CCPTextAnnotation ccpTA = addTextAnnotationToJCas(spanStart, spanEnd, ClassMentionType.GENE.typeName());
 		UIMA_Util.addSlotValue(ccpTA.getClassMention(), HAS_ENTREZ_GENE_ID_SLOT_NAME, Integer.toString(entrezGeneID));
 		return ccpTA;
 	}
 
 	protected CCPTextAnnotation addTranscriptAnnotationToJCas(int spanStart, int spanEnd, int entrezGeneID)
 			throws CASException {
-		CCPTextAnnotation ccpTA = addTextAnnotationToJCas(spanStart, spanEnd, ClassMentionTypes.TRANSCRIPT);
+		CCPTextAnnotation ccpTA = addTextAnnotationToJCas(spanStart, spanEnd, ClassMentionType.TRANSCRIPT.typeName());
 		UIMA_Util.addSlotValue(ccpTA.getClassMention(), HAS_ENTREZ_GENE_ID_SLOT_NAME, Integer.toString(entrezGeneID));
 		return ccpTA;
 	}

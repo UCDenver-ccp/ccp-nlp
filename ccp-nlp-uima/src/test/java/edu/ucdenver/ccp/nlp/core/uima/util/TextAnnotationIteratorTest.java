@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
-import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
 import edu.ucdenver.ccp.nlp.core.uima.test.DefaultUIMATestCase;
 
 public class TextAnnotationIteratorTest extends DefaultUIMATestCase {
@@ -24,7 +24,7 @@ public class TextAnnotationIteratorTest extends DefaultUIMATestCase {
 	@Test
 	public void testTextAnnotationIter_OneInputType() throws Exception {
 		assertEquals(String.format("Should be 3 gene annotations"), 3, CollectionsUtil.createList(
-				UIMA_Util.getTextAnnotationIterator(jcas, ClassMentionTypes.GENE)).size());
+				UIMA_Util.getTextAnnotationIterator(jcas, ClassMentionType.GENE.typeName())).size());
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class TextAnnotationIteratorTest extends DefaultUIMATestCase {
 	@Test
 	public void testTextAnnotationIter_TwoInputTypes() throws Exception {
 		assertEquals(String.format("Should have 5 annotations"), 5, CollectionsUtil.createList(
-				UIMA_Util.getTextAnnotationIterator(jcas, ClassMentionTypes.GENE, ClassMentionTypes.SENTENCE)).size());
+				UIMA_Util.getTextAnnotationIterator(jcas, ClassMentionType.GENE.typeName(), ClassMentionType.SENTENCE.typeName())).size());
 	}
 
 }

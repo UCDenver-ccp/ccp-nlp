@@ -24,9 +24,9 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
-import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.IntegerSlotMention;
-import edu.ucdenver.ccp.nlp.core.mention.SlotMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.SlotMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultIntegerSlotMention;
@@ -59,7 +59,7 @@ public class AnnotationToFileOutputTest extends DefaultTestCase {
 	 */
 	private static DefaultTextAnnotation createProteinAnnotation(int spanStart, int spanEnd, String coveredText,
 			int annotatorID, String documentID, Integer... entrezGeneIDSlotFillers) throws Exception {
-		DefaultClassMention proteinCM = new DefaultClassMention(ClassMentionTypes.PROTEIN);
+		DefaultClassMention proteinCM = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, new Annotator(
 				annotatorID, "firstname", "lastname", "affiliation"), new AnnotationSet(), 0, 1, documentID, -1,
 				proteinCM);
@@ -79,7 +79,7 @@ public class AnnotationToFileOutputTest extends DefaultTestCase {
 	private static void addEntrezGeneSlotFillersToProteinTextAnnotation(Integer[] entrezGeneIDSlotFillers,
 			TextAnnotation ta) throws Exception {
 		if (entrezGeneIDSlotFillers != null) {
-			IntegerSlotMention sm = new DefaultIntegerSlotMention(SlotMentionTypes.PROTEIN_ENTREZGENEID);
+			IntegerSlotMention sm = new DefaultIntegerSlotMention(SlotMentionType.PROTEIN_ENTREZGENEID.typeName());
 			for (Integer entrezGeneID : entrezGeneIDSlotFillers) {
 				sm.addSlotValue(entrezGeneID);
 			}

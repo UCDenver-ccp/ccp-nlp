@@ -33,7 +33,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.AnnotationSet;
 import edu.ucdenver.ccp.nlp.core.annotation.Annotator;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
-import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
 import edu.ucdenver.ccp.nlp.core.mention.comparison.MentionComparator;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
@@ -681,7 +681,7 @@ public class AnnotationComparatorTest {
 
 		String coveredText = documentText.substring(spanStart, spanEnd);
 
-		DefaultClassMention cm = new DefaultClassMention(ClassMentionTypes.PROTEIN);
+		DefaultClassMention cm = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 
 		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, annotator, annotationSet, annotationID,
 				documentCollectionID, documentID, documentSectionID, cm);
@@ -696,7 +696,7 @@ public class AnnotationComparatorTest {
 
 		String coveredText = documentText.substring(spanStart, spanEnd);
 
-		DefaultClassMention cm = new DefaultClassMention(ClassMentionTypes.GENE);
+		DefaultClassMention cm = new DefaultClassMention(ClassMentionType.GENE.typeName());
 
 		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, annotator, annotationSet, annotationID,
 				documentCollectionID, documentID, documentSectionID, cm);

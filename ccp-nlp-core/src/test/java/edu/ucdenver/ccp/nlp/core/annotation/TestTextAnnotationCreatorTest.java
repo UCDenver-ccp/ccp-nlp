@@ -12,7 +12,7 @@ import org.junit.Test;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.IntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
-import edu.ucdenver.ccp.nlp.core.mention.SlotMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.SlotMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
@@ -424,7 +424,7 @@ public class TestTextAnnotationCreatorTest {
 		entrezIDSlotMention.addSlotValue(7777);
 		cm.addPrimitiveSlotMention(entrezIDSlotMention);
 
-		StringSlotMention processedTextSM = new DefaultStringSlotMention(SlotMentionTypes.PROCESSED_TEXT_SLOT);
+		StringSlotMention processedTextSM = new DefaultStringSlotMention(SlotMentionType.PROCESSED_TEXT_SLOT.typeName());
 		processedTextSM.addSlotValue("");
 		cm.addPrimitiveSlotMention(processedTextSM);
 
@@ -463,7 +463,7 @@ public class TestTextAnnotationCreatorTest {
 		entrezIDSlotMention.addSlotValue(22222);
 		cm.addPrimitiveSlotMention(entrezIDSlotMention);
 
-		processedTextSM = new DefaultStringSlotMention(SlotMentionTypes.PROCESSED_TEXT_SLOT);
+		processedTextSM = new DefaultStringSlotMention(SlotMentionType.PROCESSED_TEXT_SLOT.typeName());
 		processedTextSM.addSlotValue("");
 		cm.addPrimitiveSlotMention(processedTextSM);
 

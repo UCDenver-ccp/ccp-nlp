@@ -30,12 +30,12 @@ public class ClassMentionCycleTest {
 		@SuppressWarnings("unused")
 		String text = "ABC1 and its homologues are known to play a role in cancer.";
 
-		DefaultClassMention proteinACM = new DefaultClassMention(ClassMentionTypes.PROTEIN);
+		DefaultClassMention proteinACM = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 		@SuppressWarnings("unused")
 		TextAnnotation proteinATA = new DefaultTextAnnotation(0, 4, "ABC1", new Annotator(1, "Bob", "The Annotator", "The U"),
 				new AnnotationSet(), 1, -1, "1234", -1, proteinACM);
 
-		DefaultClassMention proteinBCM = new DefaultClassMention(ClassMentionTypes.PROTEIN);
+		DefaultClassMention proteinBCM = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 		@SuppressWarnings("unused")
 		TextAnnotation proteinBTA = new DefaultTextAnnotation(9, 12, "its", new Annotator(1, "Bob", "The Annotator", "The U"),
 				new AnnotationSet(), 2, -1, "1234", -1, proteinBCM);
