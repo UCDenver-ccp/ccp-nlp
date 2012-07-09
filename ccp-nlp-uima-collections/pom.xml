@@ -20,14 +20,14 @@
 	<dependencies>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-medline-xml-parser</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<artifactId>medline-xml-parser</artifactId>
+			<version>2012.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-medline-xml-parser</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<artifactId>medline-xml-parser</artifactId>
+			<version>2012.0</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
