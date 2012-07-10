@@ -24,16 +24,14 @@
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>ccp-datasource-identifiers</artifactId>
-			<version>0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>uima-shims</artifactId>
 			<version>RC0.2-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
 		</dependency>
 	</dependencies>
 
