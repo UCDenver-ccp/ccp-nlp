@@ -14,7 +14,7 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>RC3.1-SNAPSHOT</version>
+		<version>3.1</version>
 	</parent>
 
 	<dependencies>
