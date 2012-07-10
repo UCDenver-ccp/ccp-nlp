@@ -50,6 +50,7 @@ import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
+import edu.ucdenver.ccp.nlp.uima.shims.ShimDefaults;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
@@ -92,14 +93,6 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	@ConfigurationParameter(defaultValue = "-1", description = DESCRIPTION_NUM2PROCESS)
 	protected int numberToProcess;
 
-	private static final String DESCRIPTION_DOCUMENT_COLLECTION_ID = "This is a user-defined identifier for the particular collection "
-			+ "being processed. This optional parameter is often added to annotations as metadata. This could be of use if annotations are "
-			+ "being stored outside of the context of the document or collection of documents, e.g. in a database.";
-	public static final String PARAM_DOCUMENT_COLLECTION_ID = ConfigurationParameterFactory
-			.createConfigurationParameterName(BaseTextCollectionReader.class, "documentCollectionID");
-	@ConfigurationParameter(defaultValue = "-1", description = DESCRIPTION_DOCUMENT_COLLECTION_ID)
-	protected int documentCollectionID;
-
 	private static final String DESCRIPTION_VIEWNAME = "This parameter enables the user to place the contents of each document into a "
 			+ "user-specified view.";
 	public static final String PARAM_VIEWNAME = ConfigurationParameterFactory.createConfigurationParameterName(
@@ -122,22 +115,22 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
 	 * implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS = ConfigurationParameterFactory
+	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = ConfigurationParameterFactory
 			.createConfigurationParameterName(BaseTextCollectionReader.class, "documentMetadataExtractorClassName");
 
 	/**
-	 * The name of the TokenAttributeExtractor implementation to use
+	 * The name of the {@link DocumentMetadataHandler} implementation to use
 	 */
-	@ConfigurationParameter(mandatory = true, description = "name of the DocumentMetaDataExtractor implementation to use", defaultValue = "edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor")
+	@ConfigurationParameter(mandatory = true, description = "name of the DocumentMetadataHandler implementation to use", defaultValue = ShimDefaults.CCP_DOCUMENT_METADATA_HANDLER_CLASS_NAME)
 	private String documentMetadataExtractorClassName;
 
 	/**
-	 * this {@link DocumentMetaDataExtractor} will be initialized based on the class name specified
-	 * by the documentMetadataExtractorClassName parameter
+	 * this {@link DocumentMetadataHandler} will be initialized based on the class name specified by
+	 * the documentMetadataExtractorClassName parameter
 	 */
 	private DocumentMetadataHandler documentMetadataHandler;
 
-	private int processedDocumentCount = 0;
+	protected int processedDocumentCount = 0;
 
 	private int documentsToBeProcessedCount = 0;
 
@@ -145,8 +138,9 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		try {
-			if (!disableProgressTracking)
+			if (!disableProgressTracking) {
 				documentsToBeProcessedCount = countDocumentsInCollection();
+			}
 			initializeImplementation(context);
 			skip();
 		} catch (IOException e) {
@@ -199,14 +193,13 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	protected boolean reachedTargetProcessedDocumentCount() {
 		return processedDocumentCount == numberToProcess;
 	}
-	
+
 	@Override
 	public boolean hasNext() throws IOException, CollectionException {
 		return !reachedTargetProcessedDocumentCount() && hasNextDocument();
 	}
-	
+
 	protected abstract boolean hasNextDocument() throws IOException, CollectionException;
-	
 
 	/**
 	 * @return the next document in the collection
@@ -226,13 +219,15 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	protected void initializeJCas(JCas jcas, String documentId, String text) throws AnalysisEngineProcessException {
 		if (this.viewName.equals(View.DEFAULT.name())) {
 			jcas.setSofaDataString(text, "text/plain");
-			if (this.language != null)
+			if (this.language != null) {
 				jcas.setDocumentLanguage(this.language);
+			}
 		} else {
 			JCas view = ViewCreatorAnnotator.createViewSafely(jcas, this.viewName);
 			view.setSofaDataString(text, "text/plain");
-			if (this.language != null)
+			if (this.language != null) {
 				view.setDocumentLanguage(this.language);
+			}
 		}
 		documentMetadataHandler.setDocumentId(jcas, documentId);
 		documentMetadataHandler.setDocumentEncoding(jcas, encoding.getCharacterSetName());
@@ -244,8 +239,9 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 
 	@Override
 	public Progress[] getProgress() {
-		if (disableProgressTracking)
+		if (disableProgressTracking) {
 			documentsToBeProcessedCount = processedDocumentCount + 1;
+		}
 		return new Progress[] { new ProgressImpl(processedDocumentCount, documentsToBeProcessedCount, Progress.ENTITIES) };
 	}
 
