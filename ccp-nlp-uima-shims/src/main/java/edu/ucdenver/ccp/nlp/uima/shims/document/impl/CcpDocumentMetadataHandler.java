@@ -33,7 +33,7 @@ import org.apache.uima.jcas.JCas;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentInformation;
-import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
+import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
