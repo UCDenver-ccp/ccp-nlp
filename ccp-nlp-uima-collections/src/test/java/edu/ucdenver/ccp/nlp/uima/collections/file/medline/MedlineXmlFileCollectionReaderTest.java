@@ -27,7 +27,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package edu.ucdenver.ccp.nlp.ext.uima.collections.file.medline;
+package edu.ucdenver.ccp.nlp.uima.collections.file.medline;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

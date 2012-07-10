@@ -20,4 +20,4 @@
  * If dealing with the "medline" format - use {@link edu.ucdenver.ccp.nlp.ext.uima.collections.file.medline.MedlineXmlFileCollectionReader} 
  * If dealing with the "pubmed" format - use {@link edu.ucdenver.ccp.nlp.ext.uima.collections.file.medline.PubmedXmlFileCollectionReader} 
  */
-package edu.ucdenver.ccp.nlp.ext.uima.collections.file.medline;
+package edu.ucdenver.ccp.nlp.uima.collections.file.medline;

@@ -26,7 +26,8 @@
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */package edu.ucdenver.ccp.nlp.ext.uima.collections.line;
+ */
+package edu.ucdenver.ccp.nlp.uima.collections.line;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -48,7 +49,7 @@ import edu.ucdenver.ccp.common.file.FileReaderUtil;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
-import edu.ucdenver.ccp.nlp.ext.uima.collections.BaseTextCollectionReader;
+import edu.ucdenver.ccp.nlp.uima.collections.BaseTextCollectionReader;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**

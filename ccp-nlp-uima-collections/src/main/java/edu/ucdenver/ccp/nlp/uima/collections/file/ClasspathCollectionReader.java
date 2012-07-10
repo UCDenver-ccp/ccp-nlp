@@ -27,7 +27,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package edu.ucdenver.ccp.nlp.ext.uima.collections.file;
+package edu.ucdenver.ccp.nlp.uima.collections.file;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +54,7 @@ import edu.ucdenver.ccp.common.io.StreamUtil;
 import edu.ucdenver.ccp.common.string.StringConstants;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
-import edu.ucdenver.ccp.nlp.ext.uima.collections.BaseTextCollectionReader;
+import edu.ucdenver.ccp.nlp.uima.collections.BaseTextCollectionReader;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
