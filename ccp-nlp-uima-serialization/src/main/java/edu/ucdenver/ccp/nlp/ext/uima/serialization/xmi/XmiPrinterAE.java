@@ -61,7 +61,7 @@ import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
  * loosely based on a class from the Apache UIMA examples project:
  * org.apache.uima.examples.xmi.XmiWriterCasConsumer
  * 
- * @author Center for Computational Pharmacology; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class XmiPrinterAE extends JCasAnnotator_ImplBase {

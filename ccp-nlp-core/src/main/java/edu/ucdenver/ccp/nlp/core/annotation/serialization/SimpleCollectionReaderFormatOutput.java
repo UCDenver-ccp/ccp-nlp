@@ -39,7 +39,7 @@ import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
  * <code>SimpleCollectionReader</code>, <br>
  * namely documentID|documentText
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class SimpleCollectionReaderFormatOutput extends AnnotationPrinterUtil {

@@ -32,6 +32,10 @@ package edu.ucdenver.ccp.nlp.core.mention;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public abstract class StringSlotMention extends PrimitiveSlotMention<String> {
 
 //	public StringSlotMention(String mentionName, IMentionTraversalTracker traversalTracker, Object... wrappedObjectPlusGlobalVars) {

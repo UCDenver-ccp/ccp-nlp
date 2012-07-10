@@ -41,6 +41,10 @@ import org.junit.Test;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultPrimitiveSlotMentionFactory;
 
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class PrimitiveSlotMentionFactoryTest {
 	private static Logger logger = Logger.getLogger(PrimitiveSlotMentionFactoryTest.class);
 

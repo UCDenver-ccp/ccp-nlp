@@ -81,7 +81,7 @@ import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
  * 
  * 
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class MentionComparator implements Comparator<Mention> {

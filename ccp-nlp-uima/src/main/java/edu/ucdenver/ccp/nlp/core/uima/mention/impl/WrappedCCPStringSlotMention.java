@@ -43,6 +43,10 @@ import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPStringSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class WrappedCCPStringSlotMention extends StringSlotMention {
 
 	private CCPStringSlotMention wrappedSM;

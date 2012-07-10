@@ -55,6 +55,8 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
  *   TODO: Complex Slots, will require a break from the format 
  *         output from TextAnnotation.toString()
  *   TODO: better error handling.
+ *   
+ *   @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  */
 public class TextAnnotationFactory {
 	

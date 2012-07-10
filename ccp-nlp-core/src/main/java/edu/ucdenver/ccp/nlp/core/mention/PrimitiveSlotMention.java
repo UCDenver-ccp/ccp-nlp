@@ -38,7 +38,7 @@ import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
  * <code>Strings</code>. An example of a non-complex slot mention would be the Entrez_Gene_ID slot for a gene class
  * mention that might be filled with the <code>String</code> "12345".
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class PrimitiveSlotMention<E> extends SlotMention<E> implements IPrimitiveSlotMention<E> {

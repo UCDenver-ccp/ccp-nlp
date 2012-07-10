@@ -41,7 +41,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
 /**
  * This class implements a variety of methods for comparing spans, as described in Olsson et al. 2002.
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 

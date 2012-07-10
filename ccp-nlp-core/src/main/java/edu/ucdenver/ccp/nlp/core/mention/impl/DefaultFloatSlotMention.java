@@ -35,6 +35,10 @@ import java.util.Collection;
 import edu.ucdenver.ccp.nlp.core.mention.FloatSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class DefaultFloatSlotMention extends FloatSlotMention {
 	private String mentionName;
 	private long mentionID;

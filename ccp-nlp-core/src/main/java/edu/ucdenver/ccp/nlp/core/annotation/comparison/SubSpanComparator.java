@@ -34,6 +34,10 @@ import java.util.List;
 
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class SubSpanComparator extends SpanComparator {
 	
 	public SubSpanComparator() {

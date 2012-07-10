@@ -32,7 +32,7 @@ package edu.ucdenver.ccp.nlp.core.annotation;
 /**
  * Thrown when an invalid <code>Span</code> is detected.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class InvalidSpanException extends RuntimeException {

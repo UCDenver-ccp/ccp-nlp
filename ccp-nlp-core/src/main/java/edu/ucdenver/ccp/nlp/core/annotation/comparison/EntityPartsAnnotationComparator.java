@@ -58,7 +58,7 @@ import edu.ucdenver.ccp.nlp.core.util.StopWordUtil;
  * be done using those tokens.
  * </ol>
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class EntityPartsAnnotationComparator extends AnnotationComparator {

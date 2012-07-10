@@ -44,7 +44,7 @@ import edu.ucdenver.ccp.uima.shims.annotation.Span;
 /**
  * Implementation of {@link AnnotationSpanExtractor} for use with the CCP type system
  * 
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class CcpAnnotationSpanExtractor implements AnnotationSpanExtractor {

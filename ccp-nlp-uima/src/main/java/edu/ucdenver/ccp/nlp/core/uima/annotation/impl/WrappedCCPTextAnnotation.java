@@ -52,6 +52,10 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.impl.WrappedCCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Annotation_Util;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class WrappedCCPTextAnnotation extends TextAnnotation {
 
 	private CCPTextAnnotation wrappedCCPTextAnnotation;

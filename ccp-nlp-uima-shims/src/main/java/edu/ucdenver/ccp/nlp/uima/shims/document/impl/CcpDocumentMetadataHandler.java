@@ -37,9 +37,9 @@ import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
- * An implementation of {@link DocumentMetaDataExtractor} used to work with the CCP type system
+ * An implementation of {@link DocumentMetadataHandler} used to work with the CCP type system
  * 
- * @author bill
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class CcpDocumentMetadataHandler implements DocumentMetadataHandler {

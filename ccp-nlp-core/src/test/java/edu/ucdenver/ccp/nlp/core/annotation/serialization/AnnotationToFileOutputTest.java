@@ -61,6 +61,10 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class AnnotationToFileOutputTest extends DefaultTestCase {
 
 	private static Logger logger = Logger.getLogger(AnnotationToFileOutputTest.class);

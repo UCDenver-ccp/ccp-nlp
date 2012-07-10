@@ -32,7 +32,7 @@ package edu.ucdenver.ccp.nlp.core.exception;
 /**
  * This class encapsulates document run exceptions at the util level.
  * Document id is captured to help isolate the cause.
- * @author roederc
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  *
  */
 public class ProcessingException extends Exception {

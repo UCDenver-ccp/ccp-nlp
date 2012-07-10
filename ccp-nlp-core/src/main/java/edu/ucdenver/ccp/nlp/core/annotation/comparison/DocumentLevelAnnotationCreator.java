@@ -52,7 +52,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
  * counterpart created. If no such slot presence is requested, then document-level annotations are generated for all
  * annotations of the specified type.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class DocumentLevelAnnotationCreator {

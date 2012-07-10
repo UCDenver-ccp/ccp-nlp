@@ -35,6 +35,10 @@ import java.util.Collection;
 import edu.ucdenver.ccp.nlp.core.mention.BooleanSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class DefaultBooleanSlotMention extends BooleanSlotMention {
 
 	private String mentionName;

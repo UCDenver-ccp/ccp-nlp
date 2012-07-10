@@ -45,7 +45,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotationUtil;
  * documentID|annotatorID|spanStart spanEnd|classMentionName|coveredText|slotname1|slot1value1,slot1Value2|slotname2|slot2value1
  * </pre>
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  */
 public class AnnotationToFileOutput extends AnnotationPrinterUtil {
 

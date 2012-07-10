@@ -49,7 +49,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 /**
  * This class is a generalized representation of a text annotation.
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  */
 
 public class DefaultTextAnnotation extends TextAnnotation {

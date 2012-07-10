@@ -41,7 +41,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
  * This class provides a means to represent a document. Its original intent was to be used as a utility class for
  * grouping annotations and document sections together, therefore it is quite simple in construction.
  * 
- * @author William A Baumgarnter, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class GenericDocument {

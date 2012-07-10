@@ -46,7 +46,7 @@ import java.util.Set;
  * <p>
  * F = 2PR/(P+R)
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class NLPStats {

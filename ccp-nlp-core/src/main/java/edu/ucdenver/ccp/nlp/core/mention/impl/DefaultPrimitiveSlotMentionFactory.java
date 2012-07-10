@@ -42,6 +42,10 @@ import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class DefaultPrimitiveSlotMentionFactory {
 
 	private static Logger logger = Logger.getLogger(DefaultPrimitiveSlotMentionFactory.class);

@@ -73,7 +73,7 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.CCPPrimitiveSlotMention;
  * 
  * 
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  * 
  */

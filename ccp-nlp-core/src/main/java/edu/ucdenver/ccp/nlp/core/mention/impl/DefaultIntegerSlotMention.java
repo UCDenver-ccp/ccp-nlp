@@ -35,6 +35,10 @@ import java.util.Collection;
 import edu.ucdenver.ccp.nlp.core.mention.IntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class DefaultIntegerSlotMention extends IntegerSlotMention {
 	private String mentionName;
 	private long mentionID;

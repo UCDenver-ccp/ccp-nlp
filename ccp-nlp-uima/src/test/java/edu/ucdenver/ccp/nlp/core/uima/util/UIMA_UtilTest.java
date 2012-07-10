@@ -77,6 +77,10 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPStringSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class UIMA_UtilTest {
 	private static Logger logger = Logger.getLogger(UIMA_UtilTest.class);
 	static {

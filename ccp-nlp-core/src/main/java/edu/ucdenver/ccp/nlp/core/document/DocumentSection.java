@@ -32,7 +32,7 @@ package edu.ucdenver.ccp.nlp.core.document;
 /**
  * A class to represent a section of a document, e.g. the abstract, or the methods section.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class DocumentSection {

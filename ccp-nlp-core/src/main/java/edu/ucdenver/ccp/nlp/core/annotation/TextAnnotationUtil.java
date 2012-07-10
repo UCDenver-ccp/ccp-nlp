@@ -54,6 +54,9 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultPrimitiveSlotMentionFactory;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ */
 public class TextAnnotationUtil {
 	private static Logger logger = Logger.getLogger(TextAnnotationUtil.class);
 	

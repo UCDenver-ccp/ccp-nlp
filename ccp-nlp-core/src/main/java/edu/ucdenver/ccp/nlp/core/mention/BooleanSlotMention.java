@@ -39,7 +39,7 @@ import org.apache.log4j.Logger;
  * The BooleanSlotMention is slightly different from other PrimitiveSlotMentions as it can only have a single slot
  * value, either true or false.
  * 
- * @author billbaumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class BooleanSlotMention extends PrimitiveSlotMention<Boolean> {

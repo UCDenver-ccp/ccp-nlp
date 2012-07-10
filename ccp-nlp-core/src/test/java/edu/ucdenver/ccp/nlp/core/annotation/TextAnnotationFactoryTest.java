@@ -46,6 +46,10 @@ import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.SlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class TextAnnotationFactoryTest {
 	@BeforeClass
 	public static void before() {

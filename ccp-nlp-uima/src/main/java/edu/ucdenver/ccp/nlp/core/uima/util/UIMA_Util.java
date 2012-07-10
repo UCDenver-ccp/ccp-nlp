@@ -118,7 +118,7 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.impl.WrappedCCPStringSlotMention;
  * This is a utility class meant to streamline interaction with the <code>CCPTextAnnotation</code>
  * class.
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class UIMA_Util {

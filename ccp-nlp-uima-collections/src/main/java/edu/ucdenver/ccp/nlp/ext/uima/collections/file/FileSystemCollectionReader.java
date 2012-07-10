@@ -72,7 +72,7 @@ import edu.ucdenver.ccp.nlp.core.uima.build.XmlDescriptorWriter;
  * <ul>
  * TODO: add capability to handle gz files?
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 @SofaCapability

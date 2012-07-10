@@ -40,6 +40,10 @@ import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class ClassMentionCycleTest {
 
 	/**

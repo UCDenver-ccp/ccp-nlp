@@ -49,7 +49,7 @@ import edu.ucdenver.ccp.nlp.core.uima.util.View;
 /**
  * This is a subclass of FileSystemCollectionReader that initializes the document ID 
  * for the CCP type system. The difference is in the initialize method.
- * @author williamb
+ *@author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  *
  */
 public class CcpFileSystemCollectionReader extends FileSystemCollectionReader {

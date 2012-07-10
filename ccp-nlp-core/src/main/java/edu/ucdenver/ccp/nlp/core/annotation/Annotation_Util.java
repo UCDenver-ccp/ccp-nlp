@@ -49,11 +49,12 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
+
 /**
  * This class contains some utility methods for dealing with text annotations.
  * 
- * @author William A Baumgartner, Jr.
- * 
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
  */
 public class Annotation_Util {
 	private static Logger logger = Logger.getLogger(Annotation_Util.class);

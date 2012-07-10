@@ -55,7 +55,7 @@ import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 /**
  * Contains base functionality required by all Collection Reader implementations.
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 @SofaCapability

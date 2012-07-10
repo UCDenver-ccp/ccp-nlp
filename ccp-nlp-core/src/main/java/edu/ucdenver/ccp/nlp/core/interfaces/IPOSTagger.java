@@ -36,7 +36,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 /**
  * Interface for a lexical tagger. The lexical tagger interface extends the tokenizer interface.
  * 
- * @author William A Baumgartner Jr
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public interface IPOSTagger extends ITokenizer {

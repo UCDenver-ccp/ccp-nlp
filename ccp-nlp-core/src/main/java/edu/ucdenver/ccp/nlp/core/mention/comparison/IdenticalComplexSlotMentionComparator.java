@@ -37,7 +37,7 @@ import edu.ucdenver.ccp.nlp.core.mention.Mention;
 /**
  * Implements the comparison of a pair of <code>ComplexSlotMentions</code>.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 

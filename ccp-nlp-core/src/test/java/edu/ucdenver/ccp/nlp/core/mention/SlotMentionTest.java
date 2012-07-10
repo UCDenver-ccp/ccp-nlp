@@ -41,6 +41,10 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class SlotMentionTest {
 	private StringSlotMention slotMention;
 

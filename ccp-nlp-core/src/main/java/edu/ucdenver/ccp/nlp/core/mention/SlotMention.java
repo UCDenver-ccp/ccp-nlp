@@ -39,7 +39,7 @@ import org.apache.log4j.Logger;
  * ComplexSlotMention which has ClassMentions as slot fillers and PrimitiveSlotMention which has
  * primitives (String, Integer, Boolean, Float, etc.) as slot fillers.
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class SlotMention<E> extends Mention implements ISlotMention<E> {

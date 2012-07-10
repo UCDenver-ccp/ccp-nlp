@@ -37,6 +37,10 @@ import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
 import edu.ucdenver.ccp.nlp.core.uima.test.DefaultUIMATestCase;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class TextAnnotationIteratorTest extends DefaultUIMATestCase {
 
 	@Override

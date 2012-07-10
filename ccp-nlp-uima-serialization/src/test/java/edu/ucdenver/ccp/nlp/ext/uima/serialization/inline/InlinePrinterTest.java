@@ -64,7 +64,7 @@ import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
 /**
  * This test case tests the {@link InlinePrinter} {@link AnalysisEngine}
  * 
- * @author bill
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class InlinePrinterTest extends DefaultUIMATestCase {

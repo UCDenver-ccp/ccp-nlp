@@ -41,7 +41,7 @@ import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 /**
  * This annotation printer implements a default output format for printing annotations from a <code>GenericDocument</code>.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class DefaultPrintOutput extends AnnotationPrinterUtil {

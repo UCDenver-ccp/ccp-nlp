@@ -43,6 +43,10 @@ import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class TextAnnotationUtilTest {
 	@Test
 	public void testGetRedundantAnnotations() throws Exception {

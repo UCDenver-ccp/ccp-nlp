@@ -36,7 +36,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 /**
  * An interface for a sentence detector
  * 
- * @author William A Baumgartner Jr
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public interface ISentenceDetector extends ITagger {

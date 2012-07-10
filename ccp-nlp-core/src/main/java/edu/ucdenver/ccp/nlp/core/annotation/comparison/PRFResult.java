@@ -42,7 +42,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
  * FP, and FN counts logged, but the annotations that were responsible for each TP, FP, and FN count
  * are also recorded.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class PRFResult {

@@ -39,6 +39,10 @@ import org.junit.Test;
 
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class SpanComparatorTest {
 	/* individual spans */
 	private Span referenceSpan;

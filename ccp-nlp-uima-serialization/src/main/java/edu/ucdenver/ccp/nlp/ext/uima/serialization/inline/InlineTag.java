@@ -37,7 +37,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
  * This is a base class designed to represent an inline tag. No assumptions are made as to the
  * content of this tag, that is left to be created/controlled elsewhere.
  * 
- * @author bill
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class InlineTag implements Comparable<InlineTag> {

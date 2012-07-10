@@ -58,7 +58,7 @@ import edu.ucdenver.ccp.nlp.core.mention.comparison.MentionComparator;
  * result to be deciphered externally of the Annotation Comparator. The default comparison utilizes the
  * StrictSpanComparator and the IdenticalClassComparator
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 

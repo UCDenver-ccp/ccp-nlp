@@ -45,6 +45,10 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class WrappedCCPComplexSlotMention extends ComplexSlotMention {
 
 	private CCPComplexSlotMention wrappedCSM;

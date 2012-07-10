@@ -49,6 +49,10 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.CCPIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPPrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPStringSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class CCPPrimitiveSlotMentionFactory {
 private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.class);
 

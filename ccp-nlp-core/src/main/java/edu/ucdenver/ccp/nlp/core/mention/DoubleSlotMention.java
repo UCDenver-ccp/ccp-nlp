@@ -34,6 +34,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public abstract class DoubleSlotMention extends PrimitiveSlotMention<Double> {
 	private static Logger logger = Logger.getLogger(DoubleSlotMention.class);
 

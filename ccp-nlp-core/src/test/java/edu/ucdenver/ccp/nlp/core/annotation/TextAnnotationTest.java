@@ -50,6 +50,10 @@ import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class TextAnnotationTest {
 
 	private TextAnnotation ta;

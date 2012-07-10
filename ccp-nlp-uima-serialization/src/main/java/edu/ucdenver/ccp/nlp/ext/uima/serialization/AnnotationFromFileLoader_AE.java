@@ -51,7 +51,7 @@ import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
  * <br>
  * documentID|annotatorID|spanStart spanEnd|classMentionName|coveredText
  * 
- * @author William A. Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class AnnotationFromFileLoader_AE extends JCasAnnotator_ImplBase {

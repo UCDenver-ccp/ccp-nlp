@@ -36,7 +36,7 @@ import edu.ucdenver.ccp.nlp.core.mention.Mention;
 /**
  * This class implements a comparator which compares ClassMentions. ClassMentions must be identical.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class IdenticalClassMentionComparator extends IdenticalMentionComparator implements ClassMentionComparator {

@@ -35,7 +35,7 @@ import edu.ucdenver.ccp.nlp.core.mention.Mention;
  * The IdenticalMentionComparator enforces a strict comparison of mention names. The mention names must be identical
  * (although it is not case-sensitive).
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class IdenticalMentionComparator extends MentionComparator {

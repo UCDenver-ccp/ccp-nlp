@@ -38,7 +38,7 @@ import java.io.PrintStream;
  * multiple annotations sets.<p>
  * 
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class AnnotationSet implements Comparable {

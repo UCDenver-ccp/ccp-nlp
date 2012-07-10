@@ -37,6 +37,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class AnnotationSetTest {
 
 	private AnnotationSet annotationSet1;

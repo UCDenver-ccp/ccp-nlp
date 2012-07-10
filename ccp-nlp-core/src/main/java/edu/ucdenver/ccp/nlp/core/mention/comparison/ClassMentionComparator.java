@@ -35,7 +35,7 @@ import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 /**
  * This is an interface for comparing class mentions
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public interface ClassMentionComparator {

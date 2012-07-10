@@ -106,7 +106,7 @@ import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
  * CCPTextAnotation(s) for this class. [NOTE: The use of an array is probably not needed here as there is typically only
  * one occupant in the FSArray. This may be addressed in a future release.]
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class ClassMention extends Mention implements IClassMention {

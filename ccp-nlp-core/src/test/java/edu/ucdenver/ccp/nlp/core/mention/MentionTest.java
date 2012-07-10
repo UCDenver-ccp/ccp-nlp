@@ -50,6 +50,10 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class MentionTest {
 
 	private static final String FRAME_PLAYS_A_ROLE_IN_PROCESS = "plays role in process";

@@ -44,7 +44,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 /**
  * This class contains some utility methods for dealing with text annotations.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class DefaultTextAnnotation_Util {

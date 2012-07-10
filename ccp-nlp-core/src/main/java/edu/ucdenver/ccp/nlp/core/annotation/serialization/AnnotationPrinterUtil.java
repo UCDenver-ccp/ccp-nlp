@@ -41,7 +41,7 @@ import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 /**
  * An interface for applications that print annotations.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class AnnotationPrinterUtil {

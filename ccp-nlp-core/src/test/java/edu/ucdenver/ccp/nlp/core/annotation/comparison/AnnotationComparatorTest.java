@@ -53,7 +53,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
  * TODO: Add tests on annotations at different depths. This is not crucial as the mention comparators have been tested
  * at different depths, but it would be good redundancy to have.
  * 
- * @author williamb
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class AnnotationComparatorTest {

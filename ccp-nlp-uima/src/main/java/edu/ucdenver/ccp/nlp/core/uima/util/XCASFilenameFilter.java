@@ -32,6 +32,10 @@ package edu.ucdenver.ccp.nlp.core.uima.util;
 import java.io.File;
 import java.io.FilenameFilter;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class XCASFilenameFilter implements FilenameFilter {
     public XCASFilenameFilter() {
     }

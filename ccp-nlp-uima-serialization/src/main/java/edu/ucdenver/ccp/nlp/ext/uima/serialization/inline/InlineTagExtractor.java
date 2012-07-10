@@ -37,7 +37,7 @@ import org.apache.uima.jcas.JCas;
  * Interface for retrieving {@link InlineTag} instances from a {@link JCas}. Implementations of this
  * interface are used by the {@link InlinePrinter} and its subclasses.
  * 
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public interface InlineTagExtractor {

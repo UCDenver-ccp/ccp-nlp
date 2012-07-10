@@ -36,7 +36,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 /**
  * An interface for a named entity tagger
  * 
- * @author William A Baumgartner Jr
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public interface IEntityTagger extends ITagger {

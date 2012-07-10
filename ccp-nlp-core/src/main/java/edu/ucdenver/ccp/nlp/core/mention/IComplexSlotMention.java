@@ -29,6 +29,10 @@
  */
 package edu.ucdenver.ccp.nlp.core.mention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public interface IComplexSlotMention extends ISlotMention<IClassMention> {
 
 }

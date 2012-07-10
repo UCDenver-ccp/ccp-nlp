@@ -29,6 +29,10 @@
  */
 package edu.ucdenver.ccp.nlp.core.exception;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class InitializationException extends Exception {
 
 	private static final long serialVersionUID = 1L;

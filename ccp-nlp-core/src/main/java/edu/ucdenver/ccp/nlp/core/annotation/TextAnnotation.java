@@ -44,6 +44,10 @@ import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
 import edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationMetadata;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 
 	protected static Logger logger = Logger.getLogger(TextAnnotation.class);

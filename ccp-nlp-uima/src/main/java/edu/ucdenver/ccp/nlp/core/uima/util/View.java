@@ -34,7 +34,7 @@ import org.apache.uima.cas.CAS;
 /**
  * This enum contains some commonly used UIMA view names.
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public enum View {

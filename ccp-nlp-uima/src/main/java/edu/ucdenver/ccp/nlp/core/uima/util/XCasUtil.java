@@ -48,6 +48,10 @@ import org.xml.sax.SAXException;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class XCasUtil {
 
 	public static GenericDocument loadXCasFile(File xcasFile) throws UIMAException, FileNotFoundException {

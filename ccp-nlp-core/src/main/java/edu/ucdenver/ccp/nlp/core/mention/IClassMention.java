@@ -34,6 +34,10 @@ import java.util.Collection;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.KnowledgeRepresentationWrapperException;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public interface IClassMention {
 
 	public void setTextAnnotation(TextAnnotation textAnnotation) throws InvalidInputException;

@@ -38,7 +38,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
  * For "sloppy" comparison, the spans are required to overlap by at least one character. If the spans overlap, return 0,
  * else return -1 is span1 occurs prior to span2, 1 otherwise;
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class SloppySpanComparator extends SpanComparator {

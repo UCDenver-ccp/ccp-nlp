@@ -35,7 +35,7 @@ import java.io.PrintStream;
  * This class provides a means to identify who/what created an annotation. The annotator is used to represent both human annotators as well as
  * programs that generate annotations, e.g. gene taggers, etc. An annotator can be assigned to a <code>TextAnnotation</code> object.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class Annotator implements Comparable {

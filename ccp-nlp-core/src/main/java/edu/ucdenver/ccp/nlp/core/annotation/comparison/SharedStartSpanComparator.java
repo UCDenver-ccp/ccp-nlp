@@ -39,7 +39,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
  * do not share the same span start then if the span start for span1 is prior to the span start for span2, then -1 is
  * returned, 1 otherwise.
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class SharedStartSpanComparator extends SpanComparator {

@@ -47,6 +47,10 @@ import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class IdenticalMentionComparatorTest {
 
 	Map<Integer, DefaultTextAnnotation> id2annotationMap;

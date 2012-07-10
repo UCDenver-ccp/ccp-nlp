@@ -29,6 +29,10 @@
  */
 package edu.ucdenver.ccp.nlp.core.annotation.metadata;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class FalsePositiveProperty extends TestSetProperty {
 
 }

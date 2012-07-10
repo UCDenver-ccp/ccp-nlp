@@ -37,7 +37,7 @@ import edu.ucdenver.ccp.uima.shims.annotation.AnnotationTypeExtractor;
 /**
  * Implementation of {@link AnnotationTypeExtractor} specific to the CCP type system
  * 
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class CcpAnnotationTypeExtractor implements AnnotationTypeExtractor {

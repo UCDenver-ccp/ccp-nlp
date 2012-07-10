@@ -73,7 +73,7 @@ import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
  * The content of the inline annotations is controlled by implementation(s) of the
  * {@link InlineTagExtractor} class.
  * 
- * @author bill
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 @SofaCapability

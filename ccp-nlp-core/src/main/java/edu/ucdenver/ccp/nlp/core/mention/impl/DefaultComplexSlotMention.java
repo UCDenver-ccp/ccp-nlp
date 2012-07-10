@@ -43,7 +43,7 @@ import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
  * An example of a complex slot mention is the "transported entity" slot for the protein-transport class which would be
  * filled with a protein class mention.
  * 
- * @author Bill Baumgartner
+ *@author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class DefaultComplexSlotMention extends ComplexSlotMention {

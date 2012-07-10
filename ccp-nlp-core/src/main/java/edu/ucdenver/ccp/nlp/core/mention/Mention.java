@@ -46,7 +46,7 @@ import edu.ucdenver.ccp.common.collections.tree.TreeNode;
  * The superclass for all mentions, <code>ClassMention</code>,<code>SlotMention</code>,
  * <code>ComplexSlotMention</code>
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class Mention implements Comparable<Mention> {

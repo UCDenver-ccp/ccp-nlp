@@ -38,7 +38,7 @@ import java.util.Collection;
  * An example of a complex slot mention is the "transported entity" slot for the protein-transport class which would be
  * filled with a protein class mention.
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class ComplexSlotMention extends SlotMention<ClassMention> {

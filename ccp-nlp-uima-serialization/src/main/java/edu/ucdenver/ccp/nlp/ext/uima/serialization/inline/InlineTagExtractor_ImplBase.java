@@ -47,7 +47,7 @@ import edu.ucdenver.ccp.uima.shims.annotation.AnnotationDataExtractor;
  * The annotations used to generate {@link InlineTag} instances are chosen based on the specified
  * annotation type in the constructor.
  * 
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *@author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class InlineTagExtractor_ImplBase implements InlineTagExtractor {

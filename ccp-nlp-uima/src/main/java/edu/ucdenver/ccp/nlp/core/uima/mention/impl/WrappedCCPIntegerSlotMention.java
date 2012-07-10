@@ -43,6 +43,10 @@ import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class WrappedCCPIntegerSlotMention extends IntegerSlotMention {
 
 	private CCPIntegerSlotMention wrappedSM;

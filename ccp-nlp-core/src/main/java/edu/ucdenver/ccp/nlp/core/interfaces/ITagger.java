@@ -35,7 +35,7 @@ import edu.ucdenver.ccp.nlp.core.exception.InitializationException;
 /**
  * An interface for a generic tagger
  * 
- * @author Bill Baumgartner
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public interface ITagger {

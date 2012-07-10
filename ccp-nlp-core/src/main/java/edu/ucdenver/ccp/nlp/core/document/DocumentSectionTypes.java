@@ -32,7 +32,7 @@ package edu.ucdenver.ccp.nlp.core.document;
 /**
  * An interface that defines some document section identifiers.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public interface DocumentSectionTypes {

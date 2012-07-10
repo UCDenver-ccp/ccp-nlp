@@ -38,6 +38,10 @@ import edu.ucdenver.ccp.nlp.core.mention.BooleanSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPBooleanSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class WrappedCCPBooleanSlotMention extends BooleanSlotMention {
 
 	private CCPBooleanSlotMention wrappedSM;

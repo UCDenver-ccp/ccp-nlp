@@ -48,7 +48,7 @@ import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
  * initializing the jcas with some annotations: initJCas() also has convenience functions for adding
  * various annotations.
  * 
- * @author williamb
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class DefaultUIMATestCase extends DefaultTestCase {

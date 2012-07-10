@@ -41,7 +41,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
  * detected, e.g. the end offset is less than the start offset, an <code>InvalidSpanException</code> is thrown. The
  * <code>Span</code> class is used by the <code>TextAnnotation</code> class.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class Span implements Comparable {

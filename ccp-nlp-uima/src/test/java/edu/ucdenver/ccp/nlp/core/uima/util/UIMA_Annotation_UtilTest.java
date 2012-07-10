@@ -67,6 +67,10 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPSpan;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ */
 public class UIMA_Annotation_UtilTest {
 
 	private JCas jcas;

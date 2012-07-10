@@ -36,7 +36,7 @@ import edu.ucdenver.ccp.nlp.core.mention.SlotMention;
 /**
  * Implements the comparison of a pair of <code>SlotMentions</code>.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class IdenticalSlotMentionComparator extends IdenticalMentionComparator implements SlotMentionComparator {

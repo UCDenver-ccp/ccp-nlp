@@ -31,6 +31,11 @@ package edu.ucdenver.ccp.nlp.core.mention;
 
 import java.util.Collection;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ *
+ * @param <E>
+ */
 public interface ISlotMention<E> {
 
 	public Collection<E> getSlotValues();
