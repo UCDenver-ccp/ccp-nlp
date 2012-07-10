@@ -31,7 +31,6 @@ package edu.ucdenver.ccp.nlp.core.interfaces;
 
 import edu.ucdenver.ccp.nlp.core.exception.InitializationException;
 
-
 /**
  * An interface for a generic tagger
  * 
@@ -45,10 +44,10 @@ public interface ITagger {
 	public static final int POS_TAGGER = 1;
 
 	public static final int TOKENIZER = 2;
-	
+
 	public static final int SENTENCE_DETECTOR = 3;
-	
-	public static final String[] TAGGER_TYPES = {"ENTITY_TAGGER","POS_TAGGER","TOKENIZER","SENTENCE_DETECTOR"};
+
+	public static final String[] TAGGER_TYPES = { "ENTITY_TAGGER", "POS_TAGGER", "TOKENIZER", "SENTENCE_DETECTOR" };
 
 	/**
 	 * Initialization method.
@@ -56,7 +55,8 @@ public interface ITagger {
 	 * @param taggerType
 	 *            integer specifying the tagger type to be initialized
 	 * @param args
-	 *            Array of input parameters. These parameters can vary depending on the tagger type selected
+	 *            Array of input parameters. These parameters can vary depending on the tagger type
+	 *            selected
 	 */
 	public void initialize(int taggerType, String[] args) throws InitializationException;
 

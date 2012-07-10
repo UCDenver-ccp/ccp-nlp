@@ -36,8 +36,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
- * The BooleanSlotMention is slightly different from other PrimitiveSlotMentions as it can only have a single slot
- * value, either true or false.
+ * The BooleanSlotMention is slightly different from other PrimitiveSlotMentions as it can only have
+ * a single slot value, either true or false.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
@@ -45,10 +45,11 @@ import org.apache.log4j.Logger;
 public abstract class BooleanSlotMention extends PrimitiveSlotMention<Boolean> {
 	private static Logger logger = Logger.getLogger(BooleanSlotMention.class);
 
-//	public BooleanSlotMention(String mentionName, IMentionTraversalTracker traversalTracker,  Object... wrappedObjectPlusGlobalVars) {
-//		super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
-//	}
-	
+	// public BooleanSlotMention(String mentionName, IMentionTraversalTracker traversalTracker,
+	// Object... wrappedObjectPlusGlobalVars) {
+	// super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
+	// }
+
 	public BooleanSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
 	}
@@ -62,8 +63,9 @@ public abstract class BooleanSlotMention extends PrimitiveSlotMention<Boolean> {
 
 	public void addSlotValue(Boolean slotValue) {
 		if (this.getSlotValues().size() > 0) {
-			logger.warn("Cannot 'add' another slot value to BooleanSlotMention: " + getMentionName() + ". The previous value: "
-					+ getBooleanValue().toString() + " is being replaced with " + slotValue.toString());
+			logger.warn("Cannot 'add' another slot value to BooleanSlotMention: " + getMentionName()
+					+ ". The previous value: " + getBooleanValue().toString() + " is being replaced with "
+					+ slotValue.toString());
 		}
 		setBooleanValue(slotValue);
 	}
@@ -75,8 +77,9 @@ public abstract class BooleanSlotMention extends PrimitiveSlotMention<Boolean> {
 			// do nothing
 		} else if (slotValues.size() == 1) {
 			Boolean slotValue = Collections.list(Collections.enumeration(slotValues)).get(0);
-			logger.warn("Cannot 'add' another slot value to BooleanSlotMention: " + getMentionName() + ". The previous value: "
-					+ getBooleanValue().toString() + " is being replaced with " + slotValue.toString());
+			logger.warn("Cannot 'add' another slot value to BooleanSlotMention: " + getMentionName()
+					+ ". The previous value: " + getBooleanValue().toString() + " is being replaced with "
+					+ slotValue.toString());
 			setBooleanValue(slotValue);
 		}
 	}

@@ -34,11 +34,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class implements some commonly used statistics in the field of NLP, namely precision, recall, F-measure, and the
- * Dice coefficient.
+ * This class implements some commonly used statistics in the field of NLP, namely precision,
+ * recall, F-measure, and the Dice coefficient.
  * <p>
- * For a give count of true positives (TP), false positives (FP), and false negatives (FN), precision (P), recall (R),
- * and F-measure (F) are computed as:
+ * For a give count of true positives (TP), false positives (FP), and false negatives (FN),
+ * precision (P), recall (R), and F-measure (F) are computed as:
  * <p>
  * P = TP/(TP+FP)
  * <p>
@@ -97,14 +97,17 @@ public class NLPStats {
 	 * @return 2PR/(P+R)
 	 */
 	public static double computeFMeasure(int tp, int fp, int fn) {
-		return 2.0 * computePrecision(tp, fp) * computeRecall(tp, fn) / (computePrecision(tp, fp) + computeRecall(tp, fn));
+		return 2.0 * computePrecision(tp, fp) * computeRecall(tp, fn)
+				/ (computePrecision(tp, fp) + computeRecall(tp, fn));
 	}
 
 	/**
-	 * Computes the Dice Coefficient as described in Hersh et al. TREC Genomics Track Overview, 2003.
+	 * Computes the Dice Coefficient as described in Hersh et al. TREC Genomics Track Overview,
+	 * 2003.
 	 * <p>
-	 * For two <code>Strings</code> A and B, define X as the number of words in A, Y as the number of words in B, and Z
-	 * as the number of words occurring in both A and B. The Dice coefficient is calculated as Dice(A,B) = (2*Z)/(X+Y)
+	 * For two <code>Strings</code> A and B, define X as the number of words in A, Y as the number
+	 * of words in B, and Z as the number of words occurring in both A and B. The Dice coefficient
+	 * is calculated as Dice(A,B) = (2*Z)/(X+Y)
 	 * 
 	 * @param aTokens
 	 *            a <code>Set</code> of tokens from <code>String</code> A
@@ -123,10 +126,12 @@ public class NLPStats {
 	}
 
 	/**
-	 * Computes the Dice Coefficient as described in Hersh et al. TREC Genomics Track Overview, 2003.
+	 * Computes the Dice Coefficient as described in Hersh et al. TREC Genomics Track Overview,
+	 * 2003.
 	 * <p>
-	 * For two <code>Strings</code> A and B, define X as the number of words in A, Y as the number of words in B, and Z
-	 * as the number of words occurring in both A and B. The Dice coefficient is calculated as Dice(A,B) = (2*Z)/(X+Y)
+	 * For two <code>Strings</code> A and B, define X as the number of words in A, Y as the number
+	 * of words in B, and Z as the number of words occurring in both A and B. The Dice coefficient
+	 * is calculated as Dice(A,B) = (2*Z)/(X+Y)
 	 * <p>
 	 * This method tokenizes by splitting the input Strings at spaces.
 	 * 

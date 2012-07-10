@@ -45,13 +45,15 @@ public interface IPOSTagger extends ITokenizer {
 	public final String POS_TAGSET_MEDPOST_CORPUS = "MedPostCorpus";
 
 	/**
-	 * Given some input text and a document ID, return a list of TextAnnotations, one per token of the input text. Each
-	 * TextAnnotation will have a part-of-speech slot filled with at least one part-of-speech tag.
+	 * Given some input text and a document ID, return a list of TextAnnotations, one per token of
+	 * the input text. Each TextAnnotation will have a part-of-speech slot filled with at least one
+	 * part-of-speech tag.
 	 * 
 	 * @param inputText
 	 * @param documentID
 	 * @return
 	 */
-	// public List<TextAnnotation> getTokensWithPOSTagsFromText(String inputText, String documentID);
+	// public List<TextAnnotation> getTokensWithPOSTagsFromText(String inputText, String
+	// documentID);
 	public List<TextAnnotation> getTokensWithPOSTagsFromText(String inputText);
 }

@@ -154,7 +154,7 @@ public class FileSystemCollectionReaderTest extends DefaultTestCase {
 		assertEquals(4, casCount);
 
 	}
-	
+
 	@Test
 	public void testFileSystemCollectionReader_recurseTrue() throws UIMAException, IOException {
 		boolean recurse = true;
@@ -173,14 +173,14 @@ public class FileSystemCollectionReaderTest extends DefaultTestCase {
 
 		assertEquals(8, casCount);
 	}
-	
+
 	@Test
 	public void testFileSystemCollectionReader_recurseTrue_SuffixTxt() throws UIMAException, IOException {
 		boolean recurse = true;
 		int num2process = 8;
 		int num2skip = 0;
 		String viewName = View.DEFAULT.viewName();
-		String[] fileSuffixesToProcess = new String[] {".txt"};
+		String[] fileSuffixesToProcess = new String[] { ".txt" };
 		CollectionReaderDescription desc = FileSystemCollectionReader.createDescription(
 				TypeSystemUtil.getCcpTypeSystem(), baseDir, recurse, ENCODING, "en", false, num2process, num2skip,
 				viewName, fileSuffixesToProcess);
@@ -199,7 +199,7 @@ public class FileSystemCollectionReaderTest extends DefaultTestCase {
 		int num2process = 8;
 		int num2skip = 4;
 		String viewName = View.DEFAULT.viewName();
-		String[] fileSuffixesToProcess = new String[] {".txt"};
+		String[] fileSuffixesToProcess = new String[] { ".txt" };
 		CollectionReaderDescription desc = FileSystemCollectionReader.createDescription(
 				TypeSystemUtil.getCcpTypeSystem(), baseDir, recurse, ENCODING, "en", false, num2process, num2skip,
 				viewName, fileSuffixesToProcess);
@@ -230,5 +230,5 @@ public class FileSystemCollectionReaderTest extends DefaultTestCase {
 
 		assertEquals(8, casCount);
 	}
-	
+
 }

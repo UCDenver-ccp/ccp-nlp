@@ -37,23 +37,24 @@ import edu.ucdenver.ccp.nlp.core.mention.ComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 
 /**
- * A slot mention is deemed "complex" when its slot filler is a class mention as opposed to an Object, which is
- * typically a String.
+ * A slot mention is deemed "complex" when its slot filler is a class mention as opposed to an
+ * Object, which is typically a String.
  * <p>
- * An example of a complex slot mention is the "transported entity" slot for the protein-transport class which would be
- * filled with a protein class mention.
+ * An example of a complex slot mention is the "transported entity" slot for the protein-transport
+ * class which would be filled with a protein class mention.
  * 
- *@author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class DefaultComplexSlotMention extends ComplexSlotMention {
 	private String mentionName;
 	private long mentionID;
 	protected Collection<ClassMention> classMentions;
-//	protected Map<Integer, Long> traversalID2MentionIDMap;
+
+	// protected Map<Integer, Long> traversalID2MentionIDMap;
 
 	public DefaultComplexSlotMention(String mentionName) {
-		super((Object[])null);
+		super((Object[]) null);
 		this.mentionName = mentionName;
 		classMentions = new ArrayList<ClassMention>();
 	}
@@ -75,16 +76,17 @@ public class DefaultComplexSlotMention extends ComplexSlotMention {
 				+ " class does not support wrapping of another object.");
 	}
 
-//	@Override
-//	protected void initializeMention() {
-////		traversalID2MentionIDMap = new HashMap<Integer, Long>();
-//	}
+	// @Override
+	// protected void initializeMention() {
+	// // traversalID2MentionIDMap = new HashMap<Integer, Long>();
+	// }
 
 	public void addSlotValue(ClassMention classMention) throws InvalidInputException {
 		if (classMention instanceof DefaultClassMention) {
 			classMentions.add(classMention);
 		} else {
-			throw new InvalidInputException("Slot fillers for DefaultComplexSlotMentions can only be DefaultClassMentions!");
+			throw new InvalidInputException(
+					"Slot fillers for DefaultComplexSlotMentions can only be DefaultClassMentions!");
 		}
 	}
 
@@ -113,36 +115,36 @@ public class DefaultComplexSlotMention extends ComplexSlotMention {
 
 	@Override
 	public long getMentionID() {
-return mentionID;
-}
+		return mentionID;
+	}
 
 	@Override
 	public String getMentionName() {
-return mentionName;
-}
+		return mentionName;
+	}
 
 	@Override
 	public void setMentionID(long mentionID) {
 		this.mentionID = mentionID;
 	}
-	
+
 	@Override
 	protected void setMentionName(String mentionName) {
 		this.mentionName = mentionName;
 	}
-	
-//	@Override
-//	protected Long getMentionIDForTraversal(int traversalID) {
-//		return traversalID2MentionIDMap.get(traversalID);
-//	}
-//
-//	@Override
-//	protected void setMentionIDForTraversal(long mentionID, int traversalID) {
-//		traversalID2MentionIDMap.put(traversalID, mentionID);
-//	}
-//
-//	@Override
-//	protected void removeMentionIDForTraversal(int traversalID) {
-//		traversalID2MentionIDMap.remove(traversalID);
-//	}
+
+	// @Override
+	// protected Long getMentionIDForTraversal(int traversalID) {
+	// return traversalID2MentionIDMap.get(traversalID);
+	// }
+	//
+	// @Override
+	// protected void setMentionIDForTraversal(long mentionID, int traversalID) {
+	// traversalID2MentionIDMap.put(traversalID, mentionID);
+	// }
+	//
+	// @Override
+	// protected void removeMentionIDForTraversal(int traversalID) {
+	// traversalID2MentionIDMap.remove(traversalID);
+	// }
 }

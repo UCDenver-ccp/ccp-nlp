@@ -32,8 +32,9 @@ package edu.ucdenver.ccp.nlp.core.mention;
 import java.util.Comparator;
 
 /**
- * Allows lists of mentions to be sorted by Collections.sort() so that the getSingleLineRepresentation() methods output
- * the same string no matter what order the mentions were added
+ * Allows lists of mentions to be sorted by Collections.sort() so that the
+ * getSingleLineRepresentation() methods output the same string no matter what order the mentions
+ * were added
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 

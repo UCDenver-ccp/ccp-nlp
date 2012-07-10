@@ -30,26 +30,27 @@
 package edu.ucdenver.ccp.nlp.core.exception;
 
 /**
- * This class encapsulates document run exceptions at the util level.
- * Document id is captured to help isolate the cause.
+ * This class encapsulates document run exceptions at the util level. Document id is captured to
+ * help isolate the cause.
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class ProcessingException extends Exception {
-	
+
 	String docId;
 	Exception x;
-	
+
 	public ProcessingException(String docId, String s) {
 		super(s);
 		this.docId = docId;
 	}
-	
+
 	public ProcessingException(String docId, Throwable x) {
 		super(x);
 		this.docId = docId;
 	}
-	
+
 	public String toString() {
 		return "document id:" + docId + super.toString();
 	}

@@ -46,8 +46,9 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotationUtil;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
- * This AE reads in annotations from a file. The file may have been created by the AnnotationToFileOutputPrinter
- * selection on the AnnotationPrinter AE. The input format for the file is one annotation per line: <br>
+ * This AE reads in annotations from a file. The file may have been created by the
+ * AnnotationToFileOutputPrinter selection on the AnnotationPrinter AE. The input format for the
+ * file is one annotation per line: <br>
  * <br>
  * documentID|annotatorID|spanStart spanEnd|classMentionName|coveredText
  * 
@@ -72,7 +73,8 @@ public class AnnotationFromFileLoader_AE extends JCasAnnotator_ImplBase {
 		/* load documentid to annotation map */
 		try {
 			System.err.println("Initializing AnnotationFromFileLoader: Loading annotations from: " + annotationsFile);
-			documentID2AnnotationsMap = TextAnnotationUtil.loadAnnotationsFromFile(new File(annotationsFile), CharacterEncoding.UTF_8);
+			documentID2AnnotationsMap = TextAnnotationUtil.loadAnnotationsFromFile(new File(annotationsFile),
+					CharacterEncoding.UTF_8);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -81,12 +83,14 @@ public class AnnotationFromFileLoader_AE extends JCasAnnotator_ImplBase {
 	}
 
 	/**
-	 * For each CAS, lookup the document ID and insert any annotations associated with that document ID from the hash.
+	 * For each CAS, lookup the document ID and insert any annotations associated with that document
+	 * ID from the hash.
 	 */
 	@Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {
 		String documentID = UIMA_Util.getDocumentID(jcas);
-		// Iterator it = jcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentInformation.type).iterator();
+		// Iterator it =
+		// jcas.getJFSIndexRepository().getAnnotationIndex(CCPDocumentInformation.type).iterator();
 		// if (it.hasNext()) { /* there will be at most one CCPDocumentInformation annotation */
 		// CCPDocumentInformation docInfo = (CCPDocumentInformation) it.next();
 		// documentID = docInfo.getDocumentID();

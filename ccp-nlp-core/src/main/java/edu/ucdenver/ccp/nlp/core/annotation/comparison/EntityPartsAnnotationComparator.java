@@ -41,21 +41,22 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.util.StopWordUtil;
 
 /**
- * This class implements the functionality of the "Protein Name Parts" comparison metric described in Olson et al. 2002.
+ * This class implements the functionality of the "Protein Name Parts" comparison metric described
+ * in Olson et al. 2002.
  * <p>
- * The usefulness of this kind of comparison is limited to simple entity mentions, therefore, the mention comparison
- * will compare the entire mention hierarchy, however, the entity parts computation will only take place on the base
- * annotation span.
+ * The usefulness of this kind of comparison is limited to simple entity mentions, therefore, the
+ * mention comparison will compare the entire mention hierarchy, however, the entity parts
+ * computation will only take place on the base annotation span.
  * <p>
- * For example, if for some reason you wanted to run the entity-parts metric on a group of transport annotations, where
- * each transport mention has complex slot mentions (transported entities, source, destination, transport participants),
- * then this method will
+ * For example, if for some reason you wanted to run the entity-parts metric on a group of transport
+ * annotations, where each transport mention has complex slot mentions (transported entities,
+ * source, destination, transport participants), then this method will
  * <p>
  * <ol>
  * <li>find equivalent transport annotations using the SloppySpanComparator
- * <li>if equivalent annotations are found, then the covered text for each annotation (and in this case, just for the
- * transport annotation, not any of its slot fillers) will be tokenized on whitespace, and the entity-parts metric will
- * be done using those tokens.
+ * <li>if equivalent annotations are found, then the covered text for each annotation (and in this
+ * case, just for the transport annotation, not any of its slot fillers) will be tokenized on
+ * whitespace, and the entity-parts metric will be done using those tokens.
  * </ol>
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
@@ -87,9 +88,10 @@ public class EntityPartsAnnotationComparator extends AnnotationComparator {
 	}
 
 	/**
-	 * Since this method returns an integer, it does not make sense to use it to compare the entity parts, however, in
-	 * order to override the default compare() method of AnnotationComparator which employs the strict span comparator,
-	 * we will implement this method to return 0 if the resulting F measure is 1.0, -1 otherwise.
+	 * Since this method returns an integer, it does not make sense to use it to compare the entity
+	 * parts, however, in order to override the default compare() method of AnnotationComparator
+	 * which employs the strict span comparator, we will implement this method to return 0 if the
+	 * resulting F measure is 1.0, -1 otherwise.
 	 */
 	@Override
 	public int compare(TextAnnotation goldTA, TextAnnotation testTA) {
@@ -109,8 +111,8 @@ public class EntityPartsAnnotationComparator extends AnnotationComparator {
 	}
 
 	/*
-	 * Tokenize an annotation by whitespace.. this process removes any mention structure below the initial class
-	 * mention.
+	 * Tokenize an annotation by whitespace.. this process removes any mention structure below the
+	 * initial class mention.
 	 * 
 	 * Stopwords are not counted.
 	 */
@@ -127,8 +129,9 @@ public class EntityPartsAnnotationComparator extends AnnotationComparator {
 				/* if it's not a stop word, then create a TextAnnotation */
 				if (!tok.equals(" ")) {
 					/* if it's not a space then create a TextAnnotation */
-					TextAnnotation newAnnot = new DefaultTextAnnotation(offset, offset + tok.length(), tok, ta.getAnnotator(), new AnnotationSet(
-							-1, "", ""), ta.getAnnotationID(), ta.getDocumentCollectionID(), ta.getDocumentID(), ta.getDocumentSectionID(),
+					TextAnnotation newAnnot = new DefaultTextAnnotation(offset, offset + tok.length(), tok,
+							ta.getAnnotator(), new AnnotationSet(-1, "", ""), ta.getAnnotationID(),
+							ta.getDocumentCollectionID(), ta.getDocumentID(), ta.getDocumentSectionID(),
 							new DefaultClassMention(ta.getClassMention().getMentionName()));
 					annotationsToReturn.add(newAnnot);
 				}
@@ -140,21 +143,23 @@ public class EntityPartsAnnotationComparator extends AnnotationComparator {
 
 	/**
 	 * Overridden - note this ignores all extraneous input parameters and simple returns
-	 * EntityPartsAnnotationComparator.compare(List<TextAnnotation> goldTaList, List<TextAnnotation> testTaList)
+	 * EntityPartsAnnotationComparator.compare(List<TextAnnotation> goldTaList, List<TextAnnotation>
+	 * testTaList)
 	 */
 	@Override
-	public PRFResult compare(Collection<TextAnnotation> goldTaList, Collection<TextAnnotation> testTaList, SpanComparator spanComparator,
-			MentionComparator mentionComparator, int maximumComparisonDepth) {
+	public PRFResult compare(Collection<TextAnnotation> goldTaList, Collection<TextAnnotation> testTaList,
+			SpanComparator spanComparator, MentionComparator mentionComparator, int maximumComparisonDepth) {
 		return compare(goldTaList, testTaList);
 	}
 
 	/**
 	 * Overridden - note this ignores all extraneous input parameters and simple returns
-	 * EntityPartsAnnotationComparator.compare(List<TextAnnotation> goldTaList, List<TextAnnotation> testTaList)
+	 * EntityPartsAnnotationComparator.compare(List<TextAnnotation> goldTaList, List<TextAnnotation>
+	 * testTaList)
 	 */
 	@Override
-	public PRFResult compare(Collection<TextAnnotation> goldTaList, Collection<TextAnnotation> taList, SpanComparator spanComparator,
-			MentionComparator mentionComparator) {
+	public PRFResult compare(Collection<TextAnnotation> goldTaList, Collection<TextAnnotation> taList,
+			SpanComparator spanComparator, MentionComparator mentionComparator) {
 		return compare(goldTaList, taList);
 	}
 
@@ -173,7 +178,8 @@ public class EntityPartsAnnotationComparator extends AnnotationComparator {
 	 * EntityPartsAnnotationComparator.compare(TextAnnotation ta1, TextAnnotation ta2)
 	 */
 	@Override
-	public int compare(TextAnnotation ta1, TextAnnotation ta2, SpanComparator spanComparator, MentionComparator mentionComparator) {
+	public int compare(TextAnnotation ta1, TextAnnotation ta2, SpanComparator spanComparator,
+			MentionComparator mentionComparator) {
 		return compare(ta1, ta2);
 	}
 

@@ -54,8 +54,9 @@ public class CcpAnnotationTypeExtractor implements AnnotationTypeExtractor {
 	public String getAnnotationType(Annotation annotation) {
 		if (annotation instanceof CCPTextAnnotation)
 			return ((CCPTextAnnotation) annotation).getClassMention().getMentionName();
-//		throw new IllegalArgumentException("Cannot return type for a non-CCPTextAnnotation annotation: "
-//				+ annotation.getClass().getName());
+		// throw new
+		// IllegalArgumentException("Cannot return type for a non-CCPTextAnnotation annotation: "
+		// + annotation.getClass().getName());
 		return null;
 	}
 

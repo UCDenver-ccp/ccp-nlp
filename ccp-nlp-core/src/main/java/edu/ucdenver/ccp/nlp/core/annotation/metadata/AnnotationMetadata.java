@@ -36,7 +36,7 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class AnnotationMetadata {
 
@@ -51,10 +51,10 @@ public class AnnotationMetadata {
 	private String openDMAPPattern;
 
 	private int openDMAPPatternID;
-	
+
 	private String annotationComment;
 
-    static Logger logger = Logger.getLogger(AnnotationMetadata.class);
+	static Logger logger = Logger.getLogger(AnnotationMetadata.class);
 
 	public AnnotationMetadata() {
 		metadataProperties = new ArrayList<AnnotationMetadataProperty>();
@@ -66,7 +66,12 @@ public class AnnotationMetadata {
 		if (metadataProperty instanceof EvaluationResultProperty) {
 			if (isTruePositive | isFalsePositive | isFalseNegative) {
 				logger.warn("The evalutation result property for this annotation has already been set. Attempting to overwrite TP:"
-						+ isTruePositive + " FP:" + isFalsePositive + " FN:" + isFalseNegative + " with "
+						+ isTruePositive
+						+ " FP:"
+						+ isFalsePositive
+						+ " FN:"
+						+ isFalseNegative
+						+ " with "
 						+ metadataProperty.getClass().getName());
 			} else {
 				if (metadataProperty instanceof TruePositiveProperty) {
@@ -76,7 +81,8 @@ public class AnnotationMetadata {
 				} else if (metadataProperty instanceof FalseNegativeProperty) {
 					isFalseNegative = true;
 				} else {
-					logger.error("EvaluationResultProperty: " + metadataProperty.getClass().getName() + " not yet handled.");
+					logger.error("EvaluationResultProperty: " + metadataProperty.getClass().getName()
+							+ " not yet handled.");
 				}
 			}
 		} else if (metadataProperty instanceof OpenDMAPPatternProperty) {
@@ -116,7 +122,7 @@ public class AnnotationMetadata {
 	public int getOpenDMAPPatternID() {
 		return openDMAPPatternID;
 	}
-	
+
 	public String getAnnotationComment() {
 		return annotationComment;
 	}

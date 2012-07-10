@@ -45,7 +45,7 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class WrappedCCPStringSlotMention extends StringSlotMention {
 
@@ -53,7 +53,7 @@ public class WrappedCCPStringSlotMention extends StringSlotMention {
 	private JCas jcas;
 
 	public WrappedCCPStringSlotMention(CCPStringSlotMention ccpSSM) {
-		super( ccpSSM);
+		super(ccpSSM);
 	}
 
 	@Override
@@ -61,19 +61,20 @@ public class WrappedCCPStringSlotMention extends StringSlotMention {
 		return wrappedSM;
 	}
 
-//	@Override
-//	public String getStringRepresentation(int indentLevel, boolean showReferencingAnnotationInfo) {
-//		List<String> sortedSlotValues = new ArrayList<String>();
-//		StringArray slotValues = wrappedSM.getSlotValues();
-//		for (int i = 0; i < slotValues.size(); i++) {
-//			sortedSlotValues.add(slotValues.get(i));
-//		}
-//		Collections.sort(sortedSlotValues);
-//		return getStringRepresentation(indentLevel, sortedSlotValues);
-//	}
+	// @Override
+	// public String getStringRepresentation(int indentLevel, boolean showReferencingAnnotationInfo)
+	// {
+	// List<String> sortedSlotValues = new ArrayList<String>();
+	// StringArray slotValues = wrappedSM.getSlotValues();
+	// for (int i = 0; i < slotValues.size(); i++) {
+	// sortedSlotValues.add(slotValues.get(i));
+	// }
+	// Collections.sort(sortedSlotValues);
+	// return getStringRepresentation(indentLevel, sortedSlotValues);
+	// }
 
 	@Override
-	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars)  {
+	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) {
 		if (wrappedObjectPlusGlobalVars.length == 1) {
 			Object wrappedObject = wrappedObjectPlusGlobalVars[0];
 			if (wrappedObject instanceof CCPStringSlotMention) {
@@ -95,10 +96,10 @@ public class WrappedCCPStringSlotMention extends StringSlotMention {
 		}
 	}
 
-//	@Override
-//	protected void initializeMention() {
-//		// do nothing
-//	}
+	// @Override
+	// protected void initializeMention() {
+	// // do nothing
+	// }
 
 	public void addSlotValue(String slotValue) throws InvalidInputException {
 		StringArray updatedStringArray = UIMA_Util.addToStringArray(wrappedSM.getSlotValues(), slotValue, jcas);
@@ -134,7 +135,7 @@ public class WrappedCCPStringSlotMention extends StringSlotMention {
 		}
 		wrappedSM.setSlotValues(stringArray);
 	}
-	
+
 	@Override
 	public long getMentionID() {
 		return wrappedSM.getMentionID();
@@ -142,24 +143,24 @@ public class WrappedCCPStringSlotMention extends StringSlotMention {
 
 	@Override
 	public String getMentionName() {
-	return wrappedSM.getMentionName();
+		return wrappedSM.getMentionName();
 	}
 
 	@Override
 	public void setMentionID(long mentionID) {
-wrappedSM.setMentionID(mentionID);
-}
+		wrappedSM.setMentionID(mentionID);
+	}
 
 	@Override
 	protected void setMentionName(String mentionName) {
-wrappedSM.setMentionName(mentionName);
+		wrappedSM.setMentionName(mentionName);
 	}
 
 	// @Override
 	// protected Long getMentionIDForTraversal(int traversalID) {
 	// return UIMA_Util.getMentionIDForTraversal(wrappedNCSM, traversalID);
 	// }
-	//	
+	//
 	// @Override
 	// protected void removeMentionIDForTraversal(int traversalID) {
 	// UIMA_Util.removeMentionIDForTraversal(wrappedNCSM, traversalID, jcas);

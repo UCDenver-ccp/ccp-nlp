@@ -42,7 +42,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class ClassMentionCycleTest {
 
@@ -65,13 +65,13 @@ public class ClassMentionCycleTest {
 
 		DefaultClassMention proteinACM = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 		@SuppressWarnings("unused")
-		TextAnnotation proteinATA = new DefaultTextAnnotation(0, 4, "ABC1", new Annotator(1, "Bob", "The Annotator", "The U"),
-				new AnnotationSet(), 1, -1, "1234", -1, proteinACM);
+		TextAnnotation proteinATA = new DefaultTextAnnotation(0, 4, "ABC1", new Annotator(1, "Bob", "The Annotator",
+				"The U"), new AnnotationSet(), 1, -1, "1234", -1, proteinACM);
 
 		DefaultClassMention proteinBCM = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 		@SuppressWarnings("unused")
-		TextAnnotation proteinBTA = new DefaultTextAnnotation(9, 12, "its", new Annotator(1, "Bob", "The Annotator", "The U"),
-				new AnnotationSet(), 2, -1, "1234", -1, proteinBCM);
+		TextAnnotation proteinBTA = new DefaultTextAnnotation(9, 12, "its", new Annotator(1, "Bob", "The Annotator",
+				"The U"), new AnnotationSet(), 2, -1, "1234", -1, proteinBCM);
 
 		DefaultComplexSlotMention csmA = new DefaultComplexSlotMention("is-equivalent-to");
 		proteinACM.addComplexSlotMention(csmA);

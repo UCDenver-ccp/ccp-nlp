@@ -39,7 +39,7 @@ import edu.ucdenver.ccp.nlp.uima.test.DefaultUIMATestCase;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class TextAnnotationIteratorTest extends DefaultUIMATestCase {
 
@@ -56,26 +56,31 @@ public class TextAnnotationIteratorTest extends DefaultUIMATestCase {
 
 	@Test
 	public void testTextAnnotationIter_OneInputType() throws Exception {
-		assertEquals(String.format("Should be 3 gene annotations"), 3, CollectionsUtil.createList(
-				UIMA_Util.getTextAnnotationIterator(jcas, ClassMentionType.GENE.typeName())).size());
+		assertEquals(String.format("Should be 3 gene annotations"), 3,
+				CollectionsUtil.createList(UIMA_Util.getTextAnnotationIterator(jcas, ClassMentionType.GENE.typeName()))
+						.size());
 	}
 
 	@Test
 	public void testTextAnnotationIter_ZeroInputTypes() throws Exception {
-		assertEquals(String.format("Should have 5 annotations"), 5, CollectionsUtil.createList(
-				UIMA_Util.getTextAnnotationIterator(jcas)).size());
+		assertEquals(String.format("Should have 5 annotations"), 5,
+				CollectionsUtil.createList(UIMA_Util.getTextAnnotationIterator(jcas)).size());
 	}
 
 	@Test
 	public void testTextAnnotationIter_NullInputTypes() throws Exception {
-		assertEquals(String.format("Should have 5 annotations"), 5, CollectionsUtil.createList(
-				UIMA_Util.getTextAnnotationIterator(jcas, (String[]) null)).size());
+		assertEquals(String.format("Should have 5 annotations"), 5,
+				CollectionsUtil.createList(UIMA_Util.getTextAnnotationIterator(jcas, (String[]) null)).size());
 	}
 
 	@Test
 	public void testTextAnnotationIter_TwoInputTypes() throws Exception {
-		assertEquals(String.format("Should have 5 annotations"), 5, CollectionsUtil.createList(
-				UIMA_Util.getTextAnnotationIterator(jcas, ClassMentionType.GENE.typeName(), ClassMentionType.SENTENCE.typeName())).size());
+		assertEquals(
+				String.format("Should have 5 annotations"),
+				5,
+				CollectionsUtil.createList(
+						UIMA_Util.getTextAnnotationIterator(jcas, ClassMentionType.GENE.typeName(),
+								ClassMentionType.SENTENCE.typeName())).size());
 	}
 
 }

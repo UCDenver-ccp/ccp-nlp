@@ -34,9 +34,11 @@ import java.util.Comparator;
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
 
 /**
- * A Comparator used for sorting TextAnnotations, e.g. Collections.sort(List<TextAnnotation>, TextAnnotationSortComparator);
+ * A Comparator used for sorting TextAnnotations, e.g. Collections.sort(List<TextAnnotation>,
+ * TextAnnotationSortComparator);
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class TextAnnotationSortComparator implements Comparator<TextAnnotation> {
 

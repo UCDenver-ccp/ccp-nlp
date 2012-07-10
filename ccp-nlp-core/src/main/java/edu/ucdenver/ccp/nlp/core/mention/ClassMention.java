@@ -29,28 +29,30 @@
  */
 package edu.ucdenver.ccp.nlp.core.mention;
 
-
 import org.apache.log4j.Logger;
 
 import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
 
 /**
  * <p>
- * The architecture of the mention (annotation type) structure was designed to be flexible in its ability to represent
- * virtually any frame-based class. The design mirrors the mention structure used in Knowtator, an annotation tool
- * developed within the Center for Computational Pharmacology. In short, this structure is analogous to the classic
- * frame/slot structure introduced by Minsky. The class mention (or concept mention as it is described in the Knowtator
- * documentation) can be thought of as a frame. It represents the semantic type of an annotation. Examples of class
- * mentions include, but are not limited to, things such as entities (protein, cell type, disease, etc.) or more complex
- * relations (e.g. interaction, transport, regulation, etc.). A class mention can have attributes. These attributes are
- * represented as slot mentions (as a frame can have slots). The current structure uses two types of slot mentions.
- * Complex slot mentions are slots that have other class mentions as their fillers, while non-complex slot mentions are
- * filled by object, which are typically just <code>Strings</code>.
+ * The architecture of the mention (annotation type) structure was designed to be flexible in its
+ * ability to represent virtually any frame-based class. The design mirrors the mention structure
+ * used in Knowtator, an annotation tool developed within the Center for Computational Pharmacology.
+ * In short, this structure is analogous to the classic frame/slot structure introduced by Minsky.
+ * The class mention (or concept mention as it is described in the Knowtator documentation) can be
+ * thought of as a frame. It represents the semantic type of an annotation. Examples of class
+ * mentions include, but are not limited to, things such as entities (protein, cell type, disease,
+ * etc.) or more complex relations (e.g. interaction, transport, regulation, etc.). A class mention
+ * can have attributes. These attributes are represented as slot mentions (as a frame can have
+ * slots). The current structure uses two types of slot mentions. Complex slot mentions are slots
+ * that have other class mentions as their fillers, while non-complex slot mentions are filled by
+ * object, which are typically just <code>Strings</code>.
  * 
  * <p>
- * To illustrate the mention structure described here, let us use as an example the protein transport frame (shown
- * below) and the example sentence:<br>
- * Src relocated the KDEL receptor from the Golgi apparatus to the endoplasmic reticulum. (PMID: 12975382)
+ * To illustrate the mention structure described here, let us use as an example the protein
+ * transport frame (shown below) and the example sentence:<br>
+ * Src relocated the KDEL receptor from the Golgi apparatus to the endoplasmic reticulum. (PMID:
+ * 12975382)
  * 
  * <pre>
  *   protein transport
@@ -61,17 +63,21 @@ import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
  * </pre>
  * 
  * <p>
- * The mention of protein transport in the example sentence above can be represented using the following procedure:
+ * The mention of protein transport in the example sentence above can be represented using the
+ * following procedure:
  * <ol>
- * <li>Create an annotation for the text ``Src." Link this CCPTextAnnotation to a CCPClassMention of type protein. Add
- * to the CCPClassMention a CCPNonComplexSlotMention of type Entrez gene ID with a single slot value of ``6714."</li>
+ * <li>Create an annotation for the text ``Src." Link this CCPTextAnnotation to a CCPClassMention of
+ * type protein. Add to the CCPClassMention a CCPNonComplexSlotMention of type Entrez gene ID with a
+ * single slot value of ``6714."</li>
  * <li>Create an annotation for ``KDEL
  * receptor" with a protein class mention containing an Entrez gene ID slot filled with ``10945"</li>
  * <li>Create an annotation for ``Golgi apparatus" with a class mention of type Golgi Apparatus.</li>
- * <li>Create an annotation for ``endoplasmic reticulum" with a class mention of type Endoplasmic Reticulum.</li>
- * <li>Create the protein transport annotation. This annotation will have four CCPComplexSlotMentions, one for each
- * slot: transported entity, transporter, source, and destination. The fillers for the four complex slot mentions will
- * be the class mentions created earlier.</li>
+ * <li>Create an annotation for ``endoplasmic reticulum" with a class mention of type Endoplasmic
+ * Reticulum.</li>
+ * <li>Create the protein transport annotation. This annotation will have four
+ * CCPComplexSlotMentions, one for each slot: transported entity, transporter, source, and
+ * destination. The fillers for the four complex slot mentions will be the class mentions created
+ * earlier.</li>
  * </ol>
  * 
  * <p>
@@ -92,19 +98,22 @@ import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
  * </pre>
  * 
  * <p>
- * The CCPClassMention is the root of a flexible class structure that can store virtually any frame-based representation
- * of a particular class. Common class mention types include, but are not limited to, such things as entities (protein,
- * cell type, cell line, disease, tissue, etc.) and frames (interaction, transport, regulation, etc.).
+ * The CCPClassMention is the root of a flexible class structure that can store virtually any
+ * frame-based representation of a particular class. Common class mention types include, but are not
+ * limited to, such things as entities (protein, cell type, cell line, disease, tissue, etc.) and
+ * frames (interaction, transport, regulation, etc.).
  * <p>
- * A class mention optionally has slot mentions which represent attributes of that class. There are two types of slot
- * mentions, complex and non-complex. The difference between complex and non-complex slot mentions is simply the type of
- * filler (or slot value) for each. Complex slot mentions are filled with a class mention, whereas non-complex slot
- * mentions are filled by simple Strings.
+ * A class mention optionally has slot mentions which represent attributes of that class. There are
+ * two types of slot mentions, complex and non-complex. The difference between complex and
+ * non-complex slot mentions is simply the type of filler (or slot value) for each. Complex slot
+ * mentions are filled with a class mention, whereas non-complex slot mentions are filled by simple
+ * Strings.
  * <p>
- * Just as CCPTextAnnotations are linked to a CCPClassMention, it is sometimes useful to be able to follow a
- * CCPClassMention back to its corresponding CCPTextAnnotation, therefore, this FSArray contains links to the
- * CCPTextAnotation(s) for this class. [NOTE: The use of an array is probably not needed here as there is typically only
- * one occupant in the FSArray. This may be addressed in a future release.]
+ * Just as CCPTextAnnotations are linked to a CCPClassMention, it is sometimes useful to be able to
+ * follow a CCPClassMention back to its corresponding CCPTextAnnotation, therefore, this FSArray
+ * contains links to the CCPTextAnotation(s) for this class. [NOTE: The use of an array is probably
+ * not needed here as there is typically only one occupant in the FSArray. This may be addressed in
+ * a future release.]
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
@@ -113,23 +122,24 @@ public abstract class ClassMention extends Mention implements IClassMention {
 
 	private static Logger logger = Logger.getLogger(ClassMention.class);
 
-//	protected TextAnnotation textAnnotation;
+	// protected TextAnnotation textAnnotation;
 
-//	public ClassMention(String mentionName, IMentionTraversalTracker traversalTracker, Object... wrappedObjectPlusGlobalVars) {// , TextAnnotation linkedAnnotation) {
-//		super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
-//		// setTextAnnotationMemberVariable(linkedAnnotation);
-//	}
+	// public ClassMention(String mentionName, IMentionTraversalTracker traversalTracker, Object...
+	// wrappedObjectPlusGlobalVars) {// , TextAnnotation linkedAnnotation) {
+	// super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
+	// // setTextAnnotationMemberVariable(linkedAnnotation);
+	// }
 
-	public ClassMention(Object... wrappedObjectPlusGlobalVars) {// , TextAnnotation linkedAnnotation) {
+	public ClassMention(Object... wrappedObjectPlusGlobalVars) {// , TextAnnotation
+																// linkedAnnotation) {
 		super(wrappedObjectPlusGlobalVars);
 		// setTextAnnotationMemberVariable(linkedAnnotation);
 	}
 
-	
-//	protected void initializeMention() {
-//		// primitiveSlotMentionsMap = new HashMap<String, PrimitiveSlotMention>();
-//		// complexSlotMentionsMap = new HashMap<String, ComplexSlotMention>();
-//	}
+	// protected void initializeMention() {
+	// // primitiveSlotMentionsMap = new HashMap<String, PrimitiveSlotMention>();
+	// // complexSlotMentionsMap = new HashMap<String, ComplexSlotMention>();
+	// }
 
 	// @Override
 	// protected void initializeFromWrappedMention(Object wrappedObject) throws Exception {
@@ -138,37 +148,38 @@ public abstract class ClassMention extends Mention implements IClassMention {
 	//
 	// }
 
-//	@Override
-//	public void setMentionID(long mentionID) {
-//		if (hasWrappedMention) {
-//			setWrappedObjectMentionID(mentionID);
-//		}
-//		super.setMentionID(mentionID);
-//	}
+	// @Override
+	// public void setMentionID(long mentionID) {
+	// if (hasWrappedMention) {
+	// setWrappedObjectMentionID(mentionID);
+	// }
+	// super.setMentionID(mentionID);
+	// }
 
-//	protected abstract void setWrappedObjectMentionID(long mentionID);
+	// protected abstract void setWrappedObjectMentionID(long mentionID);
 
 	// protected abstract void classSpecificInitialization(Object wrappedObject) throws Exception;
 
 	// protected abstract void setTextAnnotationMemberVariable(TextAnnotation linkedAnnotation);
 
-//	public TextAnnotation getTextAnnotation() {
-//		return textAnnotation;
-//	}
+	// public TextAnnotation getTextAnnotation() {
+	// return textAnnotation;
+	// }
 
-//	public void setTextAnnotation(TextAnnotation textAnnotation, boolean linkToWrappedMention) {
-//		this.textAnnotation = textAnnotation;
-//		if (hasWrappedMention && linkToWrappedMention) {
-//			setWrappedMentionTextAnnotation(textAnnotation);
-//		}
-//	}
-//
-//	protected abstract void setWrappedMentionTextAnnotation(TextAnnotation textAnnotation);
+	// public void setTextAnnotation(TextAnnotation textAnnotation, boolean linkToWrappedMention) {
+	// this.textAnnotation = textAnnotation;
+	// if (hasWrappedMention && linkToWrappedMention) {
+	// setWrappedMentionTextAnnotation(textAnnotation);
+	// }
+	// }
+	//
+	// protected abstract void setWrappedMentionTextAnnotation(TextAnnotation textAnnotation);
 
 	//
 	// public abstract Collection<ComplexSlotMention> getComplexSlotMentions();
 	//
-	// public abstract void setComplexSlotMentions(Map<String, ComplexSlotMention> complexSlotMentionsMap);
+	// public abstract void setComplexSlotMentions(Map<String, ComplexSlotMention>
+	// complexSlotMentionsMap);
 	//
 	// protected abstract void setWrappedMentionComplexSlotMentions(Map<String, ComplexSlotMention>
 	// complexSlotMentionsMap);
@@ -177,16 +188,19 @@ public abstract class ClassMention extends Mention implements IClassMention {
 	//
 	// public abstract void setSlotMentions(Map<String, PrimitiveSlotMention> slotMentionsMap);
 	//
-	// protected abstract void setWrappedMentionPrimitiveSlotMentions(Map<String, PrimitiveSlotMention>
+	// protected abstract void setWrappedMentionPrimitiveSlotMentions(Map<String,
+	// PrimitiveSlotMention>
 	// slotMentionsMap);
 	//
 	// public abstract void addComplexSlotMention(ComplexSlotMention csm);
 	//
-	// protected abstract void addComplexSlotMentionToWrappedMention(ComplexSlotMention csm) throws Exception;
+	// protected abstract void addComplexSlotMentionToWrappedMention(ComplexSlotMention csm) throws
+	// Exception;
 	//
 	// public abstract void addSlotMention(PrimitiveSlotMention sm);
 	//
-	// protected abstract void addPrimitiveSlotMentionToWrappedMention(PrimitiveSlotMention sm) throws Exception;
+	// protected abstract void addPrimitiveSlotMentionToWrappedMention(PrimitiveSlotMention sm)
+	// throws Exception;
 
 	// /**
 	// * Returns the unique names of all slotmentions
@@ -197,11 +211,13 @@ public abstract class ClassMention extends Mention implements IClassMention {
 	//
 	// public abstract PrimitiveSlotMention getSlotMentionByName(String slotMentionName);
 	//
-	// public abstract ComplexSlotMention getComplexSlotMentionByName(String complexSlotMentionName);
+	// public abstract ComplexSlotMention getComplexSlotMentionByName(String
+	// complexSlotMentionName);
 	//
 	// protected abstract ComplexSlotMention createComplexSlotMention(String slotMentionName);
 	//
-	// protected abstract PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValue);
+	// protected abstract PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName,
+	// Object slotValue);
 
 	@Override
 	public String getStringRepresentation(int indentLevel, boolean showReferencingAnnotationInfo) {
@@ -213,7 +229,8 @@ public abstract class ClassMention extends Mention implements IClassMention {
 	}
 
 	/**
-	 * Returns a compact representation of the referencing annotation: coveredText [spanStart..spanEnd]
+	 * Returns a compact representation of the referencing annotation: coveredText
+	 * [spanStart..spanEnd]
 	 * 
 	 * @return
 	 */
@@ -241,11 +258,11 @@ public abstract class ClassMention extends Mention implements IClassMention {
 	//
 	// return hashKey;
 	// }
-    
-    @Override
-    public int hashCode() {
-    	return getSingleLineRepresentation().hashCode();
-    }
+
+	@Override
+	public int hashCode() {
+		return getSingleLineRepresentation().hashCode();
+	}
 
 	/**
 	 * The default compareTo uses the IdenticalClassMentionComparator()

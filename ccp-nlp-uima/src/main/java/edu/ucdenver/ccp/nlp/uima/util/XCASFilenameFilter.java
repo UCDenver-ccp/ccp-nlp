@@ -34,13 +34,13 @@ import java.io.FilenameFilter;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class XCASFilenameFilter implements FilenameFilter {
-    public XCASFilenameFilter() {
-    }
-    
-    public boolean accept(File dir, String name) {
-        return name.endsWith("xcas");
-    }
+	public XCASFilenameFilter() {
+	}
+
+	public boolean accept(File dir, String name) {
+		return name.endsWith("xcas");
+	}
 }

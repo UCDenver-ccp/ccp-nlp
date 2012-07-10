@@ -59,10 +59,10 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultPrimitiveSlotMentionFactory
  */
 public class TextAnnotationUtil {
 	private static Logger logger = Logger.getLogger(TextAnnotationUtil.class);
-	
+
 	/**
-	 * Returns a collection of redundant text annotations from the input set of annotations. This method can be used
-	 * when filtering out duplicate annotations.
+	 * Returns a collection of redundant text annotations from the input set of annotations. This
+	 * method can be used when filtering out duplicate annotations.
 	 * 
 	 * @param inputAnnotations
 	 * @return
@@ -83,19 +83,19 @@ public class TextAnnotationUtil {
 	}
 
 	/**
-	 * This method loads annotations from a file. The file may have been created by <code>AnnotationToFileOutput</code>.
-	 * The input format for the file is one annotation per line: <br>
+	 * This method loads annotations from a file. The file may have been created by
+	 * <code>AnnotationToFileOutput</code>. The input format for the file is one annotation per
+	 * line: <br>
 	 * <br>
 	 * documentID|annotatorID|spanStart spanEnd|classMentionName|coveredText
 	 * 
 	 * @param annotationFile
 	 * @return
 	 */
-	public static Map<String, List<TextAnnotation>> loadAnnotationsFromFile(File annotationFile, CharacterEncoding encoding) throws IOException {
+	public static Map<String, List<TextAnnotation>> loadAnnotationsFromFile(File annotationFile,
+			CharacterEncoding encoding) throws IOException {
 		Map<String, List<TextAnnotation>> documentID2AnnotationsMap = new HashMap<String, List<TextAnnotation>>();
 
-		
-		
 		BufferedReader br = FileReaderUtil.initBufferedReader(annotationFile, encoding);
 		String line;
 		while ((line = br.readLine()) != null) {
@@ -108,8 +108,8 @@ public class TextAnnotationUtil {
 				e.printStackTrace();
 			}
 			/*
-			 * if the documentID is already in the Map, then add this textAnnotation to the List that is already stored,
-			 * otherwise create a new list and add it to the Map
+			 * if the documentID is already in the Map, then add this textAnnotation to the List
+			 * that is already stored, otherwise create a new list and add it to the Map
 			 */
 
 			if (documentID2AnnotationsMap.containsKey(ta.getDocumentID())) {
@@ -123,7 +123,7 @@ public class TextAnnotationUtil {
 		}
 		return documentID2AnnotationsMap;
 	}
-	
+
 	private static TextAnnotation getAnnotationFromLine(String line) {
 		String[] toks = line.split("\\|");
 		if (toks.length > 4) {
@@ -139,8 +139,8 @@ public class TextAnnotationUtil {
 			/* create a new text annotation */
 			TextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd);
 			ta.setDocumentID(documentID);
-//			ta.setAnnotationSpanEnd(spanEnd);
-//			ta.setAnnotationSpanStart(spanStart);
+			// ta.setAnnotationSpanEnd(spanEnd);
+			// ta.setAnnotationSpanStart(spanStart);
 			ta.setCoveredText(coveredText);
 
 			DefaultClassMention cm = new DefaultClassMention(annotationType);
@@ -157,8 +157,8 @@ public class TextAnnotationUtil {
 				for (int i = 5; i < toks.length; i += 2) {
 					String slotName = toks[i];
 					String[] slotValues = toks[i + 1].split(",");
-					PrimitiveSlotMention sm = DefaultPrimitiveSlotMentionFactory.createPrimitiveSlotMentionFromStringValue(slotName,
-							slotValues[0]);
+					PrimitiveSlotMention sm = DefaultPrimitiveSlotMentionFactory
+							.createPrimitiveSlotMentionFromStringValue(slotName, slotValues[0]);
 					// SlotMention sm = new SlotMention(slotName);
 					for (int k = 1; k < slotValues.length; k++) {
 						// for (String slotValue : slotValues) {
@@ -171,12 +171,12 @@ public class TextAnnotationUtil {
 
 			return ta;
 		} else {
-			logger.error("Expected at least 5 items on line in annotation file, but there were only: " + toks.length + "  LINE=" + line);
+			logger.error("Expected at least 5 items on line in annotation file, but there were only: " + toks.length
+					+ "  LINE=" + line);
 		}
 		return null;
 	}
 
-	
 	public static String printAnnotationToLine(TextAnnotation ta) {
 		StringBuffer outputStr = new StringBuffer();
 
@@ -206,8 +206,9 @@ public class TextAnnotationUtil {
 			coveredText = coveredText.substring(0, 99) + "...";
 		}
 		if (coveredText.contains("|")) {
-			logger.warn("Pipe '|' replaced with [PIPE] in covered text when storing annotation: " + outputStr.toString()
-					+ cm.getMentionName() + "|" + coveredText + "\nThis will likely have no downstream affect.");
+			logger.warn("Pipe '|' replaced with [PIPE] in covered text when storing annotation: "
+					+ outputStr.toString() + cm.getMentionName() + "|" + coveredText
+					+ "\nThis will likely have no downstream affect.");
 			coveredText = coveredText.replaceAll("\\|", "[PIPE]");
 		}
 		outputStr.append(cm.getMentionName() + "|" + coveredText);
@@ -257,9 +258,9 @@ public class TextAnnotationUtil {
 	}
 
 	/**
-	 * Removes duplicate annotations (based on identical span and slot fillers). All meta-data is ignored, e.g.
-	 * annotator, annotation set, etc except for the document ID and documentCollectionID. See TextAnnotation.equals()
-	 * for details.
+	 * Removes duplicate annotations (based on identical span and slot fillers). All meta-data is
+	 * ignored, e.g. annotator, annotation set, etc except for the document ID and
+	 * documentCollectionID. See TextAnnotation.equals() for details.
 	 * 
 	 * @param textAnnotations
 	 * @return
@@ -275,14 +276,14 @@ public class TextAnnotationUtil {
 		}
 		return annotationsToKeep;
 	}
-	
+
 	/**
 	 * Adds a slot value to a text annotation. If the slot is not present, it is created.
 	 * 
 	 * @param ta
 	 * @param slotName
 	 * @param slotValue
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static <E extends Object> void addSlotValue(TextAnnotation ta, String slotName, E slotValue) {
 		if (slotValue instanceof DefaultClassMention) {
@@ -302,10 +303,10 @@ public class TextAnnotationUtil {
 			}
 		}
 	}
-	
+
 	/**
-	 * This utility swaps annotation information from one <code>TextAnnotation</code> to another. The fields that are
-	 * transferred are:
+	 * This utility swaps annotation information from one <code>TextAnnotation</code> to another.
+	 * The fields that are transferred are:
 	 * <ul>
 	 * <li>annotation ID</li>
 	 * <li>annotator</li>
@@ -340,22 +341,21 @@ public class TextAnnotationUtil {
 		toTA.setSpans(spanList);
 
 	}
-	
-	
-	public static LinkedList<TextAnnotation> getTokens (Collection<TextAnnotation> annotations) {
-        LinkedList<TextAnnotation> newAnnotations = new LinkedList<TextAnnotation>();
-        for (TextAnnotation a : annotations) {
-            //System.out.println(a.getClassMention().getMentionName());
-            if (isTokenAnnotation(a)) {
-                newAnnotations.add(a);
-            }
-        }
-        return newAnnotations;
-    }
-	
-	public static boolean isTokenAnnotation (TextAnnotation a) {
-        //System.out.println(a.getClassMention().getMentionName());
-        return a.getClassMention().getMentionName().equals("token");
-    }
-	
+
+	public static LinkedList<TextAnnotation> getTokens(Collection<TextAnnotation> annotations) {
+		LinkedList<TextAnnotation> newAnnotations = new LinkedList<TextAnnotation>();
+		for (TextAnnotation a : annotations) {
+			// System.out.println(a.getClassMention().getMentionName());
+			if (isTokenAnnotation(a)) {
+				newAnnotations.add(a);
+			}
+		}
+		return newAnnotations;
+	}
+
+	public static boolean isTokenAnnotation(TextAnnotation a) {
+		// System.out.println(a.getClassMention().getMentionName());
+		return a.getClassMention().getMentionName().equals("token");
+	}
+
 }

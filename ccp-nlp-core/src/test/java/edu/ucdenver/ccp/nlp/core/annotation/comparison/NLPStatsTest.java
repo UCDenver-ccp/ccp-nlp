@@ -40,7 +40,7 @@ import org.junit.Test;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class NLPStatsTest {
 
@@ -81,8 +81,8 @@ public class NLPStatsTest {
 	@Test
 	public void testComputeFMeasureTPFPFN() {
 		assertEquals(2 * ((double) tp / ((double) tp + (double) fp)) * ((double) tp / ((double) tp + (double) fn))
-				/ (((double) tp / ((double) tp + (double) fp)) + ((double) tp / ((double) tp + (double) fn))), NLPStats.computeFMeasure(tp,
-				fp, fn), 0.0);
+				/ (((double) tp / ((double) tp + (double) fp)) + ((double) tp / ((double) tp + (double) fn))),
+				NLPStats.computeFMeasure(tp, fp, fn), 0.0);
 	}
 
 	@Test
@@ -98,7 +98,8 @@ public class NLPStatsTest {
 
 		String partialMatch = "the coefficient may be calculated for two strings, x and y using bigrams as follows.";
 		Set<String> partialMatchUniqueTokens = new HashSet<String>(Arrays.asList(partialMatch.split(" ")));
-		assertEquals((2.0 * 15.0) / (21.0 + 15.0), NLPStats.computeClassicDice(exampleSentenceUniqueTokens, partialMatchUniqueTokens), 0.0);
+		assertEquals((2.0 * 15.0) / (21.0 + 15.0),
+				NLPStats.computeClassicDice(exampleSentenceUniqueTokens, partialMatchUniqueTokens), 0.0);
 
 		String noMatch = "No match in this string.";
 		Set<String> noMatchUniqueTokens = new HashSet<String>(Arrays.asList(noMatch.split(" ")));

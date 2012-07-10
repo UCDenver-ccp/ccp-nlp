@@ -46,7 +46,7 @@ import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 
@@ -74,8 +74,8 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 
 	protected boolean hasWrappedAnnotation = false;
 
-//	protected ClassMention classMention;
-	
+	// protected ClassMention classMention;
+
 	public TextAnnotation(Object... wrappedObjectAndGlobalVars) {
 		if (wrappedObjectAndGlobalVars != null) {
 			hasWrappedAnnotation = true;
@@ -151,7 +151,8 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 	public abstract void setAnnotationSets(Set<AnnotationSet> annotationSets);
 
 	/**
-	 * Return true if this TextAnnotation is a member of the inputed annotation set, false otherwise.
+	 * Return true if this TextAnnotation is a member of the inputed annotation set, false
+	 * otherwise.
 	 * 
 	 * @param annotationSetID
 	 * @return
@@ -162,6 +163,7 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 
 	/**
 	 * Returns an annotation commment that is specific to this annotation
+	 * 
 	 * @return
 	 */
 	public abstract String getAnnotationComment();
@@ -172,8 +174,7 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 	 * @param comment
 	 */
 	public abstract void setAnnotationComment(String comment);
-	
-	
+
 	/**
 	 * Get the annotation ID
 	 * 
@@ -264,7 +265,8 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 	public abstract void setSpan(Span span);
 
 	/**
-	 * Add a span to this TextAnnotation. The span will be placed in the proper position in the ordered span list.
+	 * Add a span to this TextAnnotation. The span will be placed in the proper position in the
+	 * ordered span list.
 	 * 
 	 * @param span
 	 */
@@ -311,18 +313,19 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 	public abstract ClassMention getClassMention();
 
 	/**
-	 * When setting the classmention, the a reference to the text annotation is automatically created inside the
-	 * classMention object.
+	 * When setting the classmention, the a reference to the text annotation is automatically
+	 * created inside the classMention object.
 	 * 
 	 * @param classMention
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void setClassMention(ClassMention classMention) {
 		classMention.setTextAnnotation(this);
 	}
 
 	// /**
-	// * Return a String that can be used as a hashkey for this TextAnnotation - I wonder if this should be deprecated?!
+	// * Return a String that can be used as a hashkey for this TextAnnotation - I wonder if this
+	// should be deprecated?!
 	// *
 	// * @return
 	// */
@@ -335,7 +338,8 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 	// } catch (NullPointerException npe) {
 	//
 	// }
-	// String key = Integer.toString(this.getAnnotatorID()) + " " + mentionName + " " + this.getDocumentID() + " "
+	// String key = Integer.toString(this.getAnnotatorID()) + " " + mentionName + " " +
+	// this.getDocumentID() + " "
 	// + this.getDocumentSectionID() + " ";
 	// ArrayList<Span> spans = (ArrayList<Span>) this.getSpans();
 	// for (edu.uchsc.ccp.util.nlp.annotation.Span span : spans) {
@@ -367,12 +371,12 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 		}
 		sb.append("--- AnnotationSets: " + getSortedAnnotationSetsStr());
 		String commentStr = (getAnnotationComment() != null) ? getAnnotationComment() : "";
-			sb.append("\n--- Comment: " + commentStr + "\n");
+		sb.append("\n--- Comment: " + commentStr + "\n");
 		if (!showDocumentLevelAttributesOnly) {
 			String spansStr = getSpanStr();
 			sb.append("\n--- Span: " + spansStr + "\n");
-			sb.append("--- DocCollection: " + getDocumentCollectionID() + "  DocID: " + getDocumentID() + "  DocumentSection: "
-					+ getDocumentSectionID() + "\n");
+			sb.append("--- DocCollection: " + getDocumentCollectionID() + "  DocID: " + getDocumentID()
+					+ "  DocumentSection: " + getDocumentSectionID() + "\n");
 			sb.append("--- Covered Text: " + getCoveredText() + "\n");
 			if (deep) {
 				if (getClassMention() != null) {
@@ -397,15 +401,16 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 		}
 		return spansStr;
 	}
-	
-//	public String toDocumentLevelString() {
-//		boolean showDocumentLevelAttributesOnly = true;
-//		boolean deep = true;
-//		return getStringRepresentation(showDocumentLevelAttributesOnly, deep);
-//	}
+
+	// public String toDocumentLevelString() {
+	// boolean showDocumentLevelAttributesOnly = true;
+	// boolean deep = true;
+	// return getStringRepresentation(showDocumentLevelAttributesOnly, deep);
+	// }
 
 	/**
-	 * Returns a consistent (sorted) string representation of the annotation sets to which this text annotation belongs
+	 * Returns a consistent (sorted) string representation of the annotation sets to which this text
+	 * annotation belongs
 	 * 
 	 * @return
 	 */
@@ -457,7 +462,8 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 	}
 
 	/**
-	 * The default equals() method requires exact span match, as well as identical class mention match to return true.
+	 * The default equals() method requires exact span match, as well as identical class mention
+	 * match to return true.
 	 */
 	@Override
 	public boolean equals(Object textAnnotationToEquate) {
@@ -475,7 +481,8 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 	}
 
 	/**
-	 * Returns the total span of this annotation (i.e. from the start of the first span to the end of the last span)
+	 * Returns the total span of this annotation (i.e. from the start of the first span to the end
+	 * of the last span)
 	 */
 	public Span getAggregateSpan() {
 		try {
@@ -483,8 +490,9 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 			return totalSpan;
 		} catch (InvalidSpanException e) {
 			/*
-			 * This should never throw an exception since the spans will have been set previously. If it does throw an
-			 * exception here, then the sorting mechanism for the spans is most likely to blame.
+			 * This should never throw an exception since the spans will have been set previously.
+			 * If it does throw an exception here, then the sorting mechanism for the spans is most
+			 * likely to blame.
 			 */
 			e.printStackTrace();
 			return null;
@@ -492,7 +500,8 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 	}
 
 	/**
-	 * returns true if the total span of this TextAnnotation overlaps with the total span of the input TextAnnotation
+	 * returns true if the total span of this TextAnnotation overlaps with the total span of the
+	 * input TextAnnotation
 	 * 
 	 * @return
 	 */
@@ -506,11 +515,13 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 
 	@Override
 	public int hashCode() {
-		return (getSpanStr() + getDocumentCollectionID() + getDocumentID() + getClassMention().toDocumentLevelString()).hashCode();
+		return (getSpanStr() + getDocumentCollectionID() + getDocumentID() + getClassMention().toDocumentLevelString())
+				.hashCode();
 	}
 
 	/**
-	 * Return the length of this TextAnnotation. This method returns the length of the aggregate span.
+	 * Return the length of this TextAnnotation. This method returns the length of the aggregate
+	 * span.
 	 * 
 	 * @return
 	 */
@@ -527,24 +538,28 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 		return new Comparator<TextAnnotation>() {
 			public int compare(TextAnnotation ta1, TextAnnotation ta2) {
 				if (ta1.getSpans().size() > 0 && ta2.getSpans().size() > 0) {
-				return new StrictSpanComparator().compare(ta1.getAggregateSpan(), ta2.getAggregateSpan());
+					return new StrictSpanComparator().compare(ta1.getAggregateSpan(), ta2.getAggregateSpan());
 				} else {
 					Span ta1Span = null;
 					Span ta2Span = null;
 					try {
-					ta1Span = new Span(0,0);
-					if (ta1.getSpans().size()> 0) {
-						ta1Span = ta1.getAggregateSpan();
-					} else {
-						logger.warn(String.format("Spanless annotation detected during TextAnnotation.BY_SPAN comparison. Type=%s",ta1.getClassMention().getMentionName()));	
-					}
-					ta2Span = new Span(0,0);
-					if (ta2.getSpans().size() > 0) {
-						ta2Span = ta2.getAggregateSpan();
-					} else {
-						logger.warn(String.format("Spanless annotation detected during TextAnnotation.BY_SPAN comparison. Type=%s",ta2.getClassMention().getMentionName()));
-					}
-					} catch(InvalidSpanException ise) {
+						ta1Span = new Span(0, 0);
+						if (ta1.getSpans().size() > 0) {
+							ta1Span = ta1.getAggregateSpan();
+						} else {
+							logger.warn(String.format(
+									"Spanless annotation detected during TextAnnotation.BY_SPAN comparison. Type=%s",
+									ta1.getClassMention().getMentionName()));
+						}
+						ta2Span = new Span(0, 0);
+						if (ta2.getSpans().size() > 0) {
+							ta2Span = ta2.getAggregateSpan();
+						} else {
+							logger.warn(String.format(
+									"Spanless annotation detected during TextAnnotation.BY_SPAN comparison. Type=%s",
+									ta2.getClassMention().getMentionName()));
+						}
+					} catch (InvalidSpanException ise) {
 						ise.printStackTrace();
 					}
 					return new StrictSpanComparator().compare(ta1Span, ta2Span);
@@ -552,34 +567,34 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 			}
 		};
 	}
-	
-//	/**
-//	 * Creates a comparator for CCPTextAnnotations based on the span of each annotation.
-//	 *
-//	 * @param <T>
-//	 * @return
-//	 */
-//	 public static Comparator<TextAnnotation> BY_SPAN222() {
-//	
-//	 return new Comparator<TextAnnotation>() {
-//	
-//	 public int compare(TextAnnotation ccpTA1, TextAnnotation ccpTA2) {
-//	
-//	 Integer spanStart1 = ccpTA1.getAggregateSpan().getSpanStart();
-//	 Integer spanStart2 = ccpTA2.getAggregateSpan().getSpanStart();
-//	
-//	 int result = spanStart1.compareTo(spanStart2);
-//	
-//	 if (result == 0) {
-//	 Integer spanEnd1 = ccpTA1.getAggregateSpan().getSpanEnd();
-//	 Integer spanEnd2 = ccpTA2.getAggregateSpan().getSpanEnd();
-//	 return spanEnd1.compareTo(spanEnd2);
-//	 } else {
-//	 return result;
-//	 }
-//	 }
-//	 };
-//	 }
+
+	// /**
+	// * Creates a comparator for CCPTextAnnotations based on the span of each annotation.
+	// *
+	// * @param <T>
+	// * @return
+	// */
+	// public static Comparator<TextAnnotation> BY_SPAN222() {
+	//
+	// return new Comparator<TextAnnotation>() {
+	//
+	// public int compare(TextAnnotation ccpTA1, TextAnnotation ccpTA2) {
+	//
+	// Integer spanStart1 = ccpTA1.getAggregateSpan().getSpanStart();
+	// Integer spanStart2 = ccpTA2.getAggregateSpan().getSpanStart();
+	//
+	// int result = spanStart1.compareTo(spanStart2);
+	//
+	// if (result == 0) {
+	// Integer spanEnd1 = ccpTA1.getAggregateSpan().getSpanEnd();
+	// Integer spanEnd2 = ccpTA2.getAggregateSpan().getSpanEnd();
+	// return spanEnd1.compareTo(spanEnd2);
+	// } else {
+	// return result;
+	// }
+	// }
+	// };
+	// }
 
 	public abstract Object getWrappedObject();
 }

@@ -32,8 +32,8 @@ package edu.ucdenver.ccp.nlp.core.mention.comparison;
 import edu.ucdenver.ccp.nlp.core.mention.Mention;
 
 /**
- * The IdenticalMentionComparator enforces a strict comparison of mention names. The mention names must be identical
- * (although it is not case-sensitive).
+ * The IdenticalMentionComparator enforces a strict comparison of mention names. The mention names
+ * must be identical (although it is not case-sensitive).
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
@@ -41,7 +41,8 @@ import edu.ucdenver.ccp.nlp.core.mention.Mention;
 public class IdenticalMentionComparator extends MentionComparator {
 
 	/**
-	 * Compare the mention names for the two mentions. If they are identical, return true, else return false;
+	 * Compare the mention names for the two mentions. If they are identical, return true, else
+	 * return false;
 	 */
 	public boolean hasEquivalentMentionNames(Mention mention1, Mention mention2) {
 		return mention1.getMentionName().equalsIgnoreCase(mention2.getMentionName());

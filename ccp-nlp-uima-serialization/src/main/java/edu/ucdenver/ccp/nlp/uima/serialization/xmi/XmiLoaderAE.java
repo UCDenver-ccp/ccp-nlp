@@ -136,8 +136,8 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	private String documentMetadataHandlerClassName;
 
 	/**
-	 * this {@link DocumentMetadataHandler} will be initialized based on the class name specified
-	 * by the documentMetadataExtractorClassName parameter
+	 * this {@link DocumentMetadataHandler} will be initialized based on the class name specified by
+	 * the documentMetadataExtractorClassName parameter
 	 */
 	private DocumentMetadataHandler documentMetaDataHandler;
 

@@ -36,11 +36,10 @@ import org.apache.uima.jcas.JCas;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class View_Util {
 
-	
 	/**
 	 * Helper method that will retrieve a view with a given name. If the view does not exist, then
 	 * it is created.
@@ -62,9 +61,8 @@ public class View_Util {
 
 	/**
 	 * This method returns the proper view in the case of defaults. If the view name is "default"
-	 * then the main jcas itself is returned. If the view name is something other than
-	 * "default" then the correct view is returned, or created then returned if it doesn't already
-	 * exist.  
+	 * then the main jcas itself is returned. If the view name is something other than "default"
+	 * then the correct view is returned, or created then returned if it doesn't already exist.
 	 * 
 	 * @return
 	 * @throws CASException
@@ -72,8 +70,8 @@ public class View_Util {
 	public static JCas getViewHandleDefault(JCas jcas, String viewName) throws CASException {
 		if (viewName.equalsIgnoreCase(View.DEFAULT.name()))
 			viewName = View.DEFAULT.viewName();
-		
+
 		return View_Util.getView(jcas, viewName);
 	}
-	
+
 }

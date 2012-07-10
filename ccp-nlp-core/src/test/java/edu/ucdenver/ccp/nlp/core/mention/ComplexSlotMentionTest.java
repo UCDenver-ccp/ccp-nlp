@@ -49,7 +49,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class ComplexSlotMentionTest {
 
@@ -58,7 +58,8 @@ public class ComplexSlotMentionTest {
 	private ComplexSlotMention complexSlotMention2;
 
 	/**
-	 * To test the ComplexSlotMention class, we will make use of some test annotations, in particular this one: <br>
+	 * To test the ComplexSlotMention class, we will make use of some test annotations, in
+	 * particular this one: <br>
 	 * 
 	 * <pre>
 	 *     ======================= Annotation: -10 =======================
@@ -91,7 +92,8 @@ public class ComplexSlotMentionTest {
 	}
 
 	/**
-	 * Test that the constructor sets the mention name and initializes storage for the class mentions
+	 * Test that the constructor sets the mention name and initializes storage for the class
+	 * mentions
 	 * 
 	 * @throws Exception
 	 */
@@ -138,10 +140,16 @@ public class ComplexSlotMentionTest {
 	 */
 	@Test
 	public void testEquals() throws Exception {
-		/* the transport location and transport participants complex slot mentions should not return true */
+		/*
+		 * the transport location and transport participants complex slot mentions should not return
+		 * true
+		 */
 		assertFalse(complexSlotMention2.equals(complexSlotMention));
 		assertFalse(complexSlotMention.equals(complexSlotMention2));
-		/* the transport location and transport participants complex slot mentions should equal themselves */
+		/*
+		 * the transport location and transport participants complex slot mentions should equal
+		 * themselves
+		 */
 		assertTrue(complexSlotMention2.equals(complexSlotMention2));
 		assertTrue(complexSlotMention.equals(complexSlotMention));
 
@@ -151,14 +159,18 @@ public class ComplexSlotMentionTest {
 
 		/* create the nucleus annotation */
 		Annotator annotator1 = new Annotator(new Integer(-30), "Test Annotator", "#1", "CCP");
-		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
+		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
+				"This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
-		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, -11, -1, "1234", 0,
-				nucleusMention);
+		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, -11,
+				-1, "1234", 0, nucleusMention);
 
 		DefaultComplexSlotMention csm = new DefaultComplexSlotMention("transport location");
-		/* test that equals() returns false for csm's with identical mention names but unequal number of class mentions */
+		/*
+		 * test that equals() returns false for csm's with identical mention names but unequal
+		 * number of class mentions
+		 */
 		assertFalse(csm.equals(complexSlotMention2));
 		csm.addClassMention(nucleusMention);
 		/* test that equals() returns true for identical csm's */

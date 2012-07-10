@@ -100,8 +100,7 @@ public class ClasspathCollectionReaderTest extends DefaultTestCase {
 
 		assertFalse(jCasIterable.hasNext());
 	}
-	
-	
+
 	@Test
 	public void testClasspathCollectionReader_SkippingAll() throws UIMAException, IOException {
 		int numToSkip = 4;
@@ -113,7 +112,7 @@ public class ClasspathCollectionReaderTest extends DefaultTestCase {
 
 		assertFalse(jCasIterable.hasNext());
 	}
-	
+
 	@Test
 	public void testClasspathCollectionReader_ProcessTwo() throws UIMAException, IOException {
 		int numToSkip = 0;
@@ -133,5 +132,5 @@ public class ClasspathCollectionReaderTest extends DefaultTestCase {
 
 		assertFalse(jCasIterable.hasNext());
 	}
-	
+
 }

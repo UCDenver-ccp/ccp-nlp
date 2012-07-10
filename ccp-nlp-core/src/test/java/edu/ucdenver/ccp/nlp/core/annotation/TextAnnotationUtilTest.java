@@ -45,7 +45,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class TextAnnotationUtilTest {
 	@Test
@@ -65,14 +65,14 @@ public class TextAnnotationUtilTest {
 		Collection<TextAnnotation> annotations = new ArrayList<TextAnnotation>();
 
 		ClassMention cm1 = new DefaultClassMention("protein");
-		TextAnnotation ta1 = new DefaultTextAnnotation(0, 5, "ABC1", annotator1, annotationSet1, annotationID1, documentCollectionID,
-				documentID, documentSectionID, cm1);
+		TextAnnotation ta1 = new DefaultTextAnnotation(0, 5, "ABC1", annotator1, annotationSet1, annotationID1,
+				documentCollectionID, documentID, documentSectionID, cm1);
 		ClassMention cm2 = new DefaultClassMention("protein");
-		TextAnnotation ta2 = new DefaultTextAnnotation(8, 15, "protein34", annotator1, annotationSet1, annotationID1, documentCollectionID,
-				documentID, documentSectionID, cm2);
+		TextAnnotation ta2 = new DefaultTextAnnotation(8, 15, "protein34", annotator1, annotationSet1, annotationID1,
+				documentCollectionID, documentID, documentSectionID, cm2);
 		ClassMention cm3 = new DefaultClassMention("protein");
-		TextAnnotation ta3 = new DefaultTextAnnotation(10, 15, "blahblah", annotator1, annotationSet1, annotationID1, documentCollectionID,
-				documentID, documentSectionID, cm3);
+		TextAnnotation ta3 = new DefaultTextAnnotation(10, 15, "blahblah", annotator1, annotationSet1, annotationID1,
+				documentCollectionID, documentID, documentSectionID, cm3);
 
 		Collection<TextAnnotation> redundantAnnotations = TextAnnotationUtil.getRedundantAnnotations(annotations);
 		assertEquals(0, redundantAnnotations.size());
@@ -83,18 +83,18 @@ public class TextAnnotationUtilTest {
 		assertEquals(0, redundantAnnotations.size());
 
 		ClassMention cm0 = new DefaultClassMention("protein");
-		TextAnnotation ta0 = new DefaultTextAnnotation(0, 5, "ABC1", annotator1, annotationSet1, annotationID1, documentCollectionID,
-				documentID, documentSectionID, cm0);
+		TextAnnotation ta0 = new DefaultTextAnnotation(0, 5, "ABC1", annotator1, annotationSet1, annotationID1,
+				documentCollectionID, documentID, documentSectionID, cm0);
 		annotations.add(ta0);
-		
+
 		redundantAnnotations = TextAnnotationUtil.getRedundantAnnotations(annotations);
 		assertEquals(1, redundantAnnotations.size());
-		
+
 		ClassMention cm4 = new DefaultClassMention("protein");
-		TextAnnotation redundantTa1 = new DefaultTextAnnotation(0, 5, "ABC1", annotator2, annotationSet2, annotationID2,
-				documentCollectionID, documentID, documentSectionID, cm4);
+		TextAnnotation redundantTa1 = new DefaultTextAnnotation(0, 5, "ABC1", annotator2, annotationSet2,
+				annotationID2, documentCollectionID, documentID, documentSectionID, cm4);
 		annotations.add(redundantTa1);
-		
+
 		assertEquals(3, annotations.size());
 
 		assertTrue(redundantTa1.equals(ta0));
@@ -103,35 +103,34 @@ public class TextAnnotationUtilTest {
 		redundantAnnotations = TextAnnotationUtil.getRedundantAnnotations(annotations);
 		assertEquals(2, redundantAnnotations.size());
 
-				
-		 annotations.add(ta2);
-		 annotations.add(ta3);
-		 redundantAnnotations = TextAnnotationUtil.getRedundantAnnotations(annotations);
-			assertEquals(2, redundantAnnotations.size());
-				
-		 ClassMention cm5 = new DefaultClassMention("protein");
-		 TextAnnotation redundantTa2 = new DefaultTextAnnotation(8,15,"protein34",annotator1,
-		 annotationSet1,annotationID1,documentCollectionID,documentID, documentSectionID,cm5);
-		 ClassMention cm6 = new DefaultClassMention("protein");
-		 TextAnnotation redundantTa3 = new DefaultTextAnnotation(10,15,"blahblah",annotator1,
-		 annotationSet1,annotationID1,documentCollectionID,documentID, documentSectionID,cm6);
-		
-		 annotations.add(redundantTa2);
-		 annotations.add(redundantTa3);
-				
-		 redundantAnnotations = TextAnnotationUtil.getRedundantAnnotations(annotations);
-		 assertEquals(4, redundantAnnotations.size());
-				
-		 ClassMention cm7 = new DefaultClassMention("protein");
-		 PrimitiveSlotMention<String> sm = new DefaultStringSlotMention("slot1");
-		 sm.addSlotValue("slot value 1");
-		 cm7.addPrimitiveSlotMention(sm);
-		 TextAnnotation almostRedundantTa3 = new DefaultTextAnnotation(10,15,"blahblah",annotator1,
-		 annotationSet1,annotationID1,documentCollectionID,documentID, documentSectionID,cm7);
-		 annotations.add(almostRedundantTa3);
-				
-		 redundantAnnotations = TextAnnotationUtil.getRedundantAnnotations(annotations);
-		 assertEquals(4, redundantAnnotations.size());
-				
+		annotations.add(ta2);
+		annotations.add(ta3);
+		redundantAnnotations = TextAnnotationUtil.getRedundantAnnotations(annotations);
+		assertEquals(2, redundantAnnotations.size());
+
+		ClassMention cm5 = new DefaultClassMention("protein");
+		TextAnnotation redundantTa2 = new DefaultTextAnnotation(8, 15, "protein34", annotator1, annotationSet1,
+				annotationID1, documentCollectionID, documentID, documentSectionID, cm5);
+		ClassMention cm6 = new DefaultClassMention("protein");
+		TextAnnotation redundantTa3 = new DefaultTextAnnotation(10, 15, "blahblah", annotator1, annotationSet1,
+				annotationID1, documentCollectionID, documentID, documentSectionID, cm6);
+
+		annotations.add(redundantTa2);
+		annotations.add(redundantTa3);
+
+		redundantAnnotations = TextAnnotationUtil.getRedundantAnnotations(annotations);
+		assertEquals(4, redundantAnnotations.size());
+
+		ClassMention cm7 = new DefaultClassMention("protein");
+		PrimitiveSlotMention<String> sm = new DefaultStringSlotMention("slot1");
+		sm.addSlotValue("slot value 1");
+		cm7.addPrimitiveSlotMention(sm);
+		TextAnnotation almostRedundantTa3 = new DefaultTextAnnotation(10, 15, "blahblah", annotator1, annotationSet1,
+				annotationID1, documentCollectionID, documentID, documentSectionID, cm7);
+		annotations.add(almostRedundantTa3);
+
+		redundantAnnotations = TextAnnotationUtil.getRedundantAnnotations(annotations);
+		assertEquals(4, redundantAnnotations.size());
+
 	}
 }

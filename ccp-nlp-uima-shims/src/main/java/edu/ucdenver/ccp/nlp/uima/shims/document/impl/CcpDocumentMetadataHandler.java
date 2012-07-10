@@ -49,7 +49,7 @@ public class CcpDocumentMetadataHandler implements DocumentMetadataHandler {
 	 */
 	@Override
 	public String extractDocumentEncoding(JCas jCas) {
-//		return CharacterEncoding.UTF_8.getCharacterSetName();
+		// return CharacterEncoding.UTF_8.getCharacterSetName();
 		return UIMA_Util.getDocumentEncoding(jCas).getCharacterSetName();
 	}
 
@@ -61,16 +61,24 @@ public class CcpDocumentMetadataHandler implements DocumentMetadataHandler {
 		return UIMA_Util.getDocumentID(jCas);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#setDocumentId(org.apache.uima.jcas.JCas, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#setDocumentId(org.
+	 * apache.uima.jcas.JCas, java.lang.String)
 	 */
 	@Override
 	public void setDocumentId(JCas jCas, String documentId) {
 		UIMA_Util.setDocumentID(jCas, documentId);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#setDocumentEncoding(org.apache.uima.jcas.JCas, edu.ucdenver.ccp.common.file.CharacterEncoding)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#setDocumentEncoding
+	 * (org.apache.uima.jcas.JCas, edu.ucdenver.ccp.common.file.CharacterEncoding)
 	 */
 	@Override
 	public void setDocumentEncoding(JCas jCas, String encoding) {
@@ -78,14 +86,16 @@ public class CcpDocumentMetadataHandler implements DocumentMetadataHandler {
 		UIMA_Util.setDocumentEncoding(jCas, CharacterEncoding.valueOf(enc));
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#getMetaDataContainer(org.apache.uima.jcas.JCas)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#getMetaDataContainer
+	 * (org.apache.uima.jcas.JCas)
 	 */
 	@Override
 	public CCPDocumentInformation getMetaDataContainer(JCas jCas) {
 		return UIMA_Util.getDocumentInfo(jCas);
 	}
-	
-	
 
 }

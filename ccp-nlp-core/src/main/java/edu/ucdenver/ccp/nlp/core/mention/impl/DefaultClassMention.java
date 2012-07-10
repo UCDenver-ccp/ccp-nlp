@@ -42,7 +42,7 @@ import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class DefaultClassMention extends ClassMention {
 

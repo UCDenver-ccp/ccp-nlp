@@ -40,10 +40,9 @@ import org.junit.Test;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
-
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class SlotMentionTest {
 	private StringSlotMention slotMention;
@@ -93,7 +92,7 @@ public class SlotMentionTest {
 	// /* check that the first slot value is "value1" */
 	// assertEquals("value1", slotMention.getFirstSlotValue());
 	// }
-	//    
+	//
 	// /**
 	// * Set the first slot value of this slot mention.
 	// * @throws Exception
@@ -108,7 +107,7 @@ public class SlotMentionTest {
 	// assertEquals(1, sm.getSlotValues().size());
 	// /* check that the first slot value contains "first value" */
 	// assertEquals("first value", sm.getFirstSlotValue());
-	//        
+	//
 	// int valueCount = slotMention.getSlotValues().size();
 	// /* verify that the first slot value is not "first value" */
 	// assertNotSame("first value", slotMention.getFirstSlotValue());
@@ -117,7 +116,7 @@ public class SlotMentionTest {
 	// assertEquals(valueCount, slotMention.getSlotValues().size());
 	// /* check that the first slot value is now "first value" */
 	// assertEquals("first value", slotMention.getFirstSlotValue());
-	//        
+	//
 	// }
 	//
 	// /**

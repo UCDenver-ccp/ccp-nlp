@@ -44,7 +44,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class SpanTest {
 
@@ -63,23 +63,21 @@ public class SpanTest {
 		assertEquals(span1.getSpanEnd(), 12);
 	}
 
-	@Test (expected=InvalidSpanException.class)
+	@Test(expected = InvalidSpanException.class)
 	public void testInvalidSpanException() throws Exception {
-			new Span(11, 5);
+		new Span(11, 5);
 	}
 
-	@Test (expected=InvalidSpanException.class)
+	@Test(expected = InvalidSpanException.class)
 	public void testInvalidSpanException_negatives0() throws Exception {
-			new Span(-1, 5);
+		new Span(-1, 5);
 	}
 
-	
-	@Test (expected=InvalidSpanException.class)
+	@Test(expected = InvalidSpanException.class)
 	public void testInvalidSpanException_negatives1() throws Exception {
-			new Span(0, -5);
+		new Span(0, -5);
 	}
 
-	
 	@Test
 	public void testEquals() {
 		try {
@@ -98,26 +96,25 @@ public class SpanTest {
 		}
 	}
 
-	
 	@Test
-    public void testContains() {
-        try {
-            Span span1 = new Span(3, 8);
-            Span span2 = new Span(2, 9);
-            Span span3 = new Span(4, 9);
+	public void testContains() {
+		try {
+			Span span1 = new Span(3, 8);
+			Span span2 = new Span(2, 9);
+			Span span3 = new Span(4, 9);
 
-            assertFalse(span1.containsSpan(span2));
-            assertTrue(span2.containsSpan(span1));
-            assertTrue(span2.containsSpan(span3));
-            assertFalse(span3.containsSpan(span1));
-            assertTrue(span2.containsSpan(span3));
+			assertFalse(span1.containsSpan(span2));
+			assertTrue(span2.containsSpan(span1));
+			assertTrue(span2.containsSpan(span3));
+			assertFalse(span3.containsSpan(span1));
+			assertTrue(span2.containsSpan(span3));
 
-        } catch (InvalidSpanException e) {
-            e.printStackTrace();
-            fail("Test failed - invalid span exception.");
-        }
-    }
-	
+		} catch (InvalidSpanException e) {
+			e.printStackTrace();
+			fail("Test failed - invalid span exception.");
+		}
+	}
+
 	@Test
 	public void testOverlaps() {
 		try {
@@ -224,14 +221,16 @@ public class SpanTest {
 		List<Span> spanList = new ArrayList<Span>();
 		String spanListStr = Span.toString(spanList);
 		String expectedSpanListStr = "[]";
-		assertEquals(String.format("Input of an empty list should result in return of '[]'"), expectedSpanListStr, spanListStr);
+		assertEquals(String.format("Input of an empty list should result in return of '[]'"), expectedSpanListStr,
+				spanListStr);
 
-		spanList.add(new Span(3,7));
-		spanList.add(new Span(12,46));
-		spanList.add(new Span(57,88));
+		spanList.add(new Span(3, 7));
+		spanList.add(new Span(12, 46));
+		spanList.add(new Span(57, 88));
 		spanListStr = Span.toString(spanList);
 		expectedSpanListStr = "[3..7]_[12..46]_[57..88]";
-		assertEquals(String.format("Expected a listing of individual spans delimited by underscores."), expectedSpanListStr, spanListStr);
+		assertEquals(String.format("Expected a listing of individual spans delimited by underscores."),
+				expectedSpanListStr, spanListStr);
 	}
-	
+
 }

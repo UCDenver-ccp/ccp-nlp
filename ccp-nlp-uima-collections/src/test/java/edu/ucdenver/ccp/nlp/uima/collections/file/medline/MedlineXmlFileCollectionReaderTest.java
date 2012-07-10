@@ -81,8 +81,8 @@ public class MedlineXmlFileCollectionReaderTest extends DefaultTestCase {
 			assertEquals(documentText, jCas.getDocumentText());
 			count++;
 		}
-		
+
 		assertFalse(jCasIterable.hasNext());
 	}
-	
+
 }

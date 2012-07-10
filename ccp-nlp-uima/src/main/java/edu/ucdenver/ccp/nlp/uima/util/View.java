@@ -38,7 +38,11 @@ import org.apache.uima.cas.CAS;
  * 
  */
 public enum View {
-	DEFAULT(CAS.NAME_DEFAULT_SOFA), RAW("rawView"), XML("xmlView"), HTML("htmlView"), GOLD_STANDARD("goldStandardView");
+	DEFAULT(CAS.NAME_DEFAULT_SOFA),
+	RAW("rawView"),
+	XML("xmlView"),
+	HTML("htmlView"),
+	GOLD_STANDARD("goldStandardView");
 
 	private final String viewName;
 
@@ -49,6 +53,7 @@ public enum View {
 	public String viewName() {
 		return viewName;
 	}
+
 	public String toString() {
 		return viewName;
 	}

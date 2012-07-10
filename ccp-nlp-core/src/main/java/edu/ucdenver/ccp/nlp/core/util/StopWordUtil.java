@@ -33,10 +33,9 @@ import java.util.List;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 
-
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class StopWordUtil {
 

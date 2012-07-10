@@ -54,12 +54,12 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class WrappedCCPClassMention extends ClassMention {
 
 	public WrappedCCPClassMention(CCPClassMention ccpCM) {
-		super( ccpCM);
+		super(ccpCM);
 	}
 
 	private static Logger logger = Logger.getLogger(WrappedCCPClassMention.class);
@@ -67,10 +67,10 @@ public class WrappedCCPClassMention extends ClassMention {
 	private CCPClassMention wrappedCM;
 	private JCas jcas;
 
-//	@Override
-//	protected void setWrappedObjectMentionID(long mentionID) {
-//		wrappedCM.setMentionID(mentionID);
-//	}
+	// @Override
+	// protected void setWrappedObjectMentionID(long mentionID) {
+	// wrappedCM.setMentionID(mentionID);
+	// }
 
 	@Override
 	public CCPClassMention getWrappedObject() {
@@ -86,8 +86,8 @@ public class WrappedCCPClassMention extends ClassMention {
 			} catch (CASException e) {
 				throw new RuntimeException(e);
 			}
-			
-//			mentionName = wrappedCM.getMentionName();
+
+			// mentionName = wrappedCM.getMentionName();
 		} else {
 			throw new KnowledgeRepresentationWrapperException("Expected CCPClassMention. Cannot wrap a "
 					+ wrappedObjectPlustGlobalVars.getClass().getName() + " with this class.");
@@ -234,12 +234,11 @@ public class WrappedCCPClassMention extends ClassMention {
 		}
 	}
 
-//	@Override
-//	protected void initializeMention() {
-//		// do nothing
-//	}
+	// @Override
+	// protected void initializeMention() {
+	// // do nothing
+	// }
 
-	
 	@Override
 	public long getMentionID() {
 		return wrappedCM.getMentionID();
@@ -247,33 +246,32 @@ public class WrappedCCPClassMention extends ClassMention {
 
 	@Override
 	public String getMentionName() {
-	return wrappedCM.getMentionName();
+		return wrappedCM.getMentionName();
 	}
 
 	@Override
 	public void setMentionID(long mentionID) {
-wrappedCM.setMentionID(mentionID);
-}
+		wrappedCM.setMentionID(mentionID);
+	}
 
 	@Override
 	protected void setMentionName(String mentionName) {
-wrappedCM.setMentionName(mentionName);
+		wrappedCM.setMentionName(mentionName);
 	}
-	
 
-//	@Override
-//	protected Long getMentionIDForTraversal(int traversalID) {
-//		return UIMA_Util.getMentionIDForTraversal(wrappedCM, traversalID);
-//	}
-//
-//	@Override
-//	protected void removeMentionIDForTraversal(int traversalID) {
-//		UIMA_Util.removeMentionIDForTraversal(wrappedCM, traversalID, jcas);
-//	}
-//
-//	@Override
-//	protected void setMentionIDForTraversal(long mentionID, int traversalID) {
-//		UIMA_Util.setMentionIDForTraversal(wrappedCM, mentionID, traversalID, jcas);
-//	}
+	// @Override
+	// protected Long getMentionIDForTraversal(int traversalID) {
+	// return UIMA_Util.getMentionIDForTraversal(wrappedCM, traversalID);
+	// }
+	//
+	// @Override
+	// protected void removeMentionIDForTraversal(int traversalID) {
+	// UIMA_Util.removeMentionIDForTraversal(wrappedCM, traversalID, jcas);
+	// }
+	//
+	// @Override
+	// protected void setMentionIDForTraversal(long mentionID, int traversalID) {
+	// UIMA_Util.setMentionIDForTraversal(wrappedCM, mentionID, traversalID, jcas);
+	// }
 
 }

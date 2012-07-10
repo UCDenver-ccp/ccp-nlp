@@ -42,8 +42,8 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 public interface ISentenceDetector extends ITagger {
 
 	/**
-	 * Given some input text and a document ID, return a list of TextAnnotation objects representing sentences within
-	 * the input text.
+	 * Given some input text and a document ID, return a list of TextAnnotation objects representing
+	 * sentences within the input text.
 	 * 
 	 * @param inputText
 	 * @param documentID
@@ -51,5 +51,6 @@ public interface ISentenceDetector extends ITagger {
 	 */
 	// public List<TextAnnotation> getSentencesFromText(String inputText, String documentID);
 	public List<TextAnnotation> getSentencesFromText(String inputText);
+
 	public List<TextAnnotation> getSentencesFromText(int characterOffset, String inputText);
 }

@@ -42,14 +42,15 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 public interface IEntityTagger extends ITagger {
 
 	/**
-	 * Given some input text and a document ID, return a list of TextAnnotation objects representing named entities
-	 * within the input text.
+	 * Given some input text and a document ID, return a list of TextAnnotation objects representing
+	 * named entities within the input text.
 	 * 
 	 * @param inputText
 	 * @param documentID
 	 * @return
 	 */
 	public List<TextAnnotation> getEntitiesFromText(String inputText, String documentID);
+
 	public void shutdown();
 
 	// public List<TextAnnotation> getEntitiesFromText(String inputText);

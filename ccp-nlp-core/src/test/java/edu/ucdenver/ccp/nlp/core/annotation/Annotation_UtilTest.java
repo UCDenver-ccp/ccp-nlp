@@ -66,7 +66,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class Annotation_UtilTest extends DefaultTestCase {
 	public static final String NO_SLOTS_DOCUMENT_ID = "documentID=4";

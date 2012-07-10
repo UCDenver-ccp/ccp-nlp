@@ -50,14 +50,14 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class XCasUtil {
 
 	public static GenericDocument loadXCasFile(File xcasFile) throws UIMAException, FileNotFoundException {
 		return loadXCasFile(new FileInputStream(xcasFile));
 	}
-	
+
 	/**
 	 * Loads the input XCas file and returns a GenericDocument containing the document text and all
 	 * annotations.
@@ -66,28 +66,27 @@ public class XCasUtil {
 	 * @return
 	 */
 	public static GenericDocument loadXCasFile(InputStream xcasStream) throws UIMAException {
-			TypeSystemDescription tsd = TypeSystemDescriptionFactory
-					.createTypeSystemDescription("edu.uchsc.ccp.uima.CCPTypeSystem");
-			JCas jcas = JCasFactory.createJCas(tsd);
-			try {
-				XCASDeserializer.deserialize(xcasStream, jcas.getCas());
-			} catch (SAXException e) {
-				throw new UIMAException(e);
-			} catch (IOException e) {
-				throw new UIMAException(e);
-			}
+		TypeSystemDescription tsd = TypeSystemDescriptionFactory
+				.createTypeSystemDescription("edu.uchsc.ccp.uima.CCPTypeSystem");
+		JCas jcas = JCasFactory.createJCas(tsd);
+		try {
+			XCASDeserializer.deserialize(xcasStream, jcas.getCas());
+		} catch (SAXException e) {
+			throw new UIMAException(e);
+		} catch (IOException e) {
+			throw new UIMAException(e);
+		}
 
-			GenericDocument gd = new GenericDocument();
-			UIMA_Util.swapDocumentInfo(jcas, gd);
+		GenericDocument gd = new GenericDocument();
+		UIMA_Util.swapDocumentInfo(jcas, gd);
 
-			int numAnnotationsInGenericDocument = gd.getAnnotations().size();
-			int numAnnotationsInJCas = jcas.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type).size();
-			assert numAnnotationsInGenericDocument == numAnnotationsInJCas : String
-					.format(
-							"Number of annotations in jcas not equal to the number of annotations in the generic document. %d != %d",
-							numAnnotationsInJCas, numAnnotationsInGenericDocument);
+		int numAnnotationsInGenericDocument = gd.getAnnotations().size();
+		int numAnnotationsInJCas = jcas.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type).size();
+		assert numAnnotationsInGenericDocument == numAnnotationsInJCas : String
+				.format("Number of annotations in jcas not equal to the number of annotations in the generic document. %d != %d",
+						numAnnotationsInJCas, numAnnotationsInGenericDocument);
 
-			return gd;
+		return gd;
 	}
 
 	/**

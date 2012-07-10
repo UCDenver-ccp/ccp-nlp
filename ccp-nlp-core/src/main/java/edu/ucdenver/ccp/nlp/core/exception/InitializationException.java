@@ -31,7 +31,7 @@ package edu.ucdenver.ccp.nlp.core.exception;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class InitializationException extends Exception {
 
@@ -40,7 +40,7 @@ public class InitializationException extends Exception {
 	public InitializationException(String s) {
 		super(s);
 	}
-	
+
 	public InitializationException(Exception x) {
 		super(x);
 	}

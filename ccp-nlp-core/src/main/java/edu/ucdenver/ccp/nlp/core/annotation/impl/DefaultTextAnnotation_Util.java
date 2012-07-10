@@ -29,7 +29,6 @@
  */
 package edu.ucdenver.ccp.nlp.core.annotation.impl;
 
-
 import org.apache.log4j.Logger;
 
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
@@ -52,8 +51,8 @@ public class DefaultTextAnnotation_Util {
 	public final static String UNKNOWN_TAGSET = "Unknown";
 
 	/**
-	 * Given a part of speech label, stem, lemma, and token number, create a <code>ClassMention</code> that represents a
-	 * token.
+	 * Given a part of speech label, stem, lemma, and token number, create a
+	 * <code>ClassMention</code> that represents a token.
 	 * 
 	 * @param posLabel
 	 *            part of speech label
@@ -66,8 +65,8 @@ public class DefaultTextAnnotation_Util {
 	 * @return a <code>ClassMention</code> representing a token
 	 * @throws InvalidInputException
 	 */
-	public static DefaultClassMention createTokenMention(String posLabel, String posTagSet, String stem, String lemma, Integer tokenNumber)
-			throws InvalidInputException {
+	public static DefaultClassMention createTokenMention(String posLabel, String posTagSet, String stem, String lemma,
+			Integer tokenNumber) throws InvalidInputException {
 		DefaultClassMention cm = new DefaultClassMention(ClassMentionType.TOKEN.typeName());
 
 		if (posLabel != null) {
@@ -106,7 +105,8 @@ public class DefaultTextAnnotation_Util {
 		return cm;
 	}
 
-	public static DefaultClassMention createPhraseMention(String phraseTypeLabel, String tagSet) throws InvalidInputException {
+	public static DefaultClassMention createPhraseMention(String phraseTypeLabel, String tagSet)
+			throws InvalidInputException {
 		DefaultClassMention cm = new DefaultClassMention(ClassMentionType.PHRASE.typeName());
 
 		if (phraseTypeLabel != null) {
@@ -125,7 +125,8 @@ public class DefaultTextAnnotation_Util {
 		return cm;
 	}
 
-	public static DefaultClassMention createClauseMention(String clauseTypeLabel, String tagSet) throws InvalidInputException {
+	public static DefaultClassMention createClauseMention(String clauseTypeLabel, String tagSet)
+			throws InvalidInputException {
 		DefaultClassMention cm = new DefaultClassMention(ClassMentionType.CLAUSE.typeName());
 
 		if (clauseTypeLabel != null) {
@@ -143,10 +144,9 @@ public class DefaultTextAnnotation_Util {
 		return cm;
 	}
 
-	
-
 	// /**
-	// * For a give <code>TextAnnotation</code> return a list of the slot values for a given slot. The slot is specified
+	// * For a give <code>TextAnnotation</code> return a list of the slot values for a given slot.
+	// The slot is specified
 	// * by using the slot name. This name must reference a <code>SlotMention</code> (and not a
 	// * <code>ComplexSlotMention</code>).
 	// *
@@ -190,12 +190,5 @@ public class DefaultTextAnnotation_Util {
 	// }
 	//
 	// }
-
-	
-
-	
-
-	
-	
 
 }

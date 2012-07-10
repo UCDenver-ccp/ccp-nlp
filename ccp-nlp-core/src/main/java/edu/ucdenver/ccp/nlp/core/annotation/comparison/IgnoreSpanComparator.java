@@ -35,8 +35,8 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
 
 /**
  * 
- * Use this span comparator when you do not care to compare spans. For example, this may be of use when doing
- * document-level comparisons.
+ * Use this span comparator when you do not care to compare spans. For example, this may be of use
+ * when doing document-level comparisons.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 

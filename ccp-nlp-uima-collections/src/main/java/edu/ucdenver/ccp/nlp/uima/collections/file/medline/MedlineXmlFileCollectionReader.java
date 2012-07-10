@@ -178,9 +178,8 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 			throws ResourceInitializationException {
 		return CollectionReaderFactory.createCollectionReader(MedlineXmlFileCollectionReader.class, tsd,
 				PARAM_MEDLINE_XML_FILE, medlineXmlFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
-				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING,
-				"UTF_8", PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME,
-				View.DEFAULT.name());
+				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING, "UTF_8",
+				PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME, View.DEFAULT.name());
 	}
 
 }

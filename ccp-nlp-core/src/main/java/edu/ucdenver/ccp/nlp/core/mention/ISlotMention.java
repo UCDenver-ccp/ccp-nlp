@@ -33,7 +33,7 @@ import java.util.Collection;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  * @param <E>
  */
 public interface ISlotMention<E> {
@@ -41,8 +41,9 @@ public interface ISlotMention<E> {
 	public Collection<E> getSlotValues();
 
 	/**
-	 * If this slot mention is storing only a single slot filler, then the single slot filler is returned, otherwise it
-	 * throws an exception if there are zero or more than one slot value from which to choose
+	 * If this slot mention is storing only a single slot filler, then the single slot filler is
+	 * returned, otherwise it throws an exception if there are zero or more than one slot value from
+	 * which to choose
 	 * 
 	 * @return
 	 */

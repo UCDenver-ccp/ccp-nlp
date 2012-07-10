@@ -42,7 +42,8 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 public interface ITokenizer extends ITagger {
 
 	/**
-	 * Given some input text and a document ID, return a list of TextAnnotations, one per token of the input text.
+	 * Given some input text and a document ID, return a list of TextAnnotations, one per token of
+	 * the input text.
 	 * 
 	 * @param inputText
 	 * @param documentID

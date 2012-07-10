@@ -32,8 +32,9 @@ package edu.ucdenver.ccp.nlp.core.annotation;
 import java.io.PrintStream;
 
 /**
- * This class provides a means to identify who/what created an annotation. The annotator is used to represent both human annotators as well as
- * programs that generate annotations, e.g. gene taggers, etc. An annotator can be assigned to a <code>TextAnnotation</code> object.
+ * This class provides a means to identify who/what created an annotation. The annotator is used to
+ * represent both human annotators as well as programs that generate annotations, e.g. gene taggers,
+ * etc. An annotator can be assigned to a <code>TextAnnotation</code> object.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
@@ -42,133 +43,133 @@ public class Annotator implements Comparable {
 
 	public final static String UCDENVER_AFFILIATION = "UCDenver CCP";
 	public final static int Art502TextDocumentParser_ANNOTATOR_ID = 98;
-	public final static int CCPXMLParser_ANNOTATOR_ID=97;
-	public final static int TREEBANK_ANNOTATOR_ID=96;
-	
-    private String firstName;
+	public final static int CCPXMLParser_ANNOTATOR_ID = 97;
+	public final static int TREEBANK_ANNOTATOR_ID = 96;
 
-    private String lastName;
+	private String firstName;
 
-    private String affiliation;
+	private String lastName;
 
-    private Integer annotatorID;
+	private String affiliation;
 
-    public Annotator(Integer annotatorID, String firstName, String lastName, String affiliation) {
-        this.annotatorID = annotatorID;
-        if (firstName != null) {
-            this.firstName = firstName;
-        } else {
-            this.firstName = "";
-        }
-        if (lastName != null) {
-            this.lastName = lastName;
-        } else {
-            this.lastName = "";
-        }
-        if (affiliation != null) {
-            this.affiliation = affiliation;
-        } else {
-            this.affiliation = "";
-        }
-    }
+	private Integer annotatorID;
 
-    public String getAffiliation() {
-        return affiliation;
-    }
+	public Annotator(Integer annotatorID, String firstName, String lastName, String affiliation) {
+		this.annotatorID = annotatorID;
+		if (firstName != null) {
+			this.firstName = firstName;
+		} else {
+			this.firstName = "";
+		}
+		if (lastName != null) {
+			this.lastName = lastName;
+		} else {
+			this.lastName = "";
+		}
+		if (affiliation != null) {
+			this.affiliation = affiliation;
+		} else {
+			this.affiliation = "";
+		}
+	}
 
-    public void setAffiliation(String affiliation) {
-        if (affiliation != null) {
-            this.affiliation = affiliation;
-        } else {
-            this.affiliation = "";
-        }
-    }
+	public String getAffiliation() {
+		return affiliation;
+	}
 
-    public Integer getAnnotatorID() {
-        return annotatorID;
-    }
+	public void setAffiliation(String affiliation) {
+		if (affiliation != null) {
+			this.affiliation = affiliation;
+		} else {
+			this.affiliation = "";
+		}
+	}
 
-    public void setAnnotatorID(Integer annotatorID) {
-        this.annotatorID = annotatorID;
-    }
+	public Integer getAnnotatorID() {
+		return annotatorID;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setAnnotatorID(Integer annotatorID) {
+		this.annotatorID = annotatorID;
+	}
 
-    public void setFirstName(String firstName) {
-        if (firstName != null) {
-            this.firstName = firstName;
-        } else {
-            this.firstName = "";
-        }
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setFirstName(String firstName) {
+		if (firstName != null) {
+			this.firstName = firstName;
+		} else {
+			this.firstName = "";
+		}
+	}
 
-    public void setLastName(String lastName) {
-        if (lastName != null) {
-            this.lastName = lastName;
-        } else {
-            this.lastName = "";
-        }
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public String getStorageLine() {
-        return annotatorID + "|" + firstName + "|" + lastName + "|" + affiliation;
-    }
+	public void setLastName(String lastName) {
+		if (lastName != null) {
+			this.lastName = lastName;
+		} else {
+			this.lastName = "";
+		}
+	}
 
-    public void printStorageLine(PrintStream ps) {
-        ps.println(getStorageLine());
-    }
+	public String getStorageLine() {
+		return annotatorID + "|" + firstName + "|" + lastName + "|" + affiliation;
+	}
 
-    /**
-     * Note: this method compares the name field only. The integer ID is not considered here.
-     */
-    public int compareTo(Object annotator) {
-        if (annotator instanceof Annotator) {
-            String firstName = ((Annotator) annotator).getFirstName();
-            String lastName = ((Annotator) annotator).getLastName();
-            String affiliation = ((Annotator) annotator).getAffiliation();
+	public void printStorageLine(PrintStream ps) {
+		ps.println(getStorageLine());
+	}
 
-            if (firstName == null) {
-                firstName = "";
-            }
+	/**
+	 * Note: this method compares the name field only. The integer ID is not considered here.
+	 */
+	public int compareTo(Object annotator) {
+		if (annotator instanceof Annotator) {
+			String firstName = ((Annotator) annotator).getFirstName();
+			String lastName = ((Annotator) annotator).getLastName();
+			String affiliation = ((Annotator) annotator).getAffiliation();
 
-            if (lastName == null) {
-                lastName = "";
-            }
+			if (firstName == null) {
+				firstName = "";
+			}
 
-            if (affiliation == null) {
-                affiliation = "";
-            }
+			if (lastName == null) {
+				lastName = "";
+			}
 
-            if (this.firstName.equalsIgnoreCase(firstName) & this.lastName.equalsIgnoreCase(lastName)
-                    & this.affiliation.equalsIgnoreCase(affiliation)) {
-                return 0;
-            } else {
-                return -1;
-            }
-        } else {
-            return -1;
-        }
-    }
+			if (affiliation == null) {
+				affiliation = "";
+			}
 
-    @Override
-    public boolean equals(Object annotator) {
-        if (compareTo(annotator) == 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+			if (this.firstName.equalsIgnoreCase(firstName) & this.lastName.equalsIgnoreCase(lastName)
+					& this.affiliation.equalsIgnoreCase(affiliation)) {
+				return 0;
+			} else {
+				return -1;
+			}
+		} else {
+			return -1;
+		}
+	}
 
-    @Override
-    public int hashCode() {
-        String hashkey = firstName + "|" + lastName + "|" + affiliation;
-        hashkey = hashkey.toLowerCase();
-        return hashkey.hashCode();
-    }
+	@Override
+	public boolean equals(Object annotator) {
+		if (compareTo(annotator) == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		String hashkey = firstName + "|" + lastName + "|" + affiliation;
+		hashkey = hashkey.toLowerCase();
+		return hashkey.hashCode();
+	}
 }

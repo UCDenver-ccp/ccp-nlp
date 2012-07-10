@@ -69,12 +69,16 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
  */
 public class InlinePrinterTest extends DefaultUIMATestCase {
 
-	protected static final TypeSystemDescription TSD = TypeSystemDescriptionFactory.createTypeSystemDescription("edu.ucdenver.ccp.nlp.core.uima.TypeSystem");
-	
+	protected static final TypeSystemDescription TSD = TypeSystemDescriptionFactory
+			.createTypeSystemDescription("edu.ucdenver.ccp.nlp.core.uima.TypeSystem");
+
 	/**
 	 * The document text that is used in this test case
 	 */
-	                                          /* 012345678901234567890123456789012345678     90123456789012345678901234567890123456789012345678901234567890*/
+	/*
+	 * 012345678901234567890123456789012345678
+	 * 90123456789012345678901234567890123456789012345678901234567890
+	 */
 	private static final String DOCUMENT_TEXT = "The cow jumped over the moon & the nai\u0308ve stars, but the cd2 and cd5 receptors were not blocked.";
 
 	/**
@@ -116,7 +120,7 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 	 * sample class name used for testing nested annotations
 	 */
 	public static final String OUTER_5_CLASS = "outer5";
-	
+
 	/**
 	 * sample class name used for testing split span annotations
 	 */
@@ -145,7 +149,7 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 	@Override
 	@Before
 	public void setUp() throws Exception {
-//		super.setUp();
+		// super.setUp();
 		jcas = JCasFactory.createJCas(TSD);
 		initJCas();
 		outputDirectory = folder.newFolder("inline-output");
@@ -158,7 +162,7 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 	 */
 	@Override
 	protected void initJCas() throws Exception {
-		
+
 		jcas.setDocumentText(DOCUMENT_TEXT);
 		UIMA_Util.setDocumentID(jcas, SAMPLE_DOCUMENT_ID);
 		UIMA_Util.setDocumentEncoding(jcas, SAMPLE_DOCUMENT_ENCODING);
@@ -194,19 +198,15 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 		addTextAnnotationToJCas(24, 47, OUTER_4_CLASS);
 		addTextAnnotationToJCas(14, 19, OUTER_5_CLASS);
 	}
-	
+
 	protected void addSplitSpanCoordinatedAnnotations() {
 		CCPTextAnnotation ccpTa = addTextAnnotationToJCas(57, 60, SPLIT_CLASS); // cd2
-		UIMA_Annotation_Util.addSpan(ccpTa, new Span(69,78), jcas); // receptors
+		UIMA_Annotation_Util.addSpan(ccpTa, new Span(69, 78), jcas); // receptors
 		assertEquals(String.format(""), "cd2 and cd5 receptors", ccpTa.getCoveredText());
 		ccpTa = addTextAnnotationToJCas(65, 78, SPLIT_CLASS); // cd5 receptors
 		assertEquals(String.format(""), "cd5 receptors", ccpTa.getCoveredText());
 	}
 
-	
-	
-	
-	
 	/**
 	 * Tests the InlinePrinter using a very simple case of two annotations (no overlaps) within the
 	 * document text.
@@ -220,9 +220,9 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 	public void testInlinePrinter_SimpleCase() throws ResourceInitializationException, IOException,
 			AnalysisEngineProcessException {
 		addSimpleSampleAnnotations();
-		String expectedOutput = String.format(
-				"The <%s>cow</%s> jumped over the <%s>moon</%s> & the nai\u0308ve stars, but the cd2 and cd5 receptors were not blocked.", ANIMAL_CLASS, ANIMAL_CLASS,
-				CELESTIAL_BODY_CLASS, CELESTIAL_BODY_CLASS);
+		String expectedOutput = String
+				.format("The <%s>cow</%s> jumped over the <%s>moon</%s> & the nai\u0308ve stars, but the cd2 and cd5 receptors were not blocked.",
+						ANIMAL_CLASS, ANIMAL_CLASS, CELESTIAL_BODY_CLASS, CELESTIAL_BODY_CLASS);
 		AnalysisEngine inlinePrinterAe = InlinePrinter.createAnalysisEngine(TSD, outputDirectory,
 				CAS.NAME_DEFAULT_SOFA, CcpDocumentMetadataHandler.class, SimpleInlineAnnotationExtractor.class);
 		inlinePrinterAe.process(jcas);
@@ -246,8 +246,7 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 			AnalysisEngineProcessException {
 		addOverlappingSampleAnnotations();
 		String expectedOutput = String
-				.format(
-						"<%s>The <%s><%s>cow</%s> jumped</%s></%s><%s> over</%s> the <%s><%s><%s><%s>moon</%s></%s> &</%s> the nai\u0308ve stars</%s>, but the cd2 and cd5 receptors were not blocked.",
+				.format("<%s>The <%s><%s>cow</%s> jumped</%s></%s><%s> over</%s> the <%s><%s><%s><%s>moon</%s></%s> &</%s> the nai\u0308ve stars</%s>, but the cd2 and cd5 receptors were not blocked.",
 						OUTER_2_CLASS, OUTER_1_CLASS, ANIMAL_CLASS, ANIMAL_CLASS, OUTER_1_CLASS, OUTER_2_CLASS,
 						OUTER_5_CLASS, OUTER_5_CLASS, OUTER_4_CLASS, OUTER_3_CLASS, CELESTIAL_BODY_CLASS, MOON_CLASS,
 						MOON_CLASS, CELESTIAL_BODY_CLASS, OUTER_3_CLASS, OUTER_4_CLASS);
@@ -259,9 +258,6 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 		String inlinedAnnotationOutput = FileUtil.copyToString(expectedOutputFile, SAMPLE_DOCUMENT_ENCODING);
 		assertEquals(String.format("Inlined output should be as expected"), expectedOutput, inlinedAnnotationOutput);
 	}
-
-	
-	
 
 	/**
 	 * A very straightforward extension of the {@link InlineTagExtractor_ImplBase}. This class

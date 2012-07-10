@@ -30,7 +30,8 @@
 package edu.ucdenver.ccp.nlp.core.annotation.impl;
 
 /**
- * This exception is thrown when an incorrect representation of the CCPTextAnnotation or CCPMention is observed.
+ * This exception is thrown when an incorrect representation of the CCPTextAnnotation or CCPMention
+ * is observed.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 

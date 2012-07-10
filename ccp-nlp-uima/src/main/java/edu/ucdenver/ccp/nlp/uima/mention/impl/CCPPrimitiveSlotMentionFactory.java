@@ -51,14 +51,14 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.CCPStringSlotMention;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class CCPPrimitiveSlotMentionFactory {
-private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.class);
+	private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.class);
 
 	public static PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValue, JCas jcas)
 			throws KnowledgeRepresentationWrapperException {
-		if (slotValue==null) {
+		if (slotValue == null) {
 			return null;
 		}
 		PrimitiveSlotMention ccpPSM = null;
@@ -127,8 +127,8 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 
 	public static CCPPrimitiveSlotMention createCCPPrimitiveSlotMention(String slotMentionName,
 			Collection<Object> slotValues, JCas jcas) throws KnowledgeRepresentationWrapperException {
-		
-		if (slotValues.size()==0) {
+
+		if (slotValues.size() == 0) {
 			return null;
 		}
 		CCPPrimitiveSlotMention ccpPSM = null;
@@ -151,90 +151,96 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 
 		return ccpPSM;
 	}
-	
-	
+
 	public static CCPStringSlotMention createCCPStringSlotMention(String slotMentionName,
 			Collection<String> slotValues, JCas jcas) throws KnowledgeRepresentationWrapperException {
 		return initializeStringSlotMention(slotMentionName, slotValues, jcas);
 	}
-	
-	public static CCPFloatSlotMention createCCPFloatSlotMention(String slotMentionName,
-			Collection<Float> slotValues, JCas jcas) throws KnowledgeRepresentationWrapperException {
+
+	public static CCPFloatSlotMention createCCPFloatSlotMention(String slotMentionName, Collection<Float> slotValues,
+			JCas jcas) throws KnowledgeRepresentationWrapperException {
 		return initializeFloatSlotMention(slotMentionName, slotValues, jcas);
 	}
-	
+
 	public static CCPIntegerSlotMention createCCPIntegerSlotMention(String slotMentionName,
 			Collection<Integer> slotValues, JCas jcas) throws KnowledgeRepresentationWrapperException {
 		return initializeIntegerSlotMention(slotMentionName, slotValues, jcas);
 	}
-	
-	public static CCPBooleanSlotMention createCCPBooleanSlotMention(String slotMentionName,
-			Boolean slotValue, JCas jcas) throws KnowledgeRepresentationWrapperException {
+
+	public static CCPBooleanSlotMention createCCPBooleanSlotMention(String slotMentionName, Boolean slotValue, JCas jcas)
+			throws KnowledgeRepresentationWrapperException {
 		return initializeBooleanSlotMention(slotMentionName, slotValue, jcas);
 	}
-	
-	
-	private static Collection<String> castToString(Collection<Object> input) throws KnowledgeRepresentationWrapperException {
+
+	private static Collection<String> castToString(Collection<Object> input)
+			throws KnowledgeRepresentationWrapperException {
 		Collection<String> strings = new ArrayList<String>();
 		for (Object obj : input) {
 			if (obj instanceof String) {
-			strings.add((String) obj);
+				strings.add((String) obj);
 			} else {
-				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName() + " to String!!!");
+				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName()
+						+ " to String!!!");
 			}
 		}
 		return strings;
 	}
-	
-	private static Collection<Integer> castToInteger(Collection<Object> input) throws KnowledgeRepresentationWrapperException {
+
+	private static Collection<Integer> castToInteger(Collection<Object> input)
+			throws KnowledgeRepresentationWrapperException {
 		Collection<Integer> strings = new ArrayList<Integer>();
 		for (Object obj : input) {
 			if (obj instanceof Integer) {
-			strings.add((Integer) obj);
+				strings.add((Integer) obj);
 			} else {
-				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName() + " to Integer!!!");
+				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName()
+						+ " to Integer!!!");
 			}
 		}
 		return strings;
 	}
-	
-	private static Collection<Float> castToFloat(Collection<Object> input) throws KnowledgeRepresentationWrapperException {
+
+	private static Collection<Float> castToFloat(Collection<Object> input)
+			throws KnowledgeRepresentationWrapperException {
 		Collection<Float> strings = new ArrayList<Float>();
 		for (Object obj : input) {
 			if (obj instanceof Float) {
-			strings.add((Float) obj);
+				strings.add((Float) obj);
 			} else {
-				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName() + " to Float!!!");
+				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName()
+						+ " to Float!!!");
 			}
 		}
 		return strings;
 	}
-	
-	private static Collection<Double> castToDouble(Collection<Object> input) throws KnowledgeRepresentationWrapperException {
+
+	private static Collection<Double> castToDouble(Collection<Object> input)
+			throws KnowledgeRepresentationWrapperException {
 		Collection<Double> strings = new ArrayList<Double>();
 		for (Object obj : input) {
 			if (obj instanceof Double) {
-			strings.add((Double) obj);
+				strings.add((Double) obj);
 			} else {
-				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName() + " to Double!!!");
+				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName()
+						+ " to Double!!!");
 			}
 		}
 		return strings;
 	}
-	
-	private static Collection<Boolean> castToBoolean(Collection<Object> input) throws KnowledgeRepresentationWrapperException {
+
+	private static Collection<Boolean> castToBoolean(Collection<Object> input)
+			throws KnowledgeRepresentationWrapperException {
 		Collection<Boolean> strings = new ArrayList<Boolean>();
 		for (Object obj : input) {
 			if (obj instanceof Boolean) {
-			strings.add((Boolean) obj);
+				strings.add((Boolean) obj);
 			} else {
-				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName() + " to Boolean!!!");
+				throw new KnowledgeRepresentationWrapperException("Cannot cast from " + obj.getClass().getName()
+						+ " to Boolean!!!");
 			}
 		}
 		return strings;
 	}
-	
-	
 
 	private static WrappedCCPStringSlotMention getWrappedCCPStringSlotMention(String slotMentionName, String slotValue,
 			JCas jcas) {
@@ -250,7 +256,7 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 			JCas jcas) {
 		return new WrappedCCPFloatSlotMention(initializeFloatSlotMention(slotMentionName, slotValue, jcas));
 	}
-	
+
 	private static WrappedCCPDoubleSlotMention getWrappedCCPDoubleSlotMention(String slotMentionName, Double slotValue,
 			JCas jcas) {
 		return new WrappedCCPDoubleSlotMention(initializeDoubleSlotMention(slotMentionName, slotValue, jcas));
@@ -307,11 +313,11 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 	 */
 	private static CCPIntegerSlotMention initializeIntegerSlotMention(String slotMentionName, Integer slotValue,
 			JCas jcas) {
-		Collection<Integer> slotValues =new ArrayList<Integer>();
+		Collection<Integer> slotValues = new ArrayList<Integer>();
 		slotValues.add(slotValue);
 		return initializeIntegerSlotMention(slotMentionName, slotValues, jcas);
 	}
-	
+
 	private static CCPIntegerSlotMention initializeIntegerSlotMention(String slotMentionName,
 			Collection<Integer> slotValues, JCas jcas) {
 		IntegerArray slotValuesArray = new IntegerArray(jcas, slotValues.size());
@@ -325,7 +331,6 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 		ccpSSM.setMentionName(slotMentionName);
 		return ccpSSM;
 	}
-	
 
 	/**
 	 * Initializes a new CCPFloatSlotMention
@@ -336,14 +341,13 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 	 * @return
 	 */
 	private static CCPFloatSlotMention initializeFloatSlotMention(String slotMentionName, Float slotValue, JCas jcas) {
-		Collection<Float> slotValues =new ArrayList<Float>();
+		Collection<Float> slotValues = new ArrayList<Float>();
 		slotValues.add(slotValue);
 		return initializeFloatSlotMention(slotMentionName, slotValues, jcas);
 	}
-	
-	
-	private static CCPFloatSlotMention initializeFloatSlotMention(String slotMentionName,
-			Collection<Float> slotValues, JCas jcas) {
+
+	private static CCPFloatSlotMention initializeFloatSlotMention(String slotMentionName, Collection<Float> slotValues,
+			JCas jcas) {
 		FloatArray slotValuesArray = new FloatArray(jcas, slotValues.size());
 		int index = 0;
 		for (Float slotValue : slotValues) {
@@ -357,11 +361,11 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 	}
 
 	private static CCPDoubleSlotMention initializeDoubleSlotMention(String slotMentionName, Double slotValue, JCas jcas) {
-		Collection<Double> slotValues =new ArrayList<Double>();
+		Collection<Double> slotValues = new ArrayList<Double>();
 		slotValues.add(slotValue);
 		return initializeDoubleSlotMention(slotMentionName, slotValues, jcas);
 	}
-	
+
 	private static CCPDoubleSlotMention initializeDoubleSlotMention(String slotMentionName,
 			Collection<Double> slotValues, JCas jcas) {
 		DoubleArray slotValuesArray = new DoubleArray(jcas, slotValues.size());
@@ -375,7 +379,7 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 		ccpSSM.setMentionName(slotMentionName);
 		return ccpSSM;
 	}
-	
+
 	/**
 	 * Initializes a new CCPBooleanSlotMention
 	 * 
@@ -391,11 +395,13 @@ private static Logger logger = Logger.getLogger(CCPPrimitiveSlotMentionFactory.c
 		ccpSSM.setMentionName(slotMentionName);
 		return ccpSSM;
 	}
-	
+
 	private static CCPBooleanSlotMention initializeBooleanSlotMention(String slotMentionName,
 			Collection<Boolean> slotValues, JCas jcas) throws KnowledgeRepresentationWrapperException {
 		if (slotValues.size() != 1) {
-			throw new KnowledgeRepresentationWrapperException("Boolean slot mentions can only store a single boolean value. Number of slot values trying to be used: " + slotValues.size());
+			throw new KnowledgeRepresentationWrapperException(
+					"Boolean slot mentions can only store a single boolean value. Number of slot values trying to be used: "
+							+ slotValues.size());
 		} else {
 			Boolean slotValue = Collections.list(Collections.enumeration(slotValues)).get(0);
 			return initializeBooleanSlotMention(slotMentionName, slotValue, jcas);

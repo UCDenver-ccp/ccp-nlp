@@ -34,14 +34,15 @@ import java.util.List;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public abstract class StringSlotMention extends PrimitiveSlotMention<String> {
 
-//	public StringSlotMention(String mentionName, IMentionTraversalTracker traversalTracker, Object... wrappedObjectPlusGlobalVars) {
-//		super(mentionName,  traversalTracker, wrappedObjectPlusGlobalVars);
-//	}
-	
+	// public StringSlotMention(String mentionName, IMentionTraversalTracker traversalTracker,
+	// Object... wrappedObjectPlusGlobalVars) {
+	// super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
+	// }
+
 	public StringSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
 	}
@@ -54,7 +55,7 @@ public abstract class StringSlotMention extends PrimitiveSlotMention<String> {
 	}
 
 	@Override
-	public void addSlotValueAsString(String slotValue)  {
+	public void addSlotValueAsString(String slotValue) {
 		try {
 			this.addSlotValue(slotValue);
 		} catch (InvalidInputException e) {

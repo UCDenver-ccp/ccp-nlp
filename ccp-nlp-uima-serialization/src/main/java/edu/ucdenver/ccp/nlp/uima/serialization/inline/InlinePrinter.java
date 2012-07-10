@@ -141,15 +141,14 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	private String[] inlineAnnotationExtractorClassNames;
 
 	/**
-	 * The collection of {@link InlineTagExtractor} implementations that will be used to
-	 * generate inline annotations
+	 * The collection of {@link InlineTagExtractor} implementations that will be used to generate
+	 * inline annotations
 	 */
 	private Collection<InlineTagExtractor> inlineTagExtractors;
 
 	/**
 	 * This initialize method extracts the configuration parameters then initializes a
-	 * {@link DocumentMetaDataExtractor} and one or more {@link InlineTagExtractor}
-	 * implementations.
+	 * {@link DocumentMetaDataExtractor} and one or more {@link InlineTagExtractor} implementations.
 	 * 
 	 * @see org.uimafit.component.JCasAnnotator_ImplBase#initialize(org.apache.uima.UimaContext)
 	 */
@@ -175,7 +174,8 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 * metaDataExtractorClassName parameter
 	 */
 	private void initializeMetaDataExtractor() {
-		documentMetadataHandler = (DocumentMetadataHandler) ConstructorUtil.invokeConstructor(documentMetadataHandlerClassName);
+		documentMetadataHandler = (DocumentMetadataHandler) ConstructorUtil
+				.invokeConstructor(documentMetadataHandlerClassName);
 	}
 
 	/**
@@ -412,8 +412,8 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 *            an implementation of {@link DocumentMetaDataExtractor} to use to extract document
 	 *            identifier and encoding information from the {@JCas}
 	 * @param annotationExtractorClasses
-	 *            implementation(s) of {@link InlineTagExtractor} that will be used to
-	 *            generate the annotations that will be inlined with the document text in the output
+	 *            implementation(s) of {@link InlineTagExtractor} that will be used to generate the
+	 *            annotations that will be inlined with the document text in the output
 	 * @return an initialized {@link AnalysisEngine} that will print inlined annotations to files in
 	 *         the specified output directory
 	 * @throws ResourceInitializationException
@@ -421,8 +421,7 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 */
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File outputDirectory,
 			String viewNameToProcess, Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass,
-			Class<? extends InlineTagExtractor>... annotationExtractorClasses)
-			throws ResourceInitializationException {
+			Class<? extends InlineTagExtractor>... annotationExtractorClasses) throws ResourceInitializationException {
 		String[] annotationExtractorClassNames = new String[annotationExtractorClasses.length];
 		int i = 0;
 		for (Class<? extends InlineTagExtractor> extractorClass : annotationExtractorClasses)
@@ -434,8 +433,8 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 
 	/**
 	 * Returns an initialized {@link InlinePrinter} in the form of a UIMA {@link AnalysisEngine}.
-	 * This method can be used if only a single {@link InlineTagExtractor} is needed. It
-	 * prevents a compiler warning dealing with arrays of generics.
+	 * This method can be used if only a single {@link InlineTagExtractor} is needed. It prevents a
+	 * compiler warning dealing with arrays of generics.
 	 * 
 	 * @param tsd
 	 *            the relevant {@link TypeSystemDescription}; will depend on the pipline being run
@@ -449,8 +448,8 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 *            an implementation of {@link DocumentMetaDataExtractor} to use to extract document
 	 *            identifier and encoding information from the {@JCas}
 	 * @param annotationExtractorClasses
-	 *            implementation(s) of {@link InlineTagExtractor} that will be used to
-	 *            generate the annotations that will be inlined with the document text in the output
+	 *            implementation(s) of {@link InlineTagExtractor} that will be used to generate the
+	 *            annotations that will be inlined with the document text in the output
 	 * @return an initialized {@link AnalysisEngine} that will print inlined annotations to files in
 	 *         the specified output directory
 	 * @throws ResourceInitializationException

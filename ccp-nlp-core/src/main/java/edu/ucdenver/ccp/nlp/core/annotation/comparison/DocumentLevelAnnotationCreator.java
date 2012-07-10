@@ -45,19 +45,19 @@ import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 
 /**
- * This class creates document-level annotations for a given type. The user can optionally require a slot to be present
- * in order for creation to occur. This is useful for such tasks as creating document-level protein annotations where
- * you want to require the presence of the entrez_id_slot so that gene name normalization results can be computed. By
- * requiring the presence of the entrez_id_slot, only proteins that have such a slot will have a document-level
- * counterpart created. If no such slot presence is requested, then document-level annotations are generated for all
- * annotations of the specified type.
+ * This class creates document-level annotations for a given type. The user can optionally require a
+ * slot to be present in order for creation to occur. This is useful for such tasks as creating
+ * document-level protein annotations where you want to require the presence of the entrez_id_slot
+ * so that gene name normalization results can be computed. By requiring the presence of the
+ * entrez_id_slot, only proteins that have such a slot will have a document-level counterpart
+ * created. If no such slot presence is requested, then document-level annotations are generated for
+ * all annotations of the specified type.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class DocumentLevelAnnotationCreator {
-private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.class);
-
+	private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.class);
 
 	private String mentionType;
 
@@ -66,8 +66,8 @@ private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.c
 	private Set<String> documentLevelAnnotationKeys;
 
 	/**
-	 * This DocumentLevelAnnotationCreator will generate document-level annotations for all annotations of type
-	 * mentionType.
+	 * This DocumentLevelAnnotationCreator will generate document-level annotations for all
+	 * annotations of type mentionType.
 	 * 
 	 * @param mentionType
 	 */
@@ -76,8 +76,8 @@ private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.c
 	}
 
 	/**
-	 * This DocumentLevelAnnotationCreator will generate document-level annotations for only those annotations that have
-	 * non-empty slots specified by the requiredSlots Set.
+	 * This DocumentLevelAnnotationCreator will generate document-level annotations for only those
+	 * annotations that have non-empty slots specified by the requiredSlots Set.
 	 * 
 	 * @param mentionType
 	 * @param requiredSlots
@@ -98,8 +98,8 @@ private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.c
 
 		logger.debug("Converting annotation list into document level annotations...");
 		/*
-		 * This set will hold a key representing the document-level annotations that have already been created, thus
-		 * ensuring that each document-level annotation is unique.
+		 * This set will hold a key representing the document-level annotations that have already
+		 * been created, thus ensuring that each document-level annotation is unique.
 		 */
 		documentLevelAnnotationKeys = new HashSet<String>();
 
@@ -122,7 +122,8 @@ private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.c
 							numComplexSlotMentions = 1;
 						}
 
-						// List<SlotMention> slotMentions = ta.getClassMention().getSlotMentionsByName(requiredSlot);
+						// List<SlotMention> slotMentions =
+						// ta.getClassMention().getSlotMentionsByName(requiredSlot);
 						// int numSlotMentions = 0;
 						// if (slotMentions != null) {
 						// numSlotMentions = slotMentions.size();
@@ -156,7 +157,8 @@ private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.c
 		return documentLevelAnnotations;
 	}
 
-	public List<TextAnnotation> createDocumentLevelAnnotations(List<TextAnnotation> inputAnnotations, Set<Integer> annotatorsToIgnore) {
+	public List<TextAnnotation> createDocumentLevelAnnotations(List<TextAnnotation> inputAnnotations,
+			Set<Integer> annotatorsToIgnore) {
 		List<TextAnnotation> annotationsToKeep = new ArrayList<TextAnnotation>();
 
 		for (TextAnnotation ta : inputAnnotations) {
@@ -170,17 +172,21 @@ private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.c
 	}
 
 	/**
-	 * Convert the input TextAnnotation into a document-level annotation, check to see if this annotation already
-	 * exists, if it does not, add it to the list of documentLevelAnnotations
+	 * Convert the input TextAnnotation into a document-level annotation, check to see if this
+	 * annotation already exists, if it does not, add it to the list of documentLevelAnnotations
 	 * 
 	 * @param ta
 	 * @param documentLevelAnnotations
 	 */
 	private void createDocumentLevelAnnotation(TextAnnotation ta, List<TextAnnotation> documentLevelAnnotations) {
-		AnnotationSet annotationSet = new AnnotationSet(9999, "Document-level " + ta.getClassMention().getMentionName(),
-				"Document-level annotation set.");
-		/* Create a new class mention for this annotation- "DocumentLevel-" is appended to the class mention name */
-		DefaultClassMention documentLevelCM = new DefaultClassMention("DocumentLevel-" + ta.getClassMention().getMentionName());
+		AnnotationSet annotationSet = new AnnotationSet(9999,
+				"Document-level " + ta.getClassMention().getMentionName(), "Document-level annotation set.");
+		/*
+		 * Create a new class mention for this annotation- "DocumentLevel-" is appended to the class
+		 * mention name
+		 */
+		DefaultClassMention documentLevelCM = new DefaultClassMention("DocumentLevel-"
+				+ ta.getClassMention().getMentionName());
 		try {
 			for (PrimitiveSlotMention sm : ta.getClassMention().getPrimitiveSlotMentions()) {
 				documentLevelCM.addPrimitiveSlotMention(sm);
@@ -193,14 +199,14 @@ private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.c
 			documentLevelCM.addComplexSlotMention(csm);
 		}
 		/* create the document-level annotation */
-		TextAnnotation documentLevelAnnot = new DefaultTextAnnotation(0, 1, "", ta.getAnnotator(), null, -1, ta.getDocumentCollectionID(), ta
-				.getDocumentID(), ta.getDocumentSectionID(), documentLevelCM);
+		TextAnnotation documentLevelAnnot = new DefaultTextAnnotation(0, 1, "", ta.getAnnotator(), null, -1,
+				ta.getDocumentCollectionID(), ta.getDocumentID(), ta.getDocumentSectionID(), documentLevelCM);
 		documentLevelAnnot.setAnnotationSets(ta.getAnnotationSets());
 		documentLevelAnnot.addAnnotationSet(annotationSet);
 
 		/*
-		 * now we need to log the creation of this document-level annotation, and add it to the documentLevelAnnotations
-		 * list if it is new
+		 * now we need to log the creation of this document-level annotation, and add it to the
+		 * documentLevelAnnotations list if it is new
 		 */
 		String key = getDocumentLevelString(documentLevelAnnot);
 		logger.debug("Key = " + key);
@@ -209,7 +215,8 @@ private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.c
 			documentLevelAnnotations.add(documentLevelAnnot);
 			documentLevelAnnotationKeys.add(key);
 		} else {
-			// do nothing, we don't need to add this document-level annotation since it already exisits
+			// do nothing, we don't need to add this document-level annotation since it already
+			// exisits
 		}
 
 	}
@@ -217,6 +224,5 @@ private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.c
 	private String getDocumentLevelString(TextAnnotation ta) {
 		return ta.getDocumentID() + ta.getClassMention().getDocumentLevelSingleLineRepresentation();
 	}
-	
 
 }

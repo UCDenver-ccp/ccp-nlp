@@ -36,12 +36,12 @@ import edu.ucdenver.ccp.nlp.core.annotation.impl.KnowledgeRepresentationWrapperE
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public interface IClassMention {
 
 	public void setTextAnnotation(TextAnnotation textAnnotation) throws InvalidInputException;
-	
+
 	public TextAnnotation getTextAnnotation();
 
 	public Collection<ComplexSlotMention> getComplexSlotMentions();
@@ -66,11 +66,11 @@ public interface IClassMention {
 
 	public ComplexSlotMention createComplexSlotMention(String slotMentionName);
 
-	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValue) throws KnowledgeRepresentationWrapperException;
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValue)
+			throws KnowledgeRepresentationWrapperException;
 
-//	public void removeComplexSlotMention(String slotMentionName);
-//	
-//	public void removePrimitiveSlotMention(String slotMentionName);
-		
-	
+	// public void removeComplexSlotMention(String slotMentionName);
+	//
+	// public void removePrimitiveSlotMention(String slotMentionName);
+
 }

@@ -32,22 +32,23 @@ package edu.ucdenver.ccp.nlp.core.mention;
 import java.util.Collection;
 
 /**
- * A slot mention is deemed "complex" when its slot filler is a class mention as opposed to an Object, which is
- * typically a String.
+ * A slot mention is deemed "complex" when its slot filler is a class mention as opposed to an
+ * Object, which is typically a String.
  * <p>
- * An example of a complex slot mention is the "transported entity" slot for the protein-transport class which would be
- * filled with a protein class mention.
+ * An example of a complex slot mention is the "transported entity" slot for the protein-transport
+ * class which would be filled with a protein class mention.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class ComplexSlotMention extends SlotMention<ClassMention> {
 
-//	public ComplexSlotMention(String mentionName, IMentionTraversalTracker traversalTracker, Object... wrappedObjectPlusGlobalVars ) {
-//		super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
-//	}
-	
-	public ComplexSlotMention(Object... wrappedObjectPlusGlobalVars ) {
+	// public ComplexSlotMention(String mentionName, IMentionTraversalTracker traversalTracker,
+	// Object... wrappedObjectPlusGlobalVars ) {
+	// super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
+	// }
+
+	public ComplexSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
 	}
 
@@ -66,7 +67,7 @@ public abstract class ComplexSlotMention extends SlotMention<ClassMention> {
 	 * Set the class mentions that fill this complex slot
 	 * 
 	 * @param classMentions
-	 * @throws InvalidInputException 
+	 * @throws InvalidInputException
 	 */
 	public void setClassMentions(Collection<ClassMention> classMentions) throws InvalidInputException {
 		setSlotValues(classMentions);
@@ -115,7 +116,10 @@ public abstract class ComplexSlotMention extends SlotMention<ClassMention> {
 	}
 
 	@Override
-	/* Two complex slot mentions are equal if they have the same mention name, and their class mentions are also equal */
+	/*
+	 * Two complex slot mentions are equal if they have the same mention name, and their class
+	 * mentions are also equal
+	 */
 	public boolean equals(Object obj) {
 		if (obj instanceof ComplexSlotMention) {
 			ComplexSlotMention csm = (ComplexSlotMention) obj;

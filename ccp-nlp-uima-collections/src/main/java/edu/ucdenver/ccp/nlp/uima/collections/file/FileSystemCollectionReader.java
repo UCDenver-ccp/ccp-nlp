@@ -125,8 +125,8 @@ public class FileSystemCollectionReader extends BaseTextCollectionReader {
 			int num2skip, Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass, String viewName,
 			String... fileSuffixesToProcess) throws ResourceInitializationException {
 		return CollectionReaderFactory.createDescription(FileSystemCollectionReader.class, tsd, PARAM_BASE_FILE,
-				baseFileOrDirectory.getAbsolutePath(), PARAM_ENCODING, encoding.name(), PARAM_RECURSE,
-				recurse, PARAM_DISABLE_PROGRESS, disableProgress, PARAM_FILESUFFIXES_TO_PROCESS, fileSuffixesToProcess,
+				baseFileOrDirectory.getAbsolutePath(), PARAM_ENCODING, encoding.name(), PARAM_RECURSE, recurse,
+				PARAM_DISABLE_PROGRESS, disableProgress, PARAM_FILESUFFIXES_TO_PROCESS, fileSuffixesToProcess,
 				PARAM_LANGUAGE, language, PARAM_NUM2PROCESS, num2process, PARAM_NUM2SKIP, num2skip, PARAM_VIEWNAME,
 				viewName, PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName());
 	}
@@ -152,8 +152,8 @@ public class FileSystemCollectionReader extends BaseTextCollectionReader {
 			boolean recurse, CharacterEncoding encoding, String language, boolean disableProgress, int num2process,
 			int num2skip, String viewName, String... fileSuffixesToProcess) throws ResourceInitializationException {
 		return CollectionReaderFactory.createDescription(FileSystemCollectionReader.class, tsd, PARAM_BASE_FILE,
-				baseFileOrDirectory.getAbsolutePath(), PARAM_ENCODING, encoding.name(), PARAM_RECURSE,
-				recurse, PARAM_DISABLE_PROGRESS, disableProgress, PARAM_FILESUFFIXES_TO_PROCESS, fileSuffixesToProcess,
+				baseFileOrDirectory.getAbsolutePath(), PARAM_ENCODING, encoding.name(), PARAM_RECURSE, recurse,
+				PARAM_DISABLE_PROGRESS, disableProgress, PARAM_FILESUFFIXES_TO_PROCESS, fileSuffixesToProcess,
 				PARAM_LANGUAGE, language, PARAM_NUM2PROCESS, num2process, PARAM_NUM2SKIP, num2skip, PARAM_VIEWNAME,
 				viewName);
 	}

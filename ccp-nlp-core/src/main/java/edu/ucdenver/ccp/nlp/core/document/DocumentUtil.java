@@ -48,7 +48,8 @@ public class DocumentUtil {
 
 	/**
 	 * 
-	 * @return a mapping between section ID and section name as defined in <code>DocumentSectionTypes</code>.
+	 * @return a mapping between section ID and section name as defined in
+	 *         <code>DocumentSectionTypes</code>.
 	 */
 	public static HashMap<Integer, String> getSectionIDNameHash() {
 		HashMap<Integer, String> idNameHash = new HashMap<Integer, String>();
@@ -60,7 +61,8 @@ public class DocumentUtil {
 
 	/**
 	 * 
-	 * @return a mapping between section name and section ID as defined in <code>DocumentSectionTypes</code>.
+	 * @return a mapping between section name and section ID as defined in
+	 *         <code>DocumentSectionTypes</code>.
 	 */
 	public static HashMap<String, Integer> getSectionNameIDHash() {
 		HashMap<String, Integer> nameIDHash = new HashMap<String, Integer>();
@@ -70,34 +72,30 @@ public class DocumentUtil {
 		return nameIDHash;
 	}
 
-    
-    public static List<Span> usedSpans (GenericDocument doc) {
-        return usedSpans(doc.getAnnotations());
-    }
-    
-    public static List<Span> usedSpans (Collection<TextAnnotation> annotations) {
-        List<Span> mergedSpans = new LinkedList<Span>();
-        for (TextAnnotation a : annotations) {
-            if (a.getClassMention().getMentionName() != "token") {
-                mergedSpans = SpanUtils.mergeSpans(mergedSpans, a.getSpans());
-            }
-        }
-        return mergedSpans;
-    }
+	public static List<Span> usedSpans(GenericDocument doc) {
+		return usedSpans(doc.getAnnotations());
+	}
 
-  
-    public static List<Span> identifiedSpans (GenericDocument doc) {
-        return identifiedSpans(doc.getAnnotations());
-    }
+	public static List<Span> usedSpans(Collection<TextAnnotation> annotations) {
+		List<Span> mergedSpans = new LinkedList<Span>();
+		for (TextAnnotation a : annotations) {
+			if (a.getClassMention().getMentionName() != "token") {
+				mergedSpans = SpanUtils.mergeSpans(mergedSpans, a.getSpans());
+			}
+		}
+		return mergedSpans;
+	}
 
-    public static List<Span> identifiedSpans (Collection<TextAnnotation> annotations) {
-        List<Span> mergedSpans = new LinkedList<Span>();
-        for (TextAnnotation a : annotations) {
-            mergedSpans = SpanUtils.mergeSpans(mergedSpans, a.getSpans());
-        }
-        return mergedSpans;
-    }
+	public static List<Span> identifiedSpans(GenericDocument doc) {
+		return identifiedSpans(doc.getAnnotations());
+	}
 
-    
-    
+	public static List<Span> identifiedSpans(Collection<TextAnnotation> annotations) {
+		List<Span> mergedSpans = new LinkedList<Span>();
+		for (TextAnnotation a : annotations) {
+			mergedSpans = SpanUtils.mergeSpans(mergedSpans, a.getSpans());
+		}
+		return mergedSpans;
+	}
+
 }

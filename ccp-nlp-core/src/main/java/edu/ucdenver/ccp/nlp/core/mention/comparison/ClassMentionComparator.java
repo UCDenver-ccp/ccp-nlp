@@ -40,21 +40,26 @@ import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
  */
 public interface ClassMentionComparator {
 
-    /**
-     * Compares two <code>ClassMention</code> objects using the specified <code>SpanComparator</code> to a user-specified depth in the mention
-     * hierarchy.
-     * 
-     * @param classMention1
-     *            a <code>ClassMention</code> to compare
-     * @param classMention2
-     *            the other <code>ClassMention</code> to compare
-     * @param spanComparator
-     *            the <code>SpanComparator</code> to use during the comparison
-     * @param maximumComparisonDepth
-     *            This parameter specifies how deep into the mention hierarchy the comparison should delve. A value of zero specifies that the
-     *            comparison will look at only the types of the <code>ClassMention</code> objects. A value of 1 will include a comparison of the
-     *            <code>ClassMention</code> type (name), but also of any <code>SlotMentions</code> and <code>ComplexSlotMentions</code>. See {@link MentionComparator} for a more detailed explanation.
-     * @return 0 if the <code>ClassMention</code> objects are equal, otherwise, something other than zero
-     */
-    public int compare(ClassMention classMention1, ClassMention classMention2, SpanComparator spanComparator, int maximumComparisonDepth);
+	/**
+	 * Compares two <code>ClassMention</code> objects using the specified
+	 * <code>SpanComparator</code> to a user-specified depth in the mention hierarchy.
+	 * 
+	 * @param classMention1
+	 *            a <code>ClassMention</code> to compare
+	 * @param classMention2
+	 *            the other <code>ClassMention</code> to compare
+	 * @param spanComparator
+	 *            the <code>SpanComparator</code> to use during the comparison
+	 * @param maximumComparisonDepth
+	 *            This parameter specifies how deep into the mention hierarchy the comparison should
+	 *            delve. A value of zero specifies that the comparison will look at only the types
+	 *            of the <code>ClassMention</code> objects. A value of 1 will include a comparison
+	 *            of the <code>ClassMention</code> type (name), but also of any
+	 *            <code>SlotMentions</code> and <code>ComplexSlotMentions</code>. See
+	 *            {@link MentionComparator} for a more detailed explanation.
+	 * @return 0 if the <code>ClassMention</code> objects are equal, otherwise, something other than
+	 *         zero
+	 */
+	public int compare(ClassMention classMention1, ClassMention classMention2, SpanComparator spanComparator,
+			int maximumComparisonDepth);
 }

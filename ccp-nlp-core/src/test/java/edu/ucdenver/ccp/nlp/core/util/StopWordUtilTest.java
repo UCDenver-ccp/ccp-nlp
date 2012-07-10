@@ -32,10 +32,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class StopWordUtilTest {
 

@@ -29,7 +29,6 @@
  */
 package edu.ucdenver.ccp.nlp.core.annotation;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -48,22 +47,24 @@ import edu.ucdenver.ccp.nlp.core.mention.SlotMention;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class TextAnnotationFactoryTest {
 	@BeforeClass
 	public static void before() {
 		BasicConfigurator.configure();
 	}
+
 	@Test
 	public void tesStringSlot() {
 		TextAnnotationFactory taf = TextAnnotationFactory.createFactoryWithDefaults();
-		PrimitiveSlotMention sm = taf.parseSlotMention("-    SLOT MENTION: localConceptID with SLOT VALUE(s): 39917/GO:0005623");
+		PrimitiveSlotMention sm = taf
+				.parseSlotMention("-    SLOT MENTION: localConceptID with SLOT VALUE(s): 39917/GO:0005623");
 		Collection list = sm.getSlotValues();
 		assertTrue(list.size() == 1);
-		assertTrue( ((String) CollectionsUtil.getSingleElement(list)).equals("39917/GO:0005623"));
+		assertTrue(((String) CollectionsUtil.getSingleElement(list)).equals("39917/GO:0005623"));
 	}
-	
+
 	@Test
 	public void testIntSlot() {
 		TextAnnotationFactory taf = TextAnnotationFactory.createFactoryWithDefaults();
@@ -73,7 +74,7 @@ public class TextAnnotationFactoryTest {
 		Integer val = (Integer) CollectionsUtil.getSingleElement(list);
 		assertTrue(val == 39917);
 	}
-	
+
 	@Test
 	public void testDoubleSlot() {
 		TextAnnotationFactory taf = TextAnnotationFactory.createFactoryWithDefaults();
@@ -81,9 +82,9 @@ public class TextAnnotationFactoryTest {
 		Collection list = sm.getSlotValues();
 		assertTrue(list.size() == 1);
 		Float val = (Float) CollectionsUtil.getSingleElement(list);
-		assertEquals(val,3.1415,0.000001);
+		assertEquals(val, 3.1415, 0.000001);
 	}
-	
+
 	@Test
 	public void testDoubleSlot2() {
 		TextAnnotationFactory taf = TextAnnotationFactory.createFactoryWithDefaults();
@@ -91,9 +92,10 @@ public class TextAnnotationFactoryTest {
 		Collection list = sm.getSlotValues();
 		assertTrue(list.size() == 1);
 		Float val = (Float) CollectionsUtil.getSingleElement(list);
-		assertEquals(val, 3.1415E-10,0.0000000000000001); // I know, don't compare real values for exact equality...
+		assertEquals(val, 3.1415E-10, 0.0000000000000001); // I know, don't compare real values for
+															// exact equality...
 	}
-	
+
 	@Test
 	public void testListSlot() {
 		TextAnnotationFactory taf = TextAnnotationFactory.createFactoryWithDefaults();
@@ -103,6 +105,7 @@ public class TextAnnotationFactoryTest {
 		assertTrue(list.contains("foo"));
 		assertTrue(list.contains("bar"));
 	}
+
 	// List must not match plain strings, there must be a comma in there, but...
 	// This only works because a one-item list has no commas and the result
 	// is the same for just a single value. It doesn't matter if it gets
@@ -113,25 +116,21 @@ public class TextAnnotationFactoryTest {
 		PrimitiveSlotMention sm = taf.parseSlotMention("-	SLOT MENTION: synonyms with SLOT VALUE(s): foobar");
 		Collection list = sm.getSlotValues();
 		assertTrue(list.size() == 1);
-		assertTrue( ((String) CollectionsUtil.getSingleElement(list)).equals("foobar"));
+		assertTrue(((String) CollectionsUtil.getSingleElement(list)).equals("foobar"));
 	}
-	
-	
-	static String annotation1 = "======================= Annotation: 1 =======================\n" 
-		+ "Annotator: 1|Factory|Test|CCP\n"
-		+ "--- AnnotationSets: 1|set|test set\n"
-		+ "--- Span: 1 - 4 \n" 
-		+ "--- DocCollection: 2  DocID:   DocumentSection: 3\n"
-		+ "--- Covered Text: cell\n"
-		+ "-CLASS MENTION: 39917/GO:0005623 \"cell\"	[1..4]\n"
-		+ "-	SLOT MENTION: localConceptID with SLOT VALUE(s): 39917/GO:0005623\n"
-		+ "-	SLOT MENTION: localOntologyID with SLOT VALUE(s): 39917\n"
-		+ "-	SLOT MENTION: preferredName with SLOT VALUE(s): cell\n"
-		+ "-	SLOT MENTION: synonyms with SLOT VALUE(s): foo,bar\n"
-		+ "-	SLOT MENTION: semanticTypes with SLOT VALUE(s): T999\n"
-		+ "-	SLOT MENTION: termName with SLOT VALUE(s): cell\n" 
-		+ "-	SLOT MENTION: score with SLOT VALUE(s): 10\n"
-		+ "================================================================================="	;
+
+	static String annotation1 = "======================= Annotation: 1 =======================\n"
+			+ "Annotator: 1|Factory|Test|CCP\n" + "--- AnnotationSets: 1|set|test set\n" + "--- Span: 1 - 4 \n"
+			+ "--- DocCollection: 2  DocID:   DocumentSection: 3\n" + "--- Covered Text: cell\n"
+			+ "-CLASS MENTION: 39917/GO:0005623 \"cell\"	[1..4]\n"
+			+ "-	SLOT MENTION: localConceptID with SLOT VALUE(s): 39917/GO:0005623\n"
+			+ "-	SLOT MENTION: localOntologyID with SLOT VALUE(s): 39917\n"
+			+ "-	SLOT MENTION: preferredName with SLOT VALUE(s): cell\n"
+			+ "-	SLOT MENTION: synonyms with SLOT VALUE(s): foo,bar\n"
+			+ "-	SLOT MENTION: semanticTypes with SLOT VALUE(s): T999\n"
+			+ "-	SLOT MENTION: termName with SLOT VALUE(s): cell\n" + "-	SLOT MENTION: score with SLOT VALUE(s): 10\n"
+			+ "=================================================================================";
+
 	@Test
 	public void testOBAMention() {
 		TextAnnotationFactory taf = TextAnnotationFactory.createFactoryWithDefaults();
@@ -140,50 +139,45 @@ public class TextAnnotationFactoryTest {
 		System.out.println(ta.toString());
 		System.out.println(annotation1);
 	}
-	static String bogusString1 = "======================= Annotation: 1 =======================\n" 
-		+ "Annotator: 1|Factory|Test|CCP\n"
-		+ "--- AnnotationSets: 1|set|test set\n"
-		+ "--- Span: 1 - 4 \n" 
-		+ "--- DocCollection: 2  DocID:   DocumentSection: 3\n"
-		+ "--- Covered Text: cell\n"
-		+ "-CLASS MENTION: 39917/GO:0005623 \"cell\"	[1..4]\n"
-		+ "-	SLOT MENTION: synonyms with SLOT VALUE(s):foo,bar\n"
-		+ "================================================================================="	;
-	@Test 
+
+	static String bogusString1 = "======================= Annotation: 1 =======================\n"
+			+ "Annotator: 1|Factory|Test|CCP\n" + "--- AnnotationSets: 1|set|test set\n" + "--- Span: 1 - 4 \n"
+			+ "--- DocCollection: 2  DocID:   DocumentSection: 3\n" + "--- Covered Text: cell\n"
+			+ "-CLASS MENTION: 39917/GO:0005623 \"cell\"	[1..4]\n"
+			+ "-	SLOT MENTION: synonyms with SLOT VALUE(s):foo,bar\n"
+			+ "=================================================================================";
+
+	@Test
 	public void testBogusString1() {
 		// it doesn't have a space between the colon and "foo,bar"
 		// arguable about what's right here. The toString() function puts a space there,
-		//but it's quite easy to be flexible in that regard.
+		// but it's quite easy to be flexible in that regard.
 		TextAnnotationFactory taf = TextAnnotationFactory.createFactoryWithDefaults();
 		TextAnnotation ta = taf.createFromString(bogusString1);
 		assertEquals(ta.getClassMention().getPrimitiveSlotMentions().size(), 1);
 	}
-	static String emptySlot1 = "======================= Annotation: 1 =======================\n" 
-		+ "Annotator: 1|Factory|Test|CCP\n"
-		+ "--- AnnotationSets: 1|set|test set\n"
-		+ "--- Span: 1 - 4 \n" 
-		+ "--- DocCollection: 2  DocID:   DocumentSection: 3\n"
-		+ "--- Covered Text: cell\n"
-		+ "-CLASS MENTION: 39917/GO:0005623 \"cell\"	[1..4]\n"
-		+ "-	SLOT MENTION: synonyms with SLOT VALUE(s): \n"
-		+ "================================================================================="	;
-	@Test 
+
+	static String emptySlot1 = "======================= Annotation: 1 =======================\n"
+			+ "Annotator: 1|Factory|Test|CCP\n" + "--- AnnotationSets: 1|set|test set\n" + "--- Span: 1 - 4 \n"
+			+ "--- DocCollection: 2  DocID:   DocumentSection: 3\n" + "--- Covered Text: cell\n"
+			+ "-CLASS MENTION: 39917/GO:0005623 \"cell\"	[1..4]\n" + "-	SLOT MENTION: synonyms with SLOT VALUE(s): \n"
+			+ "=================================================================================";
+
+	@Test
 	public void testemptySlot1() {
 		// it doesn't have a space between the colon and "foo,bar"
 		TextAnnotationFactory taf = TextAnnotationFactory.createFactoryWithDefaults();
 		TextAnnotation ta = taf.createFromString(emptySlot1);
 		assertEquals(ta.getClassMention().getPrimitiveSlotMentions().size(), 0);
 	}
-	static String emptySlot2 = "======================= Annotation: 1 =======================\n" 
-		+ "Annotator: 1|Factory|Test|CCP\n"
-		+ "--- AnnotationSets: 1|set|test set\n"
-		+ "--- Span: 1 - 4 \n" 
-		+ "--- DocCollection: 2  DocID:   DocumentSection: 3\n"
-		+ "--- Covered Text: cell\n"
-		+ "-CLASS MENTION: 39917/GO:0005623 \"cell\"	[1..4]\n"
-		+ "-	SLOT MENTION: synonyms with SLOT VALUE(s):\n"
-		+ "================================================================================="	;
-	@Test 
+
+	static String emptySlot2 = "======================= Annotation: 1 =======================\n"
+			+ "Annotator: 1|Factory|Test|CCP\n" + "--- AnnotationSets: 1|set|test set\n" + "--- Span: 1 - 4 \n"
+			+ "--- DocCollection: 2  DocID:   DocumentSection: 3\n" + "--- Covered Text: cell\n"
+			+ "-CLASS MENTION: 39917/GO:0005623 \"cell\"	[1..4]\n" + "-	SLOT MENTION: synonyms with SLOT VALUE(s):\n"
+			+ "=================================================================================";
+
+	@Test
 	public void testemptySlot2() {
 		// it doesn't have a space between the colon and "foo,bar"
 		TextAnnotationFactory taf = TextAnnotationFactory.createFactoryWithDefaults();
@@ -191,20 +185,17 @@ public class TextAnnotationFactoryTest {
 		assertEquals(ta.getClassMention().getPrimitiveSlotMentions().size(), 0);
 		// visually inspect the following 2 outputs:
 	}
-	
-	static String annotation2 = "======================= Annotation: 1 =======================\n" 
-		+ "Annotator: 1|Factory|Test|CCP\n"
-		+ "--- AnnotationSets: 1|set|test set\n"
-		+ "--- Span: 1 - 4 \n" 
-		+ "--- DocCollection: 2  DocID:   DocumentSection: 3\n"
-		+ "--- Covered Text: cell\n"
-		+ "-CLASS MENTION: 39917/GO:0005623 \"cell\"	[1..4]\n"
-		+ "-	COMPLEX SLOT MENTION: <not sure what goes here but it refers to annotation1>\n"
 
-		+ "================================================================================="	;
-	
+	static String annotation2 = "======================= Annotation: 1 =======================\n"
+			+ "Annotator: 1|Factory|Test|CCP\n" + "--- AnnotationSets: 1|set|test set\n" + "--- Span: 1 - 4 \n"
+			+ "--- DocCollection: 2  DocID:   DocumentSection: 3\n" + "--- Covered Text: cell\n"
+			+ "-CLASS MENTION: 39917/GO:0005623 \"cell\"	[1..4]\n"
+			+ "-	COMPLEX SLOT MENTION: <not sure what goes here but it refers to annotation1>\n"
+
+			+ "=================================================================================";
+
 	@Ignore
-	@Test 
+	@Test
 	public void testLinkedMentions() {
 		assertTrue(false);
 		TextAnnotationFactory taf = TextAnnotationFactory.createFactoryWithDefaults();
@@ -212,25 +203,26 @@ public class TextAnnotationFactoryTest {
 		TextAnnotation referringTA = taf.createFromString(annotation2);
 		// ideally...
 		ClassMention referringCM = referringTA.getClassMention();
-		ClassMention referencedCM = CollectionsUtil.getSingleElement(CollectionsUtil.getSingleElement(referringCM.getComplexSlotMentions()).getClassMentions());
+		ClassMention referencedCM = CollectionsUtil.getSingleElement(CollectionsUtil.getSingleElement(
+				referringCM.getComplexSlotMentions()).getClassMentions());
 		ClassMention referencedCM2 = referencedTA.getClassMention();
 		assertEquals(referencedCM, referencedCM2);
 		assertTrue(referencedCM.equals(referencedCM2));
-		
+
 		// make sure its the same object, not just equivalent objects
 		assertTrue(referencedCM == referencedCM2);
 	}
-	
+
 	@Test
 	public void EquivalenceVSIdentity() {
 		Integer one = new Integer(1);
 		Integer two = new Integer(1);
 		Integer reallyTwo = new Integer(2);
-//		assertTrue(one == one); commented out to avoid a high priority findbugs warning
+		// assertTrue(one == one); commented out to avoid a high priority findbugs warning
 		assertFalse(one == two);
-		assertTrue( (int)one == (int) two);
+		assertTrue((int) one == (int) two);
 		assertFalse(one == reallyTwo);
-		assertFalse((int)one == (int) reallyTwo);
+		assertFalse((int) one == (int) reallyTwo);
 		assertTrue(one.equals(two));
 		assertFalse(one.equals(reallyTwo));
 	}

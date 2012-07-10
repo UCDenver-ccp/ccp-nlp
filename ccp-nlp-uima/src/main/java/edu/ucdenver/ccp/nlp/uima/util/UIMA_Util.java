@@ -3388,7 +3388,6 @@ public class UIMA_Util {
 		return true;
 	}
 
-	
 	public static void showCasDebugInfo(JCas jcas, String s) throws CASException {
 		System.out.println(">>>====== " + s + "   " + jcas.getViewName());
 		Iterator i = jcas.getViewIterator();
@@ -3405,7 +3404,6 @@ public class UIMA_Util {
 		System.out.println("======<<<");
 	}
 
-	
 }
 
 /**

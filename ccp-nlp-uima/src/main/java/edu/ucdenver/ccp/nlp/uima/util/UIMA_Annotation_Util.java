@@ -2100,230 +2100,232 @@ public class UIMA_Annotation_Util {
 
 	}
 
-	
 	public static CCPTextAnnotation createCCPTextAnnotationNoDups(String mentionType, int[] span, JCas jcas) {
-        CCPTextAnnotation ccpTA = new CCPTextAnnotation(jcas);
+		CCPTextAnnotation ccpTA = new CCPTextAnnotation(jcas);
 
-        int startIndex = span[0];
-        int endIndex = span[1];
+		int startIndex = span[0];
+		int endIndex = span[1];
 
-        ccpTA.setBegin(startIndex);
-        ccpTA.setEnd(endIndex);
+		ccpTA.setBegin(startIndex);
+		ccpTA.setEnd(endIndex);
 
-        /* create span */
-        FSArray ccpSpans = new FSArray(jcas, 1);
-        CCPSpan ccpSpan = new CCPSpan(jcas);
-        ccpSpan.setSpanStart(startIndex);
-        ccpSpan.setSpanEnd(endIndex);
-        ccpSpans.set(0, ccpSpan);
-        ccpTA.setSpans(ccpSpans);
+		/* create span */
+		FSArray ccpSpans = new FSArray(jcas, 1);
+		CCPSpan ccpSpan = new CCPSpan(jcas);
+		ccpSpan.setSpanStart(startIndex);
+		ccpSpan.setSpanEnd(endIndex);
+		ccpSpans.set(0, ccpSpan);
+		ccpTA.setSpans(ccpSpans);
 
-        /* set annotator and annotation set */
-        CCPAnnotator ccpAnnotator = new CCPAnnotator(jcas);
-        ccpAnnotator.setAffiliation("N/A");
-        ccpAnnotator.setFirstName("Default Annotator");
-        ccpAnnotator.setAnnotatorID(-1);
-        ccpAnnotator.setLastName("Default Annotator");
+		/* set annotator and annotation set */
+		CCPAnnotator ccpAnnotator = new CCPAnnotator(jcas);
+		ccpAnnotator.setAffiliation("N/A");
+		ccpAnnotator.setFirstName("Default Annotator");
+		ccpAnnotator.setAnnotatorID(-1);
+		ccpAnnotator.setLastName("Default Annotator");
 
-        CCPAnnotationSet ccpAnnotationSet = new CCPAnnotationSet(jcas);
-        ccpAnnotationSet.setAnnotationSetID(-1);
-        ccpAnnotationSet.setAnnotationSetName("Default Set");
-        ccpAnnotationSet.setAnnotationSetDescription("");
+		CCPAnnotationSet ccpAnnotationSet = new CCPAnnotationSet(jcas);
+		ccpAnnotationSet.setAnnotationSetID(-1);
+		ccpAnnotationSet.setAnnotationSetName("Default Set");
+		ccpAnnotationSet.setAnnotationSetDescription("");
 
-        ccpTA.setAnnotator(ccpAnnotator);
-        FSArray asets = new FSArray(jcas, 1);
-        asets.set(0, ccpAnnotationSet);
-        ccpTA.setAnnotationSets(asets);
+		ccpTA.setAnnotator(ccpAnnotator);
+		FSArray asets = new FSArray(jcas, 1);
+		asets.set(0, ccpAnnotationSet);
+		ccpTA.setAnnotationSets(asets);
 
-        ccpTA.setDocumentSectionID(-1);
+		ccpTA.setDocumentSectionID(-1);
 
-        CCPClassMention ccpCM = new CCPClassMention(jcas);
-        ccpCM.setMentionName(mentionType);
+		CCPClassMention ccpCM = new CCPClassMention(jcas);
+		ccpCM.setMentionName(mentionType);
 
-        ccpTA.setClassMention(ccpCM);
-        ccpCM.setCcpTextAnnotation(ccpTA);
-       
+		ccpTA.setClassMention(ccpCM);
+		ccpCM.setCcpTextAnnotation(ccpTA);
 
-        boolean deep = true;
-        boolean anonymize = true;
-        
-        WrappedCCPTextAnnotation wrappedCcpTa = new WrappedCCPTextAnnotation(ccpTA);
-//        String ccpTA_string = toString(ccpTA, deep, anonymize);
+		boolean deep = true;
+		boolean anonymize = true;
 
-        FSIterator completeIt = jcas.getAnnotationIndex().iterator();
-        completeIt.moveTo(ccpTA);
-        if ( completeIt.isValid() ) {
-                if (completeIt.get() instanceof CCPTextAnnotation) {
-                        CCPTextAnnotation ccpTA_comp = (CCPTextAnnotation)completeIt.get();
-                        WrappedCCPTextAnnotation wrappedCcpTa_comp = new WrappedCCPTextAnnotation(ccpTA_comp);
-                        
-//                        String stringRep = toString(ccpTA_comp, deep, anonymize);
-                        if (wrappedCcpTa.equals(wrappedCcpTa_comp)) {
-                                return null;
-                        } else {
-                                ccpTA.addToIndexes();
-                                return ccpTA;
-                        }
-                }
-        } else {
-                ccpTA.addToIndexes();
-                return ccpTA;
-        }
+		WrappedCCPTextAnnotation wrappedCcpTa = new WrappedCCPTextAnnotation(ccpTA);
+		// String ccpTA_string = toString(ccpTA, deep, anonymize);
 
-        return null;
-}
-	
-//	/**
-//     * Returns a String representation of a CCPTextAnnotation object <br>
-//     * TODO: inverse slots will cause an infinite loop
-//     *
-//     * @param ccpTA
-//     * @param deep
-//     *            - if false, it only prints the text annotation information, e.g. span, covered text
-//     * @param anonymize
-//     *            - if true, meta information such as annotator, annotation sets, etc. are not included in the output
-//     * @return
-//     */
-//    public static String toString(CCPTextAnnotation ccpTA, boolean deep, boolean anonymize) {
-//            String repStr = "";
-//
-//            String spansStr = "";
-//            FSArray spans = ccpTA.getSpans();
-//            if (spans != null) {
-//                    for (int i = 0; i < spans.size(); i++) {
-//                            CCPSpan span = (CCPSpan) spans.get(i);
-//                            spansStr += ("[" + span.getSpanStart() + ".." + span.getSpanEnd() + "]");
-//                    }
-//                    spansStr = spansStr.substring(0, spansStr.length());
-//            }
-//
-//            String coveredText;
-//            try {
-//                    coveredText = ccpTA.getCoveredText();
-//            } catch (StringIndexOutOfBoundsException siobe) {
-//                    coveredText = "";
-//            }
-//
-//            CCPAnnotator ccpAnnotator = ccpTA.getAnnotator();
-//            String lastName = "";
-//            if (ccpAnnotator != null) {
-//                    lastName = ccpAnnotator.getLastName();
-//            }
-//
-//            String annotationSetStr = "";
-//            FSArray ccpAnnotationSets = ccpTA.getAnnotationSets();
-//            if (ccpAnnotationSets != null) {
-//                    for (int i = 0; i < ccpAnnotationSets.size(); i++) {
-//                            CCPAnnotationSet ccpASet = (CCPAnnotationSet) ccpAnnotationSets.get(i);
-//                            annotationSetStr += (ccpASet.getAnnotationSetID() + ",");
-//                    }
-//            }
-//
-//            if (anonymize) {
-//                    repStr += (spansStr + "|\"" + coveredText + "\"");
-//            } else {
-//                    repStr += (spansStr + "|\"" + coveredText + "\"" + "|" + lastName + "|" + annotationSetStr);
-//            }
-//
-//            if (deep) {
-//                    repStr += (" -- " + toString(ccpTA.getClassMention(), anonymize));
-//            }
-//            return repStr;
-//    }
-//
-//    public static String toString(CCPClassMention ccpCM, boolean anonymize) {
-//            if (ccpCM != null) {
-//
-//                    String repStr = " [" + ccpCM.getMentionName() + "] ";
-//                    
-//                            repStr += toString(ccpCM.getCcpTextAnnotation(), false, anonymize) + "(";
-//
-//                    FSArray ccpSlotMentions = ccpCM.getSlotMentions();
-//                    List<CCPSlotMention> ccpSlotMentionsList = new ArrayList<CCPSlotMention>();
-//                    if (ccpSlotMentions != null) {
-//                            for (int i = 0; i < ccpSlotMentions.size(); i++) {
-//                                    ccpSlotMentionsList.add((CCPSlotMention) ccpSlotMentions.get(i));
-//                            }
-//                    }
-//
-//                    List<CCPSlotMention> sortedSlotMentions = sortSlotMentions(ccpSlotMentionsList);
-//                    for (CCPSlotMention sm : sortedSlotMentions) {
-//                            repStr += toString(sm, anonymize);
-//                    }
-//
-//                    repStr += ")";
-//                    return repStr;
-//            } else {
-//                    return null;
-//            }
-//    }
-//
-//    /**
-//     * Prints a CCPNonComplexSlotMention if it has slot values, otherwise returns an empty String.
-//     *
-//     * @param ccpNCSM
-//     * @return
-//     */
-//    public static String toString(CCPNonComplexSlotMention ccpNCSM) {
-//            String repStr = "";
-//            StringArray slotValues = ccpNCSM.getSlotValues();
-//            if (slotValues != null && slotValues.size() > 0) {
-//                    repStr = " [" + ccpNCSM.getMentionName() + "]:";
-//
-//                    /* get a sorted list of the slot values */
-//                    List<String> slotValuesList = Arrays.asList(slotValues.toArray());
-//                    Collections.sort(slotValuesList);
-//
-//                    for (String slotValue : slotValuesList) {
-//                            repStr += slotValue + "|";
-//                    }
-//                    /* remove trailing pipe */
-//                    repStr = repStr.substring(0, repStr.length() - 1);
-//            }
-//            return repStr;
-//    }
-//
-//    /**
-//     * Returns a String representation of a CCPComplexSlotMention if it has any slots, an empty String otherwise
-//     *
-//     * @param ccpCSM
-//     * @return
-//     */
-//    public static String toString(CCPComplexSlotMention ccpCSM, boolean anonymize) {
-//            String repStr = "";
-//            FSArray classMentions = ccpCSM.getClassMentions();
-//            if (classMentions != null && classMentions.size() > 0) {
-//                    repStr = " [" + ccpCSM.getMentionName() + "]:";
-//
-//                    Map<String, CCPClassMention> classMentionKey2MentionMap = new HashMap<String, CCPClassMention>();
-//                    List<String> classMentionKeys = new ArrayList<String>();
-//
-//                    for (int i = 0; i < classMentions.size(); i++) {
-//                            CCPClassMention ccpCM = (CCPClassMention) classMentions.get(i);
-//                            String key = toString(ccpCM, anonymize);
-//                            classMentionKey2MentionMap.put(key, ccpCM);
-//                            classMentionKeys.add(key);
-//                    }
-//
-//                    Collections.sort(classMentionKeys);
-//
-//                    for (String key : classMentionKeys) {
-//                            CCPClassMention ccpCM = classMentionKey2MentionMap.get(key);
-//                            repStr += toString((CCPTextAnnotation) ccpCM.getCcpTextAnnotation(), true, anonymize);
-//                    }
-//            }
-//            return repStr;
-//
-//    }
-//
-//    private static String toString(CCPSlotMention ccpSM, boolean anonymize) {
-//            if (ccpSM instanceof CCPNonComplexSlotMention) {
-//                    return toString((CCPNonComplexSlotMention) ccpSM);
-//            } else if (ccpSM instanceof CCPComplexSlotMention) {
-//                    return toString((CCPComplexSlotMention) ccpSM, anonymize);
-//            } else {
-//                    logger.error("Expecting CCPNonComplexSlotMention or CCPComplexSlotMention but instead got " + ccpSM.getClass().getName());
-//                    return null;
-//            }
-//    }
+		FSIterator completeIt = jcas.getAnnotationIndex().iterator();
+		completeIt.moveTo(ccpTA);
+		if (completeIt.isValid()) {
+			if (completeIt.get() instanceof CCPTextAnnotation) {
+				CCPTextAnnotation ccpTA_comp = (CCPTextAnnotation) completeIt.get();
+				WrappedCCPTextAnnotation wrappedCcpTa_comp = new WrappedCCPTextAnnotation(ccpTA_comp);
+
+				// String stringRep = toString(ccpTA_comp, deep, anonymize);
+				if (wrappedCcpTa.equals(wrappedCcpTa_comp)) {
+					return null;
+				} else {
+					ccpTA.addToIndexes();
+					return ccpTA;
+				}
+			}
+		} else {
+			ccpTA.addToIndexes();
+			return ccpTA;
+		}
+
+		return null;
+	}
+
+	// /**
+	// * Returns a String representation of a CCPTextAnnotation object <br>
+	// * TODO: inverse slots will cause an infinite loop
+	// *
+	// * @param ccpTA
+	// * @param deep
+	// * - if false, it only prints the text annotation information, e.g. span, covered text
+	// * @param anonymize
+	// * - if true, meta information such as annotator, annotation sets, etc. are not included in
+	// the output
+	// * @return
+	// */
+	// public static String toString(CCPTextAnnotation ccpTA, boolean deep, boolean anonymize) {
+	// String repStr = "";
+	//
+	// String spansStr = "";
+	// FSArray spans = ccpTA.getSpans();
+	// if (spans != null) {
+	// for (int i = 0; i < spans.size(); i++) {
+	// CCPSpan span = (CCPSpan) spans.get(i);
+	// spansStr += ("[" + span.getSpanStart() + ".." + span.getSpanEnd() + "]");
+	// }
+	// spansStr = spansStr.substring(0, spansStr.length());
+	// }
+	//
+	// String coveredText;
+	// try {
+	// coveredText = ccpTA.getCoveredText();
+	// } catch (StringIndexOutOfBoundsException siobe) {
+	// coveredText = "";
+	// }
+	//
+	// CCPAnnotator ccpAnnotator = ccpTA.getAnnotator();
+	// String lastName = "";
+	// if (ccpAnnotator != null) {
+	// lastName = ccpAnnotator.getLastName();
+	// }
+	//
+	// String annotationSetStr = "";
+	// FSArray ccpAnnotationSets = ccpTA.getAnnotationSets();
+	// if (ccpAnnotationSets != null) {
+	// for (int i = 0; i < ccpAnnotationSets.size(); i++) {
+	// CCPAnnotationSet ccpASet = (CCPAnnotationSet) ccpAnnotationSets.get(i);
+	// annotationSetStr += (ccpASet.getAnnotationSetID() + ",");
+	// }
+	// }
+	//
+	// if (anonymize) {
+	// repStr += (spansStr + "|\"" + coveredText + "\"");
+	// } else {
+	// repStr += (spansStr + "|\"" + coveredText + "\"" + "|" + lastName + "|" + annotationSetStr);
+	// }
+	//
+	// if (deep) {
+	// repStr += (" -- " + toString(ccpTA.getClassMention(), anonymize));
+	// }
+	// return repStr;
+	// }
+	//
+	// public static String toString(CCPClassMention ccpCM, boolean anonymize) {
+	// if (ccpCM != null) {
+	//
+	// String repStr = " [" + ccpCM.getMentionName() + "] ";
+	//
+	// repStr += toString(ccpCM.getCcpTextAnnotation(), false, anonymize) + "(";
+	//
+	// FSArray ccpSlotMentions = ccpCM.getSlotMentions();
+	// List<CCPSlotMention> ccpSlotMentionsList = new ArrayList<CCPSlotMention>();
+	// if (ccpSlotMentions != null) {
+	// for (int i = 0; i < ccpSlotMentions.size(); i++) {
+	// ccpSlotMentionsList.add((CCPSlotMention) ccpSlotMentions.get(i));
+	// }
+	// }
+	//
+	// List<CCPSlotMention> sortedSlotMentions = sortSlotMentions(ccpSlotMentionsList);
+	// for (CCPSlotMention sm : sortedSlotMentions) {
+	// repStr += toString(sm, anonymize);
+	// }
+	//
+	// repStr += ")";
+	// return repStr;
+	// } else {
+	// return null;
+	// }
+	// }
+	//
+	// /**
+	// * Prints a CCPNonComplexSlotMention if it has slot values, otherwise returns an empty String.
+	// *
+	// * @param ccpNCSM
+	// * @return
+	// */
+	// public static String toString(CCPNonComplexSlotMention ccpNCSM) {
+	// String repStr = "";
+	// StringArray slotValues = ccpNCSM.getSlotValues();
+	// if (slotValues != null && slotValues.size() > 0) {
+	// repStr = " [" + ccpNCSM.getMentionName() + "]:";
+	//
+	// /* get a sorted list of the slot values */
+	// List<String> slotValuesList = Arrays.asList(slotValues.toArray());
+	// Collections.sort(slotValuesList);
+	//
+	// for (String slotValue : slotValuesList) {
+	// repStr += slotValue + "|";
+	// }
+	// /* remove trailing pipe */
+	// repStr = repStr.substring(0, repStr.length() - 1);
+	// }
+	// return repStr;
+	// }
+	//
+	// /**
+	// * Returns a String representation of a CCPComplexSlotMention if it has any slots, an empty
+	// String otherwise
+	// *
+	// * @param ccpCSM
+	// * @return
+	// */
+	// public static String toString(CCPComplexSlotMention ccpCSM, boolean anonymize) {
+	// String repStr = "";
+	// FSArray classMentions = ccpCSM.getClassMentions();
+	// if (classMentions != null && classMentions.size() > 0) {
+	// repStr = " [" + ccpCSM.getMentionName() + "]:";
+	//
+	// Map<String, CCPClassMention> classMentionKey2MentionMap = new HashMap<String,
+	// CCPClassMention>();
+	// List<String> classMentionKeys = new ArrayList<String>();
+	//
+	// for (int i = 0; i < classMentions.size(); i++) {
+	// CCPClassMention ccpCM = (CCPClassMention) classMentions.get(i);
+	// String key = toString(ccpCM, anonymize);
+	// classMentionKey2MentionMap.put(key, ccpCM);
+	// classMentionKeys.add(key);
+	// }
+	//
+	// Collections.sort(classMentionKeys);
+	//
+	// for (String key : classMentionKeys) {
+	// CCPClassMention ccpCM = classMentionKey2MentionMap.get(key);
+	// repStr += toString((CCPTextAnnotation) ccpCM.getCcpTextAnnotation(), true, anonymize);
+	// }
+	// }
+	// return repStr;
+	//
+	// }
+	//
+	// private static String toString(CCPSlotMention ccpSM, boolean anonymize) {
+	// if (ccpSM instanceof CCPNonComplexSlotMention) {
+	// return toString((CCPNonComplexSlotMention) ccpSM);
+	// } else if (ccpSM instanceof CCPComplexSlotMention) {
+	// return toString((CCPComplexSlotMention) ccpSM, anonymize);
+	// } else {
+	// logger.error("Expecting CCPNonComplexSlotMention or CCPComplexSlotMention but instead got " +
+	// ccpSM.getClass().getName());
+	// return null;
+	// }
+	// }
 }

@@ -40,15 +40,16 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.CCPBooleanSlotMention;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class WrappedCCPBooleanSlotMention extends BooleanSlotMention {
 
 	private CCPBooleanSlotMention wrappedSM;
-//	private JCas jcas;
+
+	// private JCas jcas;
 
 	public WrappedCCPBooleanSlotMention(CCPBooleanSlotMention ccpSSM) {
-		super( ccpSSM);
+		super(ccpSSM);
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class WrappedCCPBooleanSlotMention extends BooleanSlotMention {
 			Object wrappedObject = wrappedObjectPlusGlobalVars[0];
 			if (wrappedObject instanceof CCPBooleanSlotMention) {
 				wrappedSM = (CCPBooleanSlotMention) wrappedObject;
-//				jcas = wrappedSpM.getCAS().getJCas();
+				// jcas = wrappedSpM.getCAS().getJCas();
 			} else {
 				throw new KnowledgeRepresentationWrapperException(
 						"Expected CCPNonComplexSlotMention. Cannot wrap class " + wrappedObject.getClass().getName()
@@ -82,21 +83,22 @@ public class WrappedCCPBooleanSlotMention extends BooleanSlotMention {
 		}
 	}
 
-//	@Override
-//	protected void initializeMention() {
-//		// do nothing
-//	}
+	// @Override
+	// protected void initializeMention() {
+	// // do nothing
+	// }
 
-//	public void addSlotValue(Boolean slotValue) throws InvalidInputException {
-//		BooleanArray updatedBooleanArray = UIMA_Util.addToBooleanArray(wrappedSM.getSlotValues(), slotValue, jcas);
-//		wrappedSM.setSlotValues(updatedBooleanArray);
-//	}
-//
-//	public void addSlotValues(Collection<Boolean> slotValues) throws InvalidInputException {
-//		for (Boolean booleanToAdd : slotValues) {
-//			addSlotValue(booleanToAdd);
-//		}
-//	}
+	// public void addSlotValue(Boolean slotValue) throws InvalidInputException {
+	// BooleanArray updatedBooleanArray = UIMA_Util.addToBooleanArray(wrappedSM.getSlotValues(),
+	// slotValue, jcas);
+	// wrappedSM.setSlotValues(updatedBooleanArray);
+	// }
+	//
+	// public void addSlotValues(Collection<Boolean> slotValues) throws InvalidInputException {
+	// for (Boolean booleanToAdd : slotValues) {
+	// addSlotValue(booleanToAdd);
+	// }
+	// }
 
 	public Collection<Boolean> getSlotValues() {
 		Collection<Boolean> slotValuesToReturn = new ArrayList<Boolean>();
@@ -115,37 +117,33 @@ public class WrappedCCPBooleanSlotMention extends BooleanSlotMention {
 
 	@Override
 	public String getMentionName() {
-	return wrappedSM.getMentionName();
+		return wrappedSM.getMentionName();
 	}
 
 	@Override
 	public void setMentionID(long mentionID) {
-wrappedSM.setMentionID(mentionID);
-}
+		wrappedSM.setMentionID(mentionID);
+	}
 
 	@Override
 	protected void setMentionName(String mentionName) {
-wrappedSM.setMentionName(mentionName);
+		wrappedSM.setMentionName(mentionName);
 	}
 
-	
-
-//	public void setSlotValues(Collection<Boolean> slotValues) throws InvalidInputException {
-//		List<Boolean> slotValuesList = new ArrayList<Boolean>(slotValues);
-//		BooleanArray booleanArray = new BooleanArray(jcas, slotValues.size());
-//		for (int i = 0; i < slotValues.size(); i++) {
-//			booleanArray.set(i, slotValuesList.get(i));
-//		}
-//		wrappedSM.setSlotValues(booleanArray);
-//	}
-
-	
+	// public void setSlotValues(Collection<Boolean> slotValues) throws InvalidInputException {
+	// List<Boolean> slotValuesList = new ArrayList<Boolean>(slotValues);
+	// BooleanArray booleanArray = new BooleanArray(jcas, slotValues.size());
+	// for (int i = 0; i < slotValues.size(); i++) {
+	// booleanArray.set(i, slotValuesList.get(i));
+	// }
+	// wrappedSM.setSlotValues(booleanArray);
+	// }
 
 	// @Override
 	// protected Long getMentionIDForTraversal(int traversalID) {
 	// return UIMA_Util.getMentionIDForTraversal(wrappedNCSM, traversalID);
 	// }
-	//	
+	//
 	// @Override
 	// protected void removeMentionIDForTraversal(int traversalID) {
 	// UIMA_Util.removeMentionIDForTraversal(wrappedNCSM, traversalID, jcas);

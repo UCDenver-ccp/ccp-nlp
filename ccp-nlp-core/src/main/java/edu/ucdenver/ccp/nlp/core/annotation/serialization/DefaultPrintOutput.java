@@ -39,78 +39,79 @@ import edu.ucdenver.ccp.nlp.core.document.DocumentUtil;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 
 /**
- * This annotation printer implements a default output format for printing annotations from a <code>GenericDocument</code>.
+ * This annotation printer implements a default output format for printing annotations from a
+ * <code>GenericDocument</code>.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class DefaultPrintOutput extends AnnotationPrinterUtil {
-    private boolean useOneLineFormat = false;
+	private boolean useOneLineFormat = false;
 
-//    public void printDocumentCollection(List<GenericDocument> documents) {
-//        printDocumentCollection(documents, System.out);
-//    }
-//
-//    public void printDocumentCollection(List<GenericDocument> documents, PrintStream ps) {
-//        for (GenericDocument gd : documents) {
-//            printDocument(gd, ps);
-//        }
-//    }
-//
-//    public void printDocument(GenericDocument gd) {
-//        printDocument(gd, System.out);
-//    }
+	// public void printDocumentCollection(List<GenericDocument> documents) {
+	// printDocumentCollection(documents, System.out);
+	// }
+	//
+	// public void printDocumentCollection(List<GenericDocument> documents, PrintStream ps) {
+	// for (GenericDocument gd : documents) {
+	// printDocument(gd, ps);
+	// }
+	// }
+	//
+	// public void printDocument(GenericDocument gd) {
+	// printDocument(gd, System.out);
+	// }
 
-    public void setUseOneLineFormatStatus(boolean useOneLineFormat) {
-        this.useOneLineFormat = useOneLineFormat;
-    }
+	public void setUseOneLineFormatStatus(boolean useOneLineFormat) {
+		this.useOneLineFormat = useOneLineFormat;
+	}
 
-    public void printDocument(GenericDocument gd, PrintStream ps) {
-        List<TextAnnotation> annotations = gd.getAnnotations();
+	public void printDocument(GenericDocument gd, PrintStream ps) {
+		List<TextAnnotation> annotations = gd.getAnnotations();
 
-        ps.println("==============================================================================");
-        // print document information
-        String docID = gd.getDocumentID();
-        int docSize=0;
-        if (gd.getDocumentText() != null) {
-        	docSize = gd.getDocumentText().length();
-        }
-        ps.println("DOCUMENT ID: " + docID);
+		ps.println("==============================================================================");
+		// print document information
+		String docID = gd.getDocumentID();
+		int docSize = 0;
+		if (gd.getDocumentText() != null) {
+			docSize = gd.getDocumentText().length();
+		}
+		ps.println("DOCUMENT ID: " + docID);
 
-        // print document section information
-        HashMap<Integer, String> docSectionIDNameHash = DocumentUtil.getSectionIDNameHash();
-        List<DocumentSection> documentSections = gd.getDocumentSections();
-        String sections = "";
-        if (documentSections != null) {
-            for (DocumentSection ds : documentSections) {
-                sections += (docSectionIDNameHash.get(ds.getDocumentSectionID()) + "("
-                        + (ds.getSectionEndIndex() - ds.getSectionStartIndex()) + ")  ");
-            }
-        }
+		// print document section information
+		HashMap<Integer, String> docSectionIDNameHash = DocumentUtil.getSectionIDNameHash();
+		List<DocumentSection> documentSections = gd.getDocumentSections();
+		String sections = "";
+		if (documentSections != null) {
+			for (DocumentSection ds : documentSections) {
+				sections += (docSectionIDNameHash.get(ds.getDocumentSectionID()) + "("
+						+ (ds.getSectionEndIndex() - ds.getSectionStartIndex()) + ")  ");
+			}
+		}
 
-        ps.println("DOCUMENT LENGTH: " + docSize);
-        ps.println("DOCUMENT SECTIONS: " + sections);
-        ps.println("DOCUMENT: " + gd.getDocumentText());
+		ps.println("DOCUMENT LENGTH: " + docSize);
+		ps.println("DOCUMENT SECTIONS: " + sections);
+		ps.println("DOCUMENT: " + gd.getDocumentText());
 
-        // iterate and print annotations
-        ps.println("------------------------------------------------------------------------------------");
-        ps.println("------------------------------      ANNOTATIONS      -------------------------------");
-        ps.println("------------------------------------------------------------------------------------");
+		// iterate and print annotations
+		ps.println("------------------------------------------------------------------------------------");
+		ps.println("------------------------------      ANNOTATIONS      -------------------------------");
+		ps.println("------------------------------------------------------------------------------------");
 
-        for (TextAnnotation ta : annotations) {
-            printTextAnnotation(ta, ps);
-        }
-        ps.println("==============================================================================");
+		for (TextAnnotation ta : annotations) {
+			printTextAnnotation(ta, ps);
+		}
+		ps.println("==============================================================================");
 
-    }
+	}
 
 	@Override
 	public void printTextAnnotation(TextAnnotation ta, PrintStream ps) {
 		if (useOneLineFormat) {
-            ta.printAnnotationOnOneLine(ps);
-        } else {
-            ta.printAnnotation(ps);
-        }
+			ta.printAnnotationOnOneLine(ps);
+		} else {
+			ta.printAnnotation(ps);
+		}
 	}
 
 }

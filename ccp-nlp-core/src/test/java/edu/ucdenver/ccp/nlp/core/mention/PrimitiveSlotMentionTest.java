@@ -46,7 +46,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultIntegerSlotMention;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class PrimitiveSlotMentionTest {
 

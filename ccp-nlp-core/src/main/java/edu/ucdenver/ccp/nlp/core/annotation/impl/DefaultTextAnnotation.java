@@ -169,8 +169,7 @@ public class DefaultTextAnnotation extends TextAnnotation {
 		this.classMention = null;
 		this.annotationMetadata = new AnnotationMetadata();
 	}
-	
-	
+
 	@Override
 	public AnnotationMetadata getAnnotationMetadata() {
 		return annotationMetadata;
@@ -438,12 +437,11 @@ public class DefaultTextAnnotation extends TextAnnotation {
 		try {
 			this.spanList.get(0).setSpanStart(spanStart);
 		} catch (InvalidSpanException ise) {
-			logger
-					.error("Invalid span. ["
-							+ spanStart
-							+ ".."
-							+ this.spanList.get(0).getSpanEnd()
-							+ "] --- this error is often caused by setting the span start prior to setting the span end, please check your code to see if this is the case. --- Annotation span reverted to last known safe state.");
+			logger.error("Invalid span. ["
+					+ spanStart
+					+ ".."
+					+ this.spanList.get(0).getSpanEnd()
+					+ "] --- this error is often caused by setting the span start prior to setting the span end, please check your code to see if this is the case. --- Annotation span reverted to last known safe state.");
 			ise.printStackTrace();
 			/* return the span to it's previous state */
 			try {

@@ -44,13 +44,14 @@ import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class DefaultPrimitiveSlotMentionFactory {
 
 	private static Logger logger = Logger.getLogger(DefaultPrimitiveSlotMentionFactory.class);
 
-	public static PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValueObject) throws InvalidInputException {
+	public static PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValueObject)
+			throws InvalidInputException {
 		logger.debug("Creating primitive slot with value type: " + slotValueObject.getClass().getName());
 		if (slotValueObject instanceof String) {
 			String slotValue = (String) slotValueObject;
@@ -85,7 +86,8 @@ public class DefaultPrimitiveSlotMentionFactory {
 
 	}
 
-	public static PrimitiveSlotMention createPrimitiveSlotMentionWithCollection(String slotMentionName, Collection slotValueObjects) throws InvalidInputException {
+	public static PrimitiveSlotMention createPrimitiveSlotMentionWithCollection(String slotMentionName,
+			Collection slotValueObjects) throws InvalidInputException {
 		logger.debug("Creating PrimitiveSlot from Collection...");
 		List<Object> slotValues = Collections.list(Collections.enumeration(slotValueObjects));
 		PrimitiveSlotMention psm = createPrimitiveSlotMention(slotMentionName, slotValues.get(0));
@@ -96,14 +98,16 @@ public class DefaultPrimitiveSlotMentionFactory {
 	}
 
 	/**
-	 * Tries to parse the string as one of the other primitives first. Defaults to Float if it is a number.
+	 * Tries to parse the string as one of the other primitives first. Defaults to Float if it is a
+	 * number.
 	 * 
 	 * @param slotMentionName
 	 * @param slotValueAsString
 	 * @return
-	 * @throws InvalidInputException 
+	 * @throws InvalidInputException
 	 */
-	public static PrimitiveSlotMention createPrimitiveSlotMentionFromStringValue(String slotMentionName, String slotValueAsString) throws InvalidInputException {
+	public static PrimitiveSlotMention createPrimitiveSlotMentionFromStringValue(String slotMentionName,
+			String slotValueAsString) throws InvalidInputException {
 		slotValueAsString = slotValueAsString.trim();
 		try {
 			Integer integerSlotValue = Integer.parseInt(slotValueAsString);

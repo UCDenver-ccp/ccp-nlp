@@ -37,9 +37,10 @@ import edu.ucdenver.ccp.nlp.core.annotation.comparison.SpanComparator;
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
 
 /**
- * The <code>Span</code> class is used to store the character offsets for a span of text. If an invalid span is
- * detected, e.g. the end offset is less than the start offset, an <code>InvalidSpanException</code> is thrown. The
- * <code>Span</code> class is used by the <code>TextAnnotation</code> class.
+ * The <code>Span</code> class is used to store the character offsets for a span of text. If an
+ * invalid span is detected, e.g. the end offset is less than the start offset, an
+ * <code>InvalidSpanException</code> is thrown. The <code>Span</code> class is used by the
+ * <code>TextAnnotation</code> class.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
@@ -76,8 +77,9 @@ public class Span implements Comparable {
 
 	private void validateSpan() {
 		if (!isValid()) {
-			throw new InvalidSpanException("Invalid span: Negative offsets or start of span is greater than end of span. spanStart=" + spanStart + "  spanEnd="
-					+ spanEnd);
+			throw new InvalidSpanException(
+					"Invalid span: Negative offsets or start of span is greater than end of span. spanStart="
+							+ spanStart + "  spanEnd=" + spanEnd);
 		}
 	}
 
@@ -148,7 +150,8 @@ public class Span implements Comparable {
 	}
 
 	/**
-	 * Returns true if this span starts before the inputted span, false otherwise. (Equal span starts result in false).
+	 * Returns true if this span starts before the inputted span, false otherwise. (Equal span
+	 * starts result in false).
 	 * 
 	 * @param span
 	 * @return
@@ -162,7 +165,8 @@ public class Span implements Comparable {
 	}
 
 	/**
-	 * Returns true if this span ends before the inputted span, false otherwise. (Equal span ends result in false).
+	 * Returns true if this span ends before the inputted span, false otherwise. (Equal span ends
+	 * result in false).
 	 * 
 	 * @param span
 	 * @return
@@ -174,19 +178,21 @@ public class Span implements Comparable {
 			return false;
 		}
 	}
-	
+
 	/**
-     * REturns true if this span encompasses the inputted span, i.e. if it overlaps the input span entirely.
-     * @param span
-     * @return
-     */
-    public boolean containsSpan(Span span) {
-        if (this.spanStart <= span.getSpanStart() & this.spanEnd >= span.getSpanEnd()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+	 * REturns true if this span encompasses the inputted span, i.e. if it overlaps the input span
+	 * entirely.
+	 * 
+	 * @param span
+	 * @return
+	 */
+	public boolean containsSpan(Span span) {
+		if (this.spanStart <= span.getSpanStart() & this.spanEnd >= span.getSpanEnd()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	@Override
 	public int hashCode() {
@@ -197,9 +203,11 @@ public class Span implements Comparable {
 	public String toString() {
 		return "[" + this.spanStart + ".." + this.spanEnd + "]";
 	}
-	
+
 	/**
-	 * Returns a String for a list of spans taking the form: [s1b..s1e--s2b..s2e--s3b..s3e], where s1b=span1 begin and s1e=span1 end
+	 * Returns a String for a list of spans taking the form: [s1b..s1e--s2b..s2e--s3b..s3e], where
+	 * s1b=span1 begin and s1e=span1 end
+	 * 
 	 * @param spanList
 	 * @return
 	 */
@@ -209,7 +217,7 @@ public class Span implements Comparable {
 			sb.append(String.format("[%d..%d]_", span.getSpanStart(), span.getSpanEnd()));
 		}
 		if (spanList.size() > 0) {
-			sb.replace(sb.length()-1, sb.length(), "");
+			sb.replace(sb.length() - 1, sb.length(), "");
 		} else {
 			sb.append("[]");
 		}
@@ -251,5 +259,5 @@ public class Span implements Comparable {
 			}
 		};
 	}
-	
+
 }

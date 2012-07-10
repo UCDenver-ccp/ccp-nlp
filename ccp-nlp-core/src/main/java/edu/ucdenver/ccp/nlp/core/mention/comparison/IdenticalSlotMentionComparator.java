@@ -41,66 +41,75 @@ import edu.ucdenver.ccp.nlp.core.mention.SlotMention;
  */
 public class IdenticalSlotMentionComparator extends IdenticalMentionComparator implements SlotMentionComparator {
 
-    /**
-     * Compare two slot mentions. They must be SlotMentions or else an UnsupportedOperationException is thrown. In order to be identical (and return 0),
-     * they must have the name mention name, and the identical slot values
-     */
-    public int compare(Mention mention1, Mention mention2, SpanComparator spanComparator, int maximumComparisonDepth, int depth) {
-        if ((mention1 instanceof SlotMention) & (mention2 instanceof SlotMention)) {
-            return compare((SlotMention) mention1, (SlotMention) mention2, spanComparator, maximumComparisonDepth, depth);
-        } else {
-            throw new ClassCastException("Cannot support comparison between a SlotMention and a non-SlotMention");
-        }
-    }
+	/**
+	 * Compare two slot mentions. They must be SlotMentions or else an UnsupportedOperationException
+	 * is thrown. In order to be identical (and return 0), they must have the name mention name, and
+	 * the identical slot values
+	 */
+	public int compare(Mention mention1, Mention mention2, SpanComparator spanComparator, int maximumComparisonDepth,
+			int depth) {
+		if ((mention1 instanceof SlotMention) & (mention2 instanceof SlotMention)) {
+			return compare((SlotMention) mention1, (SlotMention) mention2, spanComparator, maximumComparisonDepth,
+					depth);
+		} else {
+			throw new ClassCastException("Cannot support comparison between a SlotMention and a non-SlotMention");
+		}
+	}
 
-    /**
-     * Compare two SlotMentions. In order to be identical (and return 0), they must have the same mention name, and the identical slot values
-     * 
-     * @param slotMention1
-     * @param slotMention2
-     * @param maximumComparisonDepth
-     * @param depth
-     * @param spanComparator
-     * @param compareLinkedAnnotationSpans
-     * @return
-     */
-    @Override
-    public int compare(SlotMention slotMention1, SlotMention slotMention2, SpanComparator spanComparator, int maximumComparisonDepth,
-            int depth) {
-        if (slotMention1.getSlotValues().size() == slotMention2.getSlotValues().size()) {
-            /* quick check to make sure each slot mention has the same number of slot values */
-            if (hasEquivalentMentionNames(slotMention1, slotMention2)) {
-                for (Object slotValue : slotMention1.getSlotValues()) {
-                    boolean objectHasMatch = false;
-                    for (Object svToCompare : slotMention2.getSlotValues()) {
-                    	if (svToCompare instanceof String) {
-	                        if (((String) slotValue).equalsIgnoreCase((String)svToCompare)) {
-	                            objectHasMatch = true;
-	                        }
-                    	}
-                    	else {
-	                        if (slotValue.equals(svToCompare)) {
-	                            objectHasMatch = true;
-	                        }
-                    	}
-                    }
-                    if (!objectHasMatch) {
-                        /* if they do not match, then simply return the comparison between their single line representation strings */
-                        return slotMention1.getSingleLineRepresentation().compareTo(slotMention2.getSingleLineRepresentation())
-                                * MULTIPLIER;
-                    }
-                }
-                /* if we get to this point, then all slot values have a match, so return 0 */
-                return 0;
-            } else {
-                /* the sm's have different mention names */
-                return slotMention1.getSingleLineRepresentation().compareTo(slotMention2.getSingleLineRepresentation()) * MULTIPLIER;
-            }
-        } else {
-            /* the sm's have unequal number of slot values */
-            return slotMention1.getSingleLineRepresentation().compareTo(slotMention2.getSingleLineRepresentation()) * MULTIPLIER;
-        }
+	/**
+	 * Compare two SlotMentions. In order to be identical (and return 0), they must have the same
+	 * mention name, and the identical slot values
+	 * 
+	 * @param slotMention1
+	 * @param slotMention2
+	 * @param maximumComparisonDepth
+	 * @param depth
+	 * @param spanComparator
+	 * @param compareLinkedAnnotationSpans
+	 * @return
+	 */
+	@Override
+	public int compare(SlotMention slotMention1, SlotMention slotMention2, SpanComparator spanComparator,
+			int maximumComparisonDepth, int depth) {
+		if (slotMention1.getSlotValues().size() == slotMention2.getSlotValues().size()) {
+			/* quick check to make sure each slot mention has the same number of slot values */
+			if (hasEquivalentMentionNames(slotMention1, slotMention2)) {
+				for (Object slotValue : slotMention1.getSlotValues()) {
+					boolean objectHasMatch = false;
+					for (Object svToCompare : slotMention2.getSlotValues()) {
+						if (svToCompare instanceof String) {
+							if (((String) slotValue).equalsIgnoreCase((String) svToCompare)) {
+								objectHasMatch = true;
+							}
+						} else {
+							if (slotValue.equals(svToCompare)) {
+								objectHasMatch = true;
+							}
+						}
+					}
+					if (!objectHasMatch) {
+						/*
+						 * if they do not match, then simply return the comparison between their
+						 * single line representation strings
+						 */
+						return slotMention1.getSingleLineRepresentation().compareTo(
+								slotMention2.getSingleLineRepresentation())
+								* MULTIPLIER;
+					}
+				}
+				/* if we get to this point, then all slot values have a match, so return 0 */
+				return 0;
+			} else {
+				/* the sm's have different mention names */
+				return slotMention1.getSingleLineRepresentation().compareTo(slotMention2.getSingleLineRepresentation())
+						* MULTIPLIER;
+			}
+		} else {
+			/* the sm's have unequal number of slot values */
+			return slotMention1.getSingleLineRepresentation().compareTo(slotMention2.getSingleLineRepresentation())
+					* MULTIPLIER;
+		}
 
-    }
+	}
 
 }

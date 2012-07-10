@@ -37,16 +37,17 @@ import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class DefaultIntegerSlotMention extends IntegerSlotMention {
 	private String mentionName;
 	private long mentionID;
 	protected Collection<Integer> slotValues;
-//	protected Map<Integer, Long> traversalID2MentionIDMap;
+
+	// protected Map<Integer, Long> traversalID2MentionIDMap;
 
 	public DefaultIntegerSlotMention(String mentionName) {
-		super( (Object[])null);
+		super((Object[]) null);
 		this.mentionName = mentionName;
 		slotValues = new ArrayList<Integer>();
 	}
@@ -63,10 +64,10 @@ public class DefaultIntegerSlotMention extends IntegerSlotMention {
 				+ " class does not support wrapping of another object.");
 	}
 
-//	@Override
-//	protected void initializeMention() {
-////		traversalID2MentionIDMap = new HashMap<Integer, Long>();
-//	}
+	// @Override
+	// protected void initializeMention() {
+	// // traversalID2MentionIDMap = new HashMap<Integer, Long>();
+	// }
 
 	public void addSlotValue(Integer slotValue) throws InvalidInputException {
 		slotValues.add(slotValue);
@@ -94,36 +95,36 @@ public class DefaultIntegerSlotMention extends IntegerSlotMention {
 
 	@Override
 	public long getMentionID() {
-return mentionID;
-}
+		return mentionID;
+	}
 
 	@Override
 	public String getMentionName() {
-return mentionName;
-}
+		return mentionName;
+	}
 
 	@Override
 	public void setMentionID(long mentionID) {
 		this.mentionID = mentionID;
 	}
-	
+
 	@Override
 	protected void setMentionName(String mentionName) {
 		this.mentionName = mentionName;
 	}
-	
-//	@Override
-//	protected Long getMentionIDForTraversal(int traversalID) {
-//		return traversalID2MentionIDMap.get(traversalID);
-//	}
-//
-//	@Override
-//	protected void setMentionIDForTraversal(long mentionID, int traversalID) {
-//		traversalID2MentionIDMap.put(traversalID, mentionID);
-//	}
-//
-//	@Override
-//	protected void removeMentionIDForTraversal(int traversalID) {
-//		traversalID2MentionIDMap.remove(traversalID);
-//	}
+
+	// @Override
+	// protected Long getMentionIDForTraversal(int traversalID) {
+	// return traversalID2MentionIDMap.get(traversalID);
+	// }
+	//
+	// @Override
+	// protected void setMentionIDForTraversal(long mentionID, int traversalID) {
+	// traversalID2MentionIDMap.put(traversalID, mentionID);
+	// }
+	//
+	// @Override
+	// protected void removeMentionIDForTraversal(int traversalID) {
+	// traversalID2MentionIDMap.remove(traversalID);
+	// }
 }

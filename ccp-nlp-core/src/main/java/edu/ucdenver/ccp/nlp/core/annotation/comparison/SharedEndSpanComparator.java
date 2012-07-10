@@ -35,9 +35,9 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
 
 /**
  * 
- * For "shared end" comparison, the spans are required to have the same end index in order to return 0. If they do not
- * share the same span end, then if the span start for span1 is prior to the span start for span2, then -1 is returned,
- * 1 otherwise.
+ * For "shared end" comparison, the spans are required to have the same end index in order to return
+ * 0. If they do not share the same span end, then if the span start for span1 is prior to the span
+ * start for span2, then -1 is returned, 1 otherwise.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 

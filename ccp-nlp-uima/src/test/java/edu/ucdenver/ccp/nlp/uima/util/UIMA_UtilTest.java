@@ -78,7 +78,7 @@ import edu.ucdenver.ccp.nlp.uima.annotation.impl.WrappedCCPTextAnnotation;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class UIMA_UtilTest {
 	private static Logger logger = Logger.getLogger(UIMA_UtilTest.class);

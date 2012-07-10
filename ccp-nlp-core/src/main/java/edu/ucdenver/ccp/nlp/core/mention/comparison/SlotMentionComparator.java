@@ -40,6 +40,6 @@ import edu.ucdenver.ccp.nlp.core.mention.SlotMention;
  */
 public interface SlotMentionComparator {
 
-    public int compare(SlotMention slotMention1, SlotMention slotMention2, SpanComparator spanComparator, int maximumComparisonDepth,
-            int depth);
+	public int compare(SlotMention slotMention1, SlotMention slotMention2, SpanComparator spanComparator,
+			int maximumComparisonDepth, int depth);
 }

@@ -45,7 +45,7 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- *
+ * 
  */
 public class WrappedCCPIntegerSlotMention extends IntegerSlotMention {
 

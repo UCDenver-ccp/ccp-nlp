@@ -35,8 +35,9 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
 
 /**
  * 
- * For "strict" comparison, the spans are required to be exactly the same in order to return 0. If they do not match
- * exactly, then if the span start for span1 is prior to the span start for span2, then -1 is returned, 1 otherwise.
+ * For "strict" comparison, the spans are required to be exactly the same in order to return 0. If
+ * they do not match exactly, then if the span start for span1 is prior to the span start for span2,
+ * then -1 is returned, 1 otherwise.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 

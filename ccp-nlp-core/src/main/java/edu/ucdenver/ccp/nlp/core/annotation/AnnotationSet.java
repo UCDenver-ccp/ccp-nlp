@@ -32,112 +32,115 @@ package edu.ucdenver.ccp.nlp.core.annotation;
 import java.io.PrintStream;
 
 /**
- * This class provides a means to arbitrarily classify/group <code>TextAnnotations</code>. Each annotation set has a name, description, and integer
- * identifier that can be used to uniquely identify the set. Some example uses of the annotation set include defining a group of gold standard annotations, or
- * classifying a group of annotations created using different parameters, but the same annotator. <code>TextAnnotations</code> can be assigned to
- * multiple annotations sets.<p>
+ * This class provides a means to arbitrarily classify/group <code>TextAnnotations</code>. Each
+ * annotation set has a name, description, and integer identifier that can be used to uniquely
+ * identify the set. Some example uses of the annotation set include defining a group of gold
+ * standard annotations, or classifying a group of annotations created using different parameters,
+ * but the same annotator. <code>TextAnnotations</code> can be assigned to multiple annotations
+ * sets.
+ * <p>
  * 
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class AnnotationSet implements Comparable {
-    private final boolean DEBUG = false;
+	private final boolean DEBUG = false;
 
-    private String annotationSetName;
+	private String annotationSetName;
 
-    private String annotationSetDescription;
+	private String annotationSetDescription;
 
-    private Integer annotationSetID;
-    
-    public static final int Art502TextDocumentParser_ANNOTATION_SET_ID = 98;
-    public static final int DEFAULT_ANNOTATION_SET_ID = -1;
+	private Integer annotationSetID;
 
-    public AnnotationSet(Integer annotationSetID, String annotationSetName, String annotationSetDescription) {
-        this.annotationSetID = annotationSetID;
-        this.annotationSetName = annotationSetName;
-        this.annotationSetDescription = annotationSetDescription;
-    }
+	public static final int Art502TextDocumentParser_ANNOTATION_SET_ID = 98;
+	public static final int DEFAULT_ANNOTATION_SET_ID = -1;
 
-    public AnnotationSet() {
-        this.annotationSetID = DEFAULT_ANNOTATION_SET_ID;
-        this.annotationSetName = "Default Set";
-        this.annotationSetDescription = "Default Set";
-    }
-    
-    public String getAnnotationSetDescription() {
-        return annotationSetDescription;
-    }
+	public AnnotationSet(Integer annotationSetID, String annotationSetName, String annotationSetDescription) {
+		this.annotationSetID = annotationSetID;
+		this.annotationSetName = annotationSetName;
+		this.annotationSetDescription = annotationSetDescription;
+	}
 
-    public void setAnnotationSetDescription(String annotationSetDescription) {
-        this.annotationSetDescription = annotationSetDescription;
-    }
+	public AnnotationSet() {
+		this.annotationSetID = DEFAULT_ANNOTATION_SET_ID;
+		this.annotationSetName = "Default Set";
+		this.annotationSetDescription = "Default Set";
+	}
 
-    public Integer getAnnotationSetID() {
-        return annotationSetID;
-    }
+	public String getAnnotationSetDescription() {
+		return annotationSetDescription;
+	}
 
-    public void setAnnotationSetID(Integer annotationSetID) {
-        this.annotationSetID = annotationSetID;
-    }
+	public void setAnnotationSetDescription(String annotationSetDescription) {
+		this.annotationSetDescription = annotationSetDescription;
+	}
 
-    public String getAnnotationSetName() {
-        return annotationSetName;
-    }
+	public Integer getAnnotationSetID() {
+		return annotationSetID;
+	}
 
-    public void setAnnotationSetName(String annotationSetName) {
-        this.annotationSetName = annotationSetName;
-    }
+	public void setAnnotationSetID(Integer annotationSetID) {
+		this.annotationSetID = annotationSetID;
+	}
 
-    public String getStorageLine() {
-        return annotationSetID + "|" + annotationSetName + "|" + annotationSetDescription;
-    }
+	public String getAnnotationSetName() {
+		return annotationSetName;
+	}
 
-    public void printStorageLine(PrintStream ps) {
-        ps.println(getStorageLine());
-    }
+	public void setAnnotationSetName(String annotationSetName) {
+		this.annotationSetName = annotationSetName;
+	}
 
-    /**
-     * Note: this method compares the name field only. The integer ID is not considered here.
-     */
-    public int compareTo(Object annotationSet) {
-        if (annotationSet instanceof AnnotationSet) {
-            String setName = ((AnnotationSet) annotationSet).getAnnotationSetName();
+	public String getStorageLine() {
+		return annotationSetID + "|" + annotationSetName + "|" + annotationSetDescription;
+	}
 
-            if (DEBUG) {
-                System.out.println("COMPARING ANNOTATION SETS:");
-                ((AnnotationSet) annotationSet).printStorageLine(System.out);
-                this.printStorageLine(System.out);
-            }
+	public void printStorageLine(PrintStream ps) {
+		ps.println(getStorageLine());
+	}
 
-            if (this.annotationSetName.equalsIgnoreCase(setName)) {
-                return 0;
-            } else {
-                return -1;
-            }
-        } else {
-            return -1;
-        }
-    }
+	/**
+	 * Note: this method compares the name field only. The integer ID is not considered here.
+	 */
+	public int compareTo(Object annotationSet) {
+		if (annotationSet instanceof AnnotationSet) {
+			String setName = ((AnnotationSet) annotationSet).getAnnotationSetName();
 
-    @Override
-    public boolean equals(Object annotationSet) {
-        if (compareTo(annotationSet) == 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+			if (DEBUG) {
+				System.out.println("COMPARING ANNOTATION SETS:");
+				((AnnotationSet) annotationSet).printStorageLine(System.out);
+				this.printStorageLine(System.out);
+			}
 
-    @Override
-    public int hashCode() {
-        String hashkey = annotationSetName;
-        if (hashkey != null) {
-            hashkey = hashkey.toLowerCase();
-        } else {
-            hashkey = "defaultAnnotationSet";
-        }
-        return hashkey.hashCode();
-    }
+			if (this.annotationSetName.equalsIgnoreCase(setName)) {
+				return 0;
+			} else {
+				return -1;
+			}
+		} else {
+			return -1;
+		}
+	}
+
+	@Override
+	public boolean equals(Object annotationSet) {
+		if (compareTo(annotationSet) == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		String hashkey = annotationSetName;
+		if (hashkey != null) {
+			hashkey = hashkey.toLowerCase();
+		} else {
+			hashkey = "defaultAnnotationSet";
+		}
+		return hashkey.hashCode();
+	}
 
 }

@@ -35,8 +35,8 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotationUtil;
 
 /**
- * This Annotation Printer outputs annotation in a format that can be loaded by the AnnotationFromFileLoader. Currently,
- * this will only work for annotations with non-complex slots. <br>
+ * This Annotation Printer outputs annotation in a format that can be loaded by the
+ * AnnotationFromFileLoader. Currently, this will only work for annotations with non-complex slots. <br>
  * <br>
  * The output consists of a single annotation per line taking the format:<br>
  * <br>
@@ -54,38 +54,38 @@ public class AnnotationToFileOutput extends AnnotationPrinterUtil {
 		ps.println(TextAnnotationUtil.printAnnotationToLine(ta));
 	}
 
-//	public void printDocumentCollection(List<GenericDocument> documents, PrintStream ps) {
-//		for (GenericDocument gd : documents) {
-//			printDocument(gd, ps);
-//		}
-//	}
-//
-//	public void printDocumentCollection(List<GenericDocument> documents) {
-//		printDocumentCollection(documents, System.out);
-//	}
-//
-//	public void printDocument(GenericDocument gd) {
-//		printDocument(gd, System.out);
-//	}
-//
-//	public void printDocument(GenericDocument gd, PrintStream ps) {
-//		List<TextAnnotation> annotations = gd.getAnnotations();
-//
-//		for (TextAnnotation ta : annotations) {
-//			// printAnnotation(ta, ps);
-//			ps.println(TextAnnotationUtil.printAnnotationToLine(ta));
-//
-//		}
-//	}
-//
-//	@Override
-//	public void printAnnotations(Collection<TextAnnotation> textAnnotations, PrintStream ps) {
-//		List<TextAnnotation> taList = new ArrayList<TextAnnotation>(textAnnotations);
-//		Collections.sort(taList, TextAnnotation.BY_SPAN());
-//		for (TextAnnotation ta : taList) {
-//			ps.println(TextAnnotationUtil.printAnnotationToLine(ta));
-//		}
-//	}
+	// public void printDocumentCollection(List<GenericDocument> documents, PrintStream ps) {
+	// for (GenericDocument gd : documents) {
+	// printDocument(gd, ps);
+	// }
+	// }
+	//
+	// public void printDocumentCollection(List<GenericDocument> documents) {
+	// printDocumentCollection(documents, System.out);
+	// }
+	//
+	// public void printDocument(GenericDocument gd) {
+	// printDocument(gd, System.out);
+	// }
+	//
+	// public void printDocument(GenericDocument gd, PrintStream ps) {
+	// List<TextAnnotation> annotations = gd.getAnnotations();
+	//
+	// for (TextAnnotation ta : annotations) {
+	// // printAnnotation(ta, ps);
+	// ps.println(TextAnnotationUtil.printAnnotationToLine(ta));
+	//
+	// }
+	// }
+	//
+	// @Override
+	// public void printAnnotations(Collection<TextAnnotation> textAnnotations, PrintStream ps) {
+	// List<TextAnnotation> taList = new ArrayList<TextAnnotation>(textAnnotations);
+	// Collections.sort(taList, TextAnnotation.BY_SPAN());
+	// for (TextAnnotation ta : taList) {
+	// ps.println(TextAnnotationUtil.printAnnotationToLine(ta));
+	// }
+	// }
 
 	// public void printAnnotation(TextAnnotation ta, PrintStream ps) {
 	// StringBuffer outputStr = new StringBuffer();

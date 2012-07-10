@@ -188,9 +188,8 @@ public class ClasspathCollectionReader extends BaseTextCollectionReader {
 			throws ResourceInitializationException {
 		return CollectionReaderFactory.createCollectionReader(ClasspathCollectionReader.class, tsd,
 				PARAM_COLLECTION_PATH, collectionPath, PARAM_DISABLE_PROGRESS, true,
-				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING,
-				"UTF_8", PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME,
-				View.DEFAULT.name());
+				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING, "UTF_8",
+				PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME, View.DEFAULT.name());
 	}
 
 }
