@@ -42,8 +42,8 @@ import org.junit.Test;
 import org.uimafit.pipeline.JCasIterable;
 
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
-import edu.ucdenver.ccp.nlp.core.uima.util.TypeSystemUtil;
 import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
+import edu.ucdenver.ccp.nlp.uima.util.TypeSystemUtil;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu

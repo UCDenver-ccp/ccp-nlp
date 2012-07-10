@@ -48,9 +48,9 @@ import edu.ucdenver.ccp.medline.parser.MedlineCitation.AbstractText;
 import edu.ucdenver.ccp.medline.parser.PubmedArticleBase;
 import edu.ucdenver.ccp.medline.parser.PubmedXmlDeserializer;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
-import edu.ucdenver.ccp.nlp.core.uima.util.View;
 import edu.ucdenver.ccp.nlp.uima.collections.BaseTextCollectionReader;
 import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
+import edu.ucdenver.ccp.nlp.uima.util.View;
 
 /**
  * This collection reader takes as input a file using the Medline XML format (as is returned from a

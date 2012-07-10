@@ -48,8 +48,8 @@ import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
-import edu.ucdenver.ccp.nlp.core.uima.util.TypeSystemUtil;
 import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
+import edu.ucdenver.ccp.nlp.uima.util.TypeSystemUtil;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu

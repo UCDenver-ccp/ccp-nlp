@@ -49,8 +49,8 @@ import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
-import edu.ucdenver.ccp.nlp.core.uima.util.TypeSystemUtil;
-import edu.ucdenver.ccp.nlp.core.uima.util.View;
+import edu.ucdenver.ccp.nlp.uima.util.TypeSystemUtil;
+import edu.ucdenver.ccp.nlp.uima.util.View;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu

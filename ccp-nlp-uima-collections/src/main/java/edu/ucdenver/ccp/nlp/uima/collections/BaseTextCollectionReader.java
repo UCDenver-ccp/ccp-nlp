@@ -49,8 +49,8 @@ import org.uimafit.factory.ConfigurationParameterFactory;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
-import edu.ucdenver.ccp.nlp.core.uima.util.View;
 import edu.ucdenver.ccp.nlp.uima.shims.ShimDefaults;
+import edu.ucdenver.ccp.nlp.uima.util.View;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**

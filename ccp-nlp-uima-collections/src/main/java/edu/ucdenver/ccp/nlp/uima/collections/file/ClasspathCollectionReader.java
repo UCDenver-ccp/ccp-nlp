@@ -53,8 +53,8 @@ import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.common.io.StreamUtil;
 import edu.ucdenver.ccp.common.string.StringConstants;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
-import edu.ucdenver.ccp.nlp.core.uima.util.View;
 import edu.ucdenver.ccp.nlp.uima.collections.BaseTextCollectionReader;
+import edu.ucdenver.ccp.nlp.uima.util.View;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
