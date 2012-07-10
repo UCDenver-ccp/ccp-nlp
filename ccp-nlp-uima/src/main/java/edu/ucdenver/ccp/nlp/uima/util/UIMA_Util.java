@@ -27,7 +27,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package edu.ucdenver.ccp.nlp.core.uima.util;
+package edu.ucdenver.ccp.nlp.uima.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -42,7 +42,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
@@ -93,7 +92,6 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotator;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentInformation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPSpan;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
-import edu.ucdenver.ccp.nlp.core.uima.annotation.impl.WrappedCCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProperty;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.EvaluationResultProperty;
@@ -109,10 +107,11 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.CCPMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPPrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPStringSlotMention;
-import edu.ucdenver.ccp.nlp.core.uima.mention.impl.CCPPrimitiveSlotMentionFactory;
-import edu.ucdenver.ccp.nlp.core.uima.mention.impl.WrappedCCPFloatSlotMention;
-import edu.ucdenver.ccp.nlp.core.uima.mention.impl.WrappedCCPIntegerSlotMention;
-import edu.ucdenver.ccp.nlp.core.uima.mention.impl.WrappedCCPStringSlotMention;
+import edu.ucdenver.ccp.nlp.uima.annotation.impl.WrappedCCPTextAnnotation;
+import edu.ucdenver.ccp.nlp.uima.mention.impl.CCPPrimitiveSlotMentionFactory;
+import edu.ucdenver.ccp.nlp.uima.mention.impl.WrappedCCPFloatSlotMention;
+import edu.ucdenver.ccp.nlp.uima.mention.impl.WrappedCCPIntegerSlotMention;
+import edu.ucdenver.ccp.nlp.uima.mention.impl.WrappedCCPStringSlotMention;
 
 /**
  * This is a utility class meant to streamline interaction with the <code>CCPTextAnnotation</code>

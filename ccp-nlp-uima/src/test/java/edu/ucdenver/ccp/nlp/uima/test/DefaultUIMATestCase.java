@@ -27,7 +27,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package edu.ucdenver.ccp.nlp.core.uima.test;
+package edu.ucdenver.ccp.nlp.uima.test;
 
 import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
@@ -40,8 +40,8 @@ import org.uimafit.factory.TypeSystemDescriptionFactory;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
-import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Annotation_Util;
-import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
+import edu.ucdenver.ccp.nlp.uima.util.UIMA_Annotation_Util;
+import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
  * provides a tsd and jcas for common UIMA tests. (Type System Description, and JCas) has a hook for

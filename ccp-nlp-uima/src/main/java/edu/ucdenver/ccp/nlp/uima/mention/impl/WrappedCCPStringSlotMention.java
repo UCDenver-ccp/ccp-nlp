@@ -27,7 +27,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package edu.ucdenver.ccp.nlp.core.uima.mention.impl;
+package edu.ucdenver.ccp.nlp.uima.mention.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +41,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.impl.KnowledgeRepresentationWrapperE
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPStringSlotMention;
-import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
+import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu

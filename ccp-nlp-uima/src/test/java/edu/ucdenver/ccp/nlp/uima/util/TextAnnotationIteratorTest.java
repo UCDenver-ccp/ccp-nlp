@@ -27,7 +27,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package edu.ucdenver.ccp.nlp.core.uima.util;
+package edu.ucdenver.ccp.nlp.uima.util;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,7 +35,7 @@ import org.junit.Test;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
-import edu.ucdenver.ccp.nlp.core.uima.test.DefaultUIMATestCase;
+import edu.ucdenver.ccp.nlp.uima.test.DefaultUIMATestCase;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
