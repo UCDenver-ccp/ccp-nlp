@@ -48,7 +48,7 @@ import edu.ucdenver.ccp.medline.parser.PubmedArticleBase;
 import edu.ucdenver.ccp.medline.parser.PubmedXmlDeserializer;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.util.View;
-import edu.ucdenver.ccp.nlp.ext.uima.collections.file.BaseTextCollectionReader;
+import edu.ucdenver.ccp.nlp.ext.uima.collections.BaseTextCollectionReader;
 import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
 
 /**
