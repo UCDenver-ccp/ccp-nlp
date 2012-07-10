@@ -56,7 +56,6 @@ import org.uimafit.factory.ConfigurationParameterFactory;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentInformation;
-import edu.ucdenver.ccp.nlp.core.uima.build.XmlDescriptorWriter;
 
 /**
  * A generic Collection Reader that deals with collections on the file system.
@@ -224,27 +223,7 @@ public class FileSystemCollectionReader extends JCasCollectionReader_ImplBase {
 				recurse, PARAM_NUM2SKIP, numToSkip, PARAM_FILESUFFIXES_TO_PROCESS, fileSuffixesToProcess);
 	}
 
-	public static void exportXmlDescriptor(File baseDescriptorDirectory, String version) {
-		try {
-			Class<FileSystemCollectionReader> cls = FileSystemCollectionReader.class;
-			CollectionReaderDescription crd = CollectionReaderFactory.createDescription(cls, PARAM_BASE_FILE,
-					"[BASE FILE OR DIRECTORY GOES HERE]", PARAM_ENCODING, String.format(
-							"[FILE ENCODING GOES HERE - %s, %s, or %s]", CharacterEncoding.UTF_8,
-							CharacterEncoding.US_ASCII, CharacterEncoding.ISO_8859_1), PARAM_RECURSE, true,
-					PARAM_DISABLE_PROGRESS, true, PARAM_DOCUMENT_COLLECTION_ID, -1, PARAM_FILESUFFIXES_TO_PROCESS,
-					new String[] { ".suffix1", ".suffix2" }, PARAM_LANGUAGE, "english", PARAM_NUM2PROCESS, -1,
-					PARAM_NUM2SKIP, 0, PARAM_VIEWNAME, CAS.NAME_DEFAULT_SOFA);
-			ResourceMetaData metaData = crd.getMetaData();
-			metaData.setName(cls.getSimpleName());
-			metaData.setDescription(COMPONENT_DESCRIPTION);
-			metaData.setVendor(COMPONENT_VENDOR);
-			metaData.setVersion(version);
-			crd.setMetaData(metaData);
-			XmlDescriptorWriter.exportXmlDescriptor(cls, crd, baseDescriptorDirectory);
-		} catch (ResourceInitializationException e) {
-			throw new RuntimeException(e);
-		}
-	}
+	
 
 	@Override
 	public void initialize(UimaContext aContext) throws ResourceInitializationException {
