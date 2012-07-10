@@ -47,16 +47,11 @@ public class CcpAnnotationTypeExtractor implements AnnotationTypeExtractor {
 	 * {@link CCPTextAnnotation}
 	 * 
 	 * @see edu.ucdenver.ccp.uima.shims.annotation.shim.annotation.uchsc.ccp.uima.shim.AnnotationTypeExtractor#getAnnotationType(org.apache.uima.jcas.tcas.Annotation)
-	 * @throws IllegalArgumentException
-	 *             if the input {@link Annotation} is not an instance of {@link CCPTextAnnotation}
 	 */
 	@Override
 	public String getAnnotationType(Annotation annotation) {
 		if (annotation instanceof CCPTextAnnotation)
 			return ((CCPTextAnnotation) annotation).getClassMention().getMentionName();
-		// throw new
-		// IllegalArgumentException("Cannot return type for a non-CCPTextAnnotation annotation: "
-		// + annotation.getClass().getName());
 		return null;
 	}
 
