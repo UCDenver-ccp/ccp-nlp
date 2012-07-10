@@ -46,6 +46,8 @@ import edu.ucdenver.ccp.uima.shims.annotation.syntactic.token.PartOfSpeech;
 import edu.ucdenver.ccp.uima.shims.annotation.syntactic.token.PartOfSpeechDecorator;
 
 /**
+ * Implementation of the {@link PartOfSpeechDecorator} interface specific for the CCP type system
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */

@@ -46,6 +46,8 @@ import edu.ucdenver.ccp.uima.shims.annotation.syntactic.token.Lemma;
 import edu.ucdenver.ccp.uima.shims.annotation.syntactic.token.LemmaDecorator;
 
 /**
+ * Implementation of the {@link LemmaDecorator} interface specific for the CCP type system
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
