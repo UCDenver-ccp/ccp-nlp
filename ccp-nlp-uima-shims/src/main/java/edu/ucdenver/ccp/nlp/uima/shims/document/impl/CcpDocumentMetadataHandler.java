@@ -49,7 +49,6 @@ public class CcpDocumentMetadataHandler implements DocumentMetadataHandler {
 	 */
 	@Override
 	public String extractDocumentEncoding(JCas jCas) {
-		// return CharacterEncoding.UTF_8.getCharacterSetName();
 		return UIMA_Util.getDocumentEncoding(jCas).getCharacterSetName();
 	}
 
