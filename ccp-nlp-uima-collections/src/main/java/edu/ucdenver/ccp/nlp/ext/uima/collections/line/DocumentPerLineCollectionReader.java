@@ -192,7 +192,7 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 		return CollectionReaderFactory.createCollectionReader(DocumentPerLineCollectionReader.class, tsd,
 				PARAM_COLLECTION_FILE, medlineDumpFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
 				PARAM_DOCUMENT_EXTRACTOR_CLASS, documentExtractorClass.getName(),
-				PARAM_DOCUMENT_METADATA_EXTRACTOR_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING,
+				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING,
 				"UTF_8", PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME,
 				View.DEFAULT.name());
 	}
