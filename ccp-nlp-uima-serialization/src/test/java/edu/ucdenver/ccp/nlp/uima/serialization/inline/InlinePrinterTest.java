@@ -27,7 +27,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package edu.ucdenver.ccp.nlp.ext.uima.serialization.inline;
+package edu.ucdenver.ccp.nlp.uima.serialization.inline;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -53,13 +53,13 @@ import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
-import edu.ucdenver.ccp.nlp.core.uima.test.DefaultUIMATestCase;
-import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Annotation_Util;
-import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
-import edu.ucdenver.ccp.nlp.ext.uima.serialization.inline.InlineTag.InlinePostfixTag;
-import edu.ucdenver.ccp.nlp.ext.uima.serialization.inline.InlineTag.InlinePrefixTag;
+import edu.ucdenver.ccp.nlp.uima.serialization.inline.InlineTag.InlinePostfixTag;
+import edu.ucdenver.ccp.nlp.uima.serialization.inline.InlineTag.InlinePrefixTag;
 import edu.ucdenver.ccp.nlp.uima.shims.annotation.impl.CcpAnnotationDataExtractor;
 import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
+import edu.ucdenver.ccp.nlp.uima.test.DefaultUIMATestCase;
+import edu.ucdenver.ccp.nlp.uima.util.UIMA_Annotation_Util;
+import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
  * This test case tests the {@link InlinePrinter} {@link AnalysisEngine}

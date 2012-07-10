@@ -27,7 +27,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package edu.ucdenver.ccp.nlp.ext.uima.serialization.inline;
+package edu.ucdenver.ccp.nlp.uima.serialization.inline;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -61,8 +61,8 @@ import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
-import edu.ucdenver.ccp.nlp.ext.uima.serialization.inline.InlineTag.InlinePostfixTag;
-import edu.ucdenver.ccp.nlp.ext.uima.serialization.inline.InlineTag.InlinePrefixTag;
+import edu.ucdenver.ccp.nlp.uima.serialization.inline.InlineTag.InlinePostfixTag;
+import edu.ucdenver.ccp.nlp.uima.serialization.inline.InlineTag.InlinePrefixTag;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**

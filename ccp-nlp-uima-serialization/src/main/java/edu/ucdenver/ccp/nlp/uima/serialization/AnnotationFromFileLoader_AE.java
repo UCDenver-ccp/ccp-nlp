@@ -27,7 +27,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package edu.ucdenver.ccp.nlp.ext.uima.serialization;
+package edu.ucdenver.ccp.nlp.uima.serialization;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +43,7 @@ import org.apache.uima.resource.ResourceInitializationException;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotationUtil;
-import edu.ucdenver.ccp.nlp.core.uima.util.UIMA_Util;
+import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
  * This AE reads in annotations from a file. The file may have been created by the AnnotationToFileOutputPrinter
