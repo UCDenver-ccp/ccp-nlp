@@ -29,6 +29,7 @@
  */
 package edu.ucdenver.ccp.nlp.uima.test;
 
+import org.apache.uima.UIMAException;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
@@ -61,7 +62,7 @@ public abstract class DefaultUIMATestCase extends DefaultTestCase {
 	protected JCas jcas;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws UIMAException  {
 		tsd = getTypeSystem();
 		jcas = JCasFactory.createJCas(tsd);
 		initJCas();
@@ -75,13 +76,13 @@ public abstract class DefaultUIMATestCase extends DefaultTestCase {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		if (jcas != null) {
 			jcas.release();
 		}
 	}
 
-	protected abstract void initJCas() throws Exception;
+	protected abstract void initJCas() throws UIMAException;
 
 	protected CCPTextAnnotation addTextAnnotationToJCas(int spanStart, int spanEnd, String classMentionName) {
 		return UIMA_Annotation_Util.createCCPTextAnnotation(classMentionName, new int[] { spanStart, spanEnd }, jcas);
