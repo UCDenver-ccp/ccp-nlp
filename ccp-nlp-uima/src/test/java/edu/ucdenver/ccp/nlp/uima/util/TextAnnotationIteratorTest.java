@@ -31,6 +31,7 @@ package edu.ucdenver.ccp.nlp.uima.util;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.uima.UIMAException;
 import org.junit.Test;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
@@ -44,7 +45,7 @@ import edu.ucdenver.ccp.nlp.uima.test.DefaultUIMATestCase;
 public class TextAnnotationIteratorTest extends DefaultUIMATestCase {
 
 	@Override
-	protected void initJCas() throws Exception {
+	protected void initJCas() throws UIMAException {
 		jcas.setDocumentText("blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah");
 		addGeneAnnotationToJCas(0, 1, 12345);
 		addGeneAnnotationToJCas(2, 3, 12345);
