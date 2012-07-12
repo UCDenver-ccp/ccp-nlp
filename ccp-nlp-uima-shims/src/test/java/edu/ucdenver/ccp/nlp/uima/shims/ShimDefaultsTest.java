@@ -39,6 +39,10 @@ import org.junit.Test;
  */
 public class ShimDefaultsTest {
 
+	/**
+	 * Tests that the constant that is often used as a default value in a ConfigurationParameter
+	 * annotation for a UIMA analysis engine is the expected class name
+	 */
 	@Test
 	public void testDefaultCcpDocumentMetadataHandlerClassNameIsCorrect() {
 		assertEquals(ShimDefaults.CCP_DOCUMENT_METADATA_HANDLER_CLASS.getName(),
