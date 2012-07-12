@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
@@ -74,10 +75,6 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 
 	/**
 	 * The document text that is used in this test case
-	 */
-	/*
-	 * 012345678901234567890123456789012345678
-	 * 90123456789012345678901234567890123456789012345678901234567890
 	 */
 	private static final String DOCUMENT_TEXT = "The cow jumped over the moon & the nai\u0308ve stars, but the cd2 and cd5 receptors were not blocked.";
 
@@ -143,13 +140,12 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 
 	/**
 	 * Sets up a temporary output directory and initializes the {@link JCas}
-	 * 
+	 * @throws UIMAException 
 	 * @see edu.uchsc.ccp.uima.test.DefaultUIMATestCase#setUp()
 	 */
 	@Override
 	@Before
-	public void setUp() throws Exception {
-		// super.setUp();
+	public void setUp() throws UIMAException  {
 		jcas = JCasFactory.createJCas(TSD);
 		initJCas();
 		outputDirectory = folder.newFolder("inline-output");
@@ -161,7 +157,7 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 	 * @see edu.uchsc.ccp.uima.test.DefaultUIMATestCase#initJCas()
 	 */
 	@Override
-	protected void initJCas() throws Exception {
+	protected void initJCas() throws UIMAException {
 
 		jcas.setDocumentText(DOCUMENT_TEXT);
 		UIMA_Util.setDocumentID(jcas, SAMPLE_DOCUMENT_ID);
