@@ -32,14 +32,15 @@ package edu.ucdenver.ccp.nlp.uima.shims.annotation.impl;
 import edu.ucdenver.ccp.uima.shims.annotation.AnnotationDataExtractor;
 
 /**
+ * Extension of the {@link AnnotationDataExtractor} class specific to the CCP type system
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class CcpAnnotationDataExtractor extends AnnotationDataExtractor {
 
 	/**
-	 * @param typeExtractor
-	 * @param spanExtractor
+	 * Extension of the {@link AnnotationDataExtractor} class specific to the CCP type system
 	 */
 	public CcpAnnotationDataExtractor() {
 		super(new CcpAnnotationTypeExtractor(), new CcpAnnotationSpanExtractor());
