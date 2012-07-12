@@ -60,6 +60,9 @@ import edu.ucdenver.ccp.common.string.StringConstants;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
+ * This {@link AnalysisEngine} implementation is capable of loading UIMA XMI files. File can be
+ * loaded from the file system or classpath. Compressed (.gz) XMI files can be used.
+ * 
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
@@ -130,7 +133,7 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 			.createConfigurationParameterName(XmiLoaderAE.class, "documentMetadataHandlerClassName");
 
 	/**
-	 * The name of the TokenAttributeExtractor implementation to use
+	 * The name of the DocumentMetadataHandler implementation to use
 	 */
 	@ConfigurationParameter(mandatory = true, description = "name of the DocumentMetaDataExtractor implementation to use", defaultValue = "edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor")
 	private String documentMetadataHandlerClassName;
