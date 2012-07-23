@@ -129,62 +129,6 @@ public class UIMA_Annotation_UtilTest {
 
 	}
 
-	// @Test
-	// public void testToString() throws Exception {
-	// AnalysisEngine semanticConjunctionCreator = AnalysisEngineFactory
-	// .createPrimitiveFromPath("data/test/desc/TestAnalysisEngine_AE.xml");
-	//
-	// /* ________________________________________1_________2_________3_________4_________5 */
-	// /* ______________________________012345678901234567890123456789012345678901234567890123456789
-	// */
-	// String proteinConjunctionText = "p53 is activated by proteins ABC-1, CDE-2, and DEF-3.";
-	//
-	// JCas jcas = AnalysisEngineFactory.process(semanticConjunctionCreator,
-	// proteinConjunctionText);
-	//
-	// /* Now we add some protein annotations */
-	// List<CCPTextAnnotation> annotationsInCAS = new ArrayList<CCPTextAnnotation>();
-	// annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN,
-	// new int[] { 0, 3 }, jcas));
-	// annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN,
-	// new int[] { 29, 34 }, jcas));
-	// annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN,
-	// new int[] { 36, 41 }, jcas));
-	// annotationsInCAS.add(UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionTypes.PROTEIN,
-	// new int[] { 47, 52 }, jcas));
-	//
-	// /* Add an activation annotation */
-	// CCPTextAnnotation activationAnnot =
-	// UIMA_Annotation_Util.createCCPTextAnnotation("activation", new int[] { 7, 16 }, jcas);
-	// UIMA_Util.addSlotValue(activationAnnot.getClassMention(), "activator",
-	// annotationsInCAS.get(1).getClassMention());
-	// UIMA_Util.addSlotValue(activationAnnot.getClassMention(), "activated_entity",
-	// annotationsInCAS.get(1).getClassMention());
-	//
-	// String proteinStr = UIMA_Annotation_Util.toString(annotationsInCAS.get(3), true, false);
-	// String expectedProteinStr = "[47..52] \"DEF-3\" Default|-1 [protein]";
-	// System.out.println(proteinStr);
-	// // assertEquals(expectedProteinStr, proteinStr);
-	//
-	// String proteinStr_anonymized = UIMA_Annotation_Util.toString(annotationsInCAS.get(3), true,
-	// true);
-	// String expectedProteinStr_anonymized = "[47..52] \"DEF-3\" [protein]";
-	// System.out.println(proteinStr_anonymized);
-	// // assertEquals(expectedProteinStr_anonymized, proteinStr_anonymized);
-	//
-	// String activationStr = UIMA_Annotation_Util.toString(activationAnnot, true, false);
-	// String expectedActivationStr = "";
-	// System.out.println(activationStr);
-	// // assertEquals(expectedActivationStr, activationStr);
-	//
-	// String activationStr_anonymized = UIMA_Annotation_Util.toString(activationAnnot, true, true);
-	// String expectedActivationStr_anonymized = "";
-	// System.out.println(activationStr_anonymized);
-	// UIMA_Util.printCCPTextAnnotation(activationAnnot, System.out);
-	// // assertEquals(expectedActivationStr_anonymized, activationStr_anonymized);
-	//
-	// }
-
 	@Test
 	public void testGetRedundantAnnotations() throws Exception {
 
@@ -296,56 +240,12 @@ public class UIMA_Annotation_UtilTest {
 				.convertToWrappedAnnotationList(taList)));
 		Collections.sort(sortedTaList, TextAnnotation.BY_SPAN());
 
-		// Collections.sort(taList, UIMA_Annotation_Util.SORT_BY_SPAN());
-
 		assertEquals("class-A", sortedTaList.get(0).getClassMention().getMentionName());
 		assertEquals("class-C", sortedTaList.get(1).getClassMention().getMentionName());
 		assertEquals("class-D", sortedTaList.get(2).getClassMention().getMentionName());
 		assertEquals("class-B", sortedTaList.get(3).getClassMention().getMentionName());
 
 	}
-
-	// worthwhile test, but has a dependency on the uima-syntax extension project. perhaps it can be
-	// moved there or revised
-	// @Test
-	// public void testGetAnnotationProperties() throws Exception {
-	// TypeSystemDescription typeSystemDescription =
-	// TypeSystemDescriptionFactory.createTypeSystemDescription("edu.ucdenver.ccp.nlp.core.uima.TypeSystem");
-	// JCas jcas = JCasFactory.createJCas(typeSystemDescription);
-	// /*
-	// *
-	// ______________________________1_________2_________3_________4_________5_________6_________7_________8_________9
-	// * /___________________
-	// *
-	// 01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567
-	// */
-	// jcas.setDocumentText("token1 token2 token3.");
-	// CCPTextAnnotation token1Annot = UIMA_Annotation_Util.createCCPTextAnnotation("token", new
-	// int[] { 0, 6 }, jcas);
-	// UIMA_Util.addSlotValue(token1Annot.getClassMention(), SlotMentionTypes.TOKEN_PARTOFSPEECH,
-	// "NN");
-	// UIMA_Util.addSlotValue(token1Annot.getClassMention(), SlotMentionTypes.TOKEN_STEM, "tok");
-	//
-	// UIMASyntacticAnnotation_Util.normalizeSyntacticAnnotations(jcas);
-	//
-	// /* The token annotation should now have two annotation properties, 1 for pos and 1 for stem
-	// */
-	// assertEquals(1,
-	// jcas.getJFSIndexRepository().getAnnotationIndex(CCPTokenAnnotation.type).size());
-	//
-	// FSIterator annotIter =
-	// jcas.getJFSIndexRepository().getAnnotationIndex(CCPTokenAnnotation.type).iterator();
-	// if (annotIter.hasNext()) {
-	// CCPTokenAnnotation tokenAnnot = (CCPTokenAnnotation) annotIter.next();
-	// assertEquals(1, UIMA_Annotation_Util.getAnnotationProperties(tokenAnnot,
-	// PartOfSpeechProperty.class).size());
-	// assertEquals(1, UIMA_Annotation_Util.getAnnotationProperties(tokenAnnot,
-	// StemProperty.class).size());
-	// assertEquals(2, UIMA_Annotation_Util.getAnnotationProperties(tokenAnnot,
-	// TokenAnnotationProperty.class).size());
-	// }
-	//
-	// }
 
 	private final String documentID = "1234";
 	private final int documentCollectionID = 99;
