@@ -33,7 +33,7 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
 
 /**
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class TypeSystemUtil {
