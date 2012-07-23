@@ -45,9 +45,9 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Annotation_Util;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
- * provides a tsd and jcas for common UIMA tests. (Type System Description, and JCas) has a hook for
- * initializing the jcas with some annotations: initJCas() also has convenience functions for adding
- * various annotations.
+ * provides a {@link TypeSystemDescription} and {@link JCas} for common UIMA tests. There is an
+ * overridable method for initializing the jCas with some annotations: initJCas() and also has
+ * convenience functions for adding various annotations.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
@@ -62,7 +62,7 @@ public abstract class DefaultUIMATestCase extends DefaultTestCase {
 	protected JCas jcas;
 
 	@Before
-	public void setUp() throws UIMAException  {
+	public void setUp() throws UIMAException {
 		tsd = getTypeSystem();
 		jcas = JCasFactory.createJCas(tsd);
 		initJCas();
