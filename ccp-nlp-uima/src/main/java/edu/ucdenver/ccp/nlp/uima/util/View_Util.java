@@ -35,6 +35,8 @@ import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 
 /**
+ * Utility class for working with UIMA views
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
