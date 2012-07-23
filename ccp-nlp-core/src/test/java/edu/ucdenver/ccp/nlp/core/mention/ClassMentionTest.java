@@ -157,64 +157,6 @@ public class ClassMentionTest {
 		assertEquals(expectedNames, ta.getClassMention().getPrimitiveSlotMentionNames());
 	}
 
-	// /**
-	// * Test that all slot mentions with a particular name are returned
-	// *
-	// * @throws Exception
-	// */
-	// @Test(timeout=10000)
-	// public void testGetSlotMentionsByName() throws Exception {
-	// TextAnnotation ta = testAnnotations.get(-15);
-	// SlotMention sm = new SlotMention("new_slot_mention");
-	// ta.getClassMention().addSlotMention(sm);
-	// sm = new SlotMention("new_slot_mention");
-	// ta.getClassMention().addSlotMention(sm);
-	//
-	// assertEquals(2, ta.getClassMention().getSlotMentionsByName("new_slot_mention").size());
-	// assertEquals(1, ta.getClassMention().getSlotMentionsByName("entrez_gene_id").size());
-	// assertEquals(1, ta.getClassMention().getSlotMentionsByName("processed text").size());
-	// assertNull(ta.getClassMention().getSlotMentionsByName("no mention of this name exists"));
-	// }
-	//
-	// /**
-	// * Test that all slot mentions with a particular name are returned
-	// *
-	// * @throws Exception
-	// */
-	// @Test(timeout=10000)
-	// public void testGetComplexSlotMentionsByName() throws Exception {
-	// TextAnnotation ta = testAnnotations.get(-10);
-	// ComplexSlotMention csm = new ComplexSlotMention("new_complex_slot_mention");
-	// ta.getClassMention().addComplexSlotMention(csm);
-	// csm = new ComplexSlotMention("new_complex_slot_mention");
-	// ta.getClassMention().addComplexSlotMention(csm);
-	//
-	// assertEquals(2,
-	// ta.getClassMention().getComplexSlotMentionsByName("new_complex_slot_mention").size());
-	// assertEquals(1,
-	// ta.getClassMention().getComplexSlotMentionsByName("transport origin").size());
-	// assertEquals(1,
-	// ta.getClassMention().getComplexSlotMentionsByName("transport participants").size());
-	// assertNull(ta.getClassMention().getComplexSlotMentionsByName("no mention of this name exists"));
-	// }
-
-	// /**
-	// * Test that the first slot mention added is returned
-	// *
-	// * @throws Exception
-	// */
-	// @Test(timeout=10000)
-	// public void testReturnFirstSlotMention() throws Exception {
-	// ClassMention cm = new ClassMention("classMention");
-	// SlotMention sm = new SlotMention("slotMention1");
-	// cm.addSlotMention(sm);
-	// assertEquals("slotMention1", cm.getFirstSlotMention().getMentionName());
-	//
-	// sm = new SlotMention("slotMention2");
-	// cm.addSlotMention(sm);
-	// assertEquals("slotMention1", cm.getFirstSlotMention().getMentionName());
-	// }
-
 	/**
 	 * test equals()
 	 * 

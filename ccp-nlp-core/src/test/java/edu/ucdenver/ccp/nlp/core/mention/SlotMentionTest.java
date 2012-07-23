@@ -83,53 +83,6 @@ public class SlotMentionTest {
 		assertEquals(numSlotValues + 1, slotMention.getSlotValues().size());
 	}
 
-	// /**
-	// * Test that it returns the first slot value
-	// * @throws Exception
-	// */
-	// @Test
-	// public void testGetFirstSlotValue() throws Exception {
-	// /* check that the first slot value is "value1" */
-	// assertEquals("value1", slotMention.getFirstSlotValue());
-	// }
-	//
-	// /**
-	// * Set the first slot value of this slot mention.
-	// * @throws Exception
-	// */
-	// @Test
-	// public void testSetFirstSlotValue() throws Exception {
-	// SlotMention sm = new SlotMention("newMentionType");
-	// /* verify that there are no slot values */
-	// assertEquals(0, sm.getSlotValues().size());
-	// sm.setFirstSlotValue("first value");
-	// /* check that there is now one slot value */
-	// assertEquals(1, sm.getSlotValues().size());
-	// /* check that the first slot value contains "first value" */
-	// assertEquals("first value", sm.getFirstSlotValue());
-	//
-	// int valueCount = slotMention.getSlotValues().size();
-	// /* verify that the first slot value is not "first value" */
-	// assertNotSame("first value", slotMention.getFirstSlotValue());
-	// slotMention.setFirstSlotValue("first value");
-	// /* check that the same number of slot values exist */
-	// assertEquals(valueCount, slotMention.getSlotValues().size());
-	// /* check that the first slot value is now "first value" */
-	// assertEquals("first value", slotMention.getFirstSlotValue());
-	//
-	// }
-	//
-	// /**
-	// * Test the single-line representation of a slot mention
-	// * @throws Exception
-	// */
-	// @Test
-	// public void testGetSingleLineRepresentation() throws Exception {
-	// String expectedRepresentation = " [slotMentionName]:value1:value2:value3";
-	// /* check that the single line representation is what is expected */
-	// assertEquals(expectedRepresentation, slotMention.getSingleLineRepresentation());
-	// }
-
 	/**
 	 * Test the equals method
 	 * 

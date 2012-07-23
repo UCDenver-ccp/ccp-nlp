@@ -69,11 +69,6 @@ public class PrimitiveSlotMentionFactoryTest {
 		assertTrue(floatSM instanceof FloatSlotMention);
 		assertEquals(1, floatSM.getSlotValues().size());
 
-		// PrimitiveSlotMention doubleSM =
-		// PrimitiveSlotMentionFactory.createPrimitiveSlotMention("slot name", 5.43d);
-		// assertTrue(doubleSM instanceof DoubleSlotMention);
-		// assertEquals(1, doubleSM.getSlotValues().size());
-
 		logger.info("Error message expected here:");
 		PrimitiveSlotMention fileSM = DefaultPrimitiveSlotMentionFactory.createPrimitiveSlotMention("slot name",
 				new File(""));
@@ -102,12 +97,6 @@ public class PrimitiveSlotMentionFactoryTest {
 				"slot name", "1.23");
 		assertTrue(floatSM instanceof FloatSlotMention);
 		assertEquals(1, floatSM.getSlotValues().size());
-
-		// PrimitiveSlotMention doubleSM =
-		// PrimitiveSlotMentionFactory.createPrimitiveSlotMentionFromStringValue("slot name",
-		// "5.43");
-		// assertTrue(doubleSM instanceof DoubleSlotMention);
-		// assertEquals(1, doubleSM.getSlotValues().size());
 
 	}
 }

@@ -81,10 +81,6 @@ public class ClassMentionCycleTest {
 		proteinBCM.addComplexSlotMention(csmB);
 		csmB.addClassMention(proteinACM);
 
-		// ClassMention.printMention(proteinACM, System.out, 0, new HashMap<Long, ClassMention>());
-
-		System.out.println(proteinACM.toString());
-
 		String expectedOutputStr = "-CLASS MENTION: protein \"ABC1\"\t[0..4]\n-    COMPLEX SLOT MENTION: is-equivalent-to\n-        CLASS MENTION: protein \"its\"\t[9..12]\n";
 		assertEquals(expectedOutputStr, proteinACM.toString());
 		expectedOutputStr = "-CLASS MENTION: protein \"its\"\t[9..12]\n-    COMPLEX SLOT MENTION: is-equivalent-to\n-        CLASS MENTION: protein \"ABC1\"\t[0..4]\n";
