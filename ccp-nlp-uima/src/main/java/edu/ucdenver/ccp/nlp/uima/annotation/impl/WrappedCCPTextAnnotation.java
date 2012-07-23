@@ -106,10 +106,7 @@ public class WrappedCCPTextAnnotation extends TextAnnotation {
 		return new WrappedCCPClassMention(ccpCM);
 	}
 
-	// @Override
-	// public ClassMention getClassMention() {
-	// return new WrappedCCPClassMention(wrappedCCPTextAnnotation.getClassMention());
-	// }
+	
 
 	@Override
 	public int getAnnotationID() {
