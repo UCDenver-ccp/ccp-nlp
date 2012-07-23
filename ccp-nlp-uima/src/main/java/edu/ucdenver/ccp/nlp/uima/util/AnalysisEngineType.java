@@ -30,6 +30,8 @@
 package edu.ucdenver.ccp.nlp.uima.util;
 
 /**
+ * An enum distinguishing between AnalysisEngine types: primitive or aggregate
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
