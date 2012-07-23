@@ -32,11 +32,21 @@ package edu.ucdenver.ccp.nlp.uima.collections.line;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 
 /**
- * Interface for extracting documents from text
+ * Interface for extracting documents from an input {@link String}
  * 
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public interface DocumentExtractor {
+	
+	/**
+	 * Extracts document metadata (document id, etc.) and text from an input {@link String} and
+	 * returns an initialized {@link GenericDocument}
+	 * 
+	 * @param text
+	 *            input text contains a document using some specific format
+	 * @return a populated {@link GenericDocument} object containing the contents of the document
+	 *         extracted from the input {@link String}
+	 */
 	public GenericDocument extractDocument(String text);
 }
