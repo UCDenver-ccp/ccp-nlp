@@ -33,6 +33,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 /**
+ * FilenameFilter that accepts files ending with "xcas"
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
