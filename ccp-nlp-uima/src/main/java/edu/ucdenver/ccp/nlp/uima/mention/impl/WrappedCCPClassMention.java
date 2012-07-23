@@ -53,6 +53,9 @@ import edu.ucdenver.ccp.nlp.uima.annotation.impl.WrappedCCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
+ * Wrapper class for the {@link CCPClassMention} that complies with the {@link ClassMention}
+ * abstract class
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
