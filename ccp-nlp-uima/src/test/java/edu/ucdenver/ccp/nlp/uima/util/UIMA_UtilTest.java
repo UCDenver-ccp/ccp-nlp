@@ -185,27 +185,6 @@ public class UIMA_UtilTest {
 		String documentID = "-1";
 		jcas = initializeJCas(documentID, documentText);
 
-		// // init a new JCas to use for testing
-		// // AnalysisEngineDescription aed =
-		// UIMAFramework.getXMLParser().parseAnalysisEngineDescription(
-		// // new XMLInputSource(TestProperties.SAMPLE_ANALYSISENGINE_DESCRIPTORFILE));
-		// // CAS cas = CasCreationUtils.createCas(aed);
-		// // jcas = cas.getJCas();
-		//
-		// XMLParser uimaXMLParser = UIMAFramework.getXMLParser();
-		//
-		// XMLInputSource inputSource = new XMLInputSource(SAMPLE_ANALYSISENGINE_DESCRIPTORFILE);
-		//
-		// ResourceSpecifier sampleDescriptor = uimaXMLParser.parseResourceSpecifier(inputSource);
-		//
-		// TextAnalysisEngine tokAndPOSTagger = UIMAFramework.produceTAE(sampleDescriptor);
-		//
-		// // create CAS and populate it with initial text.
-		// CAS tcas = tokAndPOSTagger.newCAS();
-		//
-		// jcas = tcas.getJCas();
-		// jcas.setDocumentText("");
-
 		// AnnotationSet: ID = 15, SetName = "TestAnnotationSetName",
 		// SetDescription = "TestAnnotationSetDescription"
 		testAnnotationSet = new AnnotationSet(new Integer(15), "TestAnnotationSetName", "TestAnnotationSetDescription");
@@ -326,15 +305,6 @@ public class UIMA_UtilTest {
 		testTextAnnotation2 = new DefaultTextAnnotation(0, 8, "EBV LMP1", testAnnotator, testAnnotationSet, 1011, 2,
 				"33", 1, proteinMention);
 
-		// System.err.println("TEST ANNOTATIONS:");
-		// System.err.println("testCCPTextAnnotation1 #################################################:");
-		// UIMA_Util.printCCPTextAnnotation(testCCPTextAnnotation1, System.err);
-		//
-		// System.err.println("testTextAnnotation1 #################################################:");
-		// testTextAnnotation1.printAnnotation(System.err);
-		// System.err.println("testTextAnnotation2 #################################################:");
-		// testTextAnnotation2.printAnnotation(System.err);
-
 	}
 
 	private JCas initializeJCas(String documentID, String documentText) throws Exception {
@@ -356,14 +326,10 @@ public class UIMA_UtilTest {
 		final String comment = "this is an annotation comment";
 		edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationMetadata annotationMetadata = new edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationMetadata();
 		edu.ucdenver.ccp.nlp.core.annotation.metadata.TruePositiveProperty tpProp = new edu.ucdenver.ccp.nlp.core.annotation.metadata.TruePositiveProperty();
-		// edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty dmapProp = new
-		// edu.ucdenver.ccp.nlp.core.annotation.metadata.OpenDMAPPatternProperty();
 		edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty commentProp = new edu.ucdenver.ccp.nlp.core.annotation.metadata.AnnotationCommentProperty(
 				comment);
 
-		// dmapProp.setPattern(dmapPattern);
 		annotationMetadata.addMetadataProperty(tpProp);
-		// annotationMetadata.addMetadataProperty(dmapProp);
 		annotationMetadata.addMetadataProperty(commentProp);
 
 		assertEquals(2, annotationMetadata.getMetadataProperties().size());
@@ -375,22 +341,11 @@ public class UIMA_UtilTest {
 		assertEquals(2, ccpAnnotationMetadata.getMetadataProperties().size());
 		FSArray ccpMetadataProperties = ccpAnnotationMetadata.getMetadataProperties();
 		boolean hasTPProp = false;
-		// boolean hasDMAPProp = false;
 		boolean hasCommentProp = false;
 		for (int i = 0; i < ccpMetadataProperties.size(); i++) {
 			if (ccpMetadataProperties.get(i) instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.TruePositiveProperty) {
 				hasTPProp = true;
 			}
-			// if (ccpMetadataProperties.get(i) instanceof
-			// edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty) {
-			// hasDMAPProp = true;
-			// edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty
-			// ccpDmapProp =
-			// (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.OpenDMAPPatternProperty)
-			// ccpMetadataProperties
-			// .get(i);
-			// assertEquals(dmapProp.getPattern(), ccpDmapProp.getPattern());
-			// }
 			if (ccpMetadataProperties.get(i) instanceof edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) {
 				hasCommentProp = true;
 				edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty ccpCommentProp = (edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty) ccpMetadataProperties
@@ -399,7 +354,6 @@ public class UIMA_UtilTest {
 			}
 		}
 		assertTrue(hasTPProp);
-		// assertTrue(hasDMAPProp);
 		assertTrue(hasCommentProp);
 
 		/* Now swap from UIMA to non-UIMa */
@@ -409,7 +363,6 @@ public class UIMA_UtilTest {
 		assertTrue(annotationMetadata.isTruePositive());
 		assertFalse(annotationMetadata.isFalseNegative());
 		assertFalse(annotationMetadata.isFalsePositive());
-		// assertEquals(dmapPattern, annotationMetadata.getOpenDMAPPattern());
 		assertEquals(comment, annotationMetadata.getAnnotationComment());
 
 	}
@@ -507,12 +460,7 @@ public class UIMA_UtilTest {
 	public void testSwapAnnotationInfo() throws Exception {
 		CCPTextAnnotation emptyCCPTA = new CCPTextAnnotation(jcas);
 		/* put the contents of the transport annotation into this empty CCPTextAnnotation */
-		// System.err.println("### FROM: ");
-		// testTextAnnotation1.printAnnotation(System.err);
 		UIMA_Util.swapAnnotationInfo(testTextAnnotation1, emptyCCPTA, jcas);
-
-		// System.err.println("### TO: ");
-		// UIMA_Util.printCCPTextAnnotation(emptyCCPTA, System.err);
 
 		assertEquals(testTextAnnotation1.getAnnotationID(), emptyCCPTA.getAnnotationID());
 		assertEquals(testTextAnnotation1.getAnnotationSpanStart(), emptyCCPTA.getBegin());
@@ -536,18 +484,11 @@ public class UIMA_UtilTest {
 
 		assertEquals(expectedSpans, retrievedSpans);
 
-		// System.err.println("CONVERTED UIMA TA");
-		// UIMA_Util.printCCPTextAnnotation(emptyCCPTA, System.err);
-
-		// System.err.println("SWAPPING TO REGULAR TA...");
 		/* now test the conversion from the UIMA TextAnnotation to a non-UIMA TextAnnotation */
 		TextAnnotation emptyTA = new DefaultTextAnnotation(0, 1, "nocoveredText", new Annotator(-1, "noname", "noname",
 				"noaffiliation"), new AnnotationSet(-1, "nonameset", "nonameset"), -1, -1, "-1", -1,
 				new DefaultClassMention("nonamemention"));
 		UIMA_Util.swapAnnotationInfo(emptyCCPTA, emptyTA, jcas);
-		// System.err.println("DONE SWAPPING TO REGULAR TA...");
-		// System.err.println("REGULAR TA: ");
-		// emptyTA.printAnnotation(System.err);
 		assertEquals(emptyCCPTA.getAnnotationID(), emptyTA.getAnnotationID());
 		assertEquals(emptyCCPTA.getBegin(), emptyTA.getAnnotationSpanStart());
 		assertEquals(emptyCCPTA.getEnd(), emptyTA.getAnnotationSpanEnd());
@@ -645,30 +586,7 @@ public class UIMA_UtilTest {
 		// there should be four annotations returned
 		assertEquals(4, retrievedTextAnnotations.size());
 
-		// for (TextAnnotation ta : retrievedTextAnnotations) {
-		// ta.printAnnotation(System.out);
-		// }
-
 	}
-
-	// /**
-	// * Test the method that links a CCPClassMention with a CCPTextAnnotation
-	// *
-	// */
-	// @Test
-	// public void testAddCCPTextAnnotationToCCPClassMention() {
-	// testCCPClassMention.setCcpTextAnnotations(null);
-	// assertNull(testCCPClassMention.getCcpTextAnnotations());
-	//
-	// try {
-	// UIMA_Util.addCCPTextAnnotationToCCPClassMention(testCCPTextAnnotation1, testCCPClassMention);
-	// } catch (CASException e) {
-	// e.printStackTrace();
-	// fail("Exception while testing the addition of a CCPTextAnnotation to a CCPClassMention...");
-	// }
-	// assertNotNull(testCCPClassMention.getCcpTextAnnotations());
-	//
-	// }
 
 	/**
 	 * This test exercises the methods designed to detect invalud mention structures.<br>
@@ -726,11 +644,7 @@ public class UIMA_UtilTest {
 		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory
 				.createTypeSystemDescription("edu.ucdenver.ccp.nlp.core.uima.TypeSystem");
 		JCas jcas = JCasFactory.createJCas(typeSystemDescription);
-		/*
-		 * ______________________________1_________2_________3_________4_________5_________6_________7_________8_________9
-		 * /___________________
-		 * 01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567
-		 */
+
 		jcas.setDocumentText("This test mimics a coreference annotation. A is the same as B is the same as C is the same as D.");
 		CCPClassMention ccpCM = new CCPClassMention(jcas);
 		ccpCM.setMentionName("mainCM");
