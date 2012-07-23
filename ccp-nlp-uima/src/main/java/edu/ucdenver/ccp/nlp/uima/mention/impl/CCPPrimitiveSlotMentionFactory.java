@@ -50,6 +50,9 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.CCPPrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPStringSlotMention;
 
 /**
+ * Factory class for creating {@link PrimitiveSlotMention} objects based on the inputted slot
+ * values.
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
