@@ -53,7 +53,11 @@ import edu.ucdenver.ccp.nlp.uima.util.View;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * A collection reader that reads documents from a single file, where each line represents an
+ * individual document. This collection reader makes use of the {@link DocumentExtractor} interface
+ * to control how a line from the collection file is transformed into a document.
+ * 
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
