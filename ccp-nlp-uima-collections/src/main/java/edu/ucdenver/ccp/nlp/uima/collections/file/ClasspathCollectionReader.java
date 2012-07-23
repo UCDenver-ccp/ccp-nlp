@@ -58,6 +58,9 @@ import edu.ucdenver.ccp.nlp.uima.util.View;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
+ * A collection reader designed to read from files available on the Java classpath. A classpath
+ * directory is specified using the "collectionPath" input parameter.
+ * 
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
