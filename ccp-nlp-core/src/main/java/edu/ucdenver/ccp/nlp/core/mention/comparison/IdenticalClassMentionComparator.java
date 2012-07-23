@@ -99,43 +99,25 @@ public class IdenticalClassMentionComparator extends IdenticalMentionComparator 
 			/* if we have reached the maximum comparison depth, then return now */
 			if (maximumComparisonDepth != -1 && depth >= maximumComparisonDepth) {
 				return spanComparator.compare(cm1.getTextAnnotation().getSpans(), cm2.getTextAnnotation().getSpans());
-			} else {
-				/*
-				 * we have not yet reached the maximum depth, so we need to compare the slot
-				 * mentions and complex slot mentions
-				 */
-				boolean annotationSpansMatch = false;
-				annotationSpansMatch = (spanComparator.compare(cm1.getTextAnnotation().getSpans(), cm2
-						.getTextAnnotation().getSpans()) == 0);
-
-				// boolean slotMentionsMatch = equalSlotMentions(cm1.getPrimitiveSlotMentions(),
-				// cm2.getPrimitiveSlotMentions(), spanComparator,
-				// new IdenticalSlotMentionComparator(), maximumComparisonDepth, depth);
-				//
-				//
-				// boolean complexSlotMentionsMatch =
-				// equalComplexSlotMentions(cm1.getComplexSlotMentions(),
-				// cm2.getComplexSlotMentions(),
-				// spanComparator, new IdenticalComplexSlotMentionComparator(),
-				// maximumComparisonDepth, depth);
-
-				boolean slotMentionsMatch = false;
-				boolean complexSlotMentionsMatch = false;
-				// TODO: FIX THE COMPARATORS!!!!!
-
-				// System.err.println("SPANS MATCH: " + annotationSpansMatch +
-				// "  SLOT MENTIONS MATCH: " + slotMentionsMatch + "  CSMs MATCH: " +
-				// complexSlotMentionsMatch);
-
-				if (annotationSpansMatch & slotMentionsMatch & complexSlotMentionsMatch) {
-					return 0;
-				} else {
-					return cm1.getSingleLineRepresentation().compareTo(cm2.getSingleLineRepresentation()) * MULTIPLIER;
-				}
 			}
-		} else {
+			/*
+			 * we have not yet reached the maximum depth, so we need to compare the slot mentions
+			 * and complex slot mentions
+			 */
+			boolean annotationSpansMatch = false;
+			annotationSpansMatch = (spanComparator.compare(cm1.getTextAnnotation().getSpans(), cm2.getTextAnnotation()
+					.getSpans()) == 0);
+
+			boolean slotMentionsMatch = false;
+			boolean complexSlotMentionsMatch = false;
+
+			if (annotationSpansMatch & slotMentionsMatch & complexSlotMentionsMatch) {
+				return 0;
+			}
 			return cm1.getSingleLineRepresentation().compareTo(cm2.getSingleLineRepresentation()) * MULTIPLIER;
+
 		}
+		return cm1.getSingleLineRepresentation().compareTo(cm2.getSingleLineRepresentation()) * MULTIPLIER;
 	}
 
 }

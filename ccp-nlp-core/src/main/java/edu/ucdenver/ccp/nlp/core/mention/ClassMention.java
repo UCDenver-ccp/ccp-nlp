@@ -122,102 +122,9 @@ public abstract class ClassMention extends Mention implements IClassMention {
 
 	private static Logger logger = Logger.getLogger(ClassMention.class);
 
-	// protected TextAnnotation textAnnotation;
-
-	// public ClassMention(String mentionName, IMentionTraversalTracker traversalTracker, Object...
-	// wrappedObjectPlusGlobalVars) {// , TextAnnotation linkedAnnotation) {
-	// super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
-	// // setTextAnnotationMemberVariable(linkedAnnotation);
-	// }
-
-	public ClassMention(Object... wrappedObjectPlusGlobalVars) {// , TextAnnotation
-																// linkedAnnotation) {
+	public ClassMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
-		// setTextAnnotationMemberVariable(linkedAnnotation);
 	}
-
-	// protected void initializeMention() {
-	// // primitiveSlotMentionsMap = new HashMap<String, PrimitiveSlotMention>();
-	// // complexSlotMentionsMap = new HashMap<String, ComplexSlotMention>();
-	// }
-
-	// @Override
-	// protected void initializeFromWrappedMention(Object wrappedObject) throws Exception {
-	// classSpecificInitialization(wrappedObject);
-	// // fillSlotMentionMaps();
-	//
-	// }
-
-	// @Override
-	// public void setMentionID(long mentionID) {
-	// if (hasWrappedMention) {
-	// setWrappedObjectMentionID(mentionID);
-	// }
-	// super.setMentionID(mentionID);
-	// }
-
-	// protected abstract void setWrappedObjectMentionID(long mentionID);
-
-	// protected abstract void classSpecificInitialization(Object wrappedObject) throws Exception;
-
-	// protected abstract void setTextAnnotationMemberVariable(TextAnnotation linkedAnnotation);
-
-	// public TextAnnotation getTextAnnotation() {
-	// return textAnnotation;
-	// }
-
-	// public void setTextAnnotation(TextAnnotation textAnnotation, boolean linkToWrappedMention) {
-	// this.textAnnotation = textAnnotation;
-	// if (hasWrappedMention && linkToWrappedMention) {
-	// setWrappedMentionTextAnnotation(textAnnotation);
-	// }
-	// }
-	//
-	// protected abstract void setWrappedMentionTextAnnotation(TextAnnotation textAnnotation);
-
-	//
-	// public abstract Collection<ComplexSlotMention> getComplexSlotMentions();
-	//
-	// public abstract void setComplexSlotMentions(Map<String, ComplexSlotMention>
-	// complexSlotMentionsMap);
-	//
-	// protected abstract void setWrappedMentionComplexSlotMentions(Map<String, ComplexSlotMention>
-	// complexSlotMentionsMap);
-	//
-	// public abstract Collection<PrimitiveSlotMention> getPrimitiveSlotMentions();
-	//
-	// public abstract void setSlotMentions(Map<String, PrimitiveSlotMention> slotMentionsMap);
-	//
-	// protected abstract void setWrappedMentionPrimitiveSlotMentions(Map<String,
-	// PrimitiveSlotMention>
-	// slotMentionsMap);
-	//
-	// public abstract void addComplexSlotMention(ComplexSlotMention csm);
-	//
-	// protected abstract void addComplexSlotMentionToWrappedMention(ComplexSlotMention csm) throws
-	// Exception;
-	//
-	// public abstract void addSlotMention(PrimitiveSlotMention sm);
-	//
-	// protected abstract void addPrimitiveSlotMentionToWrappedMention(PrimitiveSlotMention sm)
-	// throws Exception;
-
-	// /**
-	// * Returns the unique names of all slotmentions
-	// *
-	// * @return
-	// */
-	// public abstract Collection<String> getSlotMentionNames();
-	//
-	// public abstract PrimitiveSlotMention getSlotMentionByName(String slotMentionName);
-	//
-	// public abstract ComplexSlotMention getComplexSlotMentionByName(String
-	// complexSlotMentionName);
-	//
-	// protected abstract ComplexSlotMention createComplexSlotMention(String slotMentionName);
-	//
-	// protected abstract PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName,
-	// Object slotValue);
 
 	@Override
 	public String getStringRepresentation(int indentLevel, boolean showReferencingAnnotationInfo) {
@@ -244,20 +151,6 @@ public abstract class ClassMention extends Mention implements IClassMention {
 
 		return "\"" + annotationString + "\"\t" + spanStr;
 	}
-
-	// public String getHashKey() {
-	// String hashKey = "";
-	// try {
-	// hashKey = textAnnotation.getHashKey();
-	// } catch (Exception e) {
-	// logger
-	// .error("ClassMention is missing referential TextAnnotation, therefore proper hashkey cannot be produced... ClassMention: "
-	// + this.toString());
-	// e.printStackTrace();
-	// }
-	//
-	// return hashKey;
-	// }
 
 	@Override
 	public int hashCode() {

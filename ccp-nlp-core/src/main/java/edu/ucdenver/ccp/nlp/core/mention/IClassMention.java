@@ -69,8 +69,4 @@ public interface IClassMention {
 	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValue)
 			throws KnowledgeRepresentationWrapperException;
 
-	// public void removeComplexSlotMention(String slotMentionName);
-	//
-	// public void removePrimitiveSlotMention(String slotMentionName);
-
 }

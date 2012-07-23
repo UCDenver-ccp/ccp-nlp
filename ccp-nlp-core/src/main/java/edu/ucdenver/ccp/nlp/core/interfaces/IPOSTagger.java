@@ -53,7 +53,5 @@ public interface IPOSTagger extends ITokenizer {
 	 * @param documentID
 	 * @return
 	 */
-	// public List<TextAnnotation> getTokensWithPOSTagsFromText(String inputText, String
-	// documentID);
 	public List<TextAnnotation> getTokensWithPOSTagsFromText(String inputText);
 }

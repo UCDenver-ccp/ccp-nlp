@@ -41,11 +41,6 @@ import org.apache.log4j.Logger;
 public abstract class FloatSlotMention extends PrimitiveSlotMention<Float> {
 	private static Logger logger = Logger.getLogger(FloatSlotMention.class);
 
-	// public FloatSlotMention(String mentionName, IMentionTraversalTracker traversalTracker,
-	// Object... wrappedObjectPlusGlobalVars) {
-	// super(mentionName,traversalTracker, wrappedObjectPlusGlobalVars);
-	// }
-
 	public FloatSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
 	}

@@ -164,8 +164,6 @@ public class TextAnnotationFactory {
 
 	PrimitiveSlotMention parseSlotMention(String line) {
 
-		// Pattern pattern =
-		// Pattern.compile("-\\s+SLOT\\s+MENTION:\\s+(\\S+)\\s+with\\s+SLOT\\s+VALUE\\(s\\):\\s*(\\S+)");
 		Pattern pattern = Pattern.compile("-\\s+SLOT\\s+MENTION:(.+)with\\s+SLOT\\s+VALUE\\(s\\):\\s*(\\S+)");
 		Matcher matcher = pattern.matcher(line);
 		Pattern listPattern = Pattern.compile("^[\\w\\d,]+$");

@@ -41,11 +41,6 @@ import org.apache.log4j.Logger;
 public abstract class IntegerSlotMention extends PrimitiveSlotMention<Integer> {
 	private static Logger logger = Logger.getLogger(IntegerSlotMention.class);
 
-	// public IntegerSlotMention(String mentionName, IMentionTraversalTracker traversalTracker,
-	// Object... wrappedObjectPlusGlobalVars) {
-	// super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
-	// }
-
 	public IntegerSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
 	}

@@ -45,11 +45,6 @@ import org.apache.log4j.Logger;
 public abstract class BooleanSlotMention extends PrimitiveSlotMention<Boolean> {
 	private static Logger logger = Logger.getLogger(BooleanSlotMention.class);
 
-	// public BooleanSlotMention(String mentionName, IMentionTraversalTracker traversalTracker,
-	// Object... wrappedObjectPlusGlobalVars) {
-	// super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
-	// }
-
 	public BooleanSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
 	}

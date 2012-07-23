@@ -41,11 +41,6 @@ import org.apache.log4j.Logger;
 public abstract class DoubleSlotMention extends PrimitiveSlotMention<Double> {
 	private static Logger logger = Logger.getLogger(DoubleSlotMention.class);
 
-	// public FloatSlotMention(String mentionName, IMentionTraversalTracker traversalTracker,
-	// Object... wrappedObjectPlusGlobalVars) {
-	// super(mentionName,traversalTracker, wrappedObjectPlusGlobalVars);
-	// }
-
 	public DoubleSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
 	}

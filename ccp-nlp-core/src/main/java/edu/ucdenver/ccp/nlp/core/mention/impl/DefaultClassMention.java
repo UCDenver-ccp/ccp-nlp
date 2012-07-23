@@ -46,19 +46,6 @@ import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
  */
 public class DefaultClassMention extends ClassMention {
 
-	// /**
-	// * The traversalID2MentionIDMap serves as a means for keeping track of parallel traversals of
-	// a mention hierarchy.
-	// * The mentionID (values in this map) are necessary because they are used to detect cycles in
-	// the hierarchy. Without
-	// * this feedback, cycles would result in an endless traversal due to infinite looping over the
-	// cycle. The traversal
-	// * IDs (keys in this map) permit multiple, simultaneous traversals over the same mention
-	// structure from interfering
-	// * with one another by overwriting mention IDs.
-	// */
-	// protected Map<Integer, Long> traversalID2MentionIDMap;
-
 	private String mentionName;
 	private long mentionID;
 	protected Map<String, PrimitiveSlotMention> primitiveSlotMentionsMap;
@@ -71,26 +58,6 @@ public class DefaultClassMention extends ClassMention {
 		primitiveSlotMentionsMap = new HashMap<String, PrimitiveSlotMention>();
 		complexSlotMentionsMap = new HashMap<String, ComplexSlotMention>();
 	}
-
-	// @Override
-	// protected void initializeMention() {
-	// // traversalID2MentionIDMap = new HashMap<Integer, Long>();
-	// }
-
-	// @Override
-	// protected Long getMentionIDForTraversal(int traversalID) {
-	// return traversalID2MentionIDMap.get(traversalID);
-	// }
-	//
-	// @Override
-	// protected void setMentionIDForTraversal(long mentionID, int traversalID) {
-	// traversalID2MentionIDMap.put(traversalID, mentionID);
-	// }
-	//
-	// @Override
-	// protected void removeMentionIDForTraversal(int traversalID) {
-	// traversalID2MentionIDMap.remove(traversalID);
-	// }
 
 	@Override
 	public Collection<ComplexSlotMention> getComplexSlotMentions() {
@@ -172,12 +139,6 @@ public class DefaultClassMention extends ClassMention {
 		this.addComplexSlotMention(csm);
 		return csm;
 	}
-
-	// @Override
-	// protected void setWrappedObjectMentionID(long mentionID) {
-	// throw new UnsupportedOperationException("The " + this.getClass().getSimpleName()
-	// + " class does not support wrapping of another object.");
-	// }
 
 	@Override
 	protected void initializeFromWrappedMention(Object... wrappedObject) {

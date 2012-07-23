@@ -376,48 +376,6 @@ public class DefaultTextAnnotation extends TextAnnotation {
 		spanList.add(span);
 		sortSpanList();
 
-		// boolean addedSpan = false;
-		// int spanListSize = spanList.size();
-		//
-		// if (spanListSize == 0) {
-		// /* then just add the span */
-		// spanList.add(span);
-		// } else {
-		// /* add the span, in sorted order */
-		// for (int i = 0; i < spanListSize; i++) {
-		// Span sortedSpan = spanList.get(i);
-		// if (span.getSpanStart() < sortedSpan.getSpanStart()) {
-		// /* then we need to add this span in front of the one in the list */
-		// spanList.add(i, span);
-		// addedSpan = true;
-		// break;
-		// } else if (span.getSpanStart() == sortedSpan.getSpanStart()) {
-		// /*
-		// * if span starts are equal, check span ends. If the new span ends before the sorted span,
-		// then add
-		// * it in front
-		// */
-		// if (span.getSpanEnd() < sortedSpan.getSpanEnd()) {
-		// spanList.add(i, span);
-		// addedSpan = true;
-		// break;
-		// }
-		// }
-		// /* span has not been added, so add at end of list */
-		// if (!addedSpan) {
-		// spanList.add(spanList.size(), span);
-		// }
-		// }
-		// }
-		// /* if there are any [-1..-1] spans then remove them, these spans are added by the default
-		// constructor */
-		// try {
-		// Span defaultSpan = new Span(-1, -1);
-		// spanList.remove(defaultSpan);
-		// } catch (InvalidSpanException e) {
-		// e.printStackTrace();
-		// }
-
 	}
 
 	@Override

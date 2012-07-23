@@ -39,7 +39,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 
 /**
- * An interface for applications that print annotations.
+ * An abstract class for applications that print annotations.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 

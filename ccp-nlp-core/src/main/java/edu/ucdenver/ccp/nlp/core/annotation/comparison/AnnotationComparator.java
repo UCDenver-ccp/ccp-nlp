@@ -133,21 +133,9 @@ public class AnnotationComparator implements Comparator<TextAnnotation> {
 		 * redundant..
 		 */
 		int spanComparisonResult = spanComparator.compare(ta1.getSpans(), ta2.getSpans());
-		// System.err.println("AnnotationComparator.compare():  spanComparisonResult=" +
-		// spanComparisonResult);
 		int mentionComparisonResult = mentionComparator.compare(ta1.getClassMention(), ta2.getClassMention(),
 				spanComparator, maximumComparisonDepth);
-		// System.err.println("AnnotationComparator.compare():  mention=" +
-		// mentionComparisonResult);
 		int metaDataComparisonResult = metaDataCompare(ta1, ta2);
-		// System.err.println("AnnotationComparator.compare():  metaDataComparisonResult=" +
-		// metaDataComparisonResult);
-		// System.err.println("SPAN COMPARISON = " + spanComparisonResult +
-		// "  MENTION COMPARISON = " +
-		// mentionComparisonResult + "  METADATA COMP = " + metaDataComparisonResult);
-		// System.err
-		// .println("AnnotationComparator returning: " + (spanComparisonResult +
-		// mentionComparisonResult + metaDataComparisonResult));
 		return spanComparisonResult + mentionComparisonResult + metaDataComparisonResult;
 	}
 

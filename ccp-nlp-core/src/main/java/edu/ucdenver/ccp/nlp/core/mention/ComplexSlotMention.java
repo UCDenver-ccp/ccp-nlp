@@ -43,11 +43,6 @@ import java.util.Collection;
  */
 public abstract class ComplexSlotMention extends SlotMention<ClassMention> {
 
-	// public ComplexSlotMention(String mentionName, IMentionTraversalTracker traversalTracker,
-	// Object... wrappedObjectPlusGlobalVars ) {
-	// super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
-	// }
-
 	public ComplexSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
 	}
@@ -95,14 +90,6 @@ public abstract class ComplexSlotMention extends SlotMention<ClassMention> {
 		String csmStr = getIndentString(indentLevel) + "COMPLEX SLOT MENTION: " + getMentionName();
 		return csmStr;
 	}
-
-	// public String getHashKey() {
-	// String key = this.getMentionName();
-	// for (ClassMention cm : classMentions) {
-	// key += (" " + cm.getHashKey());
-	// }
-	// return key;
-	// }
 
 	@Override
 	public int compareTo(Mention m) {

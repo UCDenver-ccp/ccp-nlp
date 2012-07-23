@@ -46,8 +46,6 @@ public abstract class SlotMention<E> extends Mention implements ISlotMention<E> 
 
 	protected static Logger logger = Logger.getLogger(SlotMention.class);
 
-	// protected Collection<E> slotValues;
-
 	public SlotMention(String mentionName, Object... wrappedObjectPlusGlobalVars) {
 		super(mentionName, wrappedObjectPlusGlobalVars);
 	}
@@ -55,20 +53,6 @@ public abstract class SlotMention<E> extends Mention implements ISlotMention<E> 
 	public SlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
 	}
-
-	// @Override
-	// protected void initializeMention() {
-	// slotValues = new ArrayList<E>();
-	// }
-
-	// /**
-	// * Get the slot values
-	// *
-	// * @return
-	// */
-	// public Collection<E> getSlotValues() {
-	// return slotValues;
-	// }
 
 	/**
 	 * If this slot mention is storing only a single slot filler, then the single slot filler is
@@ -101,83 +85,5 @@ public abstract class SlotMention<E> extends Mention implements ISlotMention<E> 
 		}
 		return nonEmptySlotMentionCount;
 	}
-
-	// /**
-	// * Set the slot values
-	// *
-	// * @param slotValues
-	// */
-	// public void setSlotValues(Collection<E> slotValues) {
-	// this.slotValues = slotValues;
-	// if (hasWrappedMention) {
-	// try {
-	// setSlotValuesForWrappedMention(slotValues);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	//
-	// protected abstract void setSlotValuesForWrappedMention(Collection<E> slotValues) throws
-	// Exception;
-	//
-	// /**
-	// * Add a slot value to this slot mention
-	// *
-	// * @param slotValue
-	// */
-	// public void addSlotValue(E slotValue) {
-	// this.slotValues.add(slotValue);
-	// if (hasWrappedMention) {
-	// try {
-	// addSlotValueToWrappedMention(slotValue);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	//
-	// protected abstract void addSlotValueToWrappedMention(E slotValue) throws Exception;
-	//
-	// public void addSlotValues(Collection<E> slotValues) {
-	// this.slotValues.addAll(slotValues);
-	// if (hasWrappedMention) {
-	// try {
-	// addSlotValuesToWrappedMention(slotValues);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	//
-	// protected abstract void addSlotValuesToWrappedMention(Collection<E> slotValues) throws
-	// Exception;
-	//
-	// public void overwriteSlotValues(E slotValue) {
-	// this.slotValues = new ArrayList<E>();
-	// this.slotValues.add(slotValue);
-	// if (hasWrappedMention) {
-	// clearWrappedMentionSlotValues();
-	// try {
-	// addSlotValueToWrappedMention(slotValue);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	//
-	// protected abstract void clearWrappedMentionSlotValues();
-	//
-	// public void overwriteSlotValues(Collection<E> slotValues) {
-	// this.slotValues = slotValues;
-	// if (hasWrappedMention) {
-	// clearWrappedMentionSlotValues();
-	// try {
-	// setSlotValuesForWrappedMention(slotValues);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
 
 }

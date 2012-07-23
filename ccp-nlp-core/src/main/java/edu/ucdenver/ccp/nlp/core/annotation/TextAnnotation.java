@@ -52,29 +52,7 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 
 	protected static Logger logger = Logger.getLogger(TextAnnotation.class);
 
-	// protected List<Span> spanList;
-	//
-	// protected Annotator annotator;
-	//
-	// protected Set<AnnotationSet> annotationSets;
-	//
-	// protected String coveredText; // text covered by the span
-	//
-	// protected int annotationID; // annotation ID
-	//
-	// protected String documentID; // document ID
-	//
-	// protected int documentCollectionID; // document collection ID, see
-	//
-	// protected int documentSectionID; // document section ID, see Annotation
-	//
-	// protected ClassMention classMention;
-	//
-	// protected AnnotationMetadata annotationMetadata;
-
 	protected boolean hasWrappedAnnotation = false;
-
-	// protected ClassMention classMention;
 
 	public TextAnnotation(Object... wrappedObjectAndGlobalVars) {
 		if (wrappedObjectAndGlobalVars != null) {
@@ -323,33 +301,6 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 		classMention.setTextAnnotation(this);
 	}
 
-	// /**
-	// * Return a String that can be used as a hashkey for this TextAnnotation - I wonder if this
-	// should be deprecated?!
-	// *
-	// * @return
-	// */
-	// @Deprecated
-	// public String getHashKey() {
-	// // key = annotatorID mentionName docID docSectionID spanBegin spanEnd ...
-	// String mentionName = "";
-	// try {
-	// mentionName = this.getClassMention().getMentionName();
-	// } catch (NullPointerException npe) {
-	//
-	// }
-	// String key = Integer.toString(this.getAnnotatorID()) + " " + mentionName + " " +
-	// this.getDocumentID() + " "
-	// + this.getDocumentSectionID() + " ";
-	// ArrayList<Span> spans = (ArrayList<Span>) this.getSpans();
-	// for (edu.uchsc.ccp.util.nlp.annotation.Span span : spans) {
-	// key += (Integer.toString(span.getSpanStart()) + " ");
-	// key += (Integer.toString(span.getSpanEnd()) + " ");
-	// }
-	//
-	// return key;
-	// }
-
 	public String toString() {
 		boolean showDocumentLevelAttributesOnly = false;
 		boolean deep = true;
@@ -401,12 +352,6 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 		}
 		return spansStr;
 	}
-
-	// public String toDocumentLevelString() {
-	// boolean showDocumentLevelAttributesOnly = true;
-	// boolean deep = true;
-	// return getStringRepresentation(showDocumentLevelAttributesOnly, deep);
-	// }
 
 	/**
 	 * Returns a consistent (sorted) string representation of the annotation sets to which this text
@@ -567,34 +512,6 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 			}
 		};
 	}
-
-	// /**
-	// * Creates a comparator for CCPTextAnnotations based on the span of each annotation.
-	// *
-	// * @param <T>
-	// * @return
-	// */
-	// public static Comparator<TextAnnotation> BY_SPAN222() {
-	//
-	// return new Comparator<TextAnnotation>() {
-	//
-	// public int compare(TextAnnotation ccpTA1, TextAnnotation ccpTA2) {
-	//
-	// Integer spanStart1 = ccpTA1.getAggregateSpan().getSpanStart();
-	// Integer spanStart2 = ccpTA2.getAggregateSpan().getSpanStart();
-	//
-	// int result = spanStart1.compareTo(spanStart2);
-	//
-	// if (result == 0) {
-	// Integer spanEnd1 = ccpTA1.getAggregateSpan().getSpanEnd();
-	// Integer spanEnd2 = ccpTA2.getAggregateSpan().getSpanEnd();
-	// return spanEnd1.compareTo(spanEnd2);
-	// } else {
-	// return result;
-	// }
-	// }
-	// };
-	// }
 
 	public abstract Object getWrappedObject();
 }

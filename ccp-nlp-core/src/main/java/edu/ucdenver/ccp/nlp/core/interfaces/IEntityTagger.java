@@ -53,6 +53,4 @@ public interface IEntityTagger extends ITagger {
 
 	public void shutdown();
 
-	// public List<TextAnnotation> getEntitiesFromText(String inputText);
-
 }

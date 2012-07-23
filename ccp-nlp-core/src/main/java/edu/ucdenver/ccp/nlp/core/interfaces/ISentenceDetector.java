@@ -49,7 +49,6 @@ public interface ISentenceDetector extends ITagger {
 	 * @param documentID
 	 * @return
 	 */
-	// public List<TextAnnotation> getSentencesFromText(String inputText, String documentID);
 	public List<TextAnnotation> getSentencesFromText(String inputText);
 
 	public List<TextAnnotation> getSentencesFromText(int characterOffset, String inputText);

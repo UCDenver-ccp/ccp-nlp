@@ -197,26 +197,4 @@ public class SpanUtils {
 		return selectedSpans;
 	}
 
-	// this is a double traversal unless the first copy is a lazy copy
-	// public static List<Span> spansEqualOrGreater (List<Span> spans, int val) {
-	// LinkedList<Span> selectedSpans = new LinkedList<Span>(spans);
-	// if (spans.isEmpty()) {
-	// return selectedSpans;
-	// }
-	//
-	//
-	// Span s = spans.get(0);
-	// //iterate and collect all under val
-	// Iterator<Span> sIter = spans.iterator();
-	// do {
-	// s = sIter.next();
-	// if ((s.getSpanStart() < val) || (s.getSpanEnd() < val)) {
-	// selectedSpans.add(s);
-	// } else {
-	// return selectedSpans;
-	// }
-	// } while (sIter.hasNext());
-	// return selectedSpans;
-	// }
-
 }

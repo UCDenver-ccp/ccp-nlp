@@ -44,16 +44,9 @@ import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
  */
 public abstract class PrimitiveSlotMention<E> extends SlotMention<E> implements IPrimitiveSlotMention<E> {
 
-	// public PrimitiveSlotMention(String mentionName, IMentionTraversalTracker traversalTracker,
-	// Object... wrappedObjectPlusGlobalVars) {
-	// super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars );
-	// }
-
 	public PrimitiveSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
 	}
-
-	// public abstract void addSlotValue(String slotValue);
 
 	/**
 	 * Returns the string representation for a primitive slot mention. The input list is assumed to
@@ -83,8 +76,6 @@ public abstract class PrimitiveSlotMention<E> extends SlotMention<E> implements 
 			PrimitiveSlotMention smToCompare = (PrimitiveSlotMention) m;
 			IdenticalMentionComparator ismc = new IdenticalMentionComparator();
 			return ismc.compare(this, smToCompare);
-			// return
-			// getSingleLineRepresentation().compareTo(compareSM.getSingleLineRepresentation());
 		} else {
 			logger.warn("Unexpected object when comparing to " + this.getClass().getName() + ": object = "
 					+ m.getClass().getName());
@@ -105,23 +96,11 @@ public abstract class PrimitiveSlotMention<E> extends SlotMention<E> implements 
 				return true;
 			}
 			return false;
-			// return this.equals(sm, new IdenticalMentionComparator(), null, -1, 0);
 		} else {
 			logger.warn("Cannot directly compare a SlotMention to " + obj.getClass().getName());
 			return false;
 		}
 	}
-
-	// public boolean equals(PrimitiveSlotMention smToCompare, SlotMentionComparator
-	// slotMentionComparator, SpanComparator spanComparator,
-	// int maximumComparisonDepth, int depth) {
-	// if (slotMentionComparator.compare(this, smToCompare, spanComparator, maximumComparisonDepth,
-	// depth) == 0) {
-	// return true;
-	// } else {
-	// return false;
-	// }
-	// }
 
 	public abstract void addSlotValueAsString(String slotValue) throws InvalidInputException;
 

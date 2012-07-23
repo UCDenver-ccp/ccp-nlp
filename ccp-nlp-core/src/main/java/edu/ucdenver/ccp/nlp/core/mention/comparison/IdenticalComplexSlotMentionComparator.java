@@ -76,7 +76,6 @@ public class IdenticalComplexSlotMentionComparator extends IdenticalMentionCompa
 	@Override
 	public int compare(ComplexSlotMention complexSlotMention1, ComplexSlotMention complexSlotMention2,
 			SpanComparator spanComparator, int maximumComparisonDepth, int depth) {
-		// System.err.println("CSM MATCH: COMPARING CSMs");
 		if (complexSlotMention1.getClassMentions().size() == complexSlotMention2.getClassMentions().size()) {
 			/* if the cms's do not have an equal number of class mentions then return false */
 			if (hasEquivalentMentionNames(complexSlotMention1, complexSlotMention2)) {
@@ -93,7 +92,6 @@ public class IdenticalComplexSlotMentionComparator extends IdenticalMentionCompa
 						}
 					}
 					if (!cmHasMatch) {
-						// System.err.println("CSM MATCH: NO MATCH FOR CM: " + cm.toString());
 						return complexSlotMention1.getSingleLineRepresentation().compareTo(
 								complexSlotMention2.getSingleLineRepresentation())
 								* MULTIPLIER;
@@ -102,14 +100,12 @@ public class IdenticalComplexSlotMentionComparator extends IdenticalMentionCompa
 				/* if we get to this point, then all class mentions have a match, so return 0 */
 				return 0;
 			} else {
-				// System.err.println("CSM MATCH: CSMs HAVE DIFFERENT MENTION NAMES ");
 				/* the csm's have different mention names */
 				return complexSlotMention1.getSingleLineRepresentation().compareTo(
 						complexSlotMention2.getSingleLineRepresentation())
 						* MULTIPLIER;
 			}
 		} else {
-			// System.err.println("CSM MATCH: UNEQUAL NUMBER OF CLASS MENTIONS ");
 			/* the csm's have an unequal number of class mentions */
 			return complexSlotMention1.getSingleLineRepresentation().compareTo(
 					complexSlotMention2.getSingleLineRepresentation())

@@ -44,8 +44,6 @@ public class DefaultIntegerSlotMention extends IntegerSlotMention {
 	private long mentionID;
 	protected Collection<Integer> slotValues;
 
-	// protected Map<Integer, Long> traversalID2MentionIDMap;
-
 	public DefaultIntegerSlotMention(String mentionName) {
 		super((Object[]) null);
 		this.mentionName = mentionName;
@@ -63,11 +61,6 @@ public class DefaultIntegerSlotMention extends IntegerSlotMention {
 		throw new UnsupportedOperationException("The " + this.getClass().getSimpleName()
 				+ " class does not support wrapping of another object.");
 	}
-
-	// @Override
-	// protected void initializeMention() {
-	// // traversalID2MentionIDMap = new HashMap<Integer, Long>();
-	// }
 
 	public void addSlotValue(Integer slotValue) throws InvalidInputException {
 		slotValues.add(slotValue);
@@ -113,18 +106,4 @@ public class DefaultIntegerSlotMention extends IntegerSlotMention {
 		this.mentionName = mentionName;
 	}
 
-	// @Override
-	// protected Long getMentionIDForTraversal(int traversalID) {
-	// return traversalID2MentionIDMap.get(traversalID);
-	// }
-	//
-	// @Override
-	// protected void setMentionIDForTraversal(long mentionID, int traversalID) {
-	// traversalID2MentionIDMap.put(traversalID, mentionID);
-	// }
-	//
-	// @Override
-	// protected void removeMentionIDForTraversal(int traversalID) {
-	// traversalID2MentionIDMap.remove(traversalID);
-	// }
 }

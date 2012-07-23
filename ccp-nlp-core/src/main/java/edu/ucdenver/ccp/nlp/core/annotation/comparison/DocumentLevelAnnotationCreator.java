@@ -122,18 +122,6 @@ public class DocumentLevelAnnotationCreator {
 							numComplexSlotMentions = 1;
 						}
 
-						// List<SlotMention> slotMentions =
-						// ta.getClassMention().getSlotMentionsByName(requiredSlot);
-						// int numSlotMentions = 0;
-						// if (slotMentions != null) {
-						// numSlotMentions = slotMentions.size();
-						// }
-						// List<ComplexSlotMention> complexSlotMentions =
-						// ta.getClassMention().getComplexSlotMentionsByName(requiredSlot);
-						// int numComplexSlotMentions = 0;
-						// if (complexSlotMentions != null) {
-						// numComplexSlotMentions = complexSlotMentions.size();
-						// }
 						if ((numSlotMentions + numComplexSlotMentions) < 1) {
 							hasRequiredSlots = false;
 							logger.debug("Annotation does not have required slots");

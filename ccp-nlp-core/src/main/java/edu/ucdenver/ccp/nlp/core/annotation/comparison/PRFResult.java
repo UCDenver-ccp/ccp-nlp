@@ -366,7 +366,6 @@ public class PRFResult {
 			return getFPAnnotations();
 		}
 
-		// too bad the compiler can't see I've covered all bases
 		return new ArrayList<TextAnnotation>();
 
 	}

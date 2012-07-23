@@ -38,11 +38,6 @@ import java.util.List;
  */
 public abstract class StringSlotMention extends PrimitiveSlotMention<String> {
 
-	// public StringSlotMention(String mentionName, IMentionTraversalTracker traversalTracker,
-	// Object... wrappedObjectPlusGlobalVars) {
-	// super(mentionName, traversalTracker, wrappedObjectPlusGlobalVars);
-	// }
-
 	public StringSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);
 	}

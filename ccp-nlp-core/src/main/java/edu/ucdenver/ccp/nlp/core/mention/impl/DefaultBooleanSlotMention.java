@@ -45,8 +45,6 @@ public class DefaultBooleanSlotMention extends BooleanSlotMention {
 	private long mentionID;
 	protected Collection<Boolean> slotValues;
 
-	// protected Map<Integer, Long> traversalID2MentionIDMap;
-
 	public DefaultBooleanSlotMention(String mentionName) {
 		super((Object[]) null);
 		this.mentionName = mentionName;
@@ -64,11 +62,6 @@ public class DefaultBooleanSlotMention extends BooleanSlotMention {
 		throw new UnsupportedOperationException("The " + this.getClass().getSimpleName()
 				+ " class does not support wrapping of another object.");
 	}
-
-	// @Override
-	// protected void initializeMention() {
-	// // traversalID2MentionIDMap = new HashMap<Integer, Long>();
-	// }
 
 	public Collection<Boolean> getSlotValues() {
 		return slotValues;
@@ -98,20 +91,5 @@ public class DefaultBooleanSlotMention extends BooleanSlotMention {
 	protected void setMentionName(String mentionName) {
 		this.mentionName = mentionName;
 	}
-
-	// @Override
-	// protected Long getMentionIDForTraversal(int traversalID) {
-	// return traversalID2MentionIDMap.get(traversalID);
-	// }
-	//
-	// @Override
-	// protected void setMentionIDForTraversal(long mentionID, int traversalID) {
-	// traversalID2MentionIDMap.put(traversalID, mentionID);
-	// }
-	//
-	// @Override
-	// protected void removeMentionIDForTraversal(int traversalID) {
-	// traversalID2MentionIDMap.remove(traversalID);
-	// }
 
 }

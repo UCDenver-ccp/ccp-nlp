@@ -73,12 +73,6 @@ public class DefaultPrimitiveSlotMentionFactory {
 			FloatSlotMention fsm = new DefaultFloatSlotMention(slotMentionName);
 			fsm.addSlotValue(slotValue);
 			return fsm;
-			// }
-			// else if (slotValueObject instanceof Double) {
-			// Double slotValue = (Double) slotValueObject;
-			// DoubleSlotMention dsm = new DoubleSlotMention(slotMentionName);
-			// dsm.addSlotValue(slotValue);
-			// return dsm;
 		} else {
 			logger.error("Invalid primitive slot value type: " + slotValueObject.getClass().getName());
 			return null;

@@ -34,11 +34,17 @@ import java.util.List;
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 
 /**
+ * Utility class for handling stop word removal
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class StopWordUtil {
 
+	/**
+	 * This list modified from the PubMed stop word list:
+	 * http://www.ncbi.nlm.nih.gov/books/NBK3827/?rendertype=table&id=pubmedhelp.T43
+	 */
 	public static List<String> STOPWORDS = CollectionsUtil.createList("i", "a", "is", "if", "be", "mm", "of", "no",
 			"so", "mg", "ml", "as", "we", "at", "by", "in", "on", "or", "it", "to", "do", "kg", "km", "an", "did",
 			"due", "any", "for", "use", "may", "and", "etc", "are", "but", "can", "our", "how", "nor", "the", "has",

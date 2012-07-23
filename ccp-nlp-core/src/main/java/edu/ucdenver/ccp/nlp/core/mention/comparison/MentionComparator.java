@@ -147,65 +147,6 @@ public abstract class MentionComparator implements Comparator<Mention> {
 		return 0;
 	}
 
-	// while (nodesForMention1Iter.hasNext()) {
-	// /* Get the next two nodes that are at or above the desired comparison depth */
-	// TreeNode<Mention> nodeForMention1 = nodesForMention1Iter.next();
-	// if (maximumComparisonDepth > -1 & nodeForMention1.getDepth() > maximumComparisonDepth) {
-	// /* cycle until we get a node above the desired comparison depth */
-	// continue;
-	// }
-	// TreeNode<Mention> nodeForMention2 = null;
-	// while (nodesForMention2Iter.hasNext()) {
-	// /* cycle other mention iterator until we get a node above the desired comparison depth */
-	// nodeForMention2 = nodesForMention2Iter.next();
-	// if (maximumComparisonDepth == -1 || (maximumComparisonDepth > -1 & nodeForMention2.getDepth()
-	// <=
-	// maximumComparisonDepth)) {
-	// break;
-	// }
-	// System.err.println("Returning -1 0");
-	// return -1;
-	// }
-	//
-	// // if (!nodesForMention2Iter.hasNext()) {
-	// // System.err.println("Returning -1 1");
-	// // return -1;
-	// // }
-	//
-	// if (nodeForMention1.getDepth() != nodeForMention2.getDepth()) {
-	// /* If the nodes aren't at the same level, then cycle */
-	// System.err.println("Returning -1 2");
-	// return -1;
-	// }
-	//
-	// // if (maximumComparisonDepth == -1 || (maximumComparisonDepth > -1 &
-	// nodeForMention1.getDepth() <=
-	// // maximumComparisonDepth)) {
-	// System.err.println("TEsting at depth: " + nodeForMention1.getDepth());
-	// if (compareMentionTreeNodes(nodeForMention1, nodeForMention2, spanComparator) != 0) {
-	// System.err.println("Returning -1 3");
-	// return -1;
-	// }
-	// // }
-	// }
-	// /* The other list may have other nodes, but as long as they are under the requested
-	// comparison depth we are ok */
-	// while (nodesForMention2Iter.hasNext()) {
-	// // if (nodesForMention2Iter.hasNext()) {
-	// if (maximumComparisonDepth == -1) {
-	// System.err.println("Returning -1 4");
-	// return -1;
-	// }
-	// TreeNode<Mention> node = nodesForMention2Iter.next();
-	// if (node.getDepth() <= maximumComparisonDepth) {
-	// System.err.println("Returning -1 5");
-	// return -1;
-	// }
-	// }
-	// System.err.println("Returning 0");
-	// return 0;
-	// }
-
 	/**
 	 * Returns the next node in the input Iterator<TreeNode> that is at or above the
 	 * maximumComparisonDepth level.
@@ -225,10 +166,6 @@ public abstract class MentionComparator implements Comparator<Mention> {
 		}
 		return null;
 	}
-
-	// public abstract int compare(Mention mention1, Mention mention2, SpanComparator
-	// spanComparator, int
-	// maximumComparisonDepth, int depth);
 
 	protected abstract boolean hasEquivalentMentionNames(Mention mention1, Mention mention2);
 
@@ -273,12 +210,6 @@ public abstract class MentionComparator implements Comparator<Mention> {
 					.getSpans(), ((ClassMention) mention2).getTextAnnotation().getSpans()) == 0);
 		}
 
-		// System.err.println("Same type: " + mentionsAreSameType);
-		// System.err.println("Same #children: " + mentionsHaveSameNumberOfChildren);
-		// System.err.println("Same name: " + mentionsHaveSameName);
-		// System.err.println("Same primitive slots: " + primitiveSlotValuesAreIdentical);
-		// System.err.println("Same spans: " + referencedTextAnntationSpansAreSame);
-
 		if (mentionsAreSameType & mentionsHaveSameNumberOfChildren & mentionsHaveSameName
 				& primitiveSlotValuesAreIdentical & referencedTextAnntationSpansAreSame) {
 			return 0;
@@ -294,9 +225,6 @@ public abstract class MentionComparator implements Comparator<Mention> {
 		} else if (mention1 instanceof ComplexSlotMention && mention2 instanceof ComplexSlotMention) {
 			return true;
 		} else {
-			// System.err.println("MENTION TYPES DIFFER: " + mention1.getMentionName() + " (" +
-			// mention1.getClass().getName() + ") -- not equal to -- " + mention2.getMentionName() +
-			// " ("+ mention2.getClass().getName() +")");
 			return false;
 		}
 	}
@@ -316,110 +244,4 @@ public abstract class MentionComparator implements Comparator<Mention> {
 		return count;
 	}
 
-	// public abstract boolean hasEquivalentMentionNames(Mention mention1, Mention mention2);
-	//
-	// /**
-	// * This method compares two lists of slot mentions by iterating through them. A quick check of
-	// the number of slot
-	// * mentions in each list is made at first to see if the individual comparisons can be avoided.
-	// */
-	// protected boolean equalSlotMentions(Collection<PrimitiveSlotMention> smList1,
-	// Collection<PrimitiveSlotMention>
-	// smList2,
-	// SpanComparator spanComparator, SlotMentionComparator slotMentionComparator, int
-	// maximumComparisonDepth, int
-	// depth) {
-	// if (smList1.size() != smList2.size()) {
-	// /* A quick check of the count of slot mentions */
-	// return false;
-	// } else {
-	// /*
-	// * iterate through each slot mention and see if it has a match in the other list. We must
-	// iterate because it
-	// * is possible that there could be two slot mentions with identical names. This is not ideal,
-	// but it is
-	// * possible -- this is no longer possible since the internal slot storage has been moved to a
-	// Map structure,
-	// * replacing the previous List structure
-	// */
-	// for (PrimitiveSlotMention sm : smList1) {
-	// boolean slotMentionHasAMatch = false;
-	// for (PrimitiveSlotMention smToCompare : smList2) {
-	// if (slotMentionComparator.compare(sm, smToCompare, spanComparator, maximumComparisonDepth,
-	// depth) == 0) {
-	// slotMentionHasAMatch = true;
-	// }
-	// }
-	// if (!slotMentionHasAMatch) {
-	// return false;
-	// }
-	// }
-	// /* if we have made it this far, then all slot mentions have a match */
-	// return true;
-	// }
-	// }
-	//
-	// /**
-	// * This method compares two lists of complex slot mentions by iterating through them.
-	// */
-	// protected boolean equalComplexSlotMentions(Collection<ComplexSlotMention> csmList1,
-	// Collection<ComplexSlotMention> csmList2,
-	// SpanComparator spanComparator, ComplexSlotMentionComparator csmComparator, int
-	// maximumComparisonDepth, int depth)
-	// {
-	// /* CAn't compare sizes as there may be empty complex slot mentions */
-	// /* Remove empties */
-	// List<ComplexSlotMention> nonEmptyCSMList1 = new ArrayList<ComplexSlotMention>();
-	// int index = 0;
-	// for (ComplexSlotMention csm : csmList1) {
-	// Collection<ClassMention> cmList = csm.getClassMentions();
-	// if (cmList != null) {
-	// // System.err.println("CMLIST SIZE: " + cmList.size());
-	// }
-	//
-	// if (cmList != null && cmList.size() > 0) {
-	// // System.err.println("NON EMPTY CSM: " + csm.getMentionName());
-	// nonEmptyCSMList1.add(csm);
-	// }
-	// }
-	//
-	// // System.err.println("NEW LIST SIZE: " + nonEmptyCSMList1.size());
-	//
-	// List<ComplexSlotMention> nonEmptyCSMList2 = new ArrayList<ComplexSlotMention>();
-	// for (ComplexSlotMention csm : csmList2) {
-	// Collection<ClassMention> cmList = csm.getClassMentions();
-	// if (cmList != null && cmList.size() > 0) {
-	// nonEmptyCSMList2.add(csm);
-	// }
-	// }
-	//
-	// csmList1 = nonEmptyCSMList1;
-	// csmList2 = nonEmptyCSMList2;
-	//
-	// if (csmList1.size() != csmList2.size()) {
-	// // System.err.println("CSM COMPARE: UNEQUAL # of CSMS: " + csmList1.size() + " != " +
-	// csmList2.size());
-	// /* a quick check of the count of the complex slot mentions */
-	// return false;
-	// } else {
-	// /* iterate through each CSM and see if it has a match */
-	// for (ComplexSlotMention csm : csmList1) {
-	// boolean csmHashAMatch = false;
-	// for (ComplexSlotMention csmToCompare : csmList2) {
-	// logger.debug("Comparing CSMs: " + csm.getMentionName() + " -to- " +
-	// csmToCompare.getMentionName());
-	// if (csmComparator.compare(csm, csmToCompare, spanComparator, maximumComparisonDepth, depth)
-	// == 0) {
-	// csmHashAMatch = true;
-	// }
-	// }
-	// if (!csmHashAMatch) {
-	// return false;
-	// }
-	// }
-	// /* if we have made it this far, then all complex slot mentions have a match */
-	// return true;
-	// }
-	//
-	// }
 }

@@ -48,20 +48,6 @@ import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 public class DefaultPrintOutput extends AnnotationPrinterUtil {
 	private boolean useOneLineFormat = false;
 
-	// public void printDocumentCollection(List<GenericDocument> documents) {
-	// printDocumentCollection(documents, System.out);
-	// }
-	//
-	// public void printDocumentCollection(List<GenericDocument> documents, PrintStream ps) {
-	// for (GenericDocument gd : documents) {
-	// printDocument(gd, ps);
-	// }
-	// }
-	//
-	// public void printDocument(GenericDocument gd) {
-	// printDocument(gd, System.out);
-	// }
-
 	public void setUseOneLineFormatStatus(boolean useOneLineFormat) {
 		this.useOneLineFormat = useOneLineFormat;
 	}
