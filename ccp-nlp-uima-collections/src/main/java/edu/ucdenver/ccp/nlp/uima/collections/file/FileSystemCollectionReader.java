@@ -158,26 +158,6 @@ public class FileSystemCollectionReader extends BaseTextCollectionReader {
 				viewName);
 	}
 
-	// @Override
-	// public void initialize(UimaContext aContext) throws ResourceInitializationException {
-	// validateParameterSet();
-	// try {
-	// documentsToBeProcessedCount = countDocumentsInCollection();
-	// fileIterator = FileUtil.getFileIterator(baseFileOrDirectory, recurseIntoDirectory,
-	// fileSuffixesToProcess);
-	// skip(fileIterator);
-	// } catch (IOException e) {
-	// throw new ResourceInitializationException(e);
-	// }
-	// }
-	//
-	// private void validateParameterSet() {
-	// // Set<Parameter> parameterSet = null;
-	// //
-	// // EnumSet.of(Parameter.INPUT_FILE_OR_DIRECTORY);
-	//
-	// }
-
 	/**
 	 * Counts the number of documents in the collection that will be processed. This is done by
 	 * cycling through the directory structure and counting file that will be processed. If the
@@ -219,68 +199,9 @@ public class FileSystemCollectionReader extends BaseTextCollectionReader {
 		}
 	}
 
-	// @Override
-	// public boolean hasNext() throws IOException, CollectionException {
-	// if (numberToProcess < 0) {
-	// return fileIterator.hasNext();
-	// }
-	// return fileIterator.hasNext() && processedDocumentCount < numberToProcess;
-	// }
-
-	// @Override
-	// public void getNext(JCas jcas) throws IOException, CollectionException {
-	// JCas view;
-	// try {
-	// view = ViewCreatorAnnotator.createViewSafely(jcas, this.viewName);
-	// } catch (AnalysisEngineProcessException e) {
-	// throw new CollectionException(e);
-	// }
-	// File file = fileIterator.next();
-	// logger.info("Processing document " + processedDocumentCount + " of " +
-	// documentsToBeProcessedCount
-	// + ".  Loading view: " + view.getViewName() + " with contents of file:" + file);
-	// String text = FileUtil.copyToString(file,
-	// CharacterEncoding.valueOf(this.encoding.replaceAll("-", "_")));
-	// // TODO sofa data string should depend on the view, e.g. xml for the xmlView
-	// view.setSofaDataString(text, "text/plain");
-	//
-	// if (this.language != null)
-	// view.setDocumentLanguage(this.language);
-	//
-	// initializeJCas(jcas, view, file);
-	//
-	// processedDocumentCount++;
-	// }
-	//
-	// /**
-	// * To be overriden by subclasses for application-specific CAS initialization
-	// *
-	// * @param jcas
-	// * @param view
-	// * @param file
-	// */
-	// protected void initializeJCas(JCas jcas, JCas view, File file) {
-	// String documentID = file.getName();
-	// CCPDocumentInformation srcDocInfo = new CCPDocumentInformation(view);
-	// srcDocInfo.setDocumentID(documentID);
-	// // srcDocInfo.setUri("file:" + documentID);
-	// srcDocInfo.setDocumentCollectionID(documentCollectionID);
-	// srcDocInfo.setDocumentSize(view.getDocumentText().length());
-	// srcDocInfo.setEncoding(encoding);
-	// srcDocInfo.addToIndexes();
-	// }
-
 	@Override
 	public void close() throws IOException {
 	}
-
-	// @Override
-	// public Progress[] getProgress() {
-	// if (disableProgressTracking)
-	// documentsToBeProcessedCount = processedDocumentCount + 1;
-	// return new Progress[] { new ProgressImpl(processedDocumentCount, documentsToBeProcessedCount,
-	// Progress.ENTITIES) };
-	// }
 
 	/*
 	 * (non-Javadoc)
