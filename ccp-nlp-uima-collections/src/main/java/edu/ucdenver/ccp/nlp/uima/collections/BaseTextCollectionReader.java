@@ -110,19 +110,19 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	@ConfigurationParameter(defaultValue = "false", description = DESCRIPTION_DISABLE_PROGRESS)
 	protected boolean disableProgressTracking;
 
-	/* ==== DocumentMetaDataExtractor configuration ==== */
+	/* ==== DocumentMetadataHandler configuration ==== */
 	/**
 	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
 	 * implementation to use
 	 */
 	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(BaseTextCollectionReader.class, "documentMetadataExtractorClassName");
+			.createConfigurationParameterName(BaseTextCollectionReader.class, "documentMetadataHandlerClassName");
 
 	/**
 	 * The name of the {@link DocumentMetadataHandler} implementation to use
 	 */
 	@ConfigurationParameter(mandatory = true, description = "name of the DocumentMetadataHandler implementation to use", defaultValue = ShimDefaults.CCP_DOCUMENT_METADATA_HANDLER_CLASS_NAME)
-	private String documentMetadataExtractorClassName;
+	private String documentMetadataHandlerClassName;
 
 	/**
 	 * this {@link DocumentMetadataHandler} will be initialized based on the class name specified by
@@ -148,7 +148,7 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 		}
 
 		documentMetadataHandler = (DocumentMetadataHandler) ConstructorUtil
-				.invokeConstructor(documentMetadataExtractorClassName);
+				.invokeConstructor(documentMetadataHandlerClassName);
 	}
 
 	/**
