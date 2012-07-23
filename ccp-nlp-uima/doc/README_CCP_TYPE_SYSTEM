@@ -1,0 +1,13 @@
+The Colorado Computational Pharmacology (CCP) type system is generic in nature. It is 
+designed to be light-weight model capable of referencing types that are 
+organized by external resources, e.g. ontologies.
+
+For details on the theory behind a generic type system, see:
+K Verspoor, WA Baumgartner Jr., C Roeder, and L Hunter. 
+Abstracting the Types away from a UIMA Type System. 
+in Chiarcos, C., Eckhart de Castilho, Stede, M. (eds), Von der Form aur Bedeutung: Text automatisch verarbeiten / From Form to Meaning: Processing Texts Automatically. 
+Proceedings of the Biennial GSCL Conference 2009 Tuebingen: Narr 2009, p. 249-256.
+http://compbio.ucdenver.edu/Hunter_lab/Verspoor/Publications_files/VerspoorBaumgartnerRoederHunter_UIMA.pdf
+
+The term "referent" is used in the above paper. Replacing "referent" with "mention" 
+will allow most terms in the paper to be mapped directly to the CCP type system.
