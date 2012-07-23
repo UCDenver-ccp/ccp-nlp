@@ -53,6 +53,9 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Annotation_Util;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
+ * Wrapper class for the {@link CCPTextAnnotation} that complies with the {@link TextAnnotation}
+ * abstract class
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
@@ -105,8 +108,6 @@ public class WrappedCCPTextAnnotation extends TextAnnotation {
 		ccpCM.setMentionName(classMentionName);
 		return new WrappedCCPClassMention(ccpCM);
 	}
-
-	
 
 	@Override
 	public int getAnnotationID() {
