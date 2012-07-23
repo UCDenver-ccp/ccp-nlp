@@ -63,7 +63,7 @@ import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
  * This {@link AnalysisEngine} implementation is capable of loading UIMA XMI files. File can be
  * loaded from the file system or classpath. Compressed (.gz) XMI files can be used.
  * 
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class XmiLoaderAE extends JCasAnnotator_ImplBase {
