@@ -1331,32 +1331,5 @@ public class TestTextAnnotationCreatorTest {
 		return id2annotationMap;
 	}
 
-	// /**
-	// * the main method simply prints the test annotations to screen
-	// *
-	// * @param args
-	// */
-	// public static void main(String[] args) {
-	// List<DefaultTextAnnotation> taList = TestTextAnnotationCreatorTest.getTestTextAnnotations();
-	// for (TextAnnotation ta : taList) {
-	// ta.printAnnotation(System.out);
-	// }
-	//
-	// TextAnnotation ta = getAnnotationToMatch18Exactly();
-	// System.out.println("MATCHES 18 EXACTLY ###################################");
-	// ta.printAnnotation(System.out);
-	//
-	// ta = getAnnotationToMatch18ThruLevel3();
-	// System.out.println("MATCHES 18 THRU LEVEL 3 ###################################");
-	// ta.printAnnotation(System.out);
-	//
-	// ta = getAnnotationToMatch18ThruLevel1Only();
-	// System.out.println("MATCHES 18 THRU LEVEL 1 ###################################");
-	// ta.printAnnotation(System.out);
-	//
-	// ta = getAnnotationToMatch10ButMissingASlot();
-	// System.out.println("MATCHES 10 BUT MISSING TRANSPORTED ENTITIES SLOT ###################################");
-	// ta.printAnnotation(System.out);
-	//
-	// }
+	
 }

@@ -76,31 +76,6 @@ public class SpanUtilsTests {
 		assertEquals(10, mergeSpan.getSpanEnd());
 	}
 
-	// @Test
-	// public void testSpan1_3() throws Exception {
-	// Span span2 = new Span(3, 6);
-	// Span span = new Span(5, 10);
-	// List<Span> norm = reduceSpans(span, span2);
-	// assertEquals(1, norm.size());
-	// Span mergeSpan = norm.get(0);
-	// assertEquals(3, mergeSpan.getSpanStart());
-	// assertEquals(10, mergeSpan.getSpanEnd());
-	// }
-	//
-	// @Test
-	// public void testSpan1_4() throws Exception {
-	// Span span2 = new Span(3, 5);
-	// Span span = new Span(7, 10);
-	// List<Span> norm = reduceSpans(span, span2);
-	// assertEquals(2, norm.size());
-	// Span mergeSpan = norm.get(0);
-	// assertEquals(3, mergeSpan.getSpanStart());
-	// assertEquals(5, mergeSpan.getSpanEnd());
-	// mergeSpan = norm.get(1);
-	// assertEquals(7, mergeSpan.getSpanStart());
-	// assertEquals(10, mergeSpan.getSpanEnd());
-	// }
-
 	@Test
 	public void testSpan2_1() throws Exception {
 		Span span = new Span(3, 6);

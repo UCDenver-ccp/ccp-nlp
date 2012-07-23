@@ -485,20 +485,6 @@ public class TextAnnotationTest {
 
 	}
 
-	// @Test
-	// public void testGetHashKey() {
-	// try {
-	// Span secondSpan = new Span(11, 15);
-	// ta.addSpan(secondSpan);
-	// } catch (InvalidSpanException notExpected) {
-	// fail("Should not have raised an InvalidSpanException");
-	// }
-	// // key = annotatorID mentionName docID docSectionID spanBegin spanEnd ...
-	// String expectedHashKey = "5 classMention 9 10 4 7 11 15 ";
-	//
-	// assertEquals(expectedHashKey, ta.getHashKey());
-	// }
-
 	@Test
 	public void testToString() {
 		String expectedStr = "======================= Annotation: 12 =======================\n"
@@ -510,14 +496,6 @@ public class TextAnnotationTest {
 		System.out.println("EXPECTED:\n" + expectedStr);
 		System.err.println("TA:\n" + ta.toString());
 		assertEquals(expectedStr, ta.toString());
-
-		// String expectedDocumentLevelStr = "";
-		// System.err.println("DOC-LEVEL TA:\n" + ta.toDocumentLevelString());
-		// assertEquals(expectedDocumentLevelStr, ta.toDocumentLevelString());
-
-		// String anonymizedStr = "";
-		// assertEquals(anonymizedStr, ta.toAnonymizedString());
-
 	}
 
 }

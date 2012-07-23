@@ -172,20 +172,6 @@ public class AnnotationComparatorTest {
 		testAnnotations = createMixedResultAnnotations();
 		prf = ac.compare(goldAnnotations, testAnnotations);
 
-		// assertEquals(-2, ac.compare(goldAnnotations.get(1), testAnnotations.get(0)));
-		// assertEquals(-2, ac.compare(goldAnnotations.get(2), testAnnotations.get(1)));
-		// assertEquals(-2, ac.compare(goldAnnotations.get(5), testAnnotations.get(2)));
-		// assertEquals(-2, ac.compare(goldAnnotations.get(7), testAnnotations.get(3)));
-		// assertEquals(-2, ac.compare(goldAnnotations.get(9), testAnnotations.get(4)));
-		// assertEquals(0, ac.compare(goldAnnotations.get(10), testAnnotations.get(5)));
-		// System.err.println("GOLD\n" + goldAnnotations.get(11).toString());
-		// System.err.println("TEST\n" + testAnnotations.get(6).toString());
-		//
-		// assertEquals(-2, ac.compare(goldAnnotations.get(11), testAnnotations.get(6)));
-		// assertEquals(-2, ac.compare(goldAnnotations.get(12), testAnnotations.get(7)));
-		// assertEquals(-2, ac.compare(goldAnnotations.get(17), testAnnotations.get(8)));
-		// assertEquals(0, ac.compare(goldAnnotations.get(22), testAnnotations.get(9)));
-
 		assertEquals(2.0 / 10.0, prf.getPrecision(), 0.0);
 		assertEquals(2.0 / (28.0 + 34.0), prf.getRecall(), 0.0);
 		// assertTrue(Double.isNaN(stats.getFmeasure()));
@@ -760,27 +746,6 @@ public class AnnotationComparatorTest {
 		String documentText = testText1;
 		int annotationID = 0;
 
-		// returnList.add(createProteinAnnotation(annotationID++, 76, 98, documentID,
-		// documentText));/* 1x */
-		// returnList.add(createProteinAnnotation(annotationID++, 158, 182, documentID,
-		// documentText));/*2 x */
-		// returnList.add(createProteinAnnotation(annotationID++, 652, 661, documentID,
-		// documentText));/* 5x */
-		// returnList.add(createProteinAnnotation(annotationID++, 813, 833, documentID,
-		// documentText));/* 7x */
-		// returnList.add(createProteinAnnotation(annotationID++, 984, 994, documentID,
-		// documentText));/* 9x */
-		// returnList.add(createProteinAnnotation(annotationID++, 1064, 1066, documentID,
-		// documentText));/* 10o */
-		// returnList.add(createProteinAnnotation(annotationID++, 1096, 1120, documentID,
-		// documentText));/* 11x */
-		// returnList.add(createProteinAnnotation(annotationID++, 1157, 1178, documentID,
-		// documentText));/* 12x */
-		// returnList.add(createProteinAnnotation(annotationID++, 1454, 1463, documentID,
-		// documentText));/* 17x */
-		// returnList.add(createProteinAnnotation(annotationID++, 1639, 1642, documentID,
-		// documentText));/* 22o */
-
 		goldAnnotations.add(createProteinAnnotation(annotationID++, 0, 8, documentID, documentText));
 		goldAnnotations.add(createProteinAnnotation(annotationID++, 76, 93, documentID, documentText));
 		goldAnnotations.add(createProteinAnnotation(annotationID++, 95, 97, documentID, documentText));
@@ -1026,48 +991,6 @@ public class AnnotationComparatorTest {
 		returnList.add(createProteinAnnotation(annotationID++, 1157, 1178, documentID, documentText));/*  */
 		returnList.add(createProteinAnnotation(annotationID++, 1454, 1463, documentID, documentText));/*  */
 		returnList.add(createProteinAnnotation(annotationID++, 1639, 1642, documentID, documentText));/*  */
-
-		// documentID = "2";
-		// documentText = testText2;
-		// annotationID = 0;
-		// returnList.add(createProteinAnnotation(annotationID++, 195, 209, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 773, 775, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 885, 890, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 949, 952, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 968, 988, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1003, 1007, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1018, 1023, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1025, 1033, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1060, 1070, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1081, 1088, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1198, 1205, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1308, 1315, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1357, 1366, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1371, 1376, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1417, 1420, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1425, 1428, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1473, 1494, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1520, 1536, documentID,
-		// documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1551, 1558, documentID,
-		// documentText));/* */
 
 		return returnList;
 	}

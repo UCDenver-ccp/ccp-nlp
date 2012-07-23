@@ -68,8 +68,6 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 public class AnnotationToFileOutputTest extends DefaultTestCase {
 
 	private static Logger logger = Logger.getLogger(AnnotationToFileOutputTest.class);
-	// private static final File TEST_OUTPUT_FILE = new
-	// File("data/test/edu.uchsc.ccp.util.nlp.annotation.printer/test.out");
 
 	private File TEST_OUTPUT_FILE;
 
