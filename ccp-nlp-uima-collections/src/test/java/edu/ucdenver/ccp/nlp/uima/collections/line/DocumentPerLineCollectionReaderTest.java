@@ -52,7 +52,7 @@ import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
 import edu.ucdenver.ccp.nlp.uima.util.TypeSystemUtil;
 
 /**
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class DocumentPerLineCollectionReaderTest extends DefaultTestCase {

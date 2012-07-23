@@ -57,7 +57,7 @@ import edu.ucdenver.ccp.nlp.uima.util.View;
  * PubMed query for instance) and returns documents containing the title and abstract for each
  * Medline record in the input file. Title and abstract are separated by a line break.
  * 
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class PubmedXmlFileCollectionReader extends BaseTextCollectionReader {

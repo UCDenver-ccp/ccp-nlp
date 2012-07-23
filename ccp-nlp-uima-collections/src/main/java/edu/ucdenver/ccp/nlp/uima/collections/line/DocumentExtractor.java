@@ -34,7 +34,7 @@ import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 /**
  * Interface for extracting documents from an input {@link String}
  * 
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public interface DocumentExtractor {

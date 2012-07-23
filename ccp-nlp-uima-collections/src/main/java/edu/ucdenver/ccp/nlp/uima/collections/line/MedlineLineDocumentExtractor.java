@@ -41,7 +41,7 @@ import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
  * 
  * Note: some abstracts have tabs in them.
  * 
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class MedlineLineDocumentExtractor implements DocumentExtractor {
