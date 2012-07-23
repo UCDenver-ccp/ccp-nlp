@@ -42,20 +42,23 @@ import org.apache.uima.cas.impl.XCASSerializer;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.factory.JCasFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 
 /**
+ * Utility class for dealing with the UIMA XCas serialization format. Note, the UIMA XMI format is
+ * preferred over the XCas format for serialization.
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class XCasUtil {
 
-	public static GenericDocument loadXCasFile(File xcasFile) throws UIMAException, FileNotFoundException {
-		return loadXCasFile(new FileInputStream(xcasFile));
+	public static GenericDocument loadXCasFile(File xcasFile, TypeSystemDescription tsd) throws UIMAException,
+			FileNotFoundException {
+		return loadXCasFile(new FileInputStream(xcasFile), tsd);
 	}
 
 	/**
@@ -65,9 +68,7 @@ public class XCasUtil {
 	 * @param xcasFile
 	 * @return
 	 */
-	public static GenericDocument loadXCasFile(InputStream xcasStream) throws UIMAException {
-		TypeSystemDescription tsd = TypeSystemDescriptionFactory
-				.createTypeSystemDescription("edu.uchsc.ccp.uima.CCPTypeSystem");
+	public static GenericDocument loadXCasFile(InputStream xcasStream, TypeSystemDescription tsd) throws UIMAException {
 		JCas jcas = JCasFactory.createJCas(tsd);
 		try {
 			XCASDeserializer.deserialize(xcasStream, jcas.getCas());
@@ -92,14 +93,12 @@ public class XCasUtil {
 	/**
 	 * Serializes a JCas to file
 	 * 
-	 * @param tsd
 	 * @param jcas
 	 * @param outputFile
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static void serializeToXCas(TypeSystemDescription tsd, JCas jcas, File outputFile) throws SAXException,
-			IOException {
+	public static void serializeToXCas(JCas jcas, File outputFile) throws SAXException, IOException {
 		FileOutputStream fos = new FileOutputStream(outputFile);
 		XCASSerializer.serialize(jcas.getCas(), fos);
 		fos.close();
