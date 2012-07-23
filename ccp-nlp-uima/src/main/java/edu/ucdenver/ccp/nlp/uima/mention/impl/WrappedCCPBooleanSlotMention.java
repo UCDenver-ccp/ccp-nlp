@@ -46,8 +46,6 @@ public class WrappedCCPBooleanSlotMention extends BooleanSlotMention {
 
 	private CCPBooleanSlotMention wrappedSM;
 
-	// private JCas jcas;
-
 	public WrappedCCPBooleanSlotMention(CCPBooleanSlotMention ccpSSM) {
 		super(ccpSSM);
 	}
@@ -83,23 +81,6 @@ public class WrappedCCPBooleanSlotMention extends BooleanSlotMention {
 		}
 	}
 
-	// @Override
-	// protected void initializeMention() {
-	// // do nothing
-	// }
-
-	// public void addSlotValue(Boolean slotValue) throws InvalidInputException {
-	// BooleanArray updatedBooleanArray = UIMA_Util.addToBooleanArray(wrappedSM.getSlotValues(),
-	// slotValue, jcas);
-	// wrappedSM.setSlotValues(updatedBooleanArray);
-	// }
-	//
-	// public void addSlotValues(Collection<Boolean> slotValues) throws InvalidInputException {
-	// for (Boolean booleanToAdd : slotValues) {
-	// addSlotValue(booleanToAdd);
-	// }
-	// }
-
 	public Collection<Boolean> getSlotValues() {
 		Collection<Boolean> slotValuesToReturn = new ArrayList<Boolean>();
 		slotValuesToReturn.add(wrappedSM.getSlotValue());
@@ -129,29 +110,5 @@ public class WrappedCCPBooleanSlotMention extends BooleanSlotMention {
 	protected void setMentionName(String mentionName) {
 		wrappedSM.setMentionName(mentionName);
 	}
-
-	// public void setSlotValues(Collection<Boolean> slotValues) throws InvalidInputException {
-	// List<Boolean> slotValuesList = new ArrayList<Boolean>(slotValues);
-	// BooleanArray booleanArray = new BooleanArray(jcas, slotValues.size());
-	// for (int i = 0; i < slotValues.size(); i++) {
-	// booleanArray.set(i, slotValuesList.get(i));
-	// }
-	// wrappedSM.setSlotValues(booleanArray);
-	// }
-
-	// @Override
-	// protected Long getMentionIDForTraversal(int traversalID) {
-	// return UIMA_Util.getMentionIDForTraversal(wrappedNCSM, traversalID);
-	// }
-	//
-	// @Override
-	// protected void removeMentionIDForTraversal(int traversalID) {
-	// UIMA_Util.removeMentionIDForTraversal(wrappedNCSM, traversalID, jcas);
-	// }
-	//
-	// @Override
-	// protected void setMentionIDForTraversal(long mentionID, int traversalID) {
-	// UIMA_Util.setMentionIDForTraversal(wrappedNCSM, mentionID, traversalID, jcas);
-	// }
 
 }

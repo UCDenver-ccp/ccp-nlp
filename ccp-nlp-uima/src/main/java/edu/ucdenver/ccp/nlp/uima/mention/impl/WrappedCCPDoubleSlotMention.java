@@ -61,18 +61,6 @@ public class WrappedCCPDoubleSlotMention extends DoubleSlotMention {
 		return wrappedSM;
 	}
 
-	// @Override
-	// public String getStringRepresentation(int indentLevel, boolean showReferencingAnnotationInfo)
-	// {
-	// List<Float> sortedSlotValues = new ArrayList<Float>();
-	// FloatArray slotValues = wrappedSM.getSlotValues();
-	// for (int i = 0; i < slotValues.size(); i++) {
-	// sortedSlotValues.add(slotValues.get(i));
-	// }
-	// Collections.sort(sortedSlotValues);
-	// return getStringRepresentation(indentLevel, sortedSlotValues);
-	// }
-
 	@Override
 	protected void initializeFromWrappedMention(Object... wrappedObjectPlusGlobalVars) {
 		if (wrappedObjectPlusGlobalVars.length == 1) {
@@ -95,11 +83,6 @@ public class WrappedCCPDoubleSlotMention extends DoubleSlotMention {
 							+ wrappedObjectPlusGlobalVars.length + " parameter(s)");
 		}
 	}
-
-	// @Override
-	// protected void initializeMention() {
-	// // do nothing
-	// }
 
 	public void addSlotValue(Double slotValue) throws InvalidInputException {
 		DoubleArray updatedDoubleArray = UIMA_Util.addToDoubleArray(wrappedSM.getSlotValues(), slotValue, jcas);
@@ -155,19 +138,5 @@ public class WrappedCCPDoubleSlotMention extends DoubleSlotMention {
 	protected void setMentionName(String mentionName) {
 		wrappedSM.setMentionName(mentionName);
 	}
-	// @Override
-	// protected Long getMentionIDForTraversal(int traversalID) {
-	// return UIMA_Util.getMentionIDForTraversal(wrappedNCSM, traversalID);
-	// }
-	//
-	// @Override
-	// protected void removeMentionIDForTraversal(int traversalID) {
-	// UIMA_Util.removeMentionIDForTraversal(wrappedNCSM, traversalID, jcas);
-	// }
-	//
-	// @Override
-	// protected void setMentionIDForTraversal(long mentionID, int traversalID) {
-	// UIMA_Util.setMentionIDForTraversal(wrappedNCSM, mentionID, traversalID, jcas);
-	// }
 
 }

@@ -92,11 +92,6 @@ public class WrappedCCPComplexSlotMention extends ComplexSlotMention {
 		}
 	}
 
-	// @Override
-	// protected void initializeMention() {
-	// // do nothing
-	// }
-
 	public void addSlotValue(ClassMention slotValue) throws InvalidInputException {
 		Object wrappedClassMention = slotValue.getWrappedObject();
 		if (wrappedClassMention instanceof CCPClassMention) {
@@ -183,18 +178,4 @@ public class WrappedCCPComplexSlotMention extends ComplexSlotMention {
 		wrappedCSM.setMentionName(mentionName);
 	}
 
-	// @Override
-	// protected Long getMentionIDForTraversal(int traversalID) {
-	// return UIMA_Util.getMentionIDForTraversal(wrappedCSM, traversalID);
-	// }
-	//
-	// @Override
-	// protected void removeMentionIDForTraversal(int traversalID) {
-	// UIMA_Util.removeMentionIDForTraversal(wrappedCSM, traversalID, jcas);
-	// }
-	//
-	// @Override
-	// protected void setMentionIDForTraversal(long mentionID, int traversalID) {
-	// UIMA_Util.setMentionIDForTraversal(wrappedCSM, mentionID, traversalID, jcas);
-	// }
 }
