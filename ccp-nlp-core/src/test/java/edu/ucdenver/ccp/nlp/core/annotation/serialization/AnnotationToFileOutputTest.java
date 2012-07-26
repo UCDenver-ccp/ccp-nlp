@@ -1,3 +1,32 @@
+/*
+ Copyright (c) 2012, Regents of the University of Colorado
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modification, 
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this 
+    list of conditions and the following disclaimer.
+   
+ * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+   
+ * Neither the name of the University of Colorado nor the names of its 
+    contributors may be used to endorse or promote products derived from this 
+    software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package edu.ucdenver.ccp.nlp.core.annotation.serialization;
 
 import static org.junit.Assert.assertTrue;
@@ -24,19 +53,21 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
-import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.IntegerSlotMention;
-import edu.ucdenver.ccp.nlp.core.mention.SlotMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.SlotMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * 
+ */
 public class AnnotationToFileOutputTest extends DefaultTestCase {
 
 	private static Logger logger = Logger.getLogger(AnnotationToFileOutputTest.class);
-	// private static final File TEST_OUTPUT_FILE = new
-	// File("data/test/edu.uchsc.ccp.util.nlp.annotation.printer/test.out");
 
 	private File TEST_OUTPUT_FILE;
 
@@ -59,7 +90,7 @@ public class AnnotationToFileOutputTest extends DefaultTestCase {
 	 */
 	private static DefaultTextAnnotation createProteinAnnotation(int spanStart, int spanEnd, String coveredText,
 			int annotatorID, String documentID, Integer... entrezGeneIDSlotFillers) throws Exception {
-		DefaultClassMention proteinCM = new DefaultClassMention(ClassMentionTypes.PROTEIN);
+		DefaultClassMention proteinCM = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, new Annotator(
 				annotatorID, "firstname", "lastname", "affiliation"), new AnnotationSet(), 0, 1, documentID, -1,
 				proteinCM);
@@ -79,7 +110,7 @@ public class AnnotationToFileOutputTest extends DefaultTestCase {
 	private static void addEntrezGeneSlotFillersToProteinTextAnnotation(Integer[] entrezGeneIDSlotFillers,
 			TextAnnotation ta) throws Exception {
 		if (entrezGeneIDSlotFillers != null) {
-			IntegerSlotMention sm = new DefaultIntegerSlotMention(SlotMentionTypes.PROTEIN_ENTREZGENEID);
+			IntegerSlotMention sm = new DefaultIntegerSlotMention(SlotMentionType.PROTEIN_ENTREZGENEID.typeName());
 			for (Integer entrezGeneID : entrezGeneIDSlotFillers) {
 				sm.addSlotValue(entrezGeneID);
 			}

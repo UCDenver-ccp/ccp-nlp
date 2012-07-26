@@ -1,21 +1,32 @@
-/* Copyright (C) 2007-2010 Center for Computational Pharmacology, University of Colorado School of Medicine
- * 
- * This file is part of the CCP NLP library.
- * The CCP NLP library is free software: you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
+/*
+ Copyright (c) 2012, Regents of the University of Colorado
+ All rights reserved.
 
+ Redistribution and use in source and binary forms, with or without modification, 
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this 
+    list of conditions and the following disclaimer.
+   
+ * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+   
+ * Neither the name of the University of Colorado nor the names of its 
+    contributors may be used to endorse or promote products derived from this 
+    software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package edu.ucdenver.ccp.nlp.core.annotation.comparison;
 
 import static org.junit.Assert.assertEquals;
@@ -33,16 +44,16 @@ import edu.ucdenver.ccp.nlp.core.annotation.AnnotationSet;
 import edu.ucdenver.ccp.nlp.core.annotation.Annotator;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
-import edu.ucdenver.ccp.nlp.core.mention.ClassMentionTypes;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
 import edu.ucdenver.ccp.nlp.core.mention.comparison.MentionComparator;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 
 /**
- * TODO: Add tests on annotations at different depths. This is not crucial as the mention comparators have been tested
- * at different depths, but it would be good redundancy to have.
+ * TODO: Add tests on annotations at different depths. This is not crucial as the mention
+ * comparators have been tested at different depths, but it would be good redundancy to have.
  * 
- * @author williamb
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class AnnotationComparatorTest {
@@ -85,8 +96,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the default compare() method on individual annotations. The default method utilizes the StrictSpanComparator
-	 * and the IdenticalMentionComparator classes.
+	 * Test the default compare() method on individual annotations. The default method utilizes the
+	 * StrictSpanComparator and the IdenticalMentionComparator classes.
 	 * 
 	 * @throws Exception
 	 */
@@ -99,25 +110,29 @@ public class AnnotationComparatorTest {
 		int annotationID = 0;
 
 		/* compare against an identical annotation */
-		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID, documentText);
+		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, identicalAnnotation));
 
 		/* compare against an overlapping annotation */
-		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID, documentText);
-		assertFalse( ac.compare(goldAnnotation, overlappingAnnotation)==0);
+		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID,
+				documentText);
+		assertFalse(ac.compare(goldAnnotation, overlappingAnnotation) == 0);
 
 		/* compare against an annotation that matches the span end boundary */
-		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID, documentText);
-		assertFalse( ac.compare(goldAnnotation, matchRightAnnotation)==0);
+		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID,
+				documentText);
+		assertFalse(ac.compare(goldAnnotation, matchRightAnnotation) == 0);
 
 		/* compare against an annotation that matches the span begin boundary */
-		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID, documentText);
-		assertFalse( ac.compare(goldAnnotation, matchLeftAnnotation)==0);
+		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID,
+				documentText);
+		assertFalse(ac.compare(goldAnnotation, matchLeftAnnotation) == 0);
 	}
 
 	/**
-	 * Test the default compare() method on annotation lists. The default method utilizes the StrictSpanComparator and
-	 * the IdenticalMentionComparator classes.
+	 * Test the default compare() method on annotation lists. The default method utilizes the
+	 * StrictSpanComparator and the IdenticalMentionComparator classes.
 	 * 
 	 * @throws Exception
 	 */
@@ -156,21 +171,7 @@ public class AnnotationComparatorTest {
 		/* test on mixed results */
 		testAnnotations = createMixedResultAnnotations();
 		prf = ac.compare(goldAnnotations, testAnnotations);
-		
-//		assertEquals(-2, ac.compare(goldAnnotations.get(1), testAnnotations.get(0)));
-//		assertEquals(-2, ac.compare(goldAnnotations.get(2), testAnnotations.get(1)));
-//		assertEquals(-2, ac.compare(goldAnnotations.get(5), testAnnotations.get(2)));
-//		assertEquals(-2, ac.compare(goldAnnotations.get(7), testAnnotations.get(3)));
-//		assertEquals(-2, ac.compare(goldAnnotations.get(9), testAnnotations.get(4)));
-//		assertEquals(0, ac.compare(goldAnnotations.get(10), testAnnotations.get(5)));
-//		System.err.println("GOLD\n" + goldAnnotations.get(11).toString());
-//		System.err.println("TEST\n" + testAnnotations.get(6).toString());
-//		
-//		assertEquals(-2, ac.compare(goldAnnotations.get(11), testAnnotations.get(6)));
-//		assertEquals(-2, ac.compare(goldAnnotations.get(12), testAnnotations.get(7)));
-//		assertEquals(-2, ac.compare(goldAnnotations.get(17), testAnnotations.get(8)));
-//		assertEquals(0, ac.compare(goldAnnotations.get(22), testAnnotations.get(9)));
-		
+
 		assertEquals(2.0 / 10.0, prf.getPrecision(), 0.0);
 		assertEquals(2.0 / (28.0 + 34.0), prf.getRecall(), 0.0);
 		// assertTrue(Double.isNaN(stats.getFmeasure()));
@@ -183,7 +184,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the compare() method using the StrictSpanComparator and the IdenticalMentionComparator classes
+	 * Test the compare() method using the StrictSpanComparator and the IdenticalMentionComparator
+	 * classes
 	 * 
 	 * @throws Exception
 	 */
@@ -198,24 +200,29 @@ public class AnnotationComparatorTest {
 		int annotationID = 0;
 
 		/* compare against an identical annotation */
-		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID, documentText);
+		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, identicalAnnotation, sc, cmc));
 
 		/* compare against an overlapping annotation */
-		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID, documentText);
-		assertFalse( ac.compare(goldAnnotation, overlappingAnnotation, sc, cmc)==0);
+		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID,
+				documentText);
+		assertFalse(ac.compare(goldAnnotation, overlappingAnnotation, sc, cmc) == 0);
 
 		/* compare against an annotation that matches the span end boundary */
-		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID, documentText);
-		assertFalse( ac.compare(goldAnnotation, matchRightAnnotation, sc, cmc)==0);
+		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID,
+				documentText);
+		assertFalse(ac.compare(goldAnnotation, matchRightAnnotation, sc, cmc) == 0);
 
 		/* compare against an annotation that matches the span begin boundary */
-		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID, documentText);
-		assertFalse( ac.compare(goldAnnotation, matchLeftAnnotation, sc, cmc)==0);
+		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID,
+				documentText);
+		assertFalse(ac.compare(goldAnnotation, matchLeftAnnotation, sc, cmc) == 0);
 	}
 
 	/**
-	 * Test the compare() method on lists using the StrictSpanComparator and the IdenticalMentionComparator classes
+	 * Test the compare() method on lists using the StrictSpanComparator and the
+	 * IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -268,7 +275,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the compare() method using the SloppySpanComparator and the IdenticalMentionComparator classes
+	 * Test the compare() method using the SloppySpanComparator and the IdenticalMentionComparator
+	 * classes
 	 * 
 	 * @throws Exception
 	 */
@@ -283,24 +291,29 @@ public class AnnotationComparatorTest {
 		int annotationID = 0;
 
 		/* compare against an identical annotation */
-		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID, documentText);
+		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, identicalAnnotation, sc, cmc));
 
 		/* compare against an overlapping annotation */
-		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID, documentText);
+		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, overlappingAnnotation, sc, cmc));
 
 		/* compare against an annotation that matches the span end boundary */
-		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID, documentText);
+		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, matchRightAnnotation, sc, cmc));
 
 		/* compare against an annotation that matches the span begin boundary */
-		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID, documentText);
+		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, matchLeftAnnotation, sc, cmc));
 	}
 
 	/**
-	 * Test the compare() method on lists using the SloppySpanComparator and the IdenticalMentionComparator classes
+	 * Test the compare() method on lists using the SloppySpanComparator and the
+	 * IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -353,7 +366,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the compare() method using the SharedStartSpanComparator and the IdenticalMentionComparator classes
+	 * Test the compare() method using the SharedStartSpanComparator and the
+	 * IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -368,24 +382,29 @@ public class AnnotationComparatorTest {
 		int annotationID = 0;
 
 		/* compare against an identical annotation */
-		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID, documentText);
+		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, identicalAnnotation, sc, cmc));
 
 		/* compare against an overlapping annotation */
-		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID, documentText);
+		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, overlappingAnnotation, sc, cmc));
 
 		/* compare against an annotation that matches the span end boundary */
-		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID, documentText);
-		assertFalse( ac.compare(goldAnnotation, matchRightAnnotation, sc, cmc)==0);
+		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID,
+				documentText);
+		assertFalse(ac.compare(goldAnnotation, matchRightAnnotation, sc, cmc) == 0);
 
 		/* compare against an annotation that matches the span begin boundary */
-		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID, documentText);
+		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, matchLeftAnnotation, sc, cmc));
 	}
 
 	/**
-	 * Test the compare() method on lists using the SharedStartSpanComparator and the IdenticalMentionComparator classes
+	 * Test the compare() method on lists using the SharedStartSpanComparator and the
+	 * IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -438,7 +457,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the compare() method using the SharedEndSpanComparator and the IdenticalMentionComparator classes
+	 * Test the compare() method using the SharedEndSpanComparator and the
+	 * IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -453,24 +473,29 @@ public class AnnotationComparatorTest {
 		int annotationID = 0;
 
 		/* compare against an identical annotation */
-		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID, documentText);
+		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, identicalAnnotation, sc, cmc));
 
 		/* compare against an overlapping annotation */
-		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID, documentText);
-		assertFalse( ac.compare(goldAnnotation, overlappingAnnotation, sc, cmc)==0);
+		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID,
+				documentText);
+		assertFalse(ac.compare(goldAnnotation, overlappingAnnotation, sc, cmc) == 0);
 
 		/* compare against an annotation that matches the span end boundary */
-		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID, documentText);
+		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, matchRightAnnotation, sc, cmc));
 
 		/* compare against an annotation that matches the span begin boundary */
-		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID, documentText);
-		assertFalse( ac.compare(goldAnnotation, matchLeftAnnotation, sc, cmc)==0);
+		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID,
+				documentText);
+		assertFalse(ac.compare(goldAnnotation, matchLeftAnnotation, sc, cmc) == 0);
 	}
 
 	/**
-	 * Test the compare() method on lists using the SharedEndSpanComparator and the IdenticalMentionComparator classes
+	 * Test the compare() method on lists using the SharedEndSpanComparator and the
+	 * IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -523,7 +548,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the compare() method using the SharedStartOrEndSpanComparator and the IdenticalMentionComparator classes
+	 * Test the compare() method using the SharedStartOrEndSpanComparator and the
+	 * IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -538,29 +564,34 @@ public class AnnotationComparatorTest {
 		int annotationID = 0;
 
 		/* compare against an identical annotation */
-		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID, documentText);
+		DefaultTextAnnotation identicalAnnotation = createProteinAnnotation(annotationID++, 0, 8, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, identicalAnnotation, sc, cmc));
 
 		/* compare against an overlapping annotation */
-		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID, documentText);
+		DefaultTextAnnotation overlappingAnnotation = createProteinAnnotation(annotationID++, 0, 12, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, overlappingAnnotation, sc, cmc));
 
 		/* compare against an annotation that matches the span end boundary */
-		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID, documentText);
+		DefaultTextAnnotation matchRightAnnotation = createProteinAnnotation(annotationID++, 4, 8, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, matchRightAnnotation, sc, cmc));
 
 		/* compare against an annotation that matches neither span boundary */
-		DefaultTextAnnotation matchNeitherSideAnnotation = createProteinAnnotation(annotationID++, 4, 12, documentID, documentText);
-		assertFalse( ac.compare(goldAnnotation, matchNeitherSideAnnotation, sc, cmc)==0);
+		DefaultTextAnnotation matchNeitherSideAnnotation = createProteinAnnotation(annotationID++, 4, 12, documentID,
+				documentText);
+		assertFalse(ac.compare(goldAnnotation, matchNeitherSideAnnotation, sc, cmc) == 0);
 
 		/* compare against an annotation that matches the span begin boundary */
-		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID, documentText);
+		DefaultTextAnnotation matchLeftAnnotation = createProteinAnnotation(annotationID++, 0, 15, documentID,
+				documentText);
 		assertEquals(0, ac.compare(goldAnnotation, matchLeftAnnotation, sc, cmc));
 	}
 
 	/**
-	 * Test the compare() method on lists using the SharedStartOrEndSpanComparator and the IdenticalMentionComparator
-	 * classes
+	 * Test the compare() method on lists using the SharedStartOrEndSpanComparator and the
+	 * IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -656,8 +687,8 @@ public class AnnotationComparatorTest {
 		assertEquals(8.0 / (8.0 + 23.0 + 38.0), prf.getRecall(), 0.0);
 
 		/*
-		 * make sure calls to compare() with extraneous input parameters return what is expected (i.e. they ignore the
-		 * extra input parameters)
+		 * make sure calls to compare() with extraneous input parameters return what is expected
+		 * (i.e. they ignore the extra input parameters)
 		 */
 		SpanComparator sc = new SharedStartOrEndSpanComparator();
 		MentionComparator cmc = new IdenticalMentionComparator();
@@ -677,14 +708,15 @@ public class AnnotationComparatorTest {
 	/**
 	 * Create a protein annotation to be used for testing purposes
 	 */
-	private DefaultTextAnnotation createProteinAnnotation(int annotationID, int spanStart, int spanEnd, String documentID, String documentText) {
+	private DefaultTextAnnotation createProteinAnnotation(int annotationID, int spanStart, int spanEnd,
+			String documentID, String documentText) {
 
 		String coveredText = documentText.substring(spanStart, spanEnd);
 
-		DefaultClassMention cm = new DefaultClassMention(ClassMentionTypes.PROTEIN);
+		DefaultClassMention cm = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 
-		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, annotator, annotationSet, annotationID,
-				documentCollectionID, documentID, documentSectionID, cm);
+		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, annotator, annotationSet,
+				annotationID, documentCollectionID, documentID, documentSectionID, cm);
 
 		return ta;
 	}
@@ -692,14 +724,15 @@ public class AnnotationComparatorTest {
 	/**
 	 * Create a gene annotation to be used for testing purposes
 	 */
-	private DefaultTextAnnotation createGeneAnnotation(int annotationID, int spanStart, int spanEnd, String documentID, String documentText) {
+	private DefaultTextAnnotation createGeneAnnotation(int annotationID, int spanStart, int spanEnd, String documentID,
+			String documentText) {
 
 		String coveredText = documentText.substring(spanStart, spanEnd);
 
-		DefaultClassMention cm = new DefaultClassMention(ClassMentionTypes.GENE);
+		DefaultClassMention cm = new DefaultClassMention(ClassMentionType.GENE.typeName());
 
-		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, annotator, annotationSet, annotationID,
-				documentCollectionID, documentID, documentSectionID, cm);
+		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, annotator, annotationSet,
+				annotationID, documentCollectionID, documentID, documentSectionID, cm);
 
 		return ta;
 	}
@@ -712,18 +745,7 @@ public class AnnotationComparatorTest {
 		String documentID = "1";
 		String documentText = testText1;
 		int annotationID = 0;
-		
-//		returnList.add(createProteinAnnotation(annotationID++, 76, 98, documentID, documentText));/* 1x */
-//		returnList.add(createProteinAnnotation(annotationID++, 158, 182, documentID, documentText));/*2 x */
-//		returnList.add(createProteinAnnotation(annotationID++, 652, 661, documentID, documentText));/* 5x */
-//		returnList.add(createProteinAnnotation(annotationID++, 813, 833, documentID, documentText));/* 7x */
-//		returnList.add(createProteinAnnotation(annotationID++, 984, 994, documentID, documentText));/* 9x */
-//		returnList.add(createProteinAnnotation(annotationID++, 1064, 1066, documentID, documentText));/* 10o */
-//		returnList.add(createProteinAnnotation(annotationID++, 1096, 1120, documentID, documentText));/* 11x */
-//		returnList.add(createProteinAnnotation(annotationID++, 1157, 1178, documentID, documentText));/* 12x */
-//		returnList.add(createProteinAnnotation(annotationID++, 1454, 1463, documentID, documentText));/* 17x */
-//		returnList.add(createProteinAnnotation(annotationID++, 1639, 1642, documentID, documentText));/* 22o */
-		
+
 		goldAnnotations.add(createProteinAnnotation(annotationID++, 0, 8, documentID, documentText));
 		goldAnnotations.add(createProteinAnnotation(annotationID++, 76, 93, documentID, documentText));
 		goldAnnotations.add(createProteinAnnotation(annotationID++, 95, 97, documentID, documentText));
@@ -756,9 +778,13 @@ public class AnnotationComparatorTest {
 		documentID = "2";
 		documentText = testText2;
 		annotationID = 0;
-		goldAnnotations.add(createProteinAnnotation(annotationID++, 0, 8, documentID, documentText)); // this one is
-																										// fake, but
-																										// matches the
+		goldAnnotations.add(createProteinAnnotation(annotationID++, 0, 8, documentID, documentText)); // this
+																										// one
+																										// is
+																										// fake,
+																										// but
+																										// matches
+																										// the
 		// span of an annotation in document
 		// #1
 		goldAnnotations.add(createProteinAnnotation(annotationID++, 64, 88, documentID, documentText));
@@ -833,8 +859,13 @@ public class AnnotationComparatorTest {
 		documentID = "2";
 		documentText = testText2;
 		annotationID = 0;
-		returnList.add(createProteinAnnotation(annotationID++, 0, 8, documentID, documentText)); // this one is fake,
-																									// but matches the
+		returnList.add(createProteinAnnotation(annotationID++, 0, 8, documentID, documentText)); // this
+																									// one
+																									// is
+																									// fake,
+																									// but
+																									// matches
+																									// the
 		// span of an annotation in document #1
 		returnList.add(createProteinAnnotation(annotationID++, 180, 186, documentID, documentText));
 		returnList.add(createProteinAnnotation(annotationID++, 283, 289, documentID, documentText));
@@ -897,9 +928,13 @@ public class AnnotationComparatorTest {
 		documentID = "2";
 		documentText = testText2;
 		annotationID = 0;
-		returnList.add(createProteinAnnotation(annotationID++, 0, 8 + 1, documentID, documentText)); // this one is
-																										// fake, but
-																										// matches the
+		returnList.add(createProteinAnnotation(annotationID++, 0, 8 + 1, documentID, documentText)); // this
+																										// one
+																										// is
+																										// fake,
+																										// but
+																										// matches
+																										// the
 		// span of an annotation in document
 		// #1
 		returnList.add(createProteinAnnotation(annotationID++, 64, 88 + 1, documentID, documentText));
@@ -957,35 +992,12 @@ public class AnnotationComparatorTest {
 		returnList.add(createProteinAnnotation(annotationID++, 1454, 1463, documentID, documentText));/*  */
 		returnList.add(createProteinAnnotation(annotationID++, 1639, 1642, documentID, documentText));/*  */
 
-		// documentID = "2";
-		// documentText = testText2;
-		// annotationID = 0;
-		// returnList.add(createProteinAnnotation(annotationID++, 195, 209, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 773, 775, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 885, 890, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 949, 952, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 968, 988, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1003, 1007, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1018, 1023, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1025, 1033, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1060, 1070, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1081, 1088, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1198, 1205, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1308, 1315, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1357, 1366, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1371, 1376, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1417, 1420, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1425, 1428, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1473, 1494, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1520, 1536, documentID, documentText));/* */
-		// returnList.add(createProteinAnnotation(annotationID++, 1551, 1558, documentID, documentText));/* */
-
 		return returnList;
 	}
 
 	/**
-	 * Create a set of annotations that has identical spans, but a few annotations with "gene" annotations instead of
-	 * "protein" annotations
+	 * Create a set of annotations that has identical spans, but a few annotations with "gene"
+	 * annotations instead of "protein" annotations
 	 * 
 	 * @return
 	 */
@@ -1026,8 +1038,13 @@ public class AnnotationComparatorTest {
 		documentID = "2";
 		documentText = testText2;
 		annotationID = 0;
-		returnList.add(createProteinAnnotation(annotationID++, 0, 8, documentID, documentText)); // this one is fake,
-																									// but matches the
+		returnList.add(createProteinAnnotation(annotationID++, 0, 8, documentID, documentText)); // this
+																									// one
+																									// is
+																									// fake,
+																									// but
+																									// matches
+																									// the
 		// span of an annotation in document
 		// #1
 		returnList.add(createProteinAnnotation(annotationID++, 64, 88, documentID, documentText));

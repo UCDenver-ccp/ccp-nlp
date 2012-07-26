@@ -1,23 +1,32 @@
 /*
- * Span.java
- * Copyright (C) 2007 Center for Computational Pharmacology, University of Colorado School of Medicine
- * 
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- */
+ Copyright (c) 2012, Regents of the University of Colorado
+ All rights reserved.
 
+ Redistribution and use in source and binary forms, with or without modification, 
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this 
+    list of conditions and the following disclaimer.
+   
+ * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+   
+ * Neither the name of the University of Colorado nor the names of its 
+    contributors may be used to endorse or promote products derived from this 
+    software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package edu.ucdenver.ccp.nlp.core.annotation;
 
 import java.util.Comparator;
@@ -28,11 +37,12 @@ import edu.ucdenver.ccp.nlp.core.annotation.comparison.SpanComparator;
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
 
 /**
- * The <code>Span</code> class is used to store the character offsets for a span of text. If an invalid span is
- * detected, e.g. the end offset is less than the start offset, an <code>InvalidSpanException</code> is thrown. The
- * <code>Span</code> class is used by the <code>TextAnnotation</code> class.
+ * The <code>Span</code> class is used to store the character offsets for a span of text. If an
+ * invalid span is detected, e.g. the end offset is less than the start offset, an
+ * <code>InvalidSpanException</code> is thrown. The <code>Span</code> class is used by the
+ * <code>TextAnnotation</code> class.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class Span implements Comparable {
@@ -67,8 +77,9 @@ public class Span implements Comparable {
 
 	private void validateSpan() {
 		if (!isValid()) {
-			throw new InvalidSpanException("Invalid span: Negative offsets or start of span is greater than end of span. spanStart=" + spanStart + "  spanEnd="
-					+ spanEnd);
+			throw new InvalidSpanException(
+					"Invalid span: Negative offsets or start of span is greater than end of span. spanStart="
+							+ spanStart + "  spanEnd=" + spanEnd);
 		}
 	}
 
@@ -139,7 +150,8 @@ public class Span implements Comparable {
 	}
 
 	/**
-	 * Returns true if this span starts before the inputted span, false otherwise. (Equal span starts result in false).
+	 * Returns true if this span starts before the inputted span, false otherwise. (Equal span
+	 * starts result in false).
 	 * 
 	 * @param span
 	 * @return
@@ -153,7 +165,8 @@ public class Span implements Comparable {
 	}
 
 	/**
-	 * Returns true if this span ends before the inputted span, false otherwise. (Equal span ends result in false).
+	 * Returns true if this span ends before the inputted span, false otherwise. (Equal span ends
+	 * result in false).
 	 * 
 	 * @param span
 	 * @return
@@ -165,19 +178,21 @@ public class Span implements Comparable {
 			return false;
 		}
 	}
-	
+
 	/**
-     * REturns true if this span encompasses the inputted span, i.e. if it overlaps the input span entirely.
-     * @param span
-     * @return
-     */
-    public boolean containsSpan(Span span) {
-        if (this.spanStart <= span.getSpanStart() & this.spanEnd >= span.getSpanEnd()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+	 * REturns true if this span encompasses the inputted span, i.e. if it overlaps the input span
+	 * entirely.
+	 * 
+	 * @param span
+	 * @return
+	 */
+	public boolean containsSpan(Span span) {
+		if (this.spanStart <= span.getSpanStart() & this.spanEnd >= span.getSpanEnd()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	@Override
 	public int hashCode() {
@@ -188,9 +203,11 @@ public class Span implements Comparable {
 	public String toString() {
 		return "[" + this.spanStart + ".." + this.spanEnd + "]";
 	}
-	
+
 	/**
-	 * Returns a String for a list of spans taking the form: [s1b..s1e--s2b..s2e--s3b..s3e], where s1b=span1 begin and s1e=span1 end
+	 * Returns a String for a list of spans taking the form: [s1b..s1e--s2b..s2e--s3b..s3e], where
+	 * s1b=span1 begin and s1e=span1 end
+	 * 
 	 * @param spanList
 	 * @return
 	 */
@@ -200,7 +217,7 @@ public class Span implements Comparable {
 			sb.append(String.format("[%d..%d]_", span.getSpanStart(), span.getSpanEnd()));
 		}
 		if (spanList.size() > 0) {
-			sb.replace(sb.length()-1, sb.length(), "");
+			sb.replace(sb.length() - 1, sb.length(), "");
 		} else {
 			sb.append("[]");
 		}
@@ -242,5 +259,5 @@ public class Span implements Comparable {
 			}
 		};
 	}
-	
+
 }

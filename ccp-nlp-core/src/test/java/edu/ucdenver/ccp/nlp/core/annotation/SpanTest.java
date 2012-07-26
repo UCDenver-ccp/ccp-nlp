@@ -1,21 +1,32 @@
-/* Copyright (C) 2007-2010 Center for Computational Pharmacology, University of Colorado School of Medicine
- * 
- * This file is part of the CCP NLP library.
- * The CCP NLP library is free software: you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
+/*
+ Copyright (c) 2012, Regents of the University of Colorado
+ All rights reserved.
 
+ Redistribution and use in source and binary forms, with or without modification, 
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this 
+    list of conditions and the following disclaimer.
+   
+ * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+   
+ * Neither the name of the University of Colorado nor the names of its 
+    contributors may be used to endorse or promote products derived from this 
+    software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package edu.ucdenver.ccp.nlp.core.annotation;
 
 import static org.junit.Assert.assertEquals;
@@ -31,6 +42,10 @@ import org.junit.Test;
 
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * 
+ */
 public class SpanTest {
 
 	@Test
@@ -48,23 +63,21 @@ public class SpanTest {
 		assertEquals(span1.getSpanEnd(), 12);
 	}
 
-	@Test (expected=InvalidSpanException.class)
+	@Test(expected = InvalidSpanException.class)
 	public void testInvalidSpanException() throws Exception {
-			new Span(11, 5);
+		new Span(11, 5);
 	}
 
-	@Test (expected=InvalidSpanException.class)
+	@Test(expected = InvalidSpanException.class)
 	public void testInvalidSpanException_negatives0() throws Exception {
-			new Span(-1, 5);
+		new Span(-1, 5);
 	}
 
-	
-	@Test (expected=InvalidSpanException.class)
+	@Test(expected = InvalidSpanException.class)
 	public void testInvalidSpanException_negatives1() throws Exception {
-			new Span(0, -5);
+		new Span(0, -5);
 	}
 
-	
 	@Test
 	public void testEquals() {
 		try {
@@ -83,26 +96,25 @@ public class SpanTest {
 		}
 	}
 
-	
 	@Test
-    public void testContains() {
-        try {
-            Span span1 = new Span(3, 8);
-            Span span2 = new Span(2, 9);
-            Span span3 = new Span(4, 9);
+	public void testContains() {
+		try {
+			Span span1 = new Span(3, 8);
+			Span span2 = new Span(2, 9);
+			Span span3 = new Span(4, 9);
 
-            assertFalse(span1.containsSpan(span2));
-            assertTrue(span2.containsSpan(span1));
-            assertTrue(span2.containsSpan(span3));
-            assertFalse(span3.containsSpan(span1));
-            assertTrue(span2.containsSpan(span3));
+			assertFalse(span1.containsSpan(span2));
+			assertTrue(span2.containsSpan(span1));
+			assertTrue(span2.containsSpan(span3));
+			assertFalse(span3.containsSpan(span1));
+			assertTrue(span2.containsSpan(span3));
 
-        } catch (InvalidSpanException e) {
-            e.printStackTrace();
-            fail("Test failed - invalid span exception.");
-        }
-    }
-	
+		} catch (InvalidSpanException e) {
+			e.printStackTrace();
+			fail("Test failed - invalid span exception.");
+		}
+	}
+
 	@Test
 	public void testOverlaps() {
 		try {
@@ -209,14 +221,16 @@ public class SpanTest {
 		List<Span> spanList = new ArrayList<Span>();
 		String spanListStr = Span.toString(spanList);
 		String expectedSpanListStr = "[]";
-		assertEquals(String.format("Input of an empty list should result in return of '[]'"), expectedSpanListStr, spanListStr);
+		assertEquals(String.format("Input of an empty list should result in return of '[]'"), expectedSpanListStr,
+				spanListStr);
 
-		spanList.add(new Span(3,7));
-		spanList.add(new Span(12,46));
-		spanList.add(new Span(57,88));
+		spanList.add(new Span(3, 7));
+		spanList.add(new Span(12, 46));
+		spanList.add(new Span(57, 88));
 		spanListStr = Span.toString(spanList);
 		expectedSpanListStr = "[3..7]_[12..46]_[57..88]";
-		assertEquals(String.format("Expected a listing of individual spans delimited by underscores."), expectedSpanListStr, spanListStr);
+		assertEquals(String.format("Expected a listing of individual spans delimited by underscores."),
+				expectedSpanListStr, spanListStr);
 	}
-	
+
 }

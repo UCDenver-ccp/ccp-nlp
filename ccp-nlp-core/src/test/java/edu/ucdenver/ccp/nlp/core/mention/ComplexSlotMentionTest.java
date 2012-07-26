@@ -1,21 +1,32 @@
-/* Copyright (C) 2007-2010 Center for Computational Pharmacology, University of Colorado School of Medicine
- * 
- * This file is part of the CCP NLP library.
- * The CCP NLP library is free software: you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
+/*
+ Copyright (c) 2012, Regents of the University of Colorado
+ All rights reserved.
 
+ Redistribution and use in source and binary forms, with or without modification, 
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this 
+    list of conditions and the following disclaimer.
+   
+ * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+   
+ * Neither the name of the University of Colorado nor the names of its 
+    contributors may be used to endorse or promote products derived from this 
+    software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package edu.ucdenver.ccp.nlp.core.mention;
 
 import static org.junit.Assert.assertEquals;
@@ -36,6 +47,10 @@ import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * 
+ */
 public class ComplexSlotMentionTest {
 
 	private ComplexSlotMention complexSlotMention;
@@ -43,7 +58,8 @@ public class ComplexSlotMentionTest {
 	private ComplexSlotMention complexSlotMention2;
 
 	/**
-	 * To test the ComplexSlotMention class, we will make use of some test annotations, in particular this one: <br>
+	 * To test the ComplexSlotMention class, we will make use of some test annotations, in
+	 * particular this one: <br>
 	 * 
 	 * <pre>
 	 *     ======================= Annotation: -10 =======================
@@ -76,7 +92,8 @@ public class ComplexSlotMentionTest {
 	}
 
 	/**
-	 * Test that the constructor sets the mention name and initializes storage for the class mentions
+	 * Test that the constructor sets the mention name and initializes storage for the class
+	 * mentions
 	 * 
 	 * @throws Exception
 	 */
@@ -123,10 +140,16 @@ public class ComplexSlotMentionTest {
 	 */
 	@Test
 	public void testEquals() throws Exception {
-		/* the transport location and transport participants complex slot mentions should not return true */
+		/*
+		 * the transport location and transport participants complex slot mentions should not return
+		 * true
+		 */
 		assertFalse(complexSlotMention2.equals(complexSlotMention));
 		assertFalse(complexSlotMention.equals(complexSlotMention2));
-		/* the transport location and transport participants complex slot mentions should equal themselves */
+		/*
+		 * the transport location and transport participants complex slot mentions should equal
+		 * themselves
+		 */
 		assertTrue(complexSlotMention2.equals(complexSlotMention2));
 		assertTrue(complexSlotMention.equals(complexSlotMention));
 
@@ -136,14 +159,18 @@ public class ComplexSlotMentionTest {
 
 		/* create the nucleus annotation */
 		Annotator annotator1 = new Annotator(new Integer(-30), "Test Annotator", "#1", "CCP");
-		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
+		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
+				"This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
-		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, -11, -1, "1234", 0,
-				nucleusMention);
+		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, -11,
+				-1, "1234", 0, nucleusMention);
 
 		DefaultComplexSlotMention csm = new DefaultComplexSlotMention("transport location");
-		/* test that equals() returns false for csm's with identical mention names but unequal number of class mentions */
+		/*
+		 * test that equals() returns false for csm's with identical mention names but unequal
+		 * number of class mentions
+		 */
 		assertFalse(csm.equals(complexSlotMention2));
 		csm.addClassMention(nucleusMention);
 		/* test that equals() returns true for identical csm's */

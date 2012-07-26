@@ -1,21 +1,32 @@
-/* Copyright (C) 2007-2010 Center for Computational Pharmacology, University of Colorado School of Medicine
- * 
- * This file is part of the CCP NLP library.
- * The CCP NLP library is free software: you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
+/*
+ Copyright (c) 2012, Regents of the University of Colorado
+ All rights reserved.
 
+ Redistribution and use in source and binary forms, with or without modification, 
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this 
+    list of conditions and the following disclaimer.
+   
+ * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+   
+ * Neither the name of the University of Colorado nor the names of its 
+    contributors may be used to endorse or promote products derived from this 
+    software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package edu.ucdenver.ccp.nlp.core.mention.comparison;
 
 import static org.junit.Assert.assertEquals;
@@ -36,6 +47,10 @@ import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * 
+ */
 public class IdenticalMentionComparatorTest {
 
 	Map<Integer, DefaultTextAnnotation> id2annotationMap;
@@ -65,21 +80,24 @@ public class IdenticalMentionComparatorTest {
 		assertEquals(0, icmc.compare(nucleusMention, nucleusMention, spanComparator, 5));
 
 		ClassMention proteinMention = id2annotationMap.get(-12).getClassMention();
-		assertFalse(icmc.compare(nucleusMention, proteinMention, spanComparator, 0)==0);
-		assertFalse(icmc.compare(nucleusMention, proteinMention, spanComparator, -1)==0);
-		assertFalse(icmc.compare(nucleusMention, proteinMention, spanComparator, 5)==0);
+		assertFalse(icmc.compare(nucleusMention, proteinMention, spanComparator, 0) == 0);
+		assertFalse(icmc.compare(nucleusMention, proteinMention, spanComparator, -1) == 0);
+		assertFalse(icmc.compare(nucleusMention, proteinMention, spanComparator, 5) == 0);
 
 		/*
-		 * Compare two nucleus mentions, whose annotations overlap. Using the strict span comparator, the mentions
-		 * should match when the linked annotations are not compared, and should fail to match when the annotations are
-		 * compared.
+		 * Compare two nucleus mentions, whose annotations overlap. Using the strict span
+		 * comparator, the mentions should match when the linked annotations are not compared, and
+		 * should fail to match when the annotations are compared.
 		 */
-		ClassMention nucleusMentionWithOverlappingSpan = TestTextAnnotationCreatorTest.getAnnotationToMatch11WithOverlappingSpan()
-				.getClassMention();
-		assertFalse( icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, 0)==0);
-		assertFalse( icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, -1)==0);
-		assertFalse( icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, 5)==0);
-		/* using the sloppy span comparator, the mentions should now match because the annotations overlap */
+		ClassMention nucleusMentionWithOverlappingSpan = TestTextAnnotationCreatorTest
+				.getAnnotationToMatch11WithOverlappingSpan().getClassMention();
+		assertFalse(icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, 0) == 0);
+		assertFalse(icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, -1) == 0);
+		assertFalse(icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, 5) == 0);
+		/*
+		 * using the sloppy span comparator, the mentions should now match because the annotations
+		 * overlap
+		 */
 		spanComparator = new SloppySpanComparator();
 		assertEquals(0, icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, 0));
 		assertEquals(0, icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, -1));
@@ -96,9 +114,9 @@ public class IdenticalMentionComparatorTest {
 		assertEquals(0, icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, 5));
 		/* but they should not match when using the left boundary comparator */
 		spanComparator = new SharedStartSpanComparator();
-		assertFalse( icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, 0)==0);
-		assertFalse( icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, -1)==0);
-		assertFalse( icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, 5)==0);
+		assertFalse(icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, 0) == 0);
+		assertFalse(icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, -1) == 0);
+		assertFalse(icmc.compare(nucleusMention, nucleusMentionWithOverlappingSpan, spanComparator, 5) == 0);
 
 	}
 
@@ -125,30 +143,40 @@ public class IdenticalMentionComparatorTest {
 		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMatch, spanComparator, 7));
 		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMatch, spanComparator, -1));
 
-		ClassMention almostMatchButDifferentTransEntitiesMention = TestTextAnnotationCreatorTest.getAnnotationToMatch18ThruLevel3()
-				.getClassMention();
+		ClassMention almostMatchButDifferentTransEntitiesMention = TestTextAnnotationCreatorTest
+				.getAnnotationToMatch18ThruLevel3().getClassMention();
 		/* test that the mentions match up until a point, after level 3 they should not match */
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention, spanComparator, 0));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention, spanComparator, 1));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention, spanComparator, 2));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention, spanComparator, 3));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention, spanComparator, 4));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention, spanComparator, 5));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention, spanComparator, 6));
-		assertFalse( icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention, spanComparator, 7)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention, spanComparator, -1)==0);
+		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention,
+				spanComparator, 0));
+		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention,
+				spanComparator, 1));
+		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention,
+				spanComparator, 2));
+		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention,
+				spanComparator, 3));
+		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention,
+				spanComparator, 4));
+		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention,
+				spanComparator, 5));
+		assertEquals(0, icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention,
+				spanComparator, 6));
+		assertFalse(icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention,
+				spanComparator, 7) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, almostMatchButDifferentTransEntitiesMention,
+				spanComparator, -1) == 0);
 
-		ClassMention level1MatchOnly = TestTextAnnotationCreatorTest.getAnnotationToMatch18ThruLevel1Only().getClassMention();
+		ClassMention level1MatchOnly = TestTextAnnotationCreatorTest.getAnnotationToMatch18ThruLevel1Only()
+				.getClassMention();
 		/* test that the mentions match up until a point, after level 0 they should not match */
 		assertEquals(0, icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 0));
 		assertEquals(0, icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 1));
-		assertFalse( icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 2)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 3)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 4)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 5)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 6)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 7)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, -1)==0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 2) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 3) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 4) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 5) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 6) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, 7) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, level1MatchOnly, spanComparator, -1) == 0);
 
 	}
 
@@ -167,63 +195,95 @@ public class IdenticalMentionComparatorTest {
 		/* using the strict span comparator, these mentions should match through level 1. */
 		System.err.println(exactMentionMatchButOverlappingSpans.toString());
 		System.err.println(regOfActOfTransportMention.toString());
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 0));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 1));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 2));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 3));
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 4)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 5)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 6)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 7)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, -1)==0);
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 0));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 1));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 2));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 3));
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 4) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 5) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 6) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 7) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, -1) == 0);
 
 		/* using the right boundary span comparator, these mentions should match through level 3. */
 		spanComparator = new SharedEndSpanComparator();
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 0));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 1));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 2));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 3));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 4));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 5));
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 6)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 7)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, -1)==0);
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 0));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 1));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 2));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 3));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 4));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 5));
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 6) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 7) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, -1) == 0);
 
 		/* using the sloppy span comparator, these mentions should match completely. */
 		spanComparator = new SloppySpanComparator();
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 0));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 1));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 2));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 3));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 4));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 5));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 6));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 7));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, -1));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 0));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 1));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 2));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 3));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 4));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 5));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 6));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 7));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, -1));
 
 		/* using the left span comparator, these mentions should match through level 2. */
 		spanComparator = new SharedStartSpanComparator();
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 0));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 1));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 2));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 3));
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 4)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 5)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 6)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 7)==0);
-		assertFalse( icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, -1)==0);
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 0));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 1));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 2));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 3));
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 4) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 5) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 6) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 7) == 0);
+		assertFalse(icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, -1) == 0);
 
 		/* using the either boundary span comparator, these mentions should match completely. */
 		spanComparator = new SharedStartOrEndSpanComparator();
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 0));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 1));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 2));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 3));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 4));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 5));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 6));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 7));
-		assertEquals(0, icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, -1));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 0));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 1));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 2));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 3));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 4));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 5));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 6));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, 7));
+		assertEquals(0,
+				icmc.compare(regOfActOfTransportMention, exactMentionMatchButOverlappingSpans, spanComparator, -1));
 
 	}
 

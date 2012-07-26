@@ -1,21 +1,32 @@
-/* Copyright (C) 2007-2010 Center for Computational Pharmacology, University of Colorado School of Medicine
- * 
- * This file is part of the CCP NLP library.
- * The CCP NLP library is free software: you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
+/*
+ Copyright (c) 2012, Regents of the University of Colorado
+ All rights reserved.
 
+ Redistribution and use in source and binary forms, with or without modification, 
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this 
+    list of conditions and the following disclaimer.
+   
+ * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+   
+ * Neither the name of the University of Colorado nor the names of its 
+    contributors may be used to endorse or promote products derived from this 
+    software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package edu.ucdenver.ccp.nlp.core.mention;
 
 import static org.junit.Assert.assertEquals;
@@ -39,6 +50,10 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * 
+ */
 public class MentionTest {
 
 	private static final String FRAME_PLAYS_A_ROLE_IN_PROCESS = "plays role in process";
@@ -68,7 +83,7 @@ public class MentionTest {
 	private DefaultComplexSlotMention playerCSM;
 
 	@Before
-	public void initMentionHierarchy() throws Exception{
+	public void initMentionHierarchy() throws Exception {
 
 		/* __________________________1_________2_________3_________4_________5_________6_________7 */
 		/* ________________01234567890123456789012345678901234567890123456789012345678901234567890 */
@@ -80,21 +95,21 @@ public class MentionTest {
 		proteinXyzGeneIdSM.addSlotValue("xyzID=12345");
 		proteinXyzCM.addPrimitiveSlotMention(proteinXyzGeneIdSM);
 		@SuppressWarnings("unused")
-		TextAnnotation proteinXyzTA = new DefaultTextAnnotation(0, 5, "XYZ-2", new Annotator(1, "Bob", "The Annotator", "The U"),
-				new AnnotationSet(), 1, -1, "1234", -1, proteinXyzCM);
+		TextAnnotation proteinXyzTA = new DefaultTextAnnotation(0, 5, "XYZ-2", new Annotator(1, "Bob", "The Annotator",
+				"The U"), new AnnotationSet(), 1, -1, "1234", -1, proteinXyzCM);
 
 		proteinAbcCM = new DefaultClassMention(FRAME_PROTEIN);
 		StringSlotMention proteinAbcGeneIdSM = new DefaultStringSlotMention(SLOT_GENE_ID);
 		proteinAbcGeneIdSM.addSlotValue("AbcID=98765");
 		proteinAbcCM.addPrimitiveSlotMention(proteinAbcGeneIdSM);
 		@SuppressWarnings("unused")
-		TextAnnotation proteinAbcTA = new DefaultTextAnnotation(40, 45, "ABC-1", new Annotator(1, "Bob", "The Annotator", "The U"),
-				new AnnotationSet(), 1, -1, "1234", -1, proteinAbcCM);
+		TextAnnotation proteinAbcTA = new DefaultTextAnnotation(40, 45, "ABC-1", new Annotator(1, "Bob",
+				"The Annotator", "The U"), new AnnotationSet(), 1, -1, "1234", -1, proteinAbcCM);
 
 		nucleusCM = new DefaultClassMention(FRAME_NUCLEUS);
 		@SuppressWarnings("unused")
-		TextAnnotation nucleusTA = new DefaultTextAnnotation(63, 70, "nucleus", new Annotator(1, "Bob", "The Annotator", "The U"),
-				new AnnotationSet(), 1, -1, "1234", -1, nucleusCM);
+		TextAnnotation nucleusTA = new DefaultTextAnnotation(63, 70, "nucleus", new Annotator(1, "Bob",
+				"The Annotator", "The U"), new AnnotationSet(), 1, -1, "1234", -1, nucleusCM);
 
 		transportCM = new DefaultClassMention(FRAME_PROTEIN_TRANSPORT);
 		transportCargoCSM = new DefaultComplexSlotMention(SLOT_CARGO);
@@ -104,16 +119,16 @@ public class MentionTest {
 		transportDestinationCSM.addClassMention(nucleusCM);
 		transportCM.addComplexSlotMention(transportDestinationCSM);
 		@SuppressWarnings("unused")
-		TextAnnotation transportTA = new DefaultTextAnnotation(46, 55, "transport", new Annotator(1, "Bob", "The Annotator", "The U"),
-				new AnnotationSet(), 1, -1, "1234", -1, transportCM);
+		TextAnnotation transportTA = new DefaultTextAnnotation(46, 55, "transport", new Annotator(1, "Bob",
+				"The Annotator", "The U"), new AnnotationSet(), 1, -1, "1234", -1, transportCM);
 
 		regulationCM = new DefaultClassMention(FRAME_REGULATION_OF_PROCESS);
 		DefaultComplexSlotMention regulatedProcessCSM = new DefaultComplexSlotMention(SLOT_REGULATED_PROCESS);
 		regulatedProcessCSM.addClassMention(transportCM);
 		regulationCM.addComplexSlotMention(regulatedProcessCSM);
 		@SuppressWarnings("unused")
-		TextAnnotation regultionTA = new DefaultTextAnnotation(26, 36, "regulation", new Annotator(1, "Bob", "The Annotator", "The U"),
-				new AnnotationSet(), 1, -1, "1234", -1, regulationCM);
+		TextAnnotation regultionTA = new DefaultTextAnnotation(26, 36, "regulation", new Annotator(1, "Bob",
+				"The Annotator", "The U"), new AnnotationSet(), 1, -1, "1234", -1, regulationCM);
 
 		playsARoleInProcessCM = new DefaultClassMention(FRAME_PLAYS_A_ROLE_IN_PROCESS);
 		playerCSM = new DefaultComplexSlotMention(SLOT_PLAYER);
@@ -123,8 +138,8 @@ public class MentionTest {
 		processCSM.addClassMention(regulationCM);
 		playsARoleInProcessCM.addComplexSlotMention(processCSM);
 		@SuppressWarnings("unused")
-		TextAnnotation playsARoleInProcessTA = new DefaultTextAnnotation(6, 21, "plays a role in", new Annotator(1, "Bob", "The Annotator",
-				"The U"), new AnnotationSet(), 1, -1, "1234", -1, playsARoleInProcessCM);
+		TextAnnotation playsARoleInProcessTA = new DefaultTextAnnotation(6, 21, "plays a role in", new Annotator(1,
+				"Bob", "The Annotator", "The U"), new AnnotationSet(), 1, -1, "1234", -1, playsARoleInProcessCM);
 
 	}
 

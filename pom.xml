@@ -5,24 +5,23 @@
 	<groupId>edu.ucdenver.ccp</groupId>
 	<artifactId>ccp-nlp</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.0-SNAPSHOT</version>
+	<version>3.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.version>3.0-SNAPSHOT</project.version>
-		<ccp-common.version>1.0-SNAPSHOT</ccp-common.version>
-		<ccp-fileparsers.version>1.0-SNAPSHOT</ccp-fileparsers.version>
-		<ccp-rdfizer.version>1.0-SNAPSHOT</ccp-rdfizer.version>
+		<!-- This property is inherited by all sub-modules and used to define their 
+			version -->
+		<project.version>3.2-SNAPSHOT</project.version>
 	</properties>
 
 
 	<modules>
 		<module>ccp-nlp-core</module>
-		<module>ccp-nlp-core-uima</module>
-		<module>ccp-nlp-ext-uima-collections</module>
-		<module>ccp-nlp-ext-uima-serialization</module>
-		<module>ccp-nlp-ext-uima-shims</module>
+		<module>ccp-nlp-uima</module>
+		<module>ccp-nlp-uima-collections</module>
+		<module>ccp-nlp-uima-serialization</module>
+		<module>ccp-nlp-uima-shims</module>
 	</modules>
 
 	<dependencyManagement>
@@ -35,7 +34,12 @@
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>common</artifactId>
-				<version>${ccp-common.version}</version>
+				<version>1.2</version>
+			</dependency>
+			<dependency>
+				<groupId>edu.ucdenver.ccp</groupId>
+				<artifactId>common</artifactId>
+				<version>1.2</version>
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
@@ -45,15 +49,16 @@
 				<version>4.8.2</version>
 				<scope>test</scope>
 			</dependency>
-			<dependency>
-				<groupId>edu.ucdenver.ccp</groupId>
-				<artifactId>ccp-nlp-core-uima</artifactId>
-				<version>${project.version}</version>
-				<type>test-jar</type>
-				<scope>test</scope>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<repositories>
+		<repository>
+			<id>bionlp-sourceforge-repo</id>
+			<url>http://bionlp.svn.sourceforge.net/viewvc/bionlp/repo/</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<pluginManagement>
 			<plugins>

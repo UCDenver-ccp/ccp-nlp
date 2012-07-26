@@ -1,21 +1,32 @@
-/* Copyright (C) 2007-2010 Center for Computational Pharmacology, University of Colorado School of Medicine
- * 
- * This file is part of the CCP NLP library.
- * The CCP NLP library is free software: you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
+/*
+ Copyright (c) 2012, Regents of the University of Colorado
+ All rights reserved.
 
+ Redistribution and use in source and binary forms, with or without modification, 
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this 
+    list of conditions and the following disclaimer.
+   
+ * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+   
+ * Neither the name of the University of Colorado nor the names of its 
+    contributors may be used to endorse or promote products derived from this 
+    software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package edu.ucdenver.ccp.nlp.core.annotation.comparison;
 
 import java.util.Arrays;
@@ -23,11 +34,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class implements some commonly used statistics in the field of NLP, namely precision, recall, F-measure, and the
- * Dice coefficient.
+ * This class implements some commonly used statistics in the field of NLP, namely precision,
+ * recall, F-measure, and the Dice coefficient.
  * <p>
- * For a give count of true positives (TP), false positives (FP), and false negatives (FN), precision (P), recall (R),
- * and F-measure (F) are computed as:
+ * For a give count of true positives (TP), false positives (FP), and false negatives (FN),
+ * precision (P), recall (R), and F-measure (F) are computed as:
  * <p>
  * P = TP/(TP+FP)
  * <p>
@@ -35,7 +46,7 @@ import java.util.Set;
  * <p>
  * F = 2PR/(P+R)
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class NLPStats {
@@ -86,14 +97,17 @@ public class NLPStats {
 	 * @return 2PR/(P+R)
 	 */
 	public static double computeFMeasure(int tp, int fp, int fn) {
-		return 2.0 * computePrecision(tp, fp) * computeRecall(tp, fn) / (computePrecision(tp, fp) + computeRecall(tp, fn));
+		return 2.0 * computePrecision(tp, fp) * computeRecall(tp, fn)
+				/ (computePrecision(tp, fp) + computeRecall(tp, fn));
 	}
 
 	/**
-	 * Computes the Dice Coefficient as described in Hersh et al. TREC Genomics Track Overview, 2003.
+	 * Computes the Dice Coefficient as described in Hersh et al. TREC Genomics Track Overview,
+	 * 2003.
 	 * <p>
-	 * For two <code>Strings</code> A and B, define X as the number of words in A, Y as the number of words in B, and Z
-	 * as the number of words occurring in both A and B. The Dice coefficient is calculated as Dice(A,B) = (2*Z)/(X+Y)
+	 * For two <code>Strings</code> A and B, define X as the number of words in A, Y as the number
+	 * of words in B, and Z as the number of words occurring in both A and B. The Dice coefficient
+	 * is calculated as Dice(A,B) = (2*Z)/(X+Y)
 	 * 
 	 * @param aTokens
 	 *            a <code>Set</code> of tokens from <code>String</code> A
@@ -112,10 +126,12 @@ public class NLPStats {
 	}
 
 	/**
-	 * Computes the Dice Coefficient as described in Hersh et al. TREC Genomics Track Overview, 2003.
+	 * Computes the Dice Coefficient as described in Hersh et al. TREC Genomics Track Overview,
+	 * 2003.
 	 * <p>
-	 * For two <code>Strings</code> A and B, define X as the number of words in A, Y as the number of words in B, and Z
-	 * as the number of words occurring in both A and B. The Dice coefficient is calculated as Dice(A,B) = (2*Z)/(X+Y)
+	 * For two <code>Strings</code> A and B, define X as the number of words in A, Y as the number
+	 * of words in B, and Z as the number of words occurring in both A and B. The Dice coefficient
+	 * is calculated as Dice(A,B) = (2*Z)/(X+Y)
 	 * <p>
 	 * This method tokenizes by splitting the input Strings at spaces.
 	 * 

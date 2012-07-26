@@ -1,21 +1,32 @@
-/* Copyright (C) 2007-2010 Center for Computational Pharmacology, University of Colorado School of Medicine
- * 
- * This file is part of the CCP NLP library.
- * The CCP NLP library is free software: you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
+/*
+ Copyright (c) 2012, Regents of the University of Colorado
+ All rights reserved.
 
+ Redistribution and use in source and binary forms, with or without modification, 
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this 
+    list of conditions and the following disclaimer.
+   
+ * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+   
+ * Neither the name of the University of Colorado nor the names of its 
+    contributors may be used to endorse or promote products derived from this 
+    software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package edu.ucdenver.ccp.nlp.core.mention;
 
 import static org.junit.Assert.assertEquals;
@@ -41,6 +52,10 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * 
+ */
 public class ClassMentionTest {
 
 	Map<Integer, DefaultTextAnnotation> testAnnotations;
@@ -51,8 +66,8 @@ public class ClassMentionTest {
 	}
 
 	/**
-	 * Test that the constructor sets the mention name and initializes storage for the slot mentions and text
-	 * annotations
+	 * Test that the constructor sets the mention name and initializes storage for the slot mentions
+	 * and text annotations
 	 * 
 	 * @throws Exception
 	 */
@@ -134,68 +149,13 @@ public class ClassMentionTest {
 		assertEquals(expectedNames, ta.getClassMention().getPrimitiveSlotMentionNames());
 
 		/*
-		 * add another slot with slot mention name: new_slot_mention. We expect the list of slot mention names to remain
-		 * unchanged
+		 * add another slot with slot mention name: new_slot_mention. We expect the list of slot
+		 * mention names to remain unchanged
 		 */
 		sm = new DefaultStringSlotMention("new_slot_mention");
 		ta.getClassMention().addPrimitiveSlotMention(sm);
 		assertEquals(expectedNames, ta.getClassMention().getPrimitiveSlotMentionNames());
 	}
-
-	// /**
-	// * Test that all slot mentions with a particular name are returned
-	// *
-	// * @throws Exception
-	// */
-	// @Test(timeout=10000)
-	// public void testGetSlotMentionsByName() throws Exception {
-	// TextAnnotation ta = testAnnotations.get(-15);
-	// SlotMention sm = new SlotMention("new_slot_mention");
-	// ta.getClassMention().addSlotMention(sm);
-	// sm = new SlotMention("new_slot_mention");
-	// ta.getClassMention().addSlotMention(sm);
-	//
-	// assertEquals(2, ta.getClassMention().getSlotMentionsByName("new_slot_mention").size());
-	// assertEquals(1, ta.getClassMention().getSlotMentionsByName("entrez_gene_id").size());
-	// assertEquals(1, ta.getClassMention().getSlotMentionsByName("processed text").size());
-	// assertNull(ta.getClassMention().getSlotMentionsByName("no mention of this name exists"));
-	// }
-	//
-	// /**
-	// * Test that all slot mentions with a particular name are returned
-	// *
-	// * @throws Exception
-	// */
-	// @Test(timeout=10000)
-	// public void testGetComplexSlotMentionsByName() throws Exception {
-	// TextAnnotation ta = testAnnotations.get(-10);
-	// ComplexSlotMention csm = new ComplexSlotMention("new_complex_slot_mention");
-	// ta.getClassMention().addComplexSlotMention(csm);
-	// csm = new ComplexSlotMention("new_complex_slot_mention");
-	// ta.getClassMention().addComplexSlotMention(csm);
-	//
-	// assertEquals(2, ta.getClassMention().getComplexSlotMentionsByName("new_complex_slot_mention").size());
-	// assertEquals(1, ta.getClassMention().getComplexSlotMentionsByName("transport origin").size());
-	// assertEquals(1, ta.getClassMention().getComplexSlotMentionsByName("transport participants").size());
-	// assertNull(ta.getClassMention().getComplexSlotMentionsByName("no mention of this name exists"));
-	// }
-
-	// /**
-	// * Test that the first slot mention added is returned
-	// *
-	// * @throws Exception
-	// */
-	// @Test(timeout=10000)
-	// public void testReturnFirstSlotMention() throws Exception {
-	// ClassMention cm = new ClassMention("classMention");
-	// SlotMention sm = new SlotMention("slotMention1");
-	// cm.addSlotMention(sm);
-	// assertEquals("slotMention1", cm.getFirstSlotMention().getMentionName());
-	//
-	// sm = new SlotMention("slotMention2");
-	// cm.addSlotMention(sm);
-	// assertEquals("slotMention1", cm.getFirstSlotMention().getMentionName());
-	// }
 
 	/**
 	 * test equals()
@@ -214,11 +174,12 @@ public class ClassMentionTest {
 
 		/* create a text annotation for the e2f3 protein */
 		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
-		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
+		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
+				"This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
-		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, -12, -1, "1234", 0,
-				e2f4ProteinMention);
+		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, -12, -1,
+				"1234", 0, e2f4ProteinMention);
 
 		TextAnnotation matchingTA = testAnnotations.get(-12);
 		TextAnnotation nonMatchingTA = testAnnotations.get(-15);
@@ -249,11 +210,12 @@ public class ClassMentionTest {
 
 		/* create a text annotation for the e2f3 protein */
 		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
-		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
+		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
+				"This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
-		TextAnnotation protein1Annotation = new DefaultTextAnnotation(65, 70, "Protein #1", annotator2, annotationSet1, -12, -1, "1234", 0,
-				protein1CM);
+		TextAnnotation protein1Annotation = new DefaultTextAnnotation(65, 70, "Protein #1", annotator2, annotationSet1,
+				-12, -1, "1234", 0, protein1CM);
 
 		/* create a protein mention and annotation to fill the transport participants slot */
 		DefaultClassMention protein2CM = new DefaultClassMention("protein");
@@ -268,8 +230,8 @@ public class ClassMentionTest {
 		annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
-		TextAnnotation protein2Annotation = new DefaultTextAnnotation(75, 80, "Protein #2", annotator2, annotationSet1, -13, -1, "1234", 0,
-				protein2CM);
+		TextAnnotation protein2Annotation = new DefaultTextAnnotation(75, 80, "Protein #2", annotator2, annotationSet1,
+				-13, -1, "1234", 0, protein2CM);
 
 		/* Now link them with an inverse slot */
 		DefaultComplexSlotMention isEquivalentToCSM = new DefaultComplexSlotMention("is_equivalent_to");
@@ -310,11 +272,12 @@ public class ClassMentionTest {
 
 		/* create a text annotation for the e2f3 protein */
 		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
-		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
+		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
+				"This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
-		TextAnnotation protein1Annotation = new DefaultTextAnnotation(65, 70, "Protein #1", annotator2, annotationSet1, -12, -1, "1234", 0,
-				protein1CM);
+		TextAnnotation protein1Annotation = new DefaultTextAnnotation(65, 70, "Protein #1", annotator2, annotationSet1,
+				-12, -1, "1234", 0, protein1CM);
 
 		/* create a protein mention and annotation to fill the transport participants slot */
 		DefaultClassMention protein2CM = new DefaultClassMention("protein");
@@ -329,8 +292,8 @@ public class ClassMentionTest {
 		annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
-		TextAnnotation protein2Annotation = new DefaultTextAnnotation(75, 80, "Protein #2", annotator2, annotationSet1, -13, -1, "1234", 0,
-				protein2CM);
+		TextAnnotation protein2Annotation = new DefaultTextAnnotation(75, 80, "Protein #2", annotator2, annotationSet1,
+				-13, -1, "1234", 0, protein2CM);
 
 		/* Now link them with an inverse slot */
 		DefaultComplexSlotMention isEquivalentToCSM = new DefaultComplexSlotMention("is_equivalent_to");
@@ -368,11 +331,12 @@ public class ClassMentionTest {
 
 		/* create a text annotation for the e2f3 protein */
 		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
-		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
+		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
+				"This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
-		TextAnnotation protein1Annotation = new DefaultTextAnnotation(65, 70, "Protein #1", annotator2, annotationSet1, -12, -1, "1234", 0,
-				protein1CM);
+		TextAnnotation protein1Annotation = new DefaultTextAnnotation(65, 70, "Protein #1", annotator2, annotationSet1,
+				-12, -1, "1234", 0, protein1CM);
 
 		/* create a protein mention and annotation to fill the transport participants slot */
 		DefaultClassMention protein2CM = new DefaultClassMention("protein");
@@ -387,8 +351,8 @@ public class ClassMentionTest {
 		annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
-		TextAnnotation protein2Annotation = new DefaultTextAnnotation(75, 80, "Protein #2", annotator2, annotationSet1, -13, -1, "1234", 0,
-				protein2CM);
+		TextAnnotation protein2Annotation = new DefaultTextAnnotation(75, 80, "Protein #2", annotator2, annotationSet1,
+				-13, -1, "1234", 0, protein2CM);
 
 		/* Now link them with an inverse slot */
 		DefaultComplexSlotMention isEquivalentToCSM = new DefaultComplexSlotMention("is_equivalent_to");
@@ -409,7 +373,7 @@ public class ClassMentionTest {
 
 	@Test
 	public void testHashCode() throws Exception {
-		TextAnnotation ta1 = new DefaultTextAnnotation(0,0);
+		TextAnnotation ta1 = new DefaultTextAnnotation(0, 0);
 		DefaultClassMention cm1 = new DefaultClassMention("cm1");
 		ta1.setClassMention(cm1);
 
@@ -417,13 +381,13 @@ public class ClassMentionTest {
 		cmSet.add(cm1);
 		assertEquals(1, cmSet.size());
 
-		TextAnnotation ta2 = new DefaultTextAnnotation(0,0);
+		TextAnnotation ta2 = new DefaultTextAnnotation(0, 0);
 		DefaultClassMention cm2 = new DefaultClassMention("cm2");
 		ta2.setClassMention(cm2);
 		cmSet.add(cm2);
 		assertEquals(2, cmSet.size());
 
-		TextAnnotation ta1duplicate = new DefaultTextAnnotation(0,0);
+		TextAnnotation ta1duplicate = new DefaultTextAnnotation(0, 0);
 		DefaultClassMention cm1duplicate = new DefaultClassMention("cm1");
 		ta1duplicate.setClassMention(cm1duplicate);
 		cmSet.add(cm1duplicate);
@@ -432,6 +396,4 @@ public class ClassMentionTest {
 		assertEquals(cm1.hashCode(), cm1duplicate.hashCode());
 	}
 
-	
-	
 }

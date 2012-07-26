@@ -1,21 +1,32 @@
-/* Copyright (C) 2007-2010 Center for Computational Pharmacology, University of Colorado School of Medicine
- * 
- * This file is part of the CCP NLP library.
- * The CCP NLP library is free software: you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
+/*
+ Copyright (c) 2012, Regents of the University of Colorado
+ All rights reserved.
 
+ Redistribution and use in source and binary forms, with or without modification, 
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this 
+    list of conditions and the following disclaimer.
+   
+ * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+   
+ * Neither the name of the University of Colorado nor the names of its 
+    contributors may be used to endorse or promote products derived from this 
+    software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package edu.ucdenver.ccp.nlp.core.annotation;
 
 import static org.junit.Assert.assertEquals;
@@ -39,6 +50,10 @@ import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 
+/**
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * 
+ */
 public class TextAnnotationTest {
 
 	private TextAnnotation ta;
@@ -47,11 +62,13 @@ public class TextAnnotationTest {
 	public void setUp() throws Exception {
 		DefaultClassMention cm = new DefaultClassMention("classMention");
 		/*
-		 * Span: 4-7 AnnotatorID: 5 AnnotationSetID: 6 AnnotationID: 12 DocumentID: 9 DocumentCollectionID: 8
-		 * DocumentSectionID: 10
+		 * Span: 4-7 AnnotatorID: 5 AnnotationSetID: 6 AnnotationID: 12 DocumentID: 9
+		 * DocumentCollectionID: 8 DocumentSectionID: 10
 		 */
-		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName", "TestAnnotatorAffiliation");
-		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName", "TestAnnotationSetDescription");
+		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName",
+				"TestAnnotatorAffiliation");
+		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName",
+				"TestAnnotationSetDescription");
 		ta = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
 
 	}
@@ -67,7 +84,7 @@ public class TextAnnotationTest {
 	 */
 	@Test
 	public void testDefaultConstructor() throws Exception {
-		ta = new DefaultTextAnnotation(0,0);
+		ta = new DefaultTextAnnotation(0, 0);
 
 		// assertEquals(TextAnnotationTypes.SEMANTIC, ta.getAnnotationType());
 		assertEquals(-1, ta.getAnnotationID());
@@ -97,7 +114,8 @@ public class TextAnnotationTest {
 		assertEquals(5, ta.getAnnotatorID());
 		Set<AnnotationSet> annotationSets = ta.getAnnotationSets();
 		assertEquals(1, annotationSets.size());
-		assertEquals(new Integer(6), Collections.list(Collections.enumeration(annotationSets)).get(0).getAnnotationSetID());
+		assertEquals(new Integer(6), Collections.list(Collections.enumeration(annotationSets)).get(0)
+				.getAnnotationSetID());
 		assertEquals("9", ta.getDocumentID());
 		assertEquals(8, ta.getDocumentCollectionID());
 		assertEquals(10, ta.getDocumentSectionID());
@@ -166,21 +184,25 @@ public class TextAnnotationTest {
 		ta.setAnnotationSpanStart(0);
 		assertEquals(expectedAggregateSpan, ta.getAggregateSpan());
 
-		/* this should throw an exception, but it will be caught automatically - perhaps this is not a good idea? */
+		/*
+		 * this should throw an exception, but it will be caught automatically - perhaps this is not
+		 * a good idea?
+		 */
 		// expectedAggregateSpan = new Span(33,55);
 	}
 
 	/**
-	 * Test the assignment of a ClassMention to the TextAnnotation. Ensure that the ClassMention is linked to the
-	 * TextAnnotation properly
-	 * @throws InvalidInputException 
+	 * Test the assignment of a ClassMention to the TextAnnotation. Ensure that the ClassMention is
+	 * linked to the TextAnnotation properly
+	 * 
+	 * @throws InvalidInputException
 	 * 
 	 */
 	@Test
 	public void testSetClassMention() throws Exception {
 		/*
-		 * make sure that when you add a class mention, the text annotation gets added to the classmention's
-		 * TextAnnotation list
+		 * make sure that when you add a class mention, the text annotation gets added to the
+		 * classmention's TextAnnotation list
 		 */
 		DefaultClassMention cm = new DefaultClassMention("new class mention");
 		ta.setClassMention(cm);
@@ -189,34 +211,42 @@ public class TextAnnotationTest {
 	}
 
 	/**
-	 * Test the default equals() method. This equals() method requires exact span matches, and identical class mention
-	 * structure to return true.
+	 * Test the default equals() method. This equals() method requires exact span matches, and
+	 * identical class mention structure to return true.
 	 * 
 	 */
 	@Test
 	public void testEquals() {
 		DefaultClassMention cm = new DefaultClassMention("classMention");
-		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName", "TestAnnotatorAffiliation");
-		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName", "TestAnnotationSetDescription");
+		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName",
+				"TestAnnotatorAffiliation");
+		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName",
+				"TestAnnotationSetDescription");
 
 		/* annotation to test against */
-		TextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		TextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+				cm);
 
 		/* identical annotation */
-		TextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		TextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+				cm);
 
 		/* different span */
-		TextAnnotation ta2 = new DefaultTextAnnotation(4, 8, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		TextAnnotation ta2 = new DefaultTextAnnotation(4, 8, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+				cm);
 
 		/* different doc id */
-		TextAnnotation ta3 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "7", 10, cm);
+		TextAnnotation ta3 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "7", 10,
+				cm);
 
 		/* different doc col id */
-		TextAnnotation ta4 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 7, "9", 10, cm);
+		TextAnnotation ta4 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 7, "9", 10,
+				cm);
 
 		/* different class mention */
 		DefaultClassMention cm2 = new DefaultClassMention("classMention2");
-		TextAnnotation ta5 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm2);
+		TextAnnotation ta5 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+				cm2);
 
 		assertTrue(ta0.equals(ta1));
 		assertFalse(ta0.equals(ta2));
@@ -232,20 +262,26 @@ public class TextAnnotationTest {
 	@Test
 	public void testOverlaps() {
 		DefaultClassMention cm = new DefaultClassMention("classMention");
-		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName", "TestAnnotatorAffiliation");
-		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName", "TestAnnotationSetDescription");
+		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName",
+				"TestAnnotatorAffiliation");
+		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName",
+				"TestAnnotationSetDescription");
 
 		/* annotation to test against */
-		TextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		TextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+				cm);
 
 		/* identical annotation */
-		TextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		TextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+				cm);
 
 		/* overlapping span */
-		TextAnnotation ta2 = new DefaultTextAnnotation(5, 9, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		TextAnnotation ta2 = new DefaultTextAnnotation(5, 9, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+				cm);
 
 		/* nonoverlapping span */
-		TextAnnotation ta3 = new DefaultTextAnnotation(17, 19, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		TextAnnotation ta3 = new DefaultTextAnnotation(17, 19, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+				cm);
 
 		assertTrue(ta0.overlaps(ta1));
 		assertTrue(ta0.overlaps(ta2));
@@ -278,7 +314,8 @@ public class TextAnnotationTest {
 		assertFalse(ta.isMemberOfAnnotationSet(223));
 
 		expectedIDs.add(222);
-		AnnotationSet annotationSet = new AnnotationSet(new Integer(222), "TestAnnotationSetName222", "TestAnnotationSetDescription");
+		AnnotationSet annotationSet = new AnnotationSet(new Integer(222), "TestAnnotationSetName222",
+				"TestAnnotationSetDescription");
 		ta.addAnnotationSet(annotationSet);
 		assertEquals(expectedIDs, ta.getAnnotationSetIDs());
 		assertTrue(ta.isMemberOfAnnotationSet(6));
@@ -286,7 +323,8 @@ public class TextAnnotationTest {
 		assertFalse(ta.isMemberOfAnnotationSet(223));
 
 		/* add a duplicate set, ensure that it is not stored (since it is a duplicate) */
-		AnnotationSet annotationSet2 = new AnnotationSet(new Integer(222), "TestAnnotationSetName222", "TestAnnotationSetDescription");
+		AnnotationSet annotationSet2 = new AnnotationSet(new Integer(222), "TestAnnotationSetName222",
+				"TestAnnotationSetDescription");
 		ta.addAnnotationSet(annotationSet2);
 		assertEquals(2, ta.getAnnotationSetIDs().size());
 		assertEquals(expectedIDs, ta.getAnnotationSetIDs());
@@ -295,7 +333,8 @@ public class TextAnnotationTest {
 		assertFalse(ta.isMemberOfAnnotationSet(223));
 
 		expectedIDs.add(223);
-		AnnotationSet annotationSet3 = new AnnotationSet(new Integer(223), "TestAnnotationSetName223", "TestAnnotationSetDescription");
+		AnnotationSet annotationSet3 = new AnnotationSet(new Integer(223), "TestAnnotationSetName223",
+				"TestAnnotationSetDescription");
 		ta.addAnnotationSet(annotationSet3);
 		assertEquals(expectedIDs, ta.getAnnotationSetIDs());
 		assertTrue(ta.isMemberOfAnnotationSet(6));
@@ -304,27 +343,34 @@ public class TextAnnotationTest {
 	}
 
 	/**
-	 * Test the default compareTo() method. This method should utilize the strictest possible criteria for matching
+	 * Test the default compareTo() method. This method should utilize the strictest possible
+	 * criteria for matching
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testCompareTo() throws Exception {
 		DefaultClassMention cm = new DefaultClassMention("classMention");
-		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName", "TestAnnotatorAffiliation");
-		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName", "TestAnnotationSetDescription");
+		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName",
+				"TestAnnotatorAffiliation");
+		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName",
+				"TestAnnotationSetDescription");
 
 		/* annotation to test against */
-		DefaultTextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		DefaultTextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8,
+				"9", 10, cm);
 
 		/* identical annotation */
-		DefaultTextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		DefaultTextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8,
+				"9", 10, cm);
 
 		/* overlapping span, but starts before ta0 */
-		DefaultTextAnnotation ta2 = new DefaultTextAnnotation(2, 9, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		DefaultTextAnnotation ta2 = new DefaultTextAnnotation(2, 9, "coveredText", annotator, annotationSet, 12, 8,
+				"9", 10, cm);
 
 		/* nonoverlapping span, and starts after ta0 */
-		DefaultTextAnnotation ta3 = new DefaultTextAnnotation(17, 19, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		DefaultTextAnnotation ta3 = new DefaultTextAnnotation(17, 19, "coveredText", annotator, annotationSet, 12, 8,
+				"9", 10, cm);
 
 		assertEquals(0, ta0.compareTo(ta1));
 		assertEquals(1, ta0.compareTo(ta2));
@@ -366,45 +412,45 @@ public class TextAnnotationTest {
 		ta.setSpans(spanSet);
 		assertEquals(expectedSpans, ta.getSpans());
 	}
-	
+
 	private List<Span> createList() throws Exception {
 		List<Span> spanList = new ArrayList<Span>();
-		
+
 		spanList.add(new Span(5, 7));
 		spanList.add(new Span(9, 11));
 		spanList.add(new Span(13, 15));
 		spanList.add(new Span(17, 19));
-		
+
 		return spanList;
 	}
-	
+
 	@Test
 	public void testAddSpan() throws Exception {
 		List<Span> spanList = createList();
-		
-		TextAnnotation ta = new DefaultTextAnnotation(0,1);
+
+		TextAnnotation ta = new DefaultTextAnnotation(0, 1);
 		ta.setSpans(spanList);
-		
+
 		// middle
-		Span newSpan = new Span(11,13);
+		Span newSpan = new Span(11, 13);
 		ta.addSpan(newSpan);
 		assertEquals(5, ta.getSpans().size());
 		assertEquals(newSpan, ta.getSpans().get(2));
-		
+
 		// begining
-		newSpan = new Span(1,3);
+		newSpan = new Span(1, 3);
 		ta.addSpan(newSpan);
 		assertEquals(6, ta.getSpans().size());
 		assertEquals(newSpan, ta.getSpans().get(0));
-		
+
 		// end
-		newSpan = new Span(21,23);
+		newSpan = new Span(21, 23);
 		ta.addSpan(newSpan);
 		assertEquals(7, ta.getSpans().size());
 		assertEquals(newSpan, ta.getSpans().get(6));
-		
+
 		// overlapping/equal start
-		newSpan = new Span(9,15);
+		newSpan = new Span(9, 15);
 		ta.addSpan(newSpan);
 		assertEquals(8, ta.getSpans().size());
 		assertEquals(newSpan, ta.getSpans().get(3));
@@ -439,40 +485,17 @@ public class TextAnnotationTest {
 
 	}
 
-//	@Test
-//	public void testGetHashKey() {
-//		try {
-//			Span secondSpan = new Span(11, 15);
-//			ta.addSpan(secondSpan);
-//		} catch (InvalidSpanException notExpected) {
-//			fail("Should not have raised an InvalidSpanException");
-//		}
-//		// key = annotatorID mentionName docID docSectionID spanBegin spanEnd ...
-//		String expectedHashKey = "5 classMention 9 10 4 7 11 15 ";
-//
-//		assertEquals(expectedHashKey, ta.getHashKey());
-//	}
-
 	@Test
 	public void testToString() {
 		String expectedStr = "======================= Annotation: 12 =======================\n"
 				+ "Annotator: 5|TestAnnotatorFirstName|TestAnnotatorLastName|TestAnnotatorAffiliation\n"
-				+ "--- AnnotationSets: 6|TestAnnotationSetName|TestAnnotationSetDescription\n"  
-				+ "--- Comment: \n\n"+ "--- Span: 4 - 7  \n"
-				+ "--- DocCollection: 8  DocID: 9  DocumentSection: 10\n" + "--- Covered Text: coveredText\n"
-				+ "-CLASS MENTION: classMention \"coveredText\"	[4..7]\n\n"
+				+ "--- AnnotationSets: 6|TestAnnotationSetName|TestAnnotationSetDescription\n" + "--- Comment: \n\n"
+				+ "--- Span: 4 - 7  \n" + "--- DocCollection: 8  DocID: 9  DocumentSection: 10\n"
+				+ "--- Covered Text: coveredText\n" + "-CLASS MENTION: classMention \"coveredText\"	[4..7]\n\n"
 				+ "=================================================================================";
 		System.out.println("EXPECTED:\n" + expectedStr);
 		System.err.println("TA:\n" + ta.toString());
 		assertEquals(expectedStr, ta.toString());
-
-//		String expectedDocumentLevelStr = "";
-//		System.err.println("DOC-LEVEL TA:\n" + ta.toDocumentLevelString());
-//		assertEquals(expectedDocumentLevelStr, ta.toDocumentLevelString());
-		
-//		String anonymizedStr = "";
-//		assertEquals(anonymizedStr, ta.toAnonymizedString());
-		
 	}
 
 }
