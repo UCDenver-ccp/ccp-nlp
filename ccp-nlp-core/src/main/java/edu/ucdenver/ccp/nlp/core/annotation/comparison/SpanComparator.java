@@ -198,8 +198,8 @@ public abstract class SpanComparator implements Comparator<Span> {
 		int s0end = span1.getSpanEnd();
 		int s1start = span2.getSpanStart();
 		int s1end = span2.getSpanEnd();
-		if ((s0start >= s1start && s0start < s1end) | (s0end > s1start && s0end <= s1end)
-				| (s0start <= s1start && s0end > s1start) | (s0end >= s1end && s0start < s1end)) {
+		if ((s0start >= s1start && s0start < s1end) || (s0end > s1start && s0end <= s1end)
+				|| (s0start <= s1start && s0end > s1start) || (s0end >= s1end && s0start < s1end)) {
 			return 0;
 		} else {
 			return matches(span1, span2);
