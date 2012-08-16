@@ -29,7 +29,9 @@
  */
 package edu.ucdenver.ccp.nlp.uima.shims;
 
+import edu.ucdenver.ccp.nlp.uima.shims.annotation.impl.CcpAnnotationDataExtractor;
 import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
+import edu.ucdenver.ccp.uima.shims.annotation.AnnotationDataExtractor;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
@@ -51,5 +53,16 @@ public interface ShimDefaults {
 	 * default class for a {@link DocumentMetadataHandler} that complies with the CCP type system
 	 */
 	public static final Class<? extends DocumentMetadataHandler> CCP_DOCUMENT_METADATA_HANDLER_CLASS = CcpDocumentMetadataHandler.class;
+
+	/**
+	 * default class name for a {@link AnnotationDataExtractor} that complies with the CCP type
+	 * system (good for use as a default value in AE configuration parameters)
+	 */
+	public static final String CCP_ANNOTATION_DATA_EXTRACTOR_CLASS_NAME = "edu.ucdenver.ccp.nlp.uima.shims.annotation.impl.CcpAnnotationDataExtractor";
+
+	/**
+	 * default class for a {@link AnnotationDataExtractor} that complies with the CCP type system
+	 */
+	public static final Class<? extends AnnotationDataExtractor> CCP_ANNOTATION_DATA_EXTRACTOR_CLASS = CcpAnnotationDataExtractor.class;
 
 }
