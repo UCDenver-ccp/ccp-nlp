@@ -16,6 +16,13 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>ccp-nlp-uima-annotators</artifactId>
+			<version>3.2</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>banner</groupId>
 			<artifactId>banner</artifactId>
 			<version>20111108-SNAPSHOT</version>
