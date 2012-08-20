@@ -49,7 +49,6 @@ public class ShimDefaultsTest {
 				ShimDefaults.CCP_DOCUMENT_METADATA_HANDLER_CLASS_NAME);
 	}
 
-	
 	/**
 	 * Tests that the constant that is often used as a default value in a ConfigurationParameter
 	 * annotation for a UIMA analysis engine is the expected class name
@@ -59,7 +58,15 @@ public class ShimDefaultsTest {
 		assertEquals(ShimDefaults.CCP_ANNOTATION_DATA_EXTRACTOR_CLASS.getName(),
 				ShimDefaults.CCP_ANNOTATION_DATA_EXTRACTOR_CLASS_NAME);
 	}
-	
-	
-	
+
+	/**
+	 * Tests that the constant that is often used as a default value in a ConfigurationParameter
+	 * annotation for a UIMA analysis engine is the expected class name
+	 */
+	@Test
+	public void testDefaultAnnotationDataExtractorClassNameIsCorrect() {
+		assertEquals(ShimDefaults.DEFAULT_ANNOTATION_DATA_EXTRACTOR_CLASS.getName(),
+				ShimDefaults.DEFAULT_ANNOTATION_DATA_EXTRACTOR_CLASS_NAME);
+	}
+
 }
