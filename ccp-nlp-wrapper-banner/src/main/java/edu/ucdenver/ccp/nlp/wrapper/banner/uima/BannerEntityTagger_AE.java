@@ -18,7 +18,7 @@
  * 
  */
 
-package edu.ucdenver.ccp.nlp.ext.uima.annotators.entitydetection;
+package edu.ucdenver.ccp.nlp.wrapper.banner.uima;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,12 +39,14 @@ import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.nlp.core.exception.InitializationException;
 import edu.ucdenver.ccp.nlp.core.interfaces.ITagger;
+import edu.ucdenver.ccp.nlp.uima.annotators.entitydetection.EntityTagger_AE;
 import edu.ucdenver.ccp.nlp.wrapper.banner.Banner_Util;
 
 /**
  * This analysis engine wraps the BANNER entity tagging system into the CCP UIMA framework.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * 
  */
 public class BannerEntityTagger_AE extends EntityTagger_AE {
 	static Logger logger = Logger.getLogger(BannerEntityTagger_AE.class);
