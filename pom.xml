@@ -23,6 +23,7 @@
 		<module>ccp-nlp-uima-serialization</module>
 		<module>ccp-nlp-uima-shims</module>
 		<module>ccp-nlp-uima-annotators</module>
+		<module>ccp-nlp-wrapper-banner</module>
 	</modules>
 
 	<dependencyManagement>
