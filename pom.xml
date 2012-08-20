@@ -22,6 +22,7 @@
 		<module>ccp-nlp-uima-collections</module>
 		<module>ccp-nlp-uima-serialization</module>
 		<module>ccp-nlp-uima-shims</module>
+		<module>ccp-nlp-uima-annotators</module>
 	</modules>
 
 	<dependencyManagement>
