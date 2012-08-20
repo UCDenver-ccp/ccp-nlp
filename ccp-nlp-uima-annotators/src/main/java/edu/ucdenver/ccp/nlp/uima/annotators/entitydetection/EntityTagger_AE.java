@@ -18,17 +18,17 @@
  * 
  */
 
-package edu.ucdenver.ccp.nlp.ext.uima.annotators.entitydetection;
+package edu.ucdenver.ccp.nlp.uima.annotators.entitydetection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.util.Level;
 
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.interfaces.IEntityTagger;
-import edu.ucdenver.ccp.nlp.ext.uima.annotators.SentenceAnnotationProcessor;
+import edu.ucdenver.ccp.nlp.uima.annotators.SentenceAnnotationProcessor;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
@@ -37,7 +37,6 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
  * @author Bill Baumgartner
  */
 public abstract class EntityTagger_AE extends SentenceAnnotationProcessor {
-	private static Logger logger = Logger.getLogger(EntityTagger_AE.class);
 
 	protected IEntityTagger entityTagger;
 
@@ -75,7 +74,7 @@ public abstract class EntityTagger_AE extends SentenceAnnotationProcessor {
 			if (ta.getCoveredText().trim().length() > 0) {
 				annotationsToKeep.add(ta);
 			} else {
-				logger.debug("Removing empty annotation: " + ta.getSingleLineRepresentation());
+				logger.log(Level.FINEST, "Removing empty annotation: " + ta.getSingleLineRepresentation());
 			}
 		}
 		return annotationsToKeep;
