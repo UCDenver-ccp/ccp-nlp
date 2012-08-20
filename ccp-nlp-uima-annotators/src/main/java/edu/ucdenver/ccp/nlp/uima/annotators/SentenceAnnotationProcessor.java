@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.ucdenver.ccp.nlp.ext.uima.annotators;
+package edu.ucdenver.ccp.nlp.uima.annotators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
+import edu.ucdenver.ccp.nlp.uima.shims.ShimDefaults;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.uima.shims.annotation.AnnotationDataExtractor;
 
@@ -37,7 +38,7 @@ public abstract class SentenceAnnotationProcessor extends JCasAnnotator_ImplBase
 	public static final String PARAM_ANNOTATION_DATA_EXTRACTOR_CLASS = ConfigurationParameterFactory
 			.createConfigurationParameterName(SentenceAnnotationProcessor.class, "annotationDataExtractorClassName");
 
-	@ConfigurationParameter(mandatory = true, description = "name of the AnnotationDataExtractor implementation to use", defaultValue = "edu.ucdenver.ccp.uima.shims.annotation.impl.DefaultAnnotationDataExtractor")
+	@ConfigurationParameter(mandatory = true, description = "name of the AnnotationDataExtractor implementation to use", defaultValue = ShimDefaults.DEFAULT_ANNOTATION_DATA_EXTRACTOR_CLASS_NAME)
 	private String annotationDataExtractorClassName;
 
 	/**
@@ -46,8 +47,6 @@ public abstract class SentenceAnnotationProcessor extends JCasAnnotator_ImplBase
 	 */
 	private AnnotationDataExtractor annotationDataExtractor;
 
-
-	
 	/**
 	 * Parameter name used in the UIMA descriptor file for the annotation data extractor
 	 * implementation to use
@@ -58,9 +57,7 @@ public abstract class SentenceAnnotationProcessor extends JCasAnnotator_ImplBase
 	@ConfigurationParameter(description = "name of the sentence annotation type to process", defaultValue = "sentence")
 	private String sentenceAnnotationName;
 
-	
-	
-	private Logger logger;
+	protected Logger logger;
 
 	/*
 	 * (non-Javadoc)
@@ -75,16 +72,8 @@ public abstract class SentenceAnnotationProcessor extends JCasAnnotator_ImplBase
 				.invokeConstructor(annotationDataExtractorClassName);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.apache.uima.analysis_component.JCasAnnotator_ImplBase#process(org.apache.uima.jcas.JCas)
-	 */
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
-		// String documentID = UIMA_Util.getDocumentID(jcas);
-
 		UIMA_Util uimaUtil = new UIMA_Util();
 
 		/*
@@ -94,15 +83,14 @@ public abstract class SentenceAnnotationProcessor extends JCasAnnotator_ImplBase
 		 */
 		List<TextAnnotation> annotationsToPutInCas = new ArrayList<TextAnnotation>();
 		int sentenceCount = 0;
-		for (FSIterator<Annotation> annotIter = jCas.getJFSIndexRepository().getAnnotationIndex()
-				.iterator(); annotIter.hasNext();) {
+		for (FSIterator<Annotation> annotIter = jCas.getJFSIndexRepository().getAnnotationIndex().iterator(); annotIter
+				.hasNext();) {
 			Annotation annot = annotIter.next();
 			String type = annotationDataExtractor.getAnnotationType(annot);
 			if (type != null && type.toLowerCase().endsWith(sentenceAnnotationName)) {
-//			CCPTextAnnotation ccpTa = (CCPTextAnnotation) annotIter.next();
-//			if (ccpTa.getClassMention().getMentionName().equalsIgnoreCase(ClassMentionTypes.SENTENCE)) {
 				sentenceCount++;
-				annotationsToPutInCas.addAll(processSentence(annot.getCoveredText().replaceAll("\\n"," "), annot.getBegin(), jCas));
+				annotationsToPutInCas.addAll(processSentence(annot.getCoveredText().replaceAll("\\n", " "),
+						annot.getBegin(), jCas));
 			}
 		}
 		if (sentenceCount == 0) {
