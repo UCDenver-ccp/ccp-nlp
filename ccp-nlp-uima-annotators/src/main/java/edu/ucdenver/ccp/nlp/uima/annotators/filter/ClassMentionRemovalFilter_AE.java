@@ -18,7 +18,7 @@
  * 
  */
 
-package edu.ucdenver.ccp.nlp.ext.uima.annotators.filter;
+package edu.ucdenver.ccp.nlp.uima.annotators.filter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,7 +41,7 @@ import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
  * This utility analysis engine enables the user to remove all annotations that are not a specific
  * class mention type from the CAS indexes.
  * 
- * @author William A Baumgartner, Jr.
+ * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public class ClassMentionRemovalFilter_AE extends JCasAnnotator_ImplBase {
@@ -96,7 +96,8 @@ public class ClassMentionRemovalFilter_AE extends JCasAnnotator_ImplBase {
 			// ccpTA = null;
 			count++;
 		}
-		logger.info("ClassMentionRemovalFilter Removed " + count + " annotations matching: " + classMentionTypesToRemove.toString());
+		logger.info("ClassMentionRemovalFilter Removed " + count + " annotations matching: "
+				+ classMentionTypesToRemove.toString());
 
 	}
 
