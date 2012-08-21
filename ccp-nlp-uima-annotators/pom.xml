@@ -17,6 +17,25 @@
   	</dependency>
   	<dependency>
   		<groupId>edu.ucdenver.ccp</groupId>
+  		<artifactId>ccp-nlp-uima</artifactId>
+  		<version>${project.version}</version>
+  		<type>test-jar</type>
+  		<scope>test</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>edu.ucdenver.ccp</groupId>
+  		<artifactId>common</artifactId>
+  		<type>test-jar</type>
+  		<scope>test</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>4.8.2</version>
+  		<scope>test</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>edu.ucdenver.ccp</groupId>
   		<artifactId>ccp-nlp-uima-shims</artifactId>
   		<version>${project.version}</version>
   		<scope>compile</scope>
