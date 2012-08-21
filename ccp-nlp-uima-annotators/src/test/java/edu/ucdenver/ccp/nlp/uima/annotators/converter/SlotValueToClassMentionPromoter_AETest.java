@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.ucdenver.ccp.nlp.ext.uima.annotators.converters;
+package edu.ucdenver.ccp.nlp.uima.annotators.converter;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
