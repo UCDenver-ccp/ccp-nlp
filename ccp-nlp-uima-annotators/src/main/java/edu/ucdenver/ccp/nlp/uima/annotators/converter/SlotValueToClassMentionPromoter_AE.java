@@ -19,7 +19,7 @@
 /**
  * 
  */
-package edu.ucdenver.ccp.nlp.ext.uima.annotators.converters;
+package edu.ucdenver.ccp.nlp.uima.annotators.converter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,6 +45,11 @@ import edu.ucdenver.ccp.nlp.uima.annotation.impl.WrappedCCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
+ * Allows slot values to be promoted into full annotations. This may be useful for example if you
+ * have annotations of type "protein" with slots containing a protein identifier and you instead
+ * would like annotations where the type is the identifier. This AE allows the identifier to be
+ * promoted up to be the annotation type.
+ * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
@@ -63,7 +68,7 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 
 	public final static String PARAM_SLOT_VALUE_PREFIX_TO_ADD = ConfigurationParameterFactory
 			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "slotValuePrefixToAdd");
-	@ConfigurationParameter(mandatory = false, description = "This prefix, if specified, will be added to the slot value when creating the promoted class name. For example, a prefix of \"NCBITaxon:\" might be useful when promoting taxonomy ID slot fillers that are simply integers to full-fledged annotations, e.g. \"NCBITaxon:9606\".", defaultValue="")
+	@ConfigurationParameter(mandatory = false, description = "This prefix, if specified, will be added to the slot value when creating the promoted class name. For example, a prefix of \"NCBITaxon:\" might be useful when promoting taxonomy ID slot fillers that are simply integers to full-fledged annotations, e.g. \"NCBITaxon:9606\".", defaultValue = "")
 	private String slotValuePrefixToAdd;
 
 	public final static String PARAM_TRANSFER_SLOT_VALUES = ConfigurationParameterFactory
@@ -163,7 +168,8 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 			boolean deleteSourceAnnotation, String slotValuePrefixToAdd) throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(SlotValueToClassMentionPromoter_AE.class, tsd,
 				PARAM_SLOT_NAME_TO_PROMOTE, slotNameToPromote, PARAM_CLASS_MENTION_NAME_REGEX, classMentionNameRegex,
-				PARAM_TRANSFER_SLOT_VALUES, transferSlotValues, PARAM_DELETE_SOURCE_ANNOTATION, deleteSourceAnnotation, PARAM_SLOT_VALUE_PREFIX_TO_ADD, slotValuePrefixToAdd);
+				PARAM_TRANSFER_SLOT_VALUES, transferSlotValues, PARAM_DELETE_SOURCE_ANNOTATION, deleteSourceAnnotation,
+				PARAM_SLOT_VALUE_PREFIX_TO_ADD, slotValuePrefixToAdd);
 	}
 
 }
