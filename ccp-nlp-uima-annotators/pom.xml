@@ -5,9 +5,7 @@
     <groupId>edu.ucdenver.ccp</groupId>
     <version>3.2</version>
   </parent>
-  <groupId>edu.ucdenver.ccp</groupId>
   <artifactId>ccp-nlp-uima-annotators</artifactId>
-  <version>3.2</version>
   <dependencies>
   	<dependency>
   		<groupId>edu.ucdenver.ccp</groupId>

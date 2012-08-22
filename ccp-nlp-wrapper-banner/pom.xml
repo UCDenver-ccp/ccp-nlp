@@ -5,7 +5,6 @@
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
 		<version>3.2</version>
-		<relativePath>../../nlp-v2</relativePath>
 	</parent>
 	<artifactId>ccp-nlp-wrapper-banner</artifactId>
 
@@ -18,7 +17,7 @@
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>ccp-nlp-uima-annotators</artifactId>
-			<version>3.2</version>
+			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
