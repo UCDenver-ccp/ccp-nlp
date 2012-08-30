@@ -809,6 +809,51 @@ public class UIMA_Util {
 		ccpTA.setAnnotationSets(updatedAnnotationSets);
 	}
 
+	/**
+	 * @param ccpTa
+	 * @param setId
+	 * @return true if the input {@link CCPTextAnnotation} is associated with the input annotation
+	 *         set identifier
+	 */
+	public static boolean hasAnnotationSet(CCPTextAnnotation ccpTa, int setId) {
+		FSArray annotationSets = ccpTa.getAnnotationSets();
+		if (annotationSets != null) {
+			for (int i = 0; i < annotationSets.size(); i++) {
+				CCPAnnotationSet set = (CCPAnnotationSet) annotationSets.get(i);
+				if (set.getAnnotationSetID() == setId) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the annotation set identified by the setIdToRemove identifier from the input
+	 * {@link CCPTextAnnotation} if that set is present
+	 * 
+	 * @param ccpTa
+	 * @param setIdToRemove
+	 * @param jcas
+	 */
+	public static void removeAnnotationSet(CCPTextAnnotation ccpTa, int setIdToRemove, JCas jcas) {
+		if (hasAnnotationSet(ccpTa, setIdToRemove)) {
+			FSArray updatedAnnotationSets = null;
+			FSArray annotationSets = ccpTa.getAnnotationSets();
+			if (annotationSets != null) {
+				updatedAnnotationSets = new FSArray(jcas, annotationSets.size() - 1);
+				int index = 0;
+				for (int i = 0; i < annotationSets.size(); i++) {
+					CCPAnnotationSet set = (CCPAnnotationSet) annotationSets.get(i);
+					if (set.getAnnotationSetID() != setIdToRemove) {
+						updatedAnnotationSets.set(index++, annotationSets.get(i));
+					}
+				}
+				ccpTa.setAnnotationSets(updatedAnnotationSets);
+			}
+		}
+	}
+
 	public void putTextAnnotationsIntoJCas(JCas jcas, Collection<TextAnnotation> textAnnotations) {
 		HashMap<String, String> alreadyCreatedAnnotations = new HashMap<String, String>();
 		HashMap<String, CCPClassMention> alreadyCreatedMentions = new HashMap<String, CCPClassMention>();

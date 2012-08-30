@@ -9,13 +9,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ccp-nlp-uima-serialization</artifactId>
 	<packaging>jar</packaging>
-	<name>${project.artifactId}</name>
-	<description>UIMA annotation-to-RDF code</description>
 
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.2-SNAPSHOT</version>
+		<version>3.3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>

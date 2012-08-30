@@ -9,12 +9,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ccp-nlp-uima-collections</artifactId>
 	<packaging>jar</packaging>
-	<name>${project.artifactId}</name>
 
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.2-SNAPSHOT</version>
+		<version>3.3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>

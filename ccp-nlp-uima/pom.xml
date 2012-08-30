@@ -14,7 +14,7 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.2-SNAPSHOT</version>
+		<version>3.3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>org.uimafit</groupId>
 			<artifactId>uimafit</artifactId>
-			<version>1.3.0</version>
+			<version>1.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
