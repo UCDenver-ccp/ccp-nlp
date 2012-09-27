@@ -62,14 +62,20 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
  * user-specified annotation type is assigned if the current annotation type is in the
  * mention-types-to-convert list.
  * 
- * This AE can be used in one of several different ways. - User provides a list of class-name
- * strings for the MentionTypesToConvert and a single ToMentionType string. EX:
- * MentionTypesToConvert = [biological_process, molecular_function], ToMentionType = GO_term - User
- * provides a list of class-name regular expressions for the MentionTypesToConvert and a single
- * ToMentionType string. EX: MentionTypesToConvert = [GO:.*] ToMentionType = GO_term - User provides
- * a list of class-name regular expressions that includes grouping-paren-pair(s), and a single
- * ToMentionType string that includes the $1, $2, etc. syntax of calling regular-expression-matched
- * groups. EX: MentionTypesToConvert = [GO:(.*)] ToMentionType = GO_ID:$1
+ * This AE can be used in one of several different ways:
+ * - User provides a list of class-name strings for the MentionTypesToConvert and a single 
+     ToMentionType string. 
+ *   EX: MentionTypesToConvert = [biological_process, molecular_function], 
+ *       ToMentionType = GO_term 
+ * - User provides a list of class-name regular expressions for the MentionTypesToConvert
+ *   and a single ToMentionType string. 
+ *   EX: MentionTypesToConvert = [GO:.*] 
+ *       ToMentionType = GO_term 
+ * - User provides a list of class-name regular expressions that includes grouping-paren-pair(s), 
+ *   and a single ToMentionType string that includes the $1, $2, etc. syntax of calling 
+ *   regular-expression-matched groups. 
+ *   EX: MentionTypesToConvert = [GO:(.*)] 
+ *       ToMentionType = GO_ID:$1
  * 
  * If the AE detects the $1 syntax in the ToMentionType, it checks to make sure the user has
  * provided sufficient grouping-paren-pairs in the MentionTypesToConvert param.
@@ -244,22 +250,26 @@ public class ClassMentionConverter_AE extends JCasAnnotator_ImplBase {
 		return goodSyntax;
 	}
 
-	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, String targetMention,
-			String[] convertTypes) throws ResourceInitializationException {
+	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, 
+		String targetMention, String[] convertTypes) 
+	throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitive(createAnalysisEngineDescription(tsd, targetMention, convertTypes));
 	}
 
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
-			String targetMention, String[] convertTypes) throws ResourceInitializationException {
+		String targetMention, String[] convertTypes) 
+    throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(ClassMentionConverter_AE.class, tsd,
-				PARAM_TARGET_MENTION, targetMention, PARAM_MENTION_TYPES_TO_CONVERT, convertTypes);
+				PARAM_TARGET_MENTION, targetMention, 
+				PARAM_MENTION_TYPES_TO_CONVERT, convertTypes);
 	}
 
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
-			String targetMention, String[] convertTypes, int[] annotationSetIdsToIgnore)
-			throws ResourceInitializationException {
+		String targetMention, String[] convertTypes, int[] annotationSetIdsToIgnore)
+	throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(ClassMentionConverter_AE.class, tsd,
-				PARAM_TARGET_MENTION, targetMention, PARAM_MENTION_TYPES_TO_CONVERT, convertTypes,
+				PARAM_TARGET_MENTION, targetMention, 
+				PARAM_MENTION_TYPES_TO_CONVERT, convertTypes,
 				PARAM_ANNOTATION_SET_IDS_TO_IGNORE, annotationSetIdsToIgnore);
 	}
 }

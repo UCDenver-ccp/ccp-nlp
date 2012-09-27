@@ -38,6 +38,7 @@ package edu.ucdenver.ccp.nlp.core.mention;
 public enum SlotMentionType {
 	/* A slot for holding ontology IDs */
 	ONTOLOGY_ID("ontology ID"),
+	CANONICAL_NAME("canonical name"),
 
 	/* Document-level Slot Mentions */
 	PROCESSED_TEXT_SLOT("processed text"),
