@@ -54,6 +54,7 @@ import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
+import edu.ucdenver.ccp.nlp.uima.shims.ShimDefaults;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
@@ -95,7 +96,7 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	/**
 	 * The name of the DocumentMetaDataExtractor implementation to use
 	 */
-	@ConfigurationParameter(mandatory = true, description = "name of the DocumentMetaDataExtractor implementation to use", defaultValue = "edu.ucdenver.ccp.nlp.ext.uima.shims.document.impl.CcpDocumentMetaDataExtractor")
+	@ConfigurationParameter(mandatory = true, description = "name of the DocumentMetadataHandler implementation to use", defaultValue = ShimDefaults.CCP_DOCUMENT_METADATA_HANDLER_CLASS_NAME)
 	private String documentMetadataHandlerClassName;
 
 	/**
