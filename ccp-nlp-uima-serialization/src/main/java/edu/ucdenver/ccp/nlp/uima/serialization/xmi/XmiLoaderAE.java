@@ -180,7 +180,6 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 		XmiSerializationSharedData sharedData = new XmiSerializationSharedData();
 		String documentId = documentMetaDataHandler.extractDocumentId(jcas);
 		for (String xmiPathBase : xmiPaths) {
-			System.out.println("XMI PATH BASE: " + xmiPathBase);
 			InputStream xmiStream = initializeXmiInputStream(documentId, xmiPathBase);
 			if (xmiStream != null) {
 				try {
