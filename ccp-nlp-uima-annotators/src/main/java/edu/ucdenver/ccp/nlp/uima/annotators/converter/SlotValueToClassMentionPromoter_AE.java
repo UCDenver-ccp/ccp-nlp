@@ -86,7 +86,7 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 
 	public final static String PARAM_DELETE_SOURCE_ANNOTATION = ConfigurationParameterFactory
 			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "deleteSourceAnnotation");
-	@ConfigurationParameter(description = "If true, then the annotation that contains the slot value being promoted is removed from the CAS after the slot value has been promoted.", defaultValue = "false")
+	@ConfigurationParameter(description = "If true, then the annotation that contains the slot value being promoted is removed from the CAS after the slot value has been promoted. Note that all annotations with a type that matches the mentionTypeRegexString will be deleted if this parameter is set to true, regardless of whether or not they contained a slot value that got promoted.", defaultValue = "false")
 	private boolean deleteSourceAnnotation;
 
 	@Override
@@ -124,9 +124,9 @@ public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 							annotationsToAddToJcas.add(newCCPTA);
 						}
 					}
-				}
-				if (deleteSourceAnnotation) {
-					annotationsToDeleteFromJcas.add(ccpTa);
+					if (deleteSourceAnnotation) {
+						annotationsToDeleteFromJcas.add(ccpTa);
+					}
 				}
 			}
 		} catch (CASException ce) {

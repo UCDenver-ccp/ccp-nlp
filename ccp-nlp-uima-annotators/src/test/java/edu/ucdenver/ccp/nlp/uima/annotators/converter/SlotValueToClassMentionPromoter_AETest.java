@@ -29,6 +29,7 @@
  */
 package edu.ucdenver.ccp.nlp.uima.annotators.converter;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -115,6 +116,39 @@ public class SlotValueToClassMentionPromoter_AETest extends DefaultUIMATestCase 
 		}
 		assertTrue(hasEgIdAnnot);
 		assertFalse(hasGeneAnnot);
+	}
+	
+	
+	@Test
+	public void testSlotValuePromotion_DeleteSourceAnnotationButNotOtherAnnotationsInCas() throws ResourceInitializationException, AnalysisEngineProcessException {
+		boolean transferSlotValues = false;
+		boolean deleteSourceAnnotation = true;
+		AnalysisEngineDescription aeDesc = SlotValueToClassMentionPromoter_AE.createAnalysisEngineDescription(
+				getTypeSystem(), HAS_ENTREZ_GENE_ID_SLOT_NAME, ClassMentionType.GENE.typeName(), transferSlotValues,
+				deleteSourceAnnotation,"");
+		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(aeDesc);
+		
+		// add another annotation to the CAS that should not be deleted
+		addParagraphAnnotationToJCas(0, 15);
+		ae.process(jcas);
+
+		boolean hasGeneAnnot = false;
+		boolean hasEgIdAnnot = false;
+		int annotCount = 0;
+		for (Iterator<CCPTextAnnotation> annotIter = UIMA_Util.getTextAnnotationIterator(jcas); annotIter.hasNext();) {
+			annotCount++;
+			CCPTextAnnotation ccpTa = annotIter.next();
+			String mentionName = ccpTa.getClassMention().getMentionName();
+			if (mentionName.equals(ClassMentionType.GENE.typeName())) {
+				hasGeneAnnot = true;
+			}
+			if (mentionName.equals("12345")) {
+				hasEgIdAnnot = true;
+			}
+		}
+		assertTrue(hasEgIdAnnot);
+		assertFalse(hasGeneAnnot);
+		assertEquals(2, annotCount);
 	}
 	
 	@Test
