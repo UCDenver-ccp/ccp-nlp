@@ -1,4 +1,3 @@
-
 /*
  Copyright (c) 2012, Regents of the University of Colorado
  All rights reserved.
@@ -7,15 +6,15 @@
  are permitted provided that the following conditions are met:
 
  * Redistributions of source code must retain the above copyright notice, this 
-    list of conditions and the following disclaimer.
-   
+ list of conditions and the following disclaimer.
+
  * Redistributions in binary form must reproduce the above copyright notice, 
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-   
+ this list of conditions and the following disclaimer in the documentation 
+ and/or other materials provided with the distribution.
+
  * Neither the name of the University of Colorado nor the names of its 
-    contributors may be used to endorse or promote products derived from this 
-    software without specific prior written permission.
+ contributors may be used to endorse or promote products derived from this 
+ software without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
@@ -52,10 +51,8 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
- * This class is a UIMA Collection Reader for reading a collection of documents contained in a
- * single file. see edu.uchsc.ccp.util.nlp.parser.testsuite.TestSuiteInputFileParser.java for a
- * description of the file format. The file contains both source text and Gold Standard data as
- * described in the paser, and the reader populates the CAS with both.
+ * This collection reader serves documents as output by the {@link TermVariantFileParser}. See
+ * {@link TermVariantFileParser} for details regarding the input format.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
@@ -189,149 +186,5 @@ public class TermVariantCollectionReader extends BaseTextCollectionReader {
 				PARAM_TERM_VARIANT_FILE, termVariantFile.getAbsolutePath(), PARAM_ENCODING, encoding.name(),
 				PARAM_DISABLE_PROGRESS, true);
 	}
-
-	// /**
-	// * Input file takes the form of 1 document per line:<br< DOC_ID|DOC_TEXT
-	// */
-	// public static final String PARAM_INPUT_FILE = "InputFile";
-	//
-	// /**
-	// * The Document Collection Identifier for this GeneRIFs collection must be included in the
-	// * descriptor under "DocumentCollectionID"
-	// */
-	// public static final String PARAM_DOCUMENTCOLLECTIONID = "DocumentCollectionID";
-	//
-	// /**
-	// * The number of GeneRIF records to return must be included in the descriptor under
-	// "EndIndex."
-	// * This parameter allows for ease of testing by limiting the number of records read.
-	// */
-	// public static final String PARAM_ENDINDEX = "EndIndex";
-	//
-	// /**
-	// * Allows the program to skip a certain number of records prior to processing. This is helpful
-	// * in cases where a run is interrupted unexpected, and you wish to restart in the middle.
-	// */
-	// public static final String PARAM_DOCUMENTS_TO_SKIP = "DocumentsToSkip";
-	//
-	// private int currentDocument = 0;
-	//
-	// private int numDocuments = 0;
-	//
-	// private int documentCollectionID = -1;
-	//
-	// private int endIndex = -1;
-	//
-	// private Integer linesToSkip;
-	//
-	// private Iterator<GenericDocument> testSuiteDocumentIterator;
-	//
-	// /**
-	// * Initializes the GRIFsFileCollectionReader by initializing a new GeneRIFFileParser.
-	// */
-	// public void initialize() throws ResourceInitializationException {
-	// String inputFileName = (String) getConfigParameterValue(PARAM_INPUT_FILE);
-	// importOptionalInputParameters();
-	// numDocuments = 0;
-	//
-	// File f = new File(inputFileName);
-	// if (!TermVariantInputFileParser.checkForValidInputFileFormat(f)) {
-	// throw new ResourceInitializationException(new Exception(
-	// "Invalid input file format for the TestSuiteGenerator_CR component."));
-	// }
-	//
-	// try {
-	// testSuiteDocumentIterator =
-	// TermVariantInputFileParser.getDocumentIteratorFromFile(inputFileName,
-	// documentCollectionID);
-	// } catch (FileNotFoundException e) {
-	// e.printStackTrace();
-	// }
-	//
-	// if (linesToSkip > 0) {
-	// System.err.println("Skipping " + linesToSkip + " lines...");
-	// for (int i = 0; i < linesToSkip; i++) {
-	// if (testSuiteDocumentIterator.hasNext()) {
-	// testSuiteDocumentIterator.next();
-	// }
-	// }
-	// }
-	// }
-	//
-	// private void importOptionalInputParameters() {
-	// try {
-	// documentCollectionID = Integer.parseInt((String)
-	// getConfigParameterValue(PARAM_DOCUMENTCOLLECTIONID));
-	// } catch (Exception e) {
-	// documentCollectionID = -1;
-	// }
-	//
-	// try {
-	// endIndex = Integer.parseInt((String) getConfigParameterValue(PARAM_ENDINDEX));
-	// if (endIndex < 0) {
-	// endIndex = Integer.MAX_VALUE;
-	// }
-	// } catch (Exception e) {
-	// endIndex = Integer.MAX_VALUE;
-	// }
-	//
-	// try {
-	// linesToSkip = (Integer) getConfigParameterValue(PARAM_DOCUMENTS_TO_SKIP);
-	// if (linesToSkip == null) {
-	// linesToSkip = new Integer(0);
-	// }
-	// } catch (Exception e) {
-	// linesToSkip = new Integer(0);
-	// }
-	// }
-	//
-	// /**
-	// * @see com.ibm.uima.collection.CollectionReader#getNext(com.ibm.uima.cas.CAS)
-	// */
-	// public void getNext(CAS aCAS) throws IOException, CollectionException {
-	// JCas jcas;
-	// try {
-	// jcas = aCAS.getJCas();
-	// } catch (CASException e) {
-	// throw new CollectionException(e);
-	// }
-	//
-	// GenericDocument gd = testSuiteDocumentIterator.next();
-	//
-	// String documentID = gd.getDocumentID();
-	// String documentText = gd.getDocumentText();
-	// jcas.setDocumentText(documentText);
-	//
-	// UIMA_Util uu = new UIMA_Util();
-	// uu.putTextAnnotationsIntoJCas(jcas, gd.getAnnotations());
-	//
-	// CCPDocumentInformation srcDocInfo = new CCPDocumentInformation(jcas);
-	// srcDocInfo.setDocumentID(documentID);
-	// srcDocInfo.setDocumentSize(documentText.length());
-	// srcDocInfo.setDocumentCollectionID(documentCollectionID);
-	// srcDocInfo.addToIndexes();
-	//
-	// currentDocument++;
-	//
-	// if (currentDocument % 100 == 0) {
-	// logger.info("TestSuiteGenerator_CR PROGRESS: " + currentDocument + " -- " + documentID);
-	// }
-	//
-	// }
-	//
-	// /**
-	// * @see com.ibm.uima.collection.base_cpm.BaseCollectionReader#hasNext()
-	// */
-	// public boolean hasNext() throws IOException, CollectionException {
-	// return (testSuiteDocumentIterator.hasNext() && currentDocument < endIndex);
-	// }
-	//
-	// public Progress[] getProgress() {
-	// return new Progress[] { new ProgressImpl(currentDocument, numDocuments, Progress.ENTITIES) };
-	// }
-	//
-	// public void close() throws IOException {
-	// // do nothing
-	// }
 
 }

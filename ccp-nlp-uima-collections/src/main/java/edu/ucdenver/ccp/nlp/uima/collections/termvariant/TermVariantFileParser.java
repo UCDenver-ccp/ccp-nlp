@@ -1,4 +1,3 @@
-
 /*
  Copyright (c) 2012, Regents of the University of Colorado
  All rights reserved.
@@ -7,15 +6,15 @@
  are permitted provided that the following conditions are met:
 
  * Redistributions of source code must retain the above copyright notice, this 
-    list of conditions and the following disclaimer.
-   
+ list of conditions and the following disclaimer.
+
  * Redistributions in binary form must reproduce the above copyright notice, 
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-   
+ this list of conditions and the following disclaimer in the documentation 
+ and/or other materials provided with the distribution.
+
  * Neither the name of the University of Colorado nor the names of its 
-    contributors may be used to endorse or promote products derived from this 
-    software without specific prior written permission.
+ contributors may be used to endorse or promote products derived from this 
+ software without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
@@ -53,21 +52,21 @@ import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 
 /**
- * This parser is to be used with files that contain gold standard data for custom test suites for
- * NLP tools. (First created for Kevin C.) The expected format for the input file:<br>
+ * This parser consumes files that contain term/variant pairings. One possible use for this tool is
+ * to create test suites of ontology id/ term name pairings to use as a gold standard test suite for
+ * NLP tools. The expected format for the input file:<br>
  * # some comment describing a group of test objects. This comment will be used as part of the
- * document ID. termID,termID',termID'' [tab] termName
+ * document ID. <br>
+ * termID,termID',termID'' [tab] termName
  * 
- * The termID is the Gold Standard data and ends up in the ClassMention name. There should be at
- * least one. The termName may include spaces, and is the covered text. It really starts after the
- * tab character and continues to the end-of-line. Technically the termID can include spaces too
- * since we're splitting on TAB, but it probably shouldn't in the case of our first application (GO
- * terms). See the comment on checkForValidInputFileFormat() for more about how term lines are
- * grouped with a documentID to form a document. The upshot is that one file can contain many
- * documents.
+ * The resultant document text contains only the term names. Annotations are included for each term
+ * ID mentioned on a line covering the entire term name. For example, if the input file consisted of
+ * only the following two line:<br>
+ * # document 1<br>
+ * GO:0004089 [tab] anhydrase activity<br>
  * 
- * The annotations are a TA covering the termName with a CM named the value of termID. No Slots.
- * Spans start at 0 for each document in the file.
+ * Then one document would be produced by the parser containing the text "anhydrase activity" and a
+ * single annotation over that text referencing the GO:0004089 class.
  * 
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
