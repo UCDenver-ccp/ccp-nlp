@@ -180,7 +180,7 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	public void getNext(JCas jcas) throws IOException, CollectionException {
 		GenericDocument nextDocument = getNextDocument();
 		try {
-			initializeJCas(jcas, nextDocument.getDocumentID(), nextDocument.getDocumentText());
+			initializeJCas(jcas, nextDocument);
 		} catch (AnalysisEngineProcessException e) {
 			throw new CollectionException(e);
 		}
@@ -216,25 +216,39 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	 * @param file
 	 * @throws AnalysisEngineProcessException
 	 */
-	protected void initializeJCas(JCas jcas, String documentId, String text) throws AnalysisEngineProcessException {
+	protected void initializeJCas(JCas jcas, GenericDocument document) throws AnalysisEngineProcessException {
 		if (this.viewName.equals(View.DEFAULT.name())) {
-			jcas.setSofaDataString(text, "text/plain");
+			jcas.setSofaDataString(document.getDocumentText(), "text/plain");
 			if (this.language != null) {
 				jcas.setDocumentLanguage(this.language);
 			}
+			loadAnnotationsIntoCas(jcas, document);
 		} else {
 			JCas view = ViewCreatorAnnotator.createViewSafely(jcas, this.viewName);
-			view.setSofaDataString(text, "text/plain");
+			view.setSofaDataString(document.getDocumentText(), "text/plain");
 			if (this.language != null) {
 				view.setDocumentLanguage(this.language);
 			}
+			loadAnnotationsIntoCas(view, document);
 		}
-		documentMetadataHandler.setDocumentId(jcas, documentId);
+		documentMetadataHandler.setDocumentId(jcas, document.getDocumentID());
 		documentMetadataHandler.setDocumentEncoding(jcas, encoding.getCharacterSetName());
 
 		logger.info("Processing document " + processedDocumentCount + " of " + documentsToBeProcessedCount
 				+ ".  Loading view: " + this.viewName);
 
+	}
+
+	/**
+	 * Override to load annotations into the when it is initialized. This method is useful for
+	 * loading gold standard annotations for example.
+	 * 
+	 * @param jcas
+	 * @param document
+	 */
+	protected void loadAnnotationsIntoCas(@SuppressWarnings("unused") JCas jcas,
+			@SuppressWarnings("unused") GenericDocument document) {
+		// do nothing, to be overriden by a subclass if this functionality is desired
 	}
 
 	@Override
