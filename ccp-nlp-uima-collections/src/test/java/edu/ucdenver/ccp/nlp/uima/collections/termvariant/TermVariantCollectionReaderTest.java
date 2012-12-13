@@ -104,13 +104,15 @@ public class TermVariantCollectionReaderTest extends DefaultTestCase {
 		jCas = jcasIter.next();
 
 		assertEquals("document 2", UIMA_Util.getDocumentID(jCas));
-		assertEquals(4, jCas.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type).size());
+		assertEquals(7, jCas.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type).size());
 		taList = JCasUtil.select(jCas, CCPTextAnnotation.class);
 
 		seenSentence1 = false;
 		boolean seenCHEBI1 = false;
 		seenSentence2 = false;
 		boolean seenCHEBI2 = false;
+		boolean seenCHEBI3 = false;
+		boolean seenCHEBI4=false;
 
 		for (CCPTextAnnotation ccpTA : taList) {
 			if (ccpTA.getClassMention().getMentionName().equals(ClassMentionType.SENTENCE.typeName())) {
@@ -125,6 +127,12 @@ public class TermVariantCollectionReaderTest extends DefaultTestCase {
 			} else if (ccpTA.getClassMention().getMentionName().equals("CHEBI:0283") & ccpTA.getBegin() == 12
 					& ccpTA.getEnd() == 23) {
 				seenCHEBI2 = true;
+			}else if (ccpTA.getClassMention().getMentionName().equals("CHEBI:1234") & ccpTA.getBegin() == 24
+					& ccpTA.getEnd() == 51) {
+				seenCHEBI3 = true;
+			}else if (ccpTA.getClassMention().getMentionName().equals("CHEBI:5678") & ccpTA.getBegin() == 24
+					& ccpTA.getEnd() == 51) {
+				seenCHEBI4 = true;
 			}
 		}
 
@@ -132,6 +140,8 @@ public class TermVariantCollectionReaderTest extends DefaultTestCase {
 		assertTrue(seenSentence2);
 		assertTrue(seenCHEBI1);
 		assertTrue(seenCHEBI2);
+		assertTrue(seenCHEBI3);
+		assertTrue(seenCHEBI4);
 
 	}
 	
