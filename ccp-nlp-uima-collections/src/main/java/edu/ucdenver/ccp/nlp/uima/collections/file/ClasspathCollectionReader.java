@@ -122,7 +122,7 @@ public class ClasspathCollectionReader extends BaseTextCollectionReader {
 	 * @see edu.ucdenver.ccp.nlp.ext.uima.collections.file.BaseTextCollectionReader#skip()
 	 */
 	@Override
-	protected void skip() throws ResourceInitializationException {
+	protected void skip(int numberToSkip) throws ResourceInitializationException {
 		documentIndex = numberToSkip;
 	}
 

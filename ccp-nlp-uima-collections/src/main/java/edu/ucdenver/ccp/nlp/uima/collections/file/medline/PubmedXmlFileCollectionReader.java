@@ -112,7 +112,7 @@ public class PubmedXmlFileCollectionReader extends BaseTextCollectionReader {
 	 * @see edu.ucdenver.ccp.nlp.ext.uima.collections.file.BaseTextCollectionReader#skip()
 	 */
 	@Override
-	protected void skip() throws ResourceInitializationException {
+	protected void skip(int numberToSkip) throws ResourceInitializationException {
 		int numSkipped = 0;
 		while (numSkipped < numberToSkip && pubmedXmlDeserializer.hasNext()) {
 			numSkipped++;

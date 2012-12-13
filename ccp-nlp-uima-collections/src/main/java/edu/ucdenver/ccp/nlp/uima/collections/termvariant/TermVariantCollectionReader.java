@@ -89,6 +89,7 @@ public class TermVariantCollectionReader extends BaseTextCollectionReader {
 	protected int countDocumentsInCollection() throws IOException {
 		Iterator<GenericDocument> docIter = TermVariantFileParser.getDocumentIteratorFromFile(termVariantFile);
 		int count = 0;
+		skip(docIter, numberToSkip);
 		while (docIter.hasNext()) {
 			docIter.next();
 			count++;
@@ -97,8 +98,8 @@ public class TermVariantCollectionReader extends BaseTextCollectionReader {
 	}
 
 	@Override
-	protected void skip() throws ResourceInitializationException {
-		skip(documentIterator);
+	protected void skip(int numberToSkip) throws ResourceInitializationException {
+		skip(documentIterator, numberToSkip);
 	}
 
 	/**
@@ -106,7 +107,7 @@ public class TermVariantCollectionReader extends BaseTextCollectionReader {
 	 * 
 	 * @param docIter
 	 */
-	private void skip(Iterator<GenericDocument> docIter) {
+	private void skip(Iterator<GenericDocument> docIter, int numberToSkip) {
 		int numSkipped = 0;
 		while (docIter.hasNext() && numSkipped < numberToSkip) {
 			docIter.next();

@@ -142,7 +142,7 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 				documentsToBeProcessedCount = countDocumentsInCollection();
 			}
 			initializeImplementation(context);
-			skip();
+			skip(numberToSkip);
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
 		}
@@ -174,7 +174,7 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	 * 
 	 * @throws ResourceInitializationException
 	 */
-	protected abstract void skip() throws ResourceInitializationException;
+	protected abstract void skip(int numberToSkip) throws ResourceInitializationException;
 
 	@Override
 	public void getNext(JCas jcas) throws IOException, CollectionException {

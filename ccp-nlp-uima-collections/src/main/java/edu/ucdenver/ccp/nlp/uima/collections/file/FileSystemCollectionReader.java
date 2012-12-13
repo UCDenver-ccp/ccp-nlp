@@ -174,7 +174,7 @@ public class FileSystemCollectionReader extends BaseTextCollectionReader {
 		}
 		Iterator<File> fileIter = FileUtil.getFileIterator(baseFileOrDirectory, recurseIntoDirectory,
 				fileSuffixesToProcess);
-		skip(fileIter);
+		skip(fileIter, numberToSkip);
 		int count = 0;
 		while (fileIter.hasNext()) {
 			fileIter.next();
@@ -191,7 +191,7 @@ public class FileSystemCollectionReader extends BaseTextCollectionReader {
 	 * 
 	 * @param fileIter
 	 */
-	private void skip(Iterator<File> fileIter) {
+	private void skip(Iterator<File> fileIter, int numberToSkip) {
 		int numSkipped = 0;
 		while (fileIter.hasNext() && numSkipped < numberToSkip) {
 			fileIter.next();
@@ -225,8 +225,8 @@ public class FileSystemCollectionReader extends BaseTextCollectionReader {
 	 * @see edu.ucdenver.ccp.nlp.ext.uima.collections.file.BaseTextCollectionReader#skip()
 	 */
 	@Override
-	protected void skip() throws ResourceInitializationException {
-		skip(fileIterator);
+	protected void skip(int numberToSkip) throws ResourceInitializationException {
+		skip(fileIterator, numberToSkip);
 	}
 
 	/*
