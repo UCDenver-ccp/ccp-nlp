@@ -1,0 +1,10 @@
+# document 1
+GO:000456	test case 1
+GO:352059	test case 2
+
+# document 2
+//CHEBI:0942	test case 3
+CHEBI:0942	test case 4
+CHEBI:0283	test case 5
+
+
