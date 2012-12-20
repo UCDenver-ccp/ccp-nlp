@@ -84,9 +84,9 @@ public class Banner_Util extends Base implements IEntityTagger {
 	 * @param lemmatiserDataDirectory
 	 * @param postaggerDataDirectory
 	 */
-	private void initialize(String bannerPropertiesFile, String bannerModelFile, String lemmatiserDataDirectory,
-			String posTaggerDataDirectory) {
-		properties = BannerProperties.load(bannerPropertiesFile);
+	private void initialize(String bannerPropertiesFilename, String bannerModelFile, 
+			String lemmatiserDataDirectory, String posTaggerDataDirectory) {
+		properties = BannerProperties.load(bannerPropertiesFilename);
 		modelFile = new File(bannerModelFile);
 		tokenizer = properties.getTokenizer();
 		Logger.getLogger(CRF.class.getName()).setLevel(Level.OFF);
@@ -94,14 +94,14 @@ public class Banner_Util extends Base implements IEntityTagger {
 		Tagger posTagger;
 
 		/*
-		 * we need to look directly at the properties file in order to extract the name of the pos
-		 * tagger to be used
+		 * Instead of using BannerProperties, we need to look directly at the 
+		 * properties file in order to extract the name of the pos tagger to be used
 		 */
-		Properties propertiesFile = new Properties();
 		try {
-			propertiesFile.load(new FileInputStream(bannerPropertiesFile));
+			Properties bannerProperties = new Properties();
+			bannerProperties.load(new FileInputStream(bannerPropertiesFilename));
 
-			String posTaggerName = propertiesFile.getProperty("posTagger", HeppleTagger.class.getName());
+			String posTaggerName = bannerProperties.getProperty("posTagger", HeppleTagger.class.getName());
 			if (posTaggerName.equals(HeppleTagger.class.getName())) {
 				posTagger = new HeppleTagger(posTaggerDataDirectory);
 			} else if (posTaggerName.equals(MedPostTagger.class.getName())) {
