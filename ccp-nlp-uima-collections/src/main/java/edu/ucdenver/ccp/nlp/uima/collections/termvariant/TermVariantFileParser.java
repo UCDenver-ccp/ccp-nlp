@@ -193,7 +193,7 @@ public class TermVariantFileParser {
 		}
 
 		/* create complementary sentence annotation */
-		TextAnnotation sta = createAnnotation(ClassMentionType.SENTENCE.typeName(), coveredText, span,
+		TextAnnotation sta = createAnnotation(ClassMentionType.SENTENCE.typeName(), " " + coveredText + " ", new Span(span.getSpanStart()-1, span.getSpanEnd()+1),
 				gd.getDocumentCollectionID(), gd.getDocumentID());
 		gd.addAnnotation(sta);
 	}
@@ -207,7 +207,7 @@ public class TermVariantFileParser {
 	 */
 	protected static void addLineToDocumentText(String line, GenericDocument gd) {
 		String documentText = gd.getDocumentText();
-		documentText = documentText + line + "\n";
+		documentText = documentText + " " + line + " \n";
 		gd.setDocumentText(documentText);
 	}
 
@@ -250,7 +250,7 @@ public class TermVariantFileParser {
 	 * @throws InvalidSpanException
 	 */
 	protected static Span computeSpan(String coveredText, GenericDocument gd) throws InvalidSpanException {
-		int spanStart = gd.getDocumentText().length();
+		int spanStart = gd.getDocumentText().length() + 1;
 		int spanEnd = spanStart + coveredText.length();
 		return new Span(spanStart, spanEnd);
 	}

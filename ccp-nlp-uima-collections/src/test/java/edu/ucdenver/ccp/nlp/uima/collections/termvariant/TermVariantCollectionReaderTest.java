@@ -81,16 +81,16 @@ public class TermVariantCollectionReaderTest extends DefaultTestCase {
 
 		for (CCPTextAnnotation ccpTA : taList) {
 			if (ccpTA.getClassMention().getMentionName().equals(ClassMentionType.SENTENCE.typeName())) {
-				if (ccpTA.getBegin() == 0 & ccpTA.getEnd() == 11) {
+				if (ccpTA.getBegin() == 0 & ccpTA.getEnd() == 13) {
 					seenSentence1 = true;
-				} else if (ccpTA.getBegin() == 12 & ccpTA.getEnd() == 23) {
+				} else if (ccpTA.getBegin() == 14 & ccpTA.getEnd() == 27) {
 					seenSentence2 = true;
 				}
-			} else if (ccpTA.getClassMention().getMentionName().equals("GO:000456") & ccpTA.getBegin() == 0
-					& ccpTA.getEnd() == 11) {
+			} else if (ccpTA.getClassMention().getMentionName().equals("GO:000456") & ccpTA.getBegin() == 1
+					& ccpTA.getEnd() == 12) {
 				seenGO1 = true;
-			} else if (ccpTA.getClassMention().getMentionName().equals("GO:352059") & ccpTA.getBegin() == 12
-					& ccpTA.getEnd() == 23) {
+			} else if (ccpTA.getClassMention().getMentionName().equals("GO:352059") & ccpTA.getBegin() == 15
+					& ccpTA.getEnd() == 26) {
 				seenGO2 = true;
 			}
 		}
@@ -116,22 +116,22 @@ public class TermVariantCollectionReaderTest extends DefaultTestCase {
 
 		for (CCPTextAnnotation ccpTA : taList) {
 			if (ccpTA.getClassMention().getMentionName().equals(ClassMentionType.SENTENCE.typeName())) {
-				if (ccpTA.getBegin() == 0 & ccpTA.getEnd() == 11) {
+				if (ccpTA.getBegin() == 0 & ccpTA.getEnd() == 13) {
 					seenSentence1 = true;
-				} else if (ccpTA.getBegin() == 12 & ccpTA.getEnd() == 23) {
+				} else if (ccpTA.getBegin() == 14 & ccpTA.getEnd() == 27) {
 					seenSentence2 = true;
 				}
-			} else if (ccpTA.getClassMention().getMentionName().equals("CHEBI:0942") & ccpTA.getBegin() == 0
-					& ccpTA.getEnd() == 11) {
+			} else if (ccpTA.getClassMention().getMentionName().equals("CHEBI:0942") & ccpTA.getBegin() == 1
+					& ccpTA.getEnd() == 12) {
 				seenCHEBI1 = true;
-			} else if (ccpTA.getClassMention().getMentionName().equals("CHEBI:0283") & ccpTA.getBegin() == 12
-					& ccpTA.getEnd() == 23) {
+			} else if (ccpTA.getClassMention().getMentionName().equals("CHEBI:0283") & ccpTA.getBegin() == 15
+					& ccpTA.getEnd() == 26) {
 				seenCHEBI2 = true;
-			}else if (ccpTA.getClassMention().getMentionName().equals("CHEBI:1234") & ccpTA.getBegin() == 24
-					& ccpTA.getEnd() == 51) {
+			}else if (ccpTA.getClassMention().getMentionName().equals("CHEBI:1234") & ccpTA.getBegin() == 29
+					& ccpTA.getEnd() == 56) {
 				seenCHEBI3 = true;
-			}else if (ccpTA.getClassMention().getMentionName().equals("CHEBI:5678") & ccpTA.getBegin() == 24
-					& ccpTA.getEnd() == 51) {
+			}else if (ccpTA.getClassMention().getMentionName().equals("CHEBI:5678") & ccpTA.getBegin() == 29
+					& ccpTA.getEnd() == 56) {
 				seenCHEBI4 = true;
 			}
 		}
