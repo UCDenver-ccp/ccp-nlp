@@ -34,6 +34,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.collection.CollectionReaderDescription;
@@ -153,6 +154,30 @@ public class FileSystemCollectionReaderTest extends DefaultTestCase {
 
 		assertEquals(4, casCount);
 
+	}
+	@Test
+	public void testFileSystemCollectionReader_alternateView() 
+	throws UIMAException, IOException {
+		String[] fileSuffixesToProcess = {};
+		CollectionReaderDescription desc 
+			= FileSystemCollectionReader.createDescription(
+				TypeSystemUtil.getCcpTypeSystem(), baseDir, false, 
+				ENCODING, "en", false, 8,0, View.RAW.viewName(), 
+				fileSuffixesToProcess);
+		int casCount = 0;
+		for (JCas jcas : new JCasIterable(CollectionReaderFactory.createCollectionReader(desc))) {
+
+			// check views' names for RAW
+			 for (Iterator<JCas> viewIter = jcas.getViewIterator(); viewIter.hasNext();) {
+            	JCas view = viewIter.next();
+            	if (view.getViewName().equals(View.RAW.viewName())) {
+					casCount++;
+				}
+        	}
+
+		}
+
+		assertEquals(4, casCount);
 	}
 
 	@Test
