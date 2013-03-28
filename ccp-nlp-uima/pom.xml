@@ -46,16 +46,30 @@
 
 	<build>
 		<plugins>
+
+            <plugin>
+                <groupId>org.cleartk</groupId>
+                <artifactId>jcasgen-maven-plugin</artifactId>
+                <configuration>
+                    <typeSystem>src/main/resources/edu/ucdenver/ccp/nlp/core/uima/TypeSystem.xml</typeSystem>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals> <goal>generate</goal> </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+<!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<!-- Generate type system files using ${jcasgen.typesystem} -->
 						<id>run-jcasgen</id>
 					</execution>
 					<execution>
-						<!-- Skip generation of XML descriptor files for this module -->
 						<id>export-descriptor-xml</id>
 						<configuration>
 							<skip>true</skip>
@@ -63,6 +77,7 @@
 					</execution>
 				</executions>
 			</plugin>
+-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>

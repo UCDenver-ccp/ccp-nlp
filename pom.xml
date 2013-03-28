@@ -73,8 +73,9 @@
 						<target>1.6</target>
 					</configuration>
 				</plugin>
+<!-- This plugin generates java files with JCasGen -->
+<!--
 				<plugin>
-					<!-- This plugin generates java files with JCasGen -->
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>exec-maven-plugin</artifactId>
 					<version>1.2</version>
@@ -94,14 +95,13 @@
 								</arguments>
 							</configuration>
 						</execution>
-						<!-- <execution> <id>export-descriptor-xml</id> <phase>prepare-package</phase> 
-							<goals> <goal>java</goal> </goals> <configuration> <mainClass>edu.ucdenver.ccp.nlp.core.uima.build.XmlDescriptorWriter</mainClass> 
-							<arguments> <argument>${project.basedir}/src/main/java</argument> <argument>${project.build.directory}/uima-descriptors</argument> 
-							<argument>${project.version}</argument> </arguments> </configuration> </execution> -->
 					</executions>
 				</plugin>
-				<plugin><!-- This plugin adds the jcasgen generated source code folder 
+-->
+<!-- This plugin adds the jcasgen generated source code folder 
 						as a project source folder -->
+<!--
+				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>build-helper-maven-plugin</artifactId>
 					<version>1.5</version>
@@ -120,6 +120,7 @@
 						</execution>
 					</executions>
 				</plugin>
+-->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
