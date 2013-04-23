@@ -42,6 +42,8 @@ public enum View {
 	RAW("rawView"),
 	XML("xmlView"),
 	HTML("htmlView"),
+	CSV("csvView"),
+	GENIA("geniaView"),
 	GOLD_STANDARD("goldStandardView");
 
 	private final String viewName;
