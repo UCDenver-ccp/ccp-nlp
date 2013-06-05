@@ -158,7 +158,37 @@ public class DefaultClassMention extends ClassMention {
 	}
 
 	@Override
-	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValue) {
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, String slotValue) {
+		try {
+			return DefaultPrimitiveSlotMentionFactory.createPrimitiveSlotMention(slotMentionName, slotValue);
+		} catch (InvalidInputException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Float slotValue) {
+		try {
+			return DefaultPrimitiveSlotMentionFactory.createPrimitiveSlotMention(slotMentionName, slotValue);
+		} catch (InvalidInputException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Integer slotValue) {
+		try {
+			return DefaultPrimitiveSlotMentionFactory.createPrimitiveSlotMention(slotMentionName, slotValue);
+		} catch (InvalidInputException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Boolean  slotValue) {
 		try {
 			return DefaultPrimitiveSlotMentionFactory.createPrimitiveSlotMention(slotMentionName, slotValue);
 		} catch (InvalidInputException e) {

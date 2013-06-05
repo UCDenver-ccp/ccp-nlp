@@ -285,6 +285,57 @@ public class TextAnnotationUtil {
 	 * @param slotValue
 	 * @throws Exception
 	 */
+
+	public static <E extends Object> void addSlotValue(TextAnnotation ta, String slotName, ClassMention slotValue) {
+		ComplexSlotMention csm = ta.getClassMention().getComplexSlotMentionByName(slotName);
+		if (csm == null) {
+			csm = new DefaultComplexSlotMention(slotName);
+			ta.getClassMention().addComplexSlotMention(csm);
+		}
+		csm.addClassMention((DefaultClassMention) slotValue);
+	}
+
+	public static void addSlotValue(TextAnnotation ta, String slotName, String slotValue) {
+		PrimitiveSlotMention sm = ta.getClassMention().getPrimitiveSlotMentionByName(slotName);
+		if (sm == null) {
+			sm = ta.getClassMention().createPrimitiveSlotMention(slotName, slotValue);
+			ta.getClassMention().addPrimitiveSlotMention(sm);
+		} else {
+			sm.addSlotValue(slotValue);
+		}
+	}
+
+	public static void addSlotValue(TextAnnotation ta, String slotName, Integer slotValue) {
+		PrimitiveSlotMention sm = ta.getClassMention().getPrimitiveSlotMentionByName(slotName);
+		if (sm == null) {
+			sm = ta.getClassMention().createPrimitiveSlotMention(slotName, slotValue);
+			ta.getClassMention().addPrimitiveSlotMention(sm);
+		} else {
+			sm.addSlotValue(slotValue);
+		}
+	}
+
+	public static void addSlotValue(TextAnnotation ta, String slotName, Float slotValue) {
+		PrimitiveSlotMention sm = ta.getClassMention().getPrimitiveSlotMentionByName(slotName);
+		if (sm == null) {
+			sm = ta.getClassMention().createPrimitiveSlotMention(slotName, slotValue);
+			ta.getClassMention().addPrimitiveSlotMention(sm);
+		} else {
+			sm.addSlotValue(slotValue);
+		}
+	}
+
+	public static void addSlotValue(TextAnnotation ta, String slotName, Boolean slotValue) {
+		PrimitiveSlotMention sm = ta.getClassMention().getPrimitiveSlotMentionByName(slotName);
+		if (sm == null) {
+			sm = ta.getClassMention().createPrimitiveSlotMention(slotName, slotValue);
+			ta.getClassMention().addPrimitiveSlotMention(sm);
+		} else {
+			sm.addSlotValue(slotValue);
+		}
+	}
+
+	/*****
 	public static <E extends Object> void addSlotValue(TextAnnotation ta, String slotName, E slotValue) {
 		if (slotValue instanceof DefaultClassMention) {
 			ComplexSlotMention csm = ta.getClassMention().getComplexSlotMentionByName(slotName);
@@ -303,6 +354,7 @@ public class TextAnnotationUtil {
 			}
 		}
 	}
+	*****/
 
 	/**
 	 * This utility swaps annotation information from one <code>TextAnnotation</code> to another.

@@ -127,7 +127,34 @@ public class WrappedCCPClassMention extends ClassMention {
 		return new WrappedCCPComplexSlotMention(ccpCSM);
 	}
 
-	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValue) {
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName,  String slotValue) {
+		try {
+			return CCPPrimitiveSlotMentionFactory.createPrimitiveSlotMention(slotMentionName, slotValue, jcas);
+		} catch (KnowledgeRepresentationWrapperException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName,  Integer slotValue) {
+		try {
+			return CCPPrimitiveSlotMentionFactory.createPrimitiveSlotMention(slotMentionName, slotValue, jcas);
+		} catch (KnowledgeRepresentationWrapperException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Float slotValue) {
+		try {
+			return CCPPrimitiveSlotMentionFactory.createPrimitiveSlotMention(slotMentionName, slotValue, jcas);
+		} catch (KnowledgeRepresentationWrapperException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Boolean slotValue) {
 		try {
 			return CCPPrimitiveSlotMentionFactory.createPrimitiveSlotMention(slotMentionName, slotValue, jcas);
 		} catch (KnowledgeRepresentationWrapperException e) {

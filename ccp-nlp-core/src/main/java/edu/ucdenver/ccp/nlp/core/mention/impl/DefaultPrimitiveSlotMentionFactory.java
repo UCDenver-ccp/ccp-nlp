@@ -50,45 +50,93 @@ public class DefaultPrimitiveSlotMentionFactory {
 
 	private static Logger logger = Logger.getLogger(DefaultPrimitiveSlotMentionFactory.class);
 
-	public static PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValueObject)
-			throws InvalidInputException {
-		logger.debug("Creating primitive slot with value type: " + slotValueObject.getClass().getName());
-		if (slotValueObject instanceof String) {
-			String slotValue = (String) slotValueObject;
-			StringSlotMention ssm = new DefaultStringSlotMention(slotMentionName);
-			ssm.addSlotValue(slotValue);
-			return ssm;
-		} else if (slotValueObject instanceof Integer) {
-			Integer slotValue = (Integer) slotValueObject;
-			IntegerSlotMention ism = new DefaultIntegerSlotMention(slotMentionName);
-			ism.addSlotValue(slotValue);
-			return ism;
-		} else if (slotValueObject instanceof Boolean) {
-			Boolean slotValue = (Boolean) slotValueObject;
-			BooleanSlotMention bsm = new DefaultBooleanSlotMention(slotMentionName);
-			bsm.addSlotValue(slotValue);
-			return bsm;
-		} else if (slotValueObject instanceof Float) {
-			Float slotValue = (Float) slotValueObject;
-			FloatSlotMention fsm = new DefaultFloatSlotMention(slotMentionName);
-			fsm.addSlotValue(slotValue);
-			return fsm;
-		} else {
-			logger.error("Invalid primitive slot value type: " + slotValueObject.getClass().getName());
-			return null;
-		}
-
+	public static PrimitiveSlotMention createPrimitiveSlotMention(
+		String slotMentionName, 
+		String slotValue)
+	throws InvalidInputException {
+		logger.debug("Creating String primitive slot with value type: " + slotValue.getClass().getName());
+		StringSlotMention sm = new DefaultStringSlotMention(slotMentionName);
+		sm.addSlotValue(slotValue);
+		return sm;
 	}
 
-	public static PrimitiveSlotMention createPrimitiveSlotMentionWithCollection(String slotMentionName,
-			Collection slotValueObjects) throws InvalidInputException {
+	public static PrimitiveSlotMention createPrimitiveSlotMention(
+		String slotMentionName, 
+		Integer slotValue)
+	throws InvalidInputException {
+		logger.debug("Creating Integer primitive slot with value type: " + slotValue.getClass().getName());
+		IntegerSlotMention sm = new DefaultIntegerSlotMention(slotMentionName);
+		sm.addSlotValue(slotValue);
+		return sm;
+	}
+	public static PrimitiveSlotMention createPrimitiveSlotMention(
+		String slotMentionName, 
+		Boolean slotValue)
+	throws InvalidInputException {
+		logger.debug("Creating Boolean primitive slot with value type: " + slotValue.getClass().getName());
+		BooleanSlotMention sm = new DefaultBooleanSlotMention(slotMentionName);
+		sm.addSlotValue(slotValue);
+		return sm;
+	}
+	public static PrimitiveSlotMention createPrimitiveSlotMention(
+		String slotMentionName, 
+		Float slotValue)
+	throws InvalidInputException {
+		logger.debug("Creating Float primitive slot with value type: " + slotValue.getClass().getName());
+		FloatSlotMention sm = new DefaultFloatSlotMention(slotMentionName);
+		sm.addSlotValue(slotValue);
+		return sm;
+	}
+
+	/* Type Erasure in Java Generics prevents this from being a single function name
+      overloaded 4 times.
+    */
+	public static PrimitiveSlotMention createPrimitiveSlotMentionWithStringCollection(
+			String slotMentionName,
+			Collection<String> values) 
+	throws InvalidInputException {
 		logger.debug("Creating PrimitiveSlot from Collection...");
-		List<Object> slotValues = Collections.list(Collections.enumeration(slotValueObjects));
-		PrimitiveSlotMention psm = createPrimitiveSlotMention(slotMentionName, slotValues.get(0));
-		for (int i = 1; i < slotValues.size(); i++) {
-			psm.addSlotValue(slotValues.get(i));
+		StringSlotMention sm = new DefaultStringSlotMention(slotMentionName);
+		for (String s : values) {
+			sm.addSlotValue(s);
 		}
-		return psm;
+		return sm;
+	}
+
+	public static PrimitiveSlotMention createPrimitiveSlotMentionWithFloatCollection(
+			String slotMentionName,
+			Collection<Float> values) 
+	throws InvalidInputException {
+		logger.debug("Creating PrimitiveSlot from Collection...");
+		FloatSlotMention sm = new DefaultFloatSlotMention(slotMentionName);
+		for (Float f : values) {
+			sm.addSlotValue(f);
+		}
+		return sm;
+	}
+
+	public static PrimitiveSlotMention createPrimitiveSlotMentionWithIntegerCollection(
+			String slotMentionName,
+			Collection<Integer> values) 
+	throws InvalidInputException {
+		logger.debug("Creating PrimitiveSlot from Collection...");
+		IntegerSlotMention sm = new DefaultIntegerSlotMention(slotMentionName);
+		for (Integer i : values) {
+			sm.addSlotValue(i);
+		}
+		return sm;
+	}
+
+	public static PrimitiveSlotMention createPrimitiveSlotMentionWithBooleanCollection(
+			String slotMentionName,
+			Collection<Boolean> values) 
+	throws InvalidInputException {
+		logger.debug("Creating PrimitiveSlot from Collection...");
+		BooleanSlotMention sm = new DefaultBooleanSlotMention(slotMentionName);
+		for (Boolean b : values) {
+			sm.addSlotValue(b);
+		}
+		return sm;
 	}
 
 	/**

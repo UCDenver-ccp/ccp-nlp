@@ -59,6 +59,7 @@ import edu.ucdenver.ccp.nlp.core.mention.IntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 import edu.ucdenver.ccp.nlp.core.mention.SlotMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultIntegerSlotMention;
@@ -384,7 +385,7 @@ public class Annotation_UtilTest extends DefaultTestCase {
 		assertEquals(expectedproteinAnnotation, proteinAnnotation);
 
 		/* now add a complex slot */
-		DefaultClassMention proteinMention2 = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
+		ClassMention proteinMention2 = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 		TextAnnotation proteinAnnotation2 = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
 				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, proteinMention2);
 		TextAnnotationUtil.addSlotValue(proteinAnnotation, "is-equivalent-to", proteinMention2);

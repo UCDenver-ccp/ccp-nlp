@@ -35,6 +35,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
+import java.util.Collection;
+import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
@@ -69,12 +72,65 @@ public class PrimitiveSlotMentionFactoryTest {
 		assertTrue(floatSM instanceof FloatSlotMention);
 		assertEquals(1, floatSM.getSlotValues().size());
 
-		logger.info("Error message expected here:");
-		PrimitiveSlotMention fileSM = DefaultPrimitiveSlotMentionFactory.createPrimitiveSlotMention("slot name",
-				new File(""));
-		assertNull(fileSM);
+		//logger.info("Error message expected here:");
+		//PrimitiveSlotMention fileSM = DefaultPrimitiveSlotMentionFactory.createPrimitiveSlotMention("slot name",
+		//		new File(""));
+		//assertNull(fileSM);
 
 	}
+
+	@Test
+	public void testFactoryMethodCollectionString() throws Exception {
+		Collection<String> slotValues = new ArrayList<String>();
+		slotValues.add(new String("string value 1"));
+		slotValues.add(new String("string value 2"));
+		PrimitiveSlotMention psm = DefaultPrimitiveSlotMentionFactory.
+			createPrimitiveSlotMentionWithStringCollection(
+				"testSlotName", slotValues);
+	}
+	@Test
+	public void testFactoryMethodCollectionInteger() throws Exception {
+		Collection<Integer> slotValues = new ArrayList<Integer>();
+		slotValues.add(new Integer(1));
+		slotValues.add(new Integer(2));
+		PrimitiveSlotMention psm = DefaultPrimitiveSlotMentionFactory.
+			createPrimitiveSlotMentionWithIntegerCollection(
+				"testSlotName", slotValues);
+	}
+	@Test
+	public void testFactoryMethodCollectionFloat() throws Exception {
+		Collection<Float> slotValues = new ArrayList<Float>();
+		slotValues.add(new Float(3.14F));
+		slotValues.add(new Float(2.7F));
+		PrimitiveSlotMention psm = DefaultPrimitiveSlotMentionFactory.
+			createPrimitiveSlotMentionWithFloatCollection(
+				"testSlotName", slotValues);
+	}
+	@Test
+	public void testFactoryMethodCollectionBoolean() throws Exception {
+		Collection<Boolean> slotValues = new ArrayList<Boolean>();
+		slotValues.add(new Boolean(true));
+		slotValues.add(new Boolean(false));
+		PrimitiveSlotMention psm = DefaultPrimitiveSlotMentionFactory.
+			createPrimitiveSlotMentionWithBooleanCollection(
+				"testSlotName", slotValues);
+	}
+
+	/* compiler won't ever let you get close to mixing types...*/
+	/***
+	@Test(expected=java.lang.ClassCastException.class)
+	public void testFactoryMethodListVariousTypes() 
+	throws Exception {
+		Collection<String> slotValues = new ArrayList<String>();
+		slotValues.add(new String("string value"));
+		slotValues.add(new Integer(1));
+		slotValues.add(new Float(3.14));
+		slotValues.add(new Boolean(true));
+		PrimitiveSlotMention psm = DefaultPrimitiveSlotMentionFactory.
+			createPrimitiveSlotMentionWithStringCollection(
+				"testSlotName", slotValues);
+	}
+	***/
 
 	@Test
 	public void testFactoryMethodWhenValueIsAsString() throws Exception {

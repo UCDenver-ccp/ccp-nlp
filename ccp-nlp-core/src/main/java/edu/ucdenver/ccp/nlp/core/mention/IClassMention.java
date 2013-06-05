@@ -66,7 +66,16 @@ public interface IClassMention {
 
 	public ComplexSlotMention createComplexSlotMention(String slotMentionName);
 
-	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Object slotValue)
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Integer  slotValue)
+			throws KnowledgeRepresentationWrapperException;
+
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Float slotValue)
+			throws KnowledgeRepresentationWrapperException;
+
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, String slotValue)
+			throws KnowledgeRepresentationWrapperException;
+
+	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName, Boolean slotValue)
 			throws KnowledgeRepresentationWrapperException;
 
 }
