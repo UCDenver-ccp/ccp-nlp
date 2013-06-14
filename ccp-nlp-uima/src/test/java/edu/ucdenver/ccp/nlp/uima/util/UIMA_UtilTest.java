@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Iterator;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -50,6 +51,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.cas.IntegerArray;
 import org.apache.uima.jcas.cas.StringArray;
+import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.After;
 import org.junit.Before;
@@ -112,9 +114,11 @@ public class UIMA_UtilTest {
 	 *         =================================================================================
 	 * </pre>
 	 */
-	CCPTextAnnotation testCCPTextAnnotation1;
-
-	CCPTextAnnotation testCCPTextAnnotation2;
+	CCPTextAnnotation testCCPTextAnnotation1; // span 10 - 56
+	CCPTextAnnotation testCCPTextAnnotation2; // span 13 - 48
+	CCPTextAnnotation testCCPTextAnnotation3; // span 10 - 56, not in index
+	CCPTextAnnotation testCCPTextAnnotation4; // spand 13 - 48, not in index
+	CCPTextAnnotation testCCPTextAnnotationX; //  default span values
 
 	/**
 	 * <pre>
@@ -167,9 +171,12 @@ public class UIMA_UtilTest {
 		testAnnotator = null;
 		testCCPAnnotator = null;
 		testCCPClassMention = null;
+		testTextAnnotation1 = null;
 		testCCPTextAnnotation1 = null;
 		testCCPTextAnnotation2 = null;
-		testTextAnnotation1 = null;
+		testCCPTextAnnotation3 = null;
+		testCCPTextAnnotation4 = null;
+		testCCPTextAnnotationX = null;
 		testTextAnnotation2 = null;
 		jcas = null;
 	}
@@ -250,6 +257,53 @@ public class UIMA_UtilTest {
 		testCCPTextAnnotation1.setNumberOfSpans(2);
 		testCCPTextAnnotation1.setClassMention(ccpClassMention);
 
+		testCCPTextAnnotation2 = new CCPTextAnnotation(jcas);
+		testCCPTextAnnotation2.setAnnotationID(45678);
+		testCCPTextAnnotation2.setAnnotationSets(ccpAnnotationSets);
+		testCCPTextAnnotation2.setAnnotator(testCCPAnnotator);
+		testCCPTextAnnotation2.setBegin(13);
+		testCCPTextAnnotation2.setEnd(48);
+		testCCPTextAnnotation2.setSpans(ccpSpans);
+		testCCPTextAnnotation2.setDocumentSectionID(2);
+		testCCPTextAnnotation2.setNumberOfSpans(02);
+
+
+	// todo, fix sub-spans and annotation.setBEgin stuff.
+	// I suspect my code is failing because i'm not setting both?
+
+
+		testCCPTextAnnotation3 = new CCPTextAnnotation(jcas);
+		testCCPTextAnnotation3.setAnnotationID(4567);
+		testCCPTextAnnotation3.setAnnotationSets(ccpAnnotationSets);
+		testCCPTextAnnotation3.setAnnotator(testCCPAnnotator);
+		testCCPTextAnnotation3.setBegin(5011);
+		testCCPTextAnnotation3.setEnd(5056);
+		testCCPTextAnnotation3.setSpans(ccpSpans);
+		testCCPTextAnnotation3.setDocumentSectionID(2);
+		testCCPTextAnnotation3.setNumberOfSpans(2);
+		testCCPTextAnnotation3.setClassMention(ccpClassMention);
+
+		testCCPTextAnnotation4 = new CCPTextAnnotation(jcas);
+		testCCPTextAnnotation4.setAnnotationID(45678);
+		testCCPTextAnnotation4.setAnnotationSets(ccpAnnotationSets);
+		testCCPTextAnnotation4.setAnnotator(testCCPAnnotator);
+		testCCPTextAnnotation4.setBegin(5013);
+		testCCPTextAnnotation4.setEnd(5048);
+		testCCPTextAnnotation4.setSpans(ccpSpans);
+		testCCPTextAnnotation4.setDocumentSectionID(2);
+		testCCPTextAnnotation4.setNumberOfSpans(02);
+
+		testCCPTextAnnotationX = new CCPTextAnnotation(jcas);
+		testCCPTextAnnotationX.setAnnotationID(45678);
+		testCCPTextAnnotationX.setAnnotationSets(ccpAnnotationSets);
+		testCCPTextAnnotationX.setAnnotator(testCCPAnnotator);
+		///testCCPTextAnnotationX.setBegin(5013);
+		///testCCPTextAnnotationX.setEnd(5048);
+		testCCPTextAnnotationX.setSpans(ccpSpans);
+		testCCPTextAnnotationX.setDocumentSectionID(2);
+		testCCPTextAnnotationX.setNumberOfSpans(02);
+
+
 		/**
 		 * TextAnnotation: <br>
 		 * nuclear gated transport <br>
@@ -293,6 +347,10 @@ public class UIMA_UtilTest {
 		DefaultComplexSlotMention transportedEntitiesMention = new DefaultComplexSlotMention("transported entities");
 		transportedEntitiesMention.addClassMention(e2f4ProteinMention);
 		transportMention.addComplexSlotMention(transportedEntitiesMention);
+
+
+
+		/* ===== testTextAnnotation1 ===== */
 		testTextAnnotation1 = new DefaultTextAnnotation(15, 37, "coveredText1", testAnnotator, testAnnotationSet, 1010,
 				2, "33", 1, transportMention);
 
@@ -557,6 +615,7 @@ public class UIMA_UtilTest {
 		textAnnotations.add(testTextAnnotation1);
 		textAnnotations.add(testTextAnnotation2);
 
+
 		// ensure there are no annotations in the JCas
 		FSIterator annotationIter = jcas.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type).iterator();
 		while (annotationIter.hasNext()) {
@@ -567,7 +626,10 @@ public class UIMA_UtilTest {
 		UIMA_Util uimaUtil = new UIMA_Util();
 		uimaUtil.putTextAnnotationsIntoJCas(jcas, textAnnotations);
 
-		// now there should be 4 annotations in the JCas
+		testCCPTextAnnotation1.addToIndexes();
+		testCCPTextAnnotation2.addToIndexes();
+
+		// now there should be 4 + 2  annotations in the JCas
 		// 1. gated nuclear transport
 		// 2. nucleus
 		// 3. e2f4 protein
@@ -578,13 +640,13 @@ public class UIMA_UtilTest {
 			annotationIter.next();
 			count++;
 		}
-		assertEquals(4, count);
+		assertEquals(6, count);
 
 		// now test to see if we can get the annotations back out of the JCas
 		List<TextAnnotation> retrievedTextAnnotations = UIMA_Util.getAnnotationsFromCas(jcas);
 
 		// there should be four annotations returned
-		assertEquals(4, retrievedTextAnnotations.size());
+		assertEquals(6, retrievedTextAnnotations.size());
 
 	}
 
@@ -711,4 +773,125 @@ public class UIMA_UtilTest {
 
 	}
 
+	@Test
+	public void testWithinSpanOne() {
+		testCCPTextAnnotation1.addToIndexes();
+		testCCPTextAnnotation2.addToIndexes();
+		testCCPTextAnnotation3.addToIndexes();
+		testCCPTextAnnotation4.addToIndexes();
+		Span span = new Span(1, 1000);
+		Iterator<Annotation> iter = UIMA_Util.getAnnotationsWithinSpan(span, jcas, CCPTextAnnotation.type);
+		int count=0;	
+		while (iter.hasNext()) {
+			count++;
+			iter.next();
+		}
+		assertEquals(2, count);
+
+	}
+
+	@Test
+	public void testWithinSpanNone() {
+		testCCPTextAnnotation1.addToIndexes();
+		testCCPTextAnnotation2.addToIndexes();
+		testCCPTextAnnotation3.addToIndexes();
+		testCCPTextAnnotation4.addToIndexes();
+		Span span = new Span(500, 1000);
+		Iterator<Annotation> iter = UIMA_Util.getAnnotationsWithinSpan(span, jcas, CCPTextAnnotation.type);
+		if (iter.hasNext()) {
+				assertTrue(false);	
+		}
+	}
+
+	@Test
+	public void testWithinSpanTwo() {
+		testCCPTextAnnotation1.addToIndexes();
+		testCCPTextAnnotation2.addToIndexes();
+		testCCPTextAnnotation3.addToIndexes();
+		testCCPTextAnnotation4.addToIndexes();
+		Span span = new Span(12, 1000);
+		Iterator<Annotation> iter = UIMA_Util.getAnnotationsWithinSpan(span, jcas, CCPTextAnnotation.type);
+		int count=0;	
+		while (iter.hasNext()) {
+			count++;
+			iter.next();
+		}
+		assertEquals(1, count);
+	}
+
+	@Test
+	public void testWithinSpanOne34() {
+		testCCPTextAnnotation1.addToIndexes();
+		testCCPTextAnnotation2.addToIndexes();
+		testCCPTextAnnotation3.addToIndexes();
+		testCCPTextAnnotation4.addToIndexes();
+		Span span = new Span(5000, 10000);
+		Iterator<Annotation> iter = UIMA_Util.getAnnotationsWithinSpan(span, jcas, CCPTextAnnotation.type);
+		int count=0;	
+		while (iter.hasNext()) {
+			count++;
+			iter.next();
+		}
+		assertEquals(2, count);
+
+	}
+
+	@Test
+	public void testWithinSpanNone34() {
+		testCCPTextAnnotation1.addToIndexes();
+		testCCPTextAnnotation2.addToIndexes();
+		testCCPTextAnnotation3.addToIndexes();
+		testCCPTextAnnotation4.addToIndexes();
+		Span span = new Span(5000, 10000);
+		Iterator<Annotation> iter = UIMA_Util.getAnnotationsWithinSpan(span, jcas, CCPTextAnnotation.type);
+		if (!iter.hasNext()) {
+				fail("this should have some annotations");;	
+		}
+	}
+
+	@Test
+	public void testWithinSpanTwo34() {
+		testCCPTextAnnotation1.addToIndexes();
+		testCCPTextAnnotation2.addToIndexes();
+		testCCPTextAnnotation3.addToIndexes();
+		testCCPTextAnnotation4.addToIndexes();
+		Span span = new Span(5000, 10000);
+		Iterator<Annotation> iter = UIMA_Util.getAnnotationsWithinSpan(span, jcas, CCPTextAnnotation.type);
+		int count=0;	
+		while (iter.hasNext()) {
+			count++;
+			iter.next();
+		}
+		assertEquals(count, 2);
+	}
+
+	@Test
+	public void testWithinSpanTwoAll() {
+		testCCPTextAnnotation1.addToIndexes();
+		testCCPTextAnnotation2.addToIndexes();
+		testCCPTextAnnotation3.addToIndexes();
+		testCCPTextAnnotation4.addToIndexes();
+		Span span = new Span(0, 10000);
+		Iterator<Annotation> iter = UIMA_Util.getAnnotationsWithinSpan(span, jcas, CCPTextAnnotation.type);
+		int count=0;	
+		while (iter.hasNext()) {
+			count++;
+			iter.next();
+		}
+		assertEquals(4, count);
+	}
+
+	@Test
+	public void testWithinSpanXXX() {
+		testCCPTextAnnotationX.addToIndexes();
+		// this annotation has default top-level (not CCPSpan) span (0,0)
+		Span span = new Span(1, 10000);
+		Iterator<Annotation> iter = UIMA_Util.getAnnotationsWithinSpan(span, jcas, CCPTextAnnotation.type);
+		int count=0;	
+		while (iter.hasNext()) {
+			count++;
+			iter.next();
+		}
+		assertEquals(0, count);
+	} 
 }
