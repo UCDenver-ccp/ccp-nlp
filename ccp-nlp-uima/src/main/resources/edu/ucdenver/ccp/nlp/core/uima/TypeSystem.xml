@@ -236,9 +236,15 @@
       </features>
     </typeDescription>
     <typeDescription>
-      <name>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProperty</name>
+      <name>edu.ucdenver.ccp.nlp.core.uima.annotation.AnnotationProperty</name>
       <description>Superclass for annotation metadata properties</description>
       <supertypeName>uima.cas.TOP</supertypeName>
+    </typeDescription>
+    <typeDescription>
+      <name>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProperty</name>
+      <description>Superclass for annotation metadata properties</description>
+      <!--<supertypeName>uima.cas.TOP</supertypeName>-->
+      <supertypeName>edu.ucdenver.ccp.nlp.core.uima.annotation.AnnotationProperty</supertypeName>
     </typeDescription>
     <typeDescription>
       <name>edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationSetMembershipProperty</name>

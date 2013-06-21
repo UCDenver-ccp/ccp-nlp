@@ -54,7 +54,7 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotator;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPSpan;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationCommentProperty;
-import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.AnnotationMetadataProperty;
+import edu.ucdenver.ccp.nlp.core.uima.annotation.AnnotationProperty;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPPrimitiveSlotMention;
@@ -613,7 +613,7 @@ public class UIMA_Annotation_Util {
 	 * 
 	 * @throws CASException
 	 */
-	public static void addMetaDataProperty(CCPTextAnnotation ccpTA, AnnotationMetadataProperty propertyToAdd, JCas jcas) {
+	public static void addMetaDataProperty(CCPTextAnnotation ccpTA, AnnotationProperty propertyToAdd, JCas jcas) {
 		Collection<TOP> annotationPropertiesToAdd = new ArrayList<TOP>();
 		annotationPropertiesToAdd.add(propertyToAdd);
 		addMetaDataProperties(ccpTA, annotationPropertiesToAdd, jcas);
@@ -657,8 +657,8 @@ public class UIMA_Annotation_Util {
 	 * 
 	 * @return
 	 */
-	public static <T extends AnnotationMetadataProperty> Collection<T> getAnnotationProperties(CCPTextAnnotation ccpTA,
-			Class<T> annotationPropertyClass, JCas jcas) {
+	public static <T extends AnnotationProperty> Collection<T> getAnnotationProperties(
+			CCPTextAnnotation ccpTA, Class<T> annotationPropertyClass, JCas jcas) {
 		// int returnType = getFeatureStructureType(annotationPropertyClass);
 		Collection<T> annotationPropertiesToReturn = new ArrayList<T>();
 		AnnotationMetadata metaData = getAnnotationMetadata(ccpTA, jcas);
@@ -674,8 +674,8 @@ public class UIMA_Annotation_Util {
 		return annotationPropertiesToReturn;
 	}
 
-	public static <T extends AnnotationMetadataProperty> Collection<T> getAnnotationProperties(CCPTextAnnotation ccpTA,
-			Class<T> annotationPropertyClass) {
+	public static <T extends AnnotationProperty> Collection<T> getAnnotationProperties(
+			CCPTextAnnotation ccpTA, Class<T> annotationPropertyClass) {
 		try {
 			JCas jcas = ccpTA.getCAS().getJCas();
 			return getAnnotationProperties(ccpTA, annotationPropertyClass, jcas);
