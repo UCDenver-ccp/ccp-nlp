@@ -51,7 +51,7 @@ import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.AnnotationComparator;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
-import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation_Util;
+import edu.ucdenver.ccp.nlp.core.annotation.Annotation_Util;
 import edu.ucdenver.ccp.nlp.core.annotation.serialization.AnnotationToFileOutput;
 import edu.ucdenver.ccp.nlp.core.annotation.serialization.AnnotationToFileOutputTest;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
@@ -92,7 +92,7 @@ public class Annotation_UtilTest extends DefaultTestCase {
 		int tokenNumber = 5;
 
 		DefaultClassMention expectedTokenMention = createTokenMention(posLabel, tagSet, stem, lemma, tokenNumber);
-		DefaultClassMention testTokenMention = DefaultTextAnnotation_Util.createTokenMention(posLabel, tagSet, stem,
+		ClassMention testTokenMention = Annotation_Util.createTokenMention(posLabel, tagSet, stem,
 				lemma, tokenNumber);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
@@ -102,13 +102,13 @@ public class Annotation_UtilTest extends DefaultTestCase {
 		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
 				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, testTokenMention);
 
-		System.err.println("Expected\n" + expectedAnnotation.toString());
-		System.err.println("Test\n" + testAnnotation.toString());
+		//System.err.println("Expected\n" + expectedAnnotation.toString());
+		//System.err.println("Test\n" + testAnnotation.toString());
 		assertTrue(expectedTokenMention.equals(testTokenMention));
 
 		DefaultClassMention expectedTokenMentionWithUnknownTagSet = createTokenMention(posLabel,
-				DefaultTextAnnotation_Util.UNKNOWN_TAGSET, stem, lemma, tokenNumber);
-		DefaultClassMention testTokenMentionWithNullTagSet = DefaultTextAnnotation_Util.createTokenMention(posLabel,
+				Annotation_Util.UNKNOWN_TAGSET, stem, lemma, tokenNumber);
+		ClassMention testTokenMentionWithNullTagSet = Annotation_Util.createTokenMention(posLabel,
 				null, stem, lemma, tokenNumber);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
@@ -176,7 +176,7 @@ public class Annotation_UtilTest extends DefaultTestCase {
 		tokenNumberSlot.addSlotValue(tokenNumber);
 		expectedTokenMention.addPrimitiveSlotMention(tokenNumberSlot);
 
-		DefaultClassMention testTokenMention = DefaultTextAnnotation_Util.createTokenMention(posLabel, tagSet, stem,
+		ClassMention testTokenMention = Annotation_Util.createTokenMention(posLabel, tagSet, stem,
 				lemma, tokenNumber);
 
 		/* dummy annotations are necessary for mention comparison machinery to function */
@@ -204,7 +204,7 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 		DefaultClassMention expectedTokenMention = new DefaultClassMention(ClassMentionType.TOKEN.typeName());
 
-		DefaultClassMention testTokenMention = DefaultTextAnnotation_Util.createTokenMention(posLabel, tagSet, stem,
+		ClassMention testTokenMention = Annotation_Util.createTokenMention(posLabel, tagSet, stem,
 				lemma, tokenNumber);
 
 		/* dummy annotations are necessary for mention comparison machinery to function */
@@ -224,7 +224,7 @@ public class Annotation_UtilTest extends DefaultTestCase {
 		String tagSet = "PENN";
 
 		DefaultClassMention expectedPhraseMention = createPhraseMention(phraseType, tagSet);
-		DefaultClassMention testPhraseMention = DefaultTextAnnotation_Util.createPhraseMention(phraseType, tagSet);
+		ClassMention testPhraseMention = Annotation_Util.createPhraseMention(phraseType, tagSet);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
 		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
@@ -235,9 +235,9 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 		assertTrue(expectedPhraseMention.equals(testPhraseMention));
 
-		DefaultClassMention expectedPhraseMentionWithUnknownTagSet = createPhraseMention(phraseType,
-				DefaultTextAnnotation_Util.UNKNOWN_TAGSET);
-		DefaultClassMention testPhraseMentionWithNullTagSet = DefaultTextAnnotation_Util.createPhraseMention(
+		ClassMention expectedPhraseMentionWithUnknownTagSet = createPhraseMention(phraseType,
+				Annotation_Util.UNKNOWN_TAGSET);
+		ClassMention testPhraseMentionWithNullTagSet = Annotation_Util.createPhraseMention(
 				phraseType, null);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
@@ -270,7 +270,7 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 		DefaultClassMention expectedPhraseMention = new DefaultClassMention(ClassMentionType.PHRASE.typeName());
 
-		DefaultClassMention testPhraseMention = DefaultTextAnnotation_Util.createPhraseMention(phraseType, tagSet);
+		ClassMention testPhraseMention = Annotation_Util.createPhraseMention(phraseType, tagSet);
 
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
@@ -289,7 +289,7 @@ public class Annotation_UtilTest extends DefaultTestCase {
 		String tagSet = "PENN";
 
 		DefaultClassMention expectedClauseMention = createClauseMention(clauseType, tagSet);
-		DefaultClassMention testClauseMention = DefaultTextAnnotation_Util.createClauseMention(clauseType, tagSet);
+		ClassMention testClauseMention = Annotation_Util.createClauseMention(clauseType, tagSet);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
 		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
@@ -300,9 +300,9 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 		assertTrue(expectedClauseMention.equals(testClauseMention));
 
-		DefaultClassMention expectedClauseMentionWithUnknownTagSet = createClauseMention(clauseType,
-				DefaultTextAnnotation_Util.UNKNOWN_TAGSET);
-		DefaultClassMention testClauseMentionWithNullTagSet = DefaultTextAnnotation_Util.createClauseMention(
+		ClassMention expectedClauseMentionWithUnknownTagSet = createClauseMention(clauseType,
+				Annotation_Util.UNKNOWN_TAGSET);
+		ClassMention testClauseMentionWithNullTagSet = Annotation_Util.createClauseMention(
 				clauseType, null);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
@@ -335,7 +335,7 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 		DefaultClassMention expectedClauseMention = new DefaultClassMention(ClassMentionType.CLAUSE.typeName());
 
-		DefaultClassMention testClauseMention = DefaultTextAnnotation_Util.createClauseMention(clauseType, tagSet);
+		ClassMention testClauseMention = Annotation_Util.createClauseMention(clauseType, tagSet);
 
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
