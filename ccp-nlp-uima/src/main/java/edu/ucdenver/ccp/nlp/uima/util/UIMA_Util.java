@@ -1184,9 +1184,11 @@ public class UIMA_Util {
 	public static Set<String> getSlotNames(CCPClassMention ccpCM, Class slotType) {
 		Set<String> slotNames = new HashSet<String>();
 		FSArray ccpSlotMentions = ccpCM.getSlotMentions();
-		for (int i = 0; i < ccpSlotMentions.size(); i++) {
-			if (slotType.isInstance(ccpSlotMentions.get(i))) {
-				slotNames.add(((CCPSlotMention) ccpSlotMentions.get(i)).getMentionName());
+		if (ccpSlotMentions != null) {
+			for (int i = 0; i < ccpSlotMentions.size(); i++) {
+				if (slotType.isInstance(ccpSlotMentions.get(i))) {
+					slotNames.add(((CCPSlotMention) ccpSlotMentions.get(i)).getMentionName());
+				}
 			}
 		}
 		return slotNames;
