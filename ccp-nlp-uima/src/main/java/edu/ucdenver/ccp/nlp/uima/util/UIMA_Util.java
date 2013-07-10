@@ -86,6 +86,11 @@ import edu.ucdenver.ccp.nlp.core.mention.ComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 import edu.ucdenver.ccp.nlp.core.mention.Mention;
 import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
+import edu.ucdenver.ccp.nlp.core.mention.BooleanSlotMention;
+import edu.ucdenver.ccp.nlp.core.mention.DoubleSlotMention;
+import edu.ucdenver.ccp.nlp.core.mention.FloatSlotMention;
+import edu.ucdenver.ccp.nlp.core.mention.IntegerSlotMention;
+import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.SlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotationSet;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotator;
@@ -101,6 +106,7 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.metadata.TruePositiveProperty;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPBooleanSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPComplexSlotMention;
+import edu.ucdenver.ccp.nlp.core.uima.mention.CCPDoubleSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPFloatSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPMention;
@@ -1484,6 +1490,19 @@ public class UIMA_Util {
 			}
 		}
 		return null;
+	}
+	public static Double getFirstSlotValue(CCPDoubleSlotMention ccpSSM) {
+		DoubleArray slotArray = ccpSSM.getSlotValues();
+		if (slotArray != null) {
+			double[] slotValues = slotArray.toArray();
+			if (slotValues.length > 0) {
+				return slotValues[0];
+			}
+		}
+		return null;
+	}
+	public static boolean getFirstSlotValue(CCPBooleanSlotMention ccpSSM) {
+		return ccpSSM.getSlotValue();
 	}
 
 	public static Integer getFirstSlotValue(CCPIntegerSlotMention ccpISM) {
