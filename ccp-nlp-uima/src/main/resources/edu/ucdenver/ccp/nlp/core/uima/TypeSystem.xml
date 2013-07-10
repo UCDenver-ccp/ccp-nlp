@@ -8,7 +8,8 @@
     <typeDescription>
       <name>edu.ucdenver.ccp.nlp.core.uima.annotation.CCPDocumentInformation</name>
       <description>The CCPDocumentInformation annotation includes document metadata such as the document ID, document collection ID, secondary document IDs, document size, etc.</description>
-      <supertypeName>uima.cas.TOP</supertypeName>
+      <!--<supertypeName>uima.cas.TOP</supertypeName>-->
+      <supertypeName>uima.tcas.Annotation</supertypeName>
       <features>
         <featureDescription>
           <name>documentID</name>
