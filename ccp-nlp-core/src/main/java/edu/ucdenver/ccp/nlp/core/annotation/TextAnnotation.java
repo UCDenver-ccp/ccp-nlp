@@ -385,7 +385,7 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 	}
 
 	public String getSingleLineRepresentation() {
-		return this.toString().replaceAll("\\n", " ").replaceAll("\\s+", " ");
+		return this.toString().replaceAll("\\n", " ").replaceAll("\\s+", " ").replaceAll("===","");
 	}
 
 	/**

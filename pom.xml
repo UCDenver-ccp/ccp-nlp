@@ -20,7 +20,7 @@
 		<module>ccp-nlp-core</module>
 		<module>ccp-nlp-uima</module>
 		<module>ccp-nlp-uima-collections</module>
-		<module>ccp-nlp-uima-serialization</module>
+<!--		<module>ccp-nlp-uima-serialization</module> -->
 		<module>ccp-nlp-uima-shims</module>
 		<module>ccp-nlp-uima-annotators</module>
 		<module>ccp-nlp-wrapper-banner</module>
