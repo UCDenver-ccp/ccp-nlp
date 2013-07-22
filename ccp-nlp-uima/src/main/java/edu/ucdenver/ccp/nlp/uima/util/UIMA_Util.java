@@ -1483,21 +1483,15 @@ public class UIMA_Util {
 
 	public static String getFirstSlotValue(CCPStringSlotMention ccpSSM) {
 		StringArray slotArray = ccpSSM.getSlotValues();
-		if (slotArray != null) {
-			String[] slotValues = slotArray.toArray();
-			if (slotValues.length > 0) {
-				return slotValues[0];
-			}
+		if (slotArray != null && slotArray.size() > 0) {
+			return slotArray.get(0);
 		}
 		return null;
 	}
 	public static Double getFirstSlotValue(CCPDoubleSlotMention ccpSSM) {
 		DoubleArray slotArray = ccpSSM.getSlotValues();
-		if (slotArray != null) {
-			double[] slotValues = slotArray.toArray();
-			if (slotValues.length > 0) {
-				return slotValues[0];
-			}
+		if (slotArray != null && slotArray.size() > 0) {
+			return slotArray.get(0);
 		}
 		return null;
 	}
@@ -1507,22 +1501,16 @@ public class UIMA_Util {
 
 	public static Integer getFirstSlotValue(CCPIntegerSlotMention ccpISM) {
 		IntegerArray slotArray = ccpISM.getSlotValues();
-		if (slotArray != null) {
-			int[] slotValues = slotArray.toArray();
-			if (slotValues.length > 0) {
-				return slotValues[0];
-			}
+		if (slotArray != null && slotArray.size() > 0) {
+			return slotArray.get(0);
 		}
 		return null;
 	}
 
 	public static Float getFirstSlotValue(CCPFloatSlotMention ccpFSM) {
 		FloatArray slotArray = ccpFSM.getSlotValues();
-		if (slotArray != null) {
-			float[] slotValues = slotArray.toArray();
-			if (slotValues.length > 0) {
-				return slotValues[0];
-			}
+		if (slotArray != null && slotArray.size() > 0) {
+			return slotArray.get(0);
 		}
 		return null;
 	}
