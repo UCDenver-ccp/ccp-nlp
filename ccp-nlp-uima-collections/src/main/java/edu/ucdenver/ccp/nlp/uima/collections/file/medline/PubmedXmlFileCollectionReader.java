@@ -32,13 +32,19 @@ package edu.ucdenver.ccp.nlp.uima.collections.file.medline;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.NoSuchElementException;
+import java.util.zip.GZIPInputStream;
 
+import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
+import org.uimafit.component.ViewCreatorAnnotator;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.CollectionReaderFactory;
 import org.uimafit.factory.ConfigurationParameterFactory;
@@ -62,6 +68,8 @@ import edu.ucdenver.ccp.nlp.uima.util.View;
  */
 public class PubmedXmlFileCollectionReader extends BaseTextCollectionReader {
 
+	private static final Logger logger = Logger.getLogger(PubmedXmlFileCollectionReader.class);
+
 	/* ==== Input file configuration ==== */
 	public static final String PARAM_MEDLINE_XML_FILE = ConfigurationParameterFactory.createConfigurationParameterName(
 			PubmedXmlFileCollectionReader.class, "pubmedXmlFile");
@@ -73,6 +81,35 @@ public class PubmedXmlFileCollectionReader extends BaseTextCollectionReader {
 
 	private GenericDocument nextDocument = null;
 
+	/**
+	 * This method overriden so that the year can be appended to the document id
+	 */
+	@Override
+	protected void initializeJCas(JCas jcas, GenericDocument document) throws AnalysisEngineProcessException {
+		if (this.viewName.equals(View.DEFAULT.name())) {
+			jcas.setSofaDataString(document.getDocumentText(), "text/plain");
+			if (this.language != null) {
+				jcas.setDocumentLanguage(this.language);
+			}
+			loadAnnotationsIntoCas(jcas, document);
+		} else {
+			JCas view = ViewCreatorAnnotator.createViewSafely(jcas, this.viewName);
+			view.setSofaDataString(document.getDocumentText(), "text/plain");
+			if (this.language != null) {
+				view.setDocumentLanguage(this.language);
+			}
+			loadAnnotationsIntoCas(view, document);
+		}
+		getDocumentMetadataHandler().setDocumentId(jcas,
+				document.getDocumentID() + "||" + document.getOtherDocumentIDs().get("year"));
+		getDocumentMetadataHandler().setDocumentEncoding(jcas, encoding.getCharacterSetName());
+
+		if (processedDocumentCount % 100 == 0) {
+			logger.info("Processing document " + processedDocumentCount + ".  Loading view: " + this.viewName);
+		}
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -83,7 +120,13 @@ public class PubmedXmlFileCollectionReader extends BaseTextCollectionReader {
 	@Override
 	protected void initializeImplementation(UimaContext context) throws ResourceInitializationException {
 		try {
-			pubmedXmlDeserializer = new PubmedXmlDeserializer(new FileInputStream(pubmedXmlFile));
+			InputStream is = null;
+			if (pubmedXmlFile.getName().endsWith(".gz")) {
+				is = new GZIPInputStream(new FileInputStream(pubmedXmlFile));
+			} else {
+				is = new FileInputStream(pubmedXmlFile);
+			}
+			pubmedXmlDeserializer = new PubmedXmlDeserializer(is);
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
 		}
@@ -133,9 +176,12 @@ public class PubmedXmlFileCollectionReader extends BaseTextCollectionReader {
 				PubmedArticleBase nextArticle = pubmedXmlDeserializer.next();
 				StringBuffer documentText = new StringBuffer();
 				documentText.append(nextArticle.getArticleTitle());
-				for (AbstractText abstractText : nextArticle.getArticleAbstractTexts())
-					documentText.append(StringConstants.NEW_LINE + abstractText.getAbstractText());
+				String abstractText = nextArticle.getArticleAbstractText();
+				if (abstractText != null) {
+					documentText.append(StringConstants.NEW_LINE + StringConstants.NEW_LINE + abstractText);
+				}
 				nextDocument = new GenericDocument(nextArticle.getPubmedId().getPmid());
+				nextDocument.addOtherDocumentID("year", nextArticle.getDate());
 				nextDocument.setDocumentText(documentText.toString());
 				return true;
 			}
