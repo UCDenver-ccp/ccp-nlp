@@ -100,6 +100,7 @@ public class WrappedCCPTextAnnotation extends TextAnnotation {
 	@Override
 	public void addSpan(Span span) {
 		UIMA_Annotation_Util.addSpan(wrappedCCPTextAnnotation, span, jcas);
+		UIMA_Annotation_Util.sortSpanList(wrappedCCPTextAnnotation);
 	}
 
 	@Override
