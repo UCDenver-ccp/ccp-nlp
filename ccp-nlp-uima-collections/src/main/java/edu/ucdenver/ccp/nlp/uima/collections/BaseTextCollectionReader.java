@@ -147,8 +147,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 			throw new ResourceInitializationException(e);
 		}
 
-		documentMetadataHandler = (DocumentMetadataHandler) ConstructorUtil
-				.invokeConstructor(documentMetadataHandlerClassName);
+		setDocumentMetadataHandler((DocumentMetadataHandler) ConstructorUtil
+				.invokeConstructor(documentMetadataHandlerClassName));
 	}
 
 	/**
@@ -231,8 +231,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 			}
 			loadAnnotationsIntoCas(view, document);
 		}
-		documentMetadataHandler.setDocumentId(jcas, document.getDocumentID());
-		documentMetadataHandler.setDocumentEncoding(jcas, encoding.getCharacterSetName());
+		getDocumentMetadataHandler().setDocumentId(jcas, document.getDocumentID());
+		getDocumentMetadataHandler().setDocumentEncoding(jcas, encoding.getCharacterSetName());
 
 		logger.info("Processing document " + processedDocumentCount + " of " + documentsToBeProcessedCount
 				+ ".  Loading view: " + this.viewName);
@@ -257,6 +257,20 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 			documentsToBeProcessedCount = processedDocumentCount + 1;
 		}
 		return new Progress[] { new ProgressImpl(processedDocumentCount, documentsToBeProcessedCount, Progress.ENTITIES) };
+	}
+
+	/**
+	 * @return the documentMetadataHandler
+	 */
+	public DocumentMetadataHandler getDocumentMetadataHandler() {
+		return documentMetadataHandler;
+	}
+
+	/**
+	 * @param documentMetadataHandler the documentMetadataHandler to set
+	 */
+	private void setDocumentMetadataHandler(DocumentMetadataHandler documentMetadataHandler) {
+		this.documentMetadataHandler = documentMetadataHandler;
 	}
 
 }
