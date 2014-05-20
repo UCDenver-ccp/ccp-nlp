@@ -45,6 +45,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.analysis_engine.metadata.impl.FlowControllerDeclaration_impl;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.ConstraintFactory;
@@ -66,6 +67,8 @@ import org.apache.uima.jcas.cas.LongArray;
 import org.apache.uima.jcas.cas.StringArray;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.tcas.Annotation;
+import org.apache.uima.resource.metadata.impl.ProcessingResourceMetaData_impl;
+import org.apache.uima.resource.metadata.impl.ResourceManagerConfiguration_impl;
 import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
@@ -135,6 +138,56 @@ public class UIMA_Util {
 		try {
 			writer = FileWriterUtil.initBufferedWriter(outputFile, CharacterEncoding.UTF_8, WriteMode.OVERWRITE,
 					FileSuffixEnforcement.OFF);
+
+//			FlowControllerDeclaration flowControllerDeclaration = desc.getFlowControllerDeclaration();
+//			System.out.println("FlowControllerDecl == null: " + (flowControllerDeclaration == null));
+//			if (flowControllerDeclaration == null) {
+				desc.setFlowControllerDeclaration(new FlowControllerDeclaration_impl());
+//			}
+//			ResourceMetaData metaData = desc.getMetaData();
+//			System.out.println("MetaData == null: " + (metaData == null));
+//			System.out.println(metaData.toString());
+//			if (metaData.getUUID() == null) {
+//				metaData.setUUID("");
+//			}
+//			if (metaData.getDescription() == null) {
+//				metaData.setDescription("");
+//			}
+//			if (metaData.getConfigurationParameterDeclarations().getDefaultGroupName() == null) {
+//				metaData.getConfigurationParameterDeclarations().setDefaultGroupName("");
+//			}
+//			if (metaData.getConfigurationParameterDeclarations().getSearchStrategy() == null) {
+//				metaData.getConfigurationParameterDeclarations().setSearchStrategy("");
+//			}
+//			if (metaData.getCopyright()==null) {
+//				metaData.setCopyright("");
+//			}
+//			if (metaData.getVendor()==null) {
+//				metaData.setVendor("");
+//			}
+//			if (metaData.getVersion()==null) {
+//				metaData.setVersion("");
+//			}
+//			if (metaData.getName() == null) {
+//				metaData.setName("");
+//			}
+//			if (metaData.getAttributeValue("flowConstraints") == null) {
+//				metaData.setAttributeValue("flowConstraints", new FlowConstraints);
+//			}
+//			
+//			
+//System.out.println("********************************************");			
+//			System.out.println(metaData.toString());
+//			System.out.println("********************************************");			
+//			System.out.println(metaData.listAttributes());
+			
+			desc.setMetaData(new ProcessingResourceMetaData_impl());
+			
+//			ResourceManagerConfiguration resourceManagerConfiguration = desc.getResourceManagerConfiguration();
+//			System.out.println("ResourceManagerConfig == null: " + (resourceManagerConfiguration == null));
+//			if (resourceManagerConfiguration == null) {
+				desc.setResourceManagerConfiguration(new ResourceManagerConfiguration_impl());
+//			}
 			desc.toXML(writer);
 		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException(e);
