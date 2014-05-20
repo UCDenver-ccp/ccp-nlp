@@ -373,7 +373,9 @@ public class DefaultTextAnnotation extends TextAnnotation {
 	 */
 	@Override
 	public void addSpan(Span span) {
-		spanList.add(span);
+		if (!spanList.contains(span)) {
+			spanList.add(span);
+		}
 		sortSpanList();
 
 	}
