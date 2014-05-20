@@ -82,7 +82,7 @@ public class DefaultStringSlotMention extends StringSlotMention {
 	}
 
 	public void setSlotValues(Collection<String> slotValues) throws InvalidInputException {
-		slotValues = new ArrayList<String>();
+		this.slotValues = new ArrayList<String>();
 		addSlotValues(slotValues);
 	}
 
@@ -102,7 +102,7 @@ public class DefaultStringSlotMention extends StringSlotMention {
 	}
 
 	@Override
-	protected void setMentionName(String mentionName) {
+	public void setMentionName(String mentionName) {
 		this.mentionName = mentionName;
 	}
 

@@ -102,7 +102,7 @@ public class DefaultFloatSlotMention extends FloatSlotMention {
 	}
 
 	@Override
-	protected void setMentionName(String mentionName) {
+	public void setMentionName(String mentionName) {
 		this.mentionName = mentionName;
 	}
 

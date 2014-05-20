@@ -102,7 +102,7 @@ public class DefaultIntegerSlotMention extends IntegerSlotMention {
 	}
 
 	@Override
-	protected void setMentionName(String mentionName) {
+	public void setMentionName(String mentionName) {
 		this.mentionName = mentionName;
 	}
 

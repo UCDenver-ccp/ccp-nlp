@@ -122,7 +122,7 @@ public class DefaultComplexSlotMention extends ComplexSlotMention {
 	}
 
 	@Override
-	protected void setMentionName(String mentionName) {
+	public void setMentionName(String mentionName) {
 		this.mentionName = mentionName;
 	}
 

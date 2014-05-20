@@ -229,7 +229,7 @@ public class DefaultClassMention extends ClassMention {
 	}
 
 	@Override
-	protected void setMentionName(String mentionName) {
+	public void setMentionName(String mentionName) {
 		this.mentionName = mentionName;
 	}
 

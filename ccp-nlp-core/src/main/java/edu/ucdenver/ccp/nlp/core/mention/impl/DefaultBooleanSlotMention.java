@@ -88,7 +88,7 @@ public class DefaultBooleanSlotMention extends BooleanSlotMention {
 	}
 
 	@Override
-	protected void setMentionName(String mentionName) {
+	public void setMentionName(String mentionName) {
 		this.mentionName = mentionName;
 	}
 
