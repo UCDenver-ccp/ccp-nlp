@@ -74,11 +74,11 @@ public class PubmedXmlFileCollectionReaderTest extends DefaultTestCase {
 
 		int count = 1;
 		while (jCasIterable.hasNext()) {
-			String documentText = String.format("Title %d\nAbstract %d", count, count);
+			String documentText = String.format("Title %d\n\nAbstract %d", count, count);
 			if (count == 8)
-				documentText = "Title 8\nAbstract 8a\nAbstract 8b\nAbstract 8c\nAbstract 8d\nAbstract 8e\nAbstract 8f\nAbstract 8g";
+				documentText = "Title 8\n\nBACKGROUND: Abstract 8a\nOBJECTIVE: Abstract 8b\nMETHODS: Abstract 8c\nMETHODS: Abstract 8d\nMETHODS: Abstract 8e\nRESULTS: Abstract 8f\nCONCLUSIONS: Abstract 8";
 			if (count == 11)
-				documentText = "Book Title 1\nBook Abstract 1a\nBook Abstract 1b\nBook Abstract 1c\nBook Abstract 1d";
+				documentText = "Book Title 1\n\nBook Abstract 1a\n\nBook Abstract 1b\n\nBook Abstract 1c\n\nBook Abstract 1d";
 			JCas jCas = jCasIterable.next();
 			assertEquals(documentText, jCas.getDocumentText());
 			count++;
