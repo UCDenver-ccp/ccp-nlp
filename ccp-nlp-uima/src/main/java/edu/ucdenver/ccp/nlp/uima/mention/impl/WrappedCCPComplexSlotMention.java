@@ -177,7 +177,7 @@ public class WrappedCCPComplexSlotMention extends ComplexSlotMention {
 	}
 
 	@Override
-	protected void setMentionName(String mentionName) {
+	public void setMentionName(String mentionName) {
 		wrappedCSM.setMentionName(mentionName);
 	}
 

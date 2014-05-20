@@ -138,7 +138,7 @@ public class WrappedCCPDoubleSlotMention extends DoubleSlotMention {
 	}
 
 	@Override
-	protected void setMentionName(String mentionName) {
+	public void setMentionName(String mentionName) {
 		wrappedSM.setMentionName(mentionName);
 	}
 

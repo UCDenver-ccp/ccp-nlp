@@ -128,12 +128,7 @@ public class WrappedCCPClassMention extends ClassMention {
 	}
 
 	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName,  String slotValue) {
-		try {
-			return CCPPrimitiveSlotMentionFactory.createPrimitiveSlotMention(slotMentionName, slotValue, jcas);
-		} catch (KnowledgeRepresentationWrapperException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return CCPPrimitiveSlotMentionFactory.createPrimitiveSlotMention(slotMentionName, slotValue, jcas);
 	}
 
 	public PrimitiveSlotMention createPrimitiveSlotMention(String slotMentionName,  Integer slotValue) {
@@ -187,11 +182,7 @@ public class WrappedCCPClassMention extends ClassMention {
 	public PrimitiveSlotMention getPrimitiveSlotMentionByName(String slotMentionName) {
 		CCPPrimitiveSlotMention ccpPSM = UIMA_Util.getPrimitiveSlotMentionByName(wrappedCM, slotMentionName);
 		if (ccpPSM != null) {
-			try {
-				return CCPPrimitiveSlotMentionFactory.createPrimitiveSlotMention(ccpPSM);
-			} catch (KnowledgeRepresentationWrapperException e) {
-				e.printStackTrace();
-			}
+			return CCPPrimitiveSlotMentionFactory.createPrimitiveSlotMention(ccpPSM);
 		}
 		return null;
 	}
@@ -204,11 +195,7 @@ public class WrappedCCPClassMention extends ClassMention {
 		Collection<CCPPrimitiveSlotMention> ccpPSMs = UIMA_Util.getPrimitiveSlotMentions(wrappedCM);
 		Collection<PrimitiveSlotMention> ncsms = new ArrayList<PrimitiveSlotMention>();
 		for (CCPPrimitiveSlotMention ccpPSM : ccpPSMs) {
-			try {
-				ncsms.add(CCPPrimitiveSlotMentionFactory.createPrimitiveSlotMention(ccpPSM));
-			} catch (KnowledgeRepresentationWrapperException e) {
-				e.printStackTrace();
-			}
+			ncsms.add(CCPPrimitiveSlotMentionFactory.createPrimitiveSlotMention(ccpPSM));
 		}
 		return ncsms;
 	}
@@ -273,7 +260,7 @@ public class WrappedCCPClassMention extends ClassMention {
 	}
 
 	@Override
-	protected void setMentionName(String mentionName) {
+	public void setMentionName(String mentionName) {
 		wrappedCM.setMentionName(mentionName);
 	}
 

@@ -110,7 +110,7 @@ public class WrappedCCPBooleanSlotMention extends BooleanSlotMention {
 	}
 
 	@Override
-	protected void setMentionName(String mentionName) {
+	public void setMentionName(String mentionName) {
 		wrappedSM.setMentionName(mentionName);
 	}
 
