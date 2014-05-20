@@ -64,13 +64,6 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>
-				ccp-nlp-ext-uima-serialization-knowtator
-			</artifactId>
-			<version>3.3-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 
 	<build>
