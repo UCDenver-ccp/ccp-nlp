@@ -35,6 +35,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
+import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.SlotMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
@@ -81,7 +82,13 @@ public class CcpPartOfSpeechDecorator implements PartOfSpeechDecorator {
 		WrappedCCPTextAnnotation wrappedCcpTa = new WrappedCCPTextAnnotation((CCPTextAnnotation) annotation);
 		StringSlotMention posSlot = (StringSlotMention) wrappedCcpTa.getClassMention().getPrimitiveSlotMentionByName(
 				SlotMentionType.TOKEN_PARTOFSPEECH.typeName());
-		posSlot.addSlotValue(pos.serializeToString());
+		if (posSlot != null) {
+			posSlot.addSlotValue(pos.serializeToString());
+		} else {
+			PrimitiveSlotMention<?> psm = wrappedCcpTa.getClassMention().createPrimitiveSlotMention(SlotMentionType.TOKEN_PARTOFSPEECH.typeName(),
+					pos.serializeToString());
+			wrappedCcpTa.getClassMention().addPrimitiveSlotMention(psm);
+		}
 	}
 
 	/**

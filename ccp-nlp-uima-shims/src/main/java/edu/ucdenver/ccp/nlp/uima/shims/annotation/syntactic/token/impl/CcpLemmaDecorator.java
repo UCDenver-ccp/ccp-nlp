@@ -35,10 +35,12 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
+import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.SlotMentionType;
 import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.uima.annotation.impl.WrappedCCPTextAnnotation;
+import edu.ucdenver.ccp.nlp.uima.mention.impl.CCPPrimitiveSlotMentionFactory;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Annotation_Util;
 import edu.ucdenver.ccp.uima.shims.annotation.AnnotationDataExtractor;
 import edu.ucdenver.ccp.uima.shims.annotation.Span;
@@ -80,7 +82,13 @@ public class CcpLemmaDecorator implements LemmaDecorator {
 		WrappedCCPTextAnnotation wrappedCcpTa = new WrappedCCPTextAnnotation((CCPTextAnnotation) annotation);
 		StringSlotMention lemmaSlot = (StringSlotMention) wrappedCcpTa.getClassMention().getPrimitiveSlotMentionByName(
 				SlotMentionType.TOKEN_LEMMA.typeName());
-		lemmaSlot.addSlotValue(lemma.serializeToString());
+		if (lemmaSlot == null) {
+			PrimitiveSlotMention<?> psm = wrappedCcpTa.getClassMention().createPrimitiveSlotMention(SlotMentionType.TOKEN_LEMMA.typeName(),
+					lemma.serializeToString());
+			wrappedCcpTa.getClassMention().addPrimitiveSlotMention(psm);
+		} else {
+			lemmaSlot.addSlotValue(lemma.serializeToString());
+		}
 	}
 
 	/**
