@@ -20,13 +20,13 @@
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>medline-xml-parser</artifactId>
-			<version>2012.0</version>
+			<version>2013.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>medline-xml-parser</artifactId>
-			<version>2012.0</version>
+			<version>2013.1-SNAPSHOT</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
@@ -63,6 +63,13 @@
 			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>
+				ccp-nlp-ext-uima-serialization-knowtator
+			</artifactId>
+			<version>3.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
