@@ -246,7 +246,8 @@ public class UIMA_Annotation_Util {
 		JCas jcas;
 		try {
 			jcas = ccpTA.getCAS().getJCas();
-			List<Span> spanList = getSpanList(ccpTA);
+			// set below removes any duplicate spans
+			List<Span> spanList = new ArrayList<Span>(new HashSet<Span>(getSpanList(ccpTA))); 
 			if (spanList != null) {
 				Collections.sort(spanList, Span.ASCENDING());
 				FSArray sortedSpans = new FSArray(jcas, spanList.size());
