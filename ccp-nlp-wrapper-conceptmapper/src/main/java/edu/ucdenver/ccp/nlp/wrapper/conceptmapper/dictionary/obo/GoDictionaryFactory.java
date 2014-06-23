@@ -17,7 +17,7 @@ import org.geneontology.oboedit.dataadapter.OBOParseException;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileUtil.CleanDirectory;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OboUtil.ObsoleteTermHandling;
-import edu.ucdenver.ccp.fileparsers.geneontology.GeneOntologyClassIterator;
+import edu.ucdenver.ccp.datasource.fileparsers.obo.impl.GeneOntologyClassIterator;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo.OboToDictionary.SynonymType;
 
 /**

@@ -15,10 +15,9 @@ import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileUtil.CleanDirectory;
+import edu.ucdenver.ccp.datasource.fileparsers.ncbi.gene.EntrezGeneInfoFileData;
+import edu.ucdenver.ccp.datasource.fileparsers.ncbi.gene.EntrezGeneInfoFileParser;
 import edu.ucdenver.ccp.datasource.identifiers.ncbi.taxonomy.NcbiTaxonomyID;
-import edu.ucdenver.ccp.fileparsers.field.GeneNameOrSymbol;
-import edu.ucdenver.ccp.fileparsers.ncbi.gene.EntrezGeneInfoFileData;
-import edu.ucdenver.ccp.fileparsers.ncbi.gene.EntrezGeneInfoFileParser;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.ConceptMapperDictionaryBuilder;
 
 /**
@@ -127,23 +126,23 @@ public class EntrezGeneDictionaryFactory {
 			if (useRecord) {
 				List<String> synonymStrs = new ArrayList<String>();
 
-				GeneNameOrSymbol nomSymbol = dataRecord.getSymbolFromNomenclatureAuthority();
+				String nomSymbol = dataRecord.getSymbolFromNomenclatureAuthority();
 				if (nomSymbol != null)
-					synonymStrs.add(nomSymbol.getDataElement());
-				GeneNameOrSymbol nomName = dataRecord.getFullNameFromNomenclatureAuthority();
+					synonymStrs.add(nomSymbol);
+				String nomName = dataRecord.getFullNameFromNomenclatureAuthority();
 				if (nomName != null)
-					synonymStrs.add(nomName.getDataElement());
-				GeneNameOrSymbol symbol = dataRecord.getSymbol();
+					synonymStrs.add(nomName);
+				String symbol = dataRecord.getSymbol();
 				if (symbol != null)
-					synonymStrs.add(symbol.getDataElement());
-				Set<GeneNameOrSymbol> synonyms = dataRecord.getSynonyms();
+					synonymStrs.add(symbol);
+				Set<String> synonyms = dataRecord.getSynonyms();
 				if (synonyms != null)
-					for (GeneNameOrSymbol syn : synonyms)
-						synonymStrs.add(syn.getDataElement());
-				Set<GeneNameOrSymbol> otherDesignations = dataRecord.getOtherDesignations();
+					for (String syn : synonyms)
+						synonymStrs.add(syn);
+				Set<String> otherDesignations = dataRecord.getOtherDesignations();
 				if (otherDesignations != null)
-					for (GeneNameOrSymbol desig : otherDesignations)
-						synonymStrs.add(desig.getDataElement());
+					for (String desig : otherDesignations)
+						synonymStrs.add(desig);
 
 				synonymStrs = filterSynonyms(synonymStrs);
 

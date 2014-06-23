@@ -23,7 +23,7 @@ import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OboClassIterator;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OboUtil.ObsoleteTermHandling;
-import edu.ucdenver.ccp.fileparsers.obo.GenericOboClassIterator;
+import edu.ucdenver.ccp.datasource.fileparsers.obo.impl.GenericOboClassIterator;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo.OboToDictionary.SynonymType;
 
 /**
@@ -39,7 +39,8 @@ public class OboToDictionaryTest extends DefaultTestCase {
 	public void testExactSynonymOnly_SO_OBO() throws IOException, OBOParseException {
 		File oboFile = ClassPathUtil.copyClasspathResourceToDirectory(getClass(), SAMPLE_SO_OBO_FILE_NAME,
 				folder.newFolder("input"));
-		OboClassIterator oboClsIter = new GenericOboClassIterator(oboFile, CharacterEncoding.UTF_8, ObsoleteTermHandling.EXCLUDE_OBSOLETE_TERMS);
+		OboClassIterator oboClsIter = new GenericOboClassIterator(oboFile, CharacterEncoding.UTF_8,
+				ObsoleteTermHandling.EXCLUDE_OBSOLETE_TERMS);
 		File outputFile = folder.newFile("dict.xml");
 		OboToDictionary.buildDictionary(outputFile, oboClsIter, null, SynonymType.EXACT_ONLY);
 		/* @formatter:off */
@@ -58,13 +59,13 @@ public class OboToDictionaryTest extends DefaultTestCase {
 		assertTrue(FileComparisonUtil.hasExpectedLines(outputFile, CharacterEncoding.UTF_8, expectedLines, null,
 				LineOrder.AS_IN_FILE, ColumnOrder.AS_IN_FILE, LineTrim.ON, ShowWhiteSpace.ON));
 	}
-	
-	
+
 	@Test
 	public void testExactSynonymOnly_CL_OBO() throws IOException, OBOParseException {
 		File oboFile = ClassPathUtil.copyClasspathResourceToDirectory(getClass(), SAMPLE_CL_OBO_FILE_NAME,
 				folder.newFolder("input"));
-		OboClassIterator oboClsIter = new GenericOboClassIterator(oboFile, CharacterEncoding.UTF_8, ObsoleteTermHandling.EXCLUDE_OBSOLETE_TERMS);
+		OboClassIterator oboClsIter = new GenericOboClassIterator(oboFile, CharacterEncoding.UTF_8,
+				ObsoleteTermHandling.EXCLUDE_OBSOLETE_TERMS);
 		File outputFile = folder.newFile("dict.xml");
 		OboToDictionary.buildDictionary(outputFile, oboClsIter, null, SynonymType.EXACT_ONLY);
 		/* @formatter:off */
@@ -88,13 +89,13 @@ public class OboToDictionaryTest extends DefaultTestCase {
 		assertTrue(FileComparisonUtil.hasExpectedLines(outputFile, CharacterEncoding.UTF_8, expectedLines, null,
 				LineOrder.AS_IN_FILE, ColumnOrder.AS_IN_FILE, LineTrim.ON, ShowWhiteSpace.ON));
 	}
-	
-	
+
 	@Test
 	public void testIncludeAllSynonyms_CL_OBO() throws IOException, OBOParseException {
 		File oboFile = ClassPathUtil.copyClasspathResourceToDirectory(getClass(), SAMPLE_CL_OBO_FILE_NAME,
 				folder.newFolder("input"));
-		OboClassIterator oboClsIter = new GenericOboClassIterator(oboFile, CharacterEncoding.UTF_8, ObsoleteTermHandling.EXCLUDE_OBSOLETE_TERMS);
+		OboClassIterator oboClsIter = new GenericOboClassIterator(oboFile, CharacterEncoding.UTF_8,
+				ObsoleteTermHandling.EXCLUDE_OBSOLETE_TERMS);
 		File outputFile = folder.newFile("dict.xml");
 		OboToDictionary.buildDictionary(outputFile, oboClsIter, null, SynonymType.ALL);
 		/* @formatter:off */
