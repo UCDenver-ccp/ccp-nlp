@@ -1,0 +1,30 @@
+format-version: 1.0
+date: 25:05:2007 09:56
+saved-by: minna
+auto-generated-by: OBO-Edit 1.100-beta25
+default-namespace: cell
+remark: $Revision: 1.26 $  Drafted by Jonathan Bard, Michael Ashburner, David States, Seung Y. Rhee, and Pascal Gaudet. Incorporating terms and synonyms from the eVOC cell ontology of Janet Kelso, Win Hide et al. http://www.sanbi.ac.za/evoc/ontologies.html. Hematopoietic cell terms revised by Alexander Diehl, MGI, The Jackson Laboratory. Contact Oliver Hofmann, oliver@sanbi.ac.za, at SANBI, University of the Western Cape.
+
+[Term]
+id: CL:0000000
+name: cell
+def: "Anatomical structure that has as its parts a maximally connected cell compartment surrounded by a plasma membrane." [CARO:mah]
+xref_analog: FMA:68646
+
+
+[Term]
+id: CL:0000009
+name: fusiform initial
+def: "An elongated cell with approximately wedge-shaped ends, found in the vascular cambium, which gives rise to the elements of the axial system in the secondary vascular tissues." [ISBN:0471245208]
+related_synonym: "xylem initial" []
+related_synonym: "xylem mother cell" []
+related_synonym: "xylem mother cell activity" []
+
+id: CL:0000041
+name: mature eosinophil
+def: "A fully differentiated eosinophil, a granular leukocyte with a nucleus that usually has two lobes connected by one or more slender threads of chromatin, and cytoplasm containing coarse, round granules that are uniform in size and which can be stained by the dye eosin." [GOC:add, ISBN:0721601464]
+exact_synonym: "mature eosinocyte" []
+exact_synonym: "mature eosinophil leucocyte" []
+exact_synonym: "mature eosinophil leukocyte" []
+broad_synonym: "polymorphonuclear leucocyte" []
+broad_synonym: "polymorphonuclear leukocyte" []
