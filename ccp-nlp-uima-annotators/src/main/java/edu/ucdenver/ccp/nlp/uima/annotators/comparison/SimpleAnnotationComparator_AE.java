@@ -1,4 +1,4 @@
-package edu.ucdenver.ccp.nlp.ext.uima.annotators.comparison;
+package edu.ucdenver.ccp.nlp.uima.annotators.comparison;
 
 import java.io.File;
 import java.util.HashMap;

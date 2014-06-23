@@ -18,7 +18,7 @@
  * 
  */
 
-package edu.ucdenver.ccp.nlp.ext.uima.annotators.converters;
+package edu.ucdenver.ccp.nlp.uima.annotators.converter;
 
 import java.util.Set;
 

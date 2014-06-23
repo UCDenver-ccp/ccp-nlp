@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package edu.ucdenver.ccp.nlp.ext.uima.annotators.comparison;
+package edu.ucdenver.ccp.nlp.uima.annotators.comparison;
 
 import java.io.IOException;
 

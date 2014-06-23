@@ -18,7 +18,7 @@
  * 
  */
 
-package edu.ucdenver.ccp.nlp.ext.uima.annotators.comparison;
+package edu.ucdenver.ccp.nlp.uima.annotators.comparison;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
