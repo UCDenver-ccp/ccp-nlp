@@ -21,7 +21,6 @@ package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,7 +37,6 @@ import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.xml.XmlUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OboClassIterator;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OboUtil;
-import edu.ucdenver.ccp.nlp.wrapper.oboedit.OboEdit_Util;
 
 /**
  * A utility for building an XML-formatted dictionary of terms in an OBO ontology.
@@ -60,8 +58,6 @@ public class OboToDictionary {
 
 	private static final Logger logger = Logger.getLogger(OboToDictionary.class);
 
-	private OboEdit_Util oboEditUtil;
-
 	public static String TOKEN_TAG = "token";
 	public static String SYNONYM_TAG = "variant";
 
@@ -69,7 +65,6 @@ public class OboToDictionary {
 
 	public OboToDictionary(String oboFile) {
 		System.setProperty("file.encoding", "UTF-8");
-		oboEditUtil = new OboEdit_Util(oboFile);
 	}
 
 	public static void buildDictionary(File outputFile, OboClassIterator oboClsIter, Set<String> namespacesToInclude,
