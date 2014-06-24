@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.ucdenver.ccp.nlp.ext.bionlp;
+package edu.ucdenver.ccp.nlp.uima.serialization.bionlp.parser;
 
 import java.io.BufferedReader;
 import java.io.File;

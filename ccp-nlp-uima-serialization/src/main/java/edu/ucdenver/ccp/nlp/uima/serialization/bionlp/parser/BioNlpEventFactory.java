@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.ucdenver.ccp.nlp.ext.bionlp;
+package edu.ucdenver.ccp.nlp.uima.serialization.bionlp.parser;
 
 import java.util.HashSet;
 import java.util.Map;

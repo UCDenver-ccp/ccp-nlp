@@ -1,4 +1,4 @@
-package edu.ucdenver.ccp.nlp.ext.uima.serialization.bionlp;
+package edu.ucdenver.ccp.nlp.uima.serialization.bionlp;
 
 import java.io.BufferedWriter;
 import java.io.File;

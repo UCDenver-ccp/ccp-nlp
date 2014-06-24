@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.ucdenver.ccp.nlp.ext.bionlp;
+package edu.ucdenver.ccp.nlp.uima.serialization.bionlp.parser;
 
 import edu.ucdenver.ccp.nlp.core.annotation.AnnotationSet;
 import edu.ucdenver.ccp.nlp.core.annotation.Annotator;

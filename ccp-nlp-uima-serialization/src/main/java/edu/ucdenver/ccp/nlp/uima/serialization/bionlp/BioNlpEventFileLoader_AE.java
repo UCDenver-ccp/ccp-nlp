@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.ucdenver.ccp.nlp.ext.uima.serialization.bionlp;
+package edu.ucdenver.ccp.nlp.uima.serialization.bionlp;
 
 import java.io.File;
 import java.util.List;
@@ -16,8 +16,8 @@ import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
-import edu.ucdenver.ccp.nlp.ext.bionlp.BioNlpEventIterator;
-import edu.ucdenver.ccp.nlp.ext.bionlp.BioNlpThemeIterator;
+import edu.ucdenver.ccp.nlp.uima.serialization.bionlp.parser.BioNlpEventIterator;
+import edu.ucdenver.ccp.nlp.uima.serialization.bionlp.parser.BioNlpThemeIterator;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
