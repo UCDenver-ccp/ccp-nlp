@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.ucdenver.ccp.nlp.ext.uima.annotators.filter;
+package edu.ucdenver.ccp.nlp.uima.annotators.filter;
 
 import java.io.File;
 import java.io.IOException;
