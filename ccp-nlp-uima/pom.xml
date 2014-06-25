@@ -46,7 +46,10 @@
 
 	<build>
 		<plugins>
-
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+			</plugin>
             <plugin>
                 <groupId>org.cleartk</groupId>
                 <artifactId>jcasgen-maven-plugin</artifactId>

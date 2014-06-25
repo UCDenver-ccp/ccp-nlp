@@ -69,20 +69,25 @@
 
 	<build>
 		<plugins>
-
 			<plugin>
-                <groupId>org.cleartk</groupId>
-                <artifactId>jcasgen-maven-plugin</artifactId>
-                <configuration>
-                    <typeSystem>src/main/resources/edu/ucdenver/ccp/nlp/wrapper/conceptmapper/TypeSystem.xml</typeSystem>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>process-resources</phase>
-                        <goals> <goal>generate</goal> </goals>
-                    </execution>
-                </executions>
-            </plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.cleartk</groupId>
+				<artifactId>jcasgen-maven-plugin</artifactId>
+				<configuration>
+					<typeSystem>src/main/resources/edu/ucdenver/ccp/nlp/wrapper/conceptmapper/TypeSystem.xml</typeSystem>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
