@@ -5,14 +5,14 @@
 	<groupId>edu.ucdenver.ccp</groupId>
 	<artifactId>ccp-nlp</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.3-RC-SNAPSHOT</version>
+	<version>3.3</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- This property is inherited by all sub-modules and used to define their 
 			version -->
-		<project.version>3.3-RC-SNAPSHOT</project.version>
+		<project.version>3.3</project.version>
 	</properties>
 
 
@@ -37,12 +37,12 @@
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>common</artifactId>
-				<version>1.4-SNAPSHOT</version>
+				<version>1.4</version>
 			</dependency>
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>common</artifactId>
-				<version>1.4-SNAPSHOT</version>
+				<version>1.4</version>
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
