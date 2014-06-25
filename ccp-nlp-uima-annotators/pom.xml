@@ -1,46 +1,57 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>ccp-nlp</artifactId>
-    <groupId>edu.ucdenver.ccp</groupId>
-    <version>3.3-SNAPSHOT</version>
-  </parent>
-  <artifactId>ccp-nlp-uima-annotators</artifactId>
-  <dependencies>
-  	<dependency>
-  		<groupId>edu.ucdenver.ccp</groupId>
-  		<artifactId>ccp-nlp-uima</artifactId>
-  		<version>${project.version}</version>
-  		<scope>compile</scope>
-  	</dependency>
-  	<dependency>
-  		<groupId>edu.ucdenver.ccp</groupId>
-  		<artifactId>ccp-nlp-uima</artifactId>
-  		<version>${project.version}</version>
-  		<type>test-jar</type>
-  		<scope>test</scope>
-  	</dependency>
-  	<dependency>
-  		<groupId>edu.ucdenver.ccp</groupId>
-  		<artifactId>common</artifactId>
-  		<type>test-jar</type>
-  		<scope>test</scope>
-  	</dependency>
-  	<dependency>
-  		<groupId>junit</groupId>
-  		<artifactId>junit</artifactId>
-  		<scope>test</scope>
-  	</dependency>
-  	<dependency>
-  		<groupId>edu.ucdenver.ccp</groupId>
-  		<artifactId>ccp-nlp-uima-shims</artifactId>
-  		<version>${project.version}</version>
-  		<scope>compile</scope>
-  	</dependency>
-  </dependencies>
-  
-  <build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>ccp-nlp</artifactId>
+		<groupId>edu.ucdenver.ccp</groupId>
+		<version>3.4-SNAPSHOT</version>
+	</parent>
+	<artifactId>ccp-nlp-uima-annotators</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>ccp-nlp-uima</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>ccp-nlp-uima</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>common</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>ccp-nlp-uima-shims</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -68,7 +79,7 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-				<!-- create a source jar file -->
+			<!-- create a source jar file -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>

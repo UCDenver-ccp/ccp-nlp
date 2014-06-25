@@ -5,14 +5,14 @@
 	<groupId>edu.ucdenver.ccp</groupId>
 	<artifactId>ccp-nlp</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.3-SNAPSHOT</version>
+	<version>3.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- This property is inherited by all sub-modules and used to define their 
 			version -->
-		<project.version>3.3-SNAPSHOT</project.version>
+		<project.version>3.4-SNAPSHOT</project.version>
 	</properties>
 
 
@@ -24,7 +24,7 @@
 		<module>ccp-nlp-uima-shims</module>
 		<module>ccp-nlp-uima-annotators</module>
 		<module>ccp-nlp-wrapper-conceptmapper</module>
-                <module>ccp-nlp-wrapper-banner</module>
+		<module>ccp-nlp-wrapper-banner</module>
 	</modules>
 
 	<dependencyManagement>
@@ -37,12 +37,12 @@
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>common</artifactId>
-				<version>1.4-SNAPSHOT</version>
+				<version>1.4</version>
 			</dependency>
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>common</artifactId>
-				<version>1.4-SNAPSHOT</version>
+				<version>1.4</version>
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
@@ -68,64 +68,78 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.0.2</version>
+					<version>3.1</version>
 					<configuration>
 						<source>1.6</source>
 						<target>1.6</target>
 					</configuration>
 				</plugin>
-<!-- This plugin generates java files with JCasGen -->
-<!--
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<version>1.2</version>
-					<executions>
-						<execution>
-							<id>run-jcasgen</id>
-							<phase>process-resources</phase>
-							<goals>
-								<goal>java</goal>
-							</goals>
-							<configuration>
-								<mainClass>org.uimafit.util.JCasGenPomFriendly</mainClass>
-								<arguments>
-									<argument>file:${project.basedir}/src/main/resources/${jcasgen.typesystem}
-									</argument>
-									<argument>${project.build.directory}/generated-sources/jcasgen</argument>
-								</arguments>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
--->
-<!-- This plugin adds the jcasgen generated source code folder 
-						as a project source folder -->
-<!--
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>build-helper-maven-plugin</artifactId>
-					<version>1.5</version>
-					<executions>
-						<execution>
-							<id>add-jcasgen-sources-${project.artifactId}</id>
-							<phase>process-resources</phase>
-							<goals>
-								<goal>add-source</goal>
-							</goals>
-							<configuration>
-								<sources>
-									<source>${project.build.directory}/generated-sources/jcasgen</source>
-								</sources>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
--->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
 					<version>2.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>1.7</version>
+					<configuration>
+						<verbose>false</verbose>
+						<encoding>UTF-8</encoding>
+						<inceptionYear>2012</inceptionYear>
+						<organizationName>Regents of the University of Colorado</organizationName>
+						<projectName>Colorado Computational Pharmacology's common module</projectName>
+						<licenseName>bsd_3</licenseName>
+					</configuration>
+					<executions>
+						<execution>
+							<id>first</id>
+							<goals>
+								<goal>update-file-header</goal>
+							</goals>
+							<phase>process-sources</phase>
+							<configuration>
+								<roots>
+									<root>src/main/java</root>
+									<root>src/test/java</root>
+								</roots>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											license-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.7,)
+										</versionRange>
+										<goals>
+											<goal>
+												update-file-header
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>

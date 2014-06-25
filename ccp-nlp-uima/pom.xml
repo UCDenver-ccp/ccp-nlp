@@ -14,7 +14,7 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.3-SNAPSHOT</version>
+		<version>3.4-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -46,7 +46,10 @@
 
 	<build>
 		<plugins>
-
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+			</plugin>
             <plugin>
                 <groupId>org.cleartk</groupId>
                 <artifactId>jcasgen-maven-plugin</artifactId>

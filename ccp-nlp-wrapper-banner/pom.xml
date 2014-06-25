@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.3-SNAPSHOT</version>
+		<version>3.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>ccp-nlp-wrapper-banner</artifactId>
 
@@ -59,9 +59,13 @@
 			<url>https://ren-maven-repo.googlecode.com/git/snapshots</url>
 		</repository>
 	</repositories>
-	
+
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -89,7 +93,7 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-				<!-- create a source jar file -->
+			<!-- create a source jar file -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
