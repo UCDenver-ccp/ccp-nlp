@@ -58,6 +58,10 @@
 			<id>ren-maven-repo</id>
 			<url>https://ren-maven-repo.googlecode.com/git/snapshots</url>
 		</repository>
+		<repository>
+			<id>bionlp-sourceforge</id>
+			<url>http://svn.code.sf.net/p/bionlp/code/repo/</url>
+		</repository>
 	</repositories>
 
 	<build>

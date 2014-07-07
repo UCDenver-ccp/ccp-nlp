@@ -66,6 +66,13 @@
 		</dependency>
 	</dependencies>
 
+	<repositories>
+		<repository>
+			<id>bionlp-sourceforge</id>
+			<url>http://svn.code.sf.net/p/bionlp/code/repo/</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<plugins>
 			<plugin>
