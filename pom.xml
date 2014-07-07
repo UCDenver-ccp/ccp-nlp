@@ -57,8 +57,8 @@
 
 	<repositories>
 		<repository>
-			<id>bionlp-sourceforge-repo</id>
-			<url>http://bionlp.svn.sourceforge.net/viewvc/bionlp/repo/</url>
+			<id>bionlp-sourceforge</id>
+			<url>http://svn.code.sf.net/p/bionlp/code/repo/</url>
 		</repository>
 	</repositories>
 
