@@ -89,9 +89,13 @@ public class TextAnnotationFactory {
 	 * @return
 	 */
 	public static TextAnnotationFactory createFactoryWithDefaults() {
+		return createFactoryWithDefaults("");
+	}
+	
+	public static TextAnnotationFactory createFactoryWithDefaults(String documentId) {
 		Annotator annotator = new Annotator(1, "Factory", "Test", "CCP");
 		AnnotationSet set = new AnnotationSet(1, "set", "test set");
-		return new TextAnnotationFactory(annotator, -1, set, 1, 2, "", 3);
+		return new TextAnnotationFactory(annotator, -1, set, 1, 2, documentId, 3);
 	}
 
 	public TextAnnotationFactory(Annotator annotator, int annotatorID, AnnotationSet annotationSet, int annotationID,
