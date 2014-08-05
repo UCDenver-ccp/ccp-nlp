@@ -25,6 +25,7 @@
 		<module>ccp-nlp-uima-annotators</module>
 		<module>ccp-nlp-wrapper-conceptmapper</module>
 		<module>ccp-nlp-wrapper-banner</module>
+		<module>ccp-nlp-document-conversion</module>
 	</modules>
 
 	<dependencyManagement>
