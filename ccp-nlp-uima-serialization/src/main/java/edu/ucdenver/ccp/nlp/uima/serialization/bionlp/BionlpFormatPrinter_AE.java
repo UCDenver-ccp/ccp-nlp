@@ -203,7 +203,7 @@ System.out.println("--not-- DOING NORMALIZED" + addNormalization);
 			if (entityClassName != null) {
 				// T1<tab>class-name 21 29<tab>covered text
 				String entityStr = "T" + entityCount + "\t" + entityClassName + " " + ta.getBegin() + " " + ta.getEnd()
-						+ "\t" + ta.getCoveredText().trim();
+						+ "\t" + ta.getCoveredText().replaceAll("\\n"," ").trim();
 				logger.debug("[" + ta.getBegin() + ".." + ta.getEnd() + "] " + entityClassName + " " + entityCount + " from mentioname: " + mentionName);
 				FileWriterUtil.printLines(CollectionsUtil.createList(entityStr), entityWriter);
 			}
