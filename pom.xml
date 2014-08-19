@@ -25,7 +25,7 @@
 		<module>ccp-nlp-uima-annotators</module>
 		<module>ccp-nlp-wrapper-conceptmapper</module>
 		<module>ccp-nlp-wrapper-banner</module>
-		<module>ccp-nlp-document-conversion</module>
+		<module>ccp-nlp-doc2txt</module>
 	</modules>
 
 	<dependencyManagement>
@@ -38,12 +38,12 @@
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>common</artifactId>
-				<version>1.4</version>
+				<version>1.5-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>common</artifactId>
-				<version>1.4</version>
+				<version>1.5-SNAPSHOT</version>
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
@@ -89,7 +89,7 @@
 						<encoding>UTF-8</encoding>
 						<inceptionYear>2012</inceptionYear>
 						<organizationName>Regents of the University of Colorado</organizationName>
-						<projectName>Colorado Computational Pharmacology's common module</projectName>
+						<projectName>Colorado Computational Pharmacology's nlp module</projectName>
 						<licenseName>bsd_3</licenseName>
 					</configuration>
 					<executions>
