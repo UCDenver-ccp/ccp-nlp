@@ -47,6 +47,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
@@ -466,6 +467,14 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 		return createAnalysisEngine(InlinePrinter.class, tsd, outputDirectory, viewNameToProcess,
 				documentMetadataHandlerClass, annotationExtractorClassNames);
 	}
+	
+	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd, File outputDirectory,
+			String viewNameToProcess, Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass,
+			Class<? extends InlineTagExtractor> annotationExtractorClass) throws ResourceInitializationException {
+		String[] annotationExtractorClassNames = new String[] { annotationExtractorClass.getName() };
+		return createAnalysisEngineDescription(InlinePrinter.class, tsd, outputDirectory, viewNameToProcess,
+				documentMetadataHandlerClass, annotationExtractorClassNames);
+	}
 
 	/**
 	 * Returns an initialized {@link InlinePrinter} in the form of a UIMA {@link AnalysisEngine}
@@ -493,6 +502,16 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 			Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass,
 			String[] annotationExtractorClassNames) throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitive(inlinePrinterClass, tsd, InlinePrinter.PARAM_OUTPUT_DIRECTORY,
+				outputDirectory.getAbsolutePath(), InlinePrinter.PARAM_VIEW_NAME_TO_PROCESS, viewNameToProcess,
+				InlinePrinter.PARAM_DOCUMENT_META_DATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(),
+				InlinePrinter.PARAM_INLINE_ANNOTATION_EXTRACTOR_CLASSES, annotationExtractorClassNames);
+	}
+	
+	protected static AnalysisEngineDescription createAnalysisEngineDescription(Class<? extends InlinePrinter> inlinePrinterClass,
+			TypeSystemDescription tsd, File outputDirectory, String viewNameToProcess,
+			Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass,
+			String[] annotationExtractorClassNames) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createPrimitiveDescription(inlinePrinterClass, tsd, InlinePrinter.PARAM_OUTPUT_DIRECTORY,
 				outputDirectory.getAbsolutePath(), InlinePrinter.PARAM_VIEW_NAME_TO_PROCESS, viewNameToProcess,
 				InlinePrinter.PARAM_DOCUMENT_META_DATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(),
 				InlinePrinter.PARAM_INLINE_ANNOTATION_EXTRACTOR_CLASSES, annotationExtractorClassNames);
