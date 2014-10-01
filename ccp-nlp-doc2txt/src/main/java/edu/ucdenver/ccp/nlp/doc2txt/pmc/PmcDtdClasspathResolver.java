@@ -76,7 +76,7 @@ public class PmcDtdClasspathResolver implements EntityResolver {
 		} else if (systemId.contains("/xmlchars/")) {
 			sysId = systemId.substring(systemId.lastIndexOf("/xmlchars/"));
 		} else {
-			sysId = systemId.substring(systemId.lastIndexOf(File.separatorChar));
+			sysId = systemId.substring(systemId.lastIndexOf("/"));
 		}
 		logger.debug("RESOLVING ENTITY: publicID: \"" + publicId + "\"   systemID: \"" + sysId + "\"");
 
