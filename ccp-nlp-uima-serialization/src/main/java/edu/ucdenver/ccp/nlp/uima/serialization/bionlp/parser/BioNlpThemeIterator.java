@@ -68,7 +68,7 @@ public class BioNlpThemeIterator implements Iterator<TextAnnotation> {
 	public BioNlpThemeIterator(File entityFile, CharacterEncoding encoding) {
 		try {
 			entityReader = FileReaderUtil.initBufferedReader(entityFile, encoding);
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			throw new IllegalArgumentException(e);
 		}
 	}

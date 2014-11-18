@@ -126,7 +126,7 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 	protected void initializeImplementation(UimaContext context) throws ResourceInitializationException {
 		try {
 			reader = FileReaderUtil.initBufferedReader(collectionFile, encoding);
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
 		}
 		documentExtractor = (DocumentExtractor) ConstructorUtil.invokeConstructor(documentExtractorClassName);

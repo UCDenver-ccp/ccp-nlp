@@ -65,13 +65,13 @@ public class BioNlpEventIterator implements Iterator<TextAnnotation> {
 		initThemeIdToAnnotationMap(entityFile, encoding);
 		try {
 			eventReader = FileReaderUtil.initBufferedReader(eventFile, encoding);
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			throw new IllegalArgumentException(e);
 		}
 	}
 
 	public BioNlpEventIterator(File eventFile, CharacterEncoding encoding,
-			Map<String, TextAnnotation> bionlpIdToAnnotationMap) throws FileNotFoundException {
+			Map<String, TextAnnotation> bionlpIdToAnnotationMap) throws IOException {
 		this.bionlpIdToAnnotationMap = new HashMap<String, TextAnnotation>(bionlpIdToAnnotationMap);
 		eventReader = FileReaderUtil.initBufferedReader(eventFile, encoding);
 	}
