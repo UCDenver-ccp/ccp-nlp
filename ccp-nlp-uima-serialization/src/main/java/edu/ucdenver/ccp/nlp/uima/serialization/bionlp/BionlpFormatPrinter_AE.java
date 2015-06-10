@@ -38,6 +38,8 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
@@ -139,13 +141,20 @@ System.out.println("--not-- DOING NORMALIZED" + addNormalization);
 		put("gene or transcript or polypeptide", "protein");
 		put("gene", "protein");
 
-		put("PR", "protein");
+		put("PR", "protein_PR");
 		put("SO", "sequence");
 		put("GO", "go_term");
 		put("CC", "cell_component");
 		put("BP", "biological_process");
 		put("MF", "molecular_function");
 		put("NCBITaxon", "taxon");
+		put("EG", "entrez_gene");
+		put("CL", "cell_type");
+		put("CLO", "cell_line");
+		put("DOID", "disease");
+		put("DRON", "drug");
+		put("DB", "drug");
+		put("CHEBI", "chemical_entity");
 			
 	} };
 
@@ -176,8 +185,16 @@ System.out.println("--not-- DOING NORMALIZED" + addNormalization);
 			
 		}
 	
+		// Patterns to match UniProt identifiers
+		Pattern accession = Pattern.compile("[A-Z][0-9][0-9A-Z]{3}[0-9]");
+		Pattern longName = Pattern.compile("[A-Z0-9]+_[A-Z]+");
+		Matcher m_accession = accession.matcher(mentionName);
+		Matcher m_longName = longName.matcher(mentionName);
+		
 		if(ontologyIdToClassNameMap.containsKey(prefix)) {
 			return ontologyIdToClassNameMap.get(prefix);
+		} else if(m_accession.find() || m_longName.find()) {
+			return "protein_UniProt";
 		} else {
 			return "ontology_term";
 		}
