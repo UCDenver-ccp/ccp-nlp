@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -232,15 +233,24 @@ public class TextAnnotationUtil {
 	private static String getSlotString(ClassMention cm) {
 		StringBuffer sb = new StringBuffer();
 		try {
-			for (PrimitiveSlotMention sm : cm.getPrimitiveSlotMentions()) {
+			/* slots and slot values are returned in alphabetical order to ensure reproducibility */
+			List<String> primitiveSlotNames = new ArrayList<String>(cm.getPrimitiveSlotMentionNames());
+			Collections.sort(primitiveSlotNames);
+			for (String primitiveSlotName : primitiveSlotNames) {
+				PrimitiveSlotMention sm = cm.getPrimitiveSlotMentionByName(primitiveSlotName);
 				if (sm.getSlotValues().size() > 0) {
 					String mentionName = checkForPipe(sm.getMentionName(), "slot mention name",
 							"This is likely to cause downstream processing errors. Please address.");
 					sb.append("|" + mentionName + "|");
 
+					List<String> slotFillerList = new ArrayList<String>();
 					for (Object slotFiller : sm.getSlotValues()) {
 						String slotFillerStr = checkForPipe(slotFiller.toString(), "slot value",
 								"This could cause downstream processing errors. You may want to investigate.");
+						slotFillerList.add(slotFillerStr);
+					}
+					Collections.sort(slotFillerList);
+					for(String slotFillerStr : slotFillerList) {
 						sb.append(slotFillerStr + ",");
 					}
 					sb.deleteCharAt(sb.length() - 1);
