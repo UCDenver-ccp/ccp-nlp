@@ -45,24 +45,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.geneontology.oboedit.dataadapter.OBOParseException;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileUtil.CleanDirectory;
-import edu.ucdenver.ccp.datasource.fileparsers.obo.OboUtil.ObsoleteTermHandling;
+import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil;
+import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil.SynonymType;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.impl.GeneOntologyClassIterator;
-import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo.OboToDictionary.SynonymType;
 
 /**
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Center for Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class GoDictionaryFactory {
 
 	public enum GoNamespace {
-		BP("biological_process"),
-		MF("molecular_function"),
-		CC("cellular_component");
+		BP("biological_process"), MF("molecular_function"), CC("cellular_component");
 
 		private final String namespace;
 
@@ -76,48 +75,56 @@ public class GoDictionaryFactory {
 	}
 
 	/**
-	 * Creates a dictionary for use by the ConceptMapper that includes GO terms from the namespaces
-	 * defined in the namespacesToInclude set.
+	 * Creates a dictionary for use by the ConceptMapper that includes GO terms
+	 * from the namespaces defined in the namespacesToInclude set.
 	 * 
 	 * @param namespacesToInclude
 	 * @param workDirectory
 	 * @param cleanWorkDirectory
-	 * @param synonymType 
+	 * @param synonymType
 	 * @return
 	 * @throws IOException
+	 * @throws OWLOntologyCreationException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
 	 * @throws OBOParseException
 	 */
 	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File workDirectory,
-			CleanDirectory cleanWorkDirectory, SynonymType synonymType) throws IOException, OBOParseException {
+			CleanDirectory cleanWorkDirectory, SynonymType synonymType) throws IOException, IllegalArgumentException,
+			IllegalAccessException, OWLOntologyCreationException {
 		if (namespacesToInclude.isEmpty())
 			return null;
 
 		boolean doClean = cleanWorkDirectory.equals(CleanDirectory.YES);
-		GeneOntologyClassIterator goIter = new GeneOntologyClassIterator(workDirectory, doClean, ObsoleteTermHandling.EXCLUDE_OBSOLETE_TERMS);
+		GeneOntologyClassIterator goIter = new GeneOntologyClassIterator(workDirectory, doClean);
 
-		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, goIter, doClean, synonymType);
+		File geneOntologyOboFile = goIter.getGeneOntologyOboFile();
+		OntologyUtil ontUtil = new OntologyUtil(geneOntologyOboFile);
+		goIter.close();
+
+		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, ontUtil, doClean, synonymType);
 	}
 
 	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File goOboFile,
-			File outputDirectory, boolean cleanDictFile, SynonymType synonymType) throws IOException, OBOParseException {
+			File outputDirectory, boolean cleanDictFile, SynonymType synonymType) throws IOException,
+			OWLOntologyCreationException {
 		if (namespacesToInclude.isEmpty())
 			return null;
 
-		GeneOntologyClassIterator goIter = new GeneOntologyClassIterator(goOboFile, ObsoleteTermHandling.EXCLUDE_OBSOLETE_TERMS);
-
-		return buildConceptMapperDictionary(namespacesToInclude, outputDirectory, goIter, cleanDictFile, synonymType);
+		OntologyUtil ontUtil = new OntologyUtil(goOboFile);
+		return buildConceptMapperDictionary(namespacesToInclude, outputDirectory, ontUtil, cleanDictFile, synonymType);
 	}
 
 	/**
 	 * @param namespacesToInclude
 	 * @param outputDirectory
-	 * @param goIter
-	 * @param synonymType 
+	 * @param ontUtil
+	 * @param synonymType
 	 * @return
 	 * @throws IOException
 	 */
 	private static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File outputDirectory,
-			GeneOntologyClassIterator goIter, boolean cleanDictFile, SynonymType synonymType) throws IOException {
+			OntologyUtil ontUtil, boolean cleanDictFile, SynonymType synonymType) throws IOException {
 		String dictionaryKey = "";
 		List<String> nsKeys = new ArrayList<String>();
 		for (GoNamespace ns : namespacesToInclude) {
@@ -139,22 +146,8 @@ public class GoDictionaryFactory {
 		Set<String> namespaces = new HashSet<String>();
 		for (GoNamespace ns : namespacesToInclude)
 			namespaces.add(ns.namespace());
-		OboToDictionary.buildDictionary(dictionaryFile, goIter, new HashSet<String>(namespaces), synonymType);
+		OboToDictionary.buildDictionary(dictionaryFile, ontUtil, new HashSet<String>(namespaces), synonymType);
 		return dictionaryFile;
 	}
 
-	// public static void main(String[] args) {
-	// BasicConfigurator.configure();
-	// File workDirectory = new File("test-output");
-	// try {
-	// GoDictionaryFactory.buildConceptMapperDictionary(EnumSet.of(GoNamespace.CC), workDirectory,
-	// false);
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// } catch (OBOParseException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
 }

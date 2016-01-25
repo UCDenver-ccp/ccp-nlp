@@ -36,25 +36,25 @@ package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
-import org.geneontology.oboedit.datamodel.Namespace;
-import org.geneontology.oboedit.datamodel.OBOClass;
-import org.geneontology.oboedit.datamodel.Synonym;
+import org.semanticweb.owlapi.model.OWLClass;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.xml.XmlUtil;
-import edu.ucdenver.ccp.datasource.fileparsers.obo.OboClassIterator;
-import edu.ucdenver.ccp.datasource.fileparsers.obo.OboUtil;
+import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil;
+import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil.SynonymType;
 
 /**
- * A utility for building an XML-formatted dictionary of terms in an OBO ontology.
+ * A utility for building an XML-formatted dictionary of terms in an OBO
+ * ontology.
  * 
  * @author Karin Verspoor
  * 
@@ -66,13 +66,6 @@ public class OboToDictionary {
 	 */
 	private static final int MINIMUM_TERM_LENGTH = 3;
 
-	public enum SynonymType {
-		EXACT_ONLY,
-		ALL
-	}
-
-	private static final Logger logger = Logger.getLogger(OboToDictionary.class);
-
 	public static String TOKEN_TAG = "token";
 	public static String SYNONYM_TAG = "variant";
 
@@ -82,40 +75,39 @@ public class OboToDictionary {
 		System.setProperty("file.encoding", "UTF-8");
 	}
 
-	public static void buildDictionary(File outputFile, OboClassIterator oboClsIter, Set<String> namespacesToInclude,
+	public static void buildDictionary(File outputFile, OntologyUtil ontUtil, Set<String> namespacesToInclude,
 			SynonymType synonymType) throws IOException {
-		buildDictionary(outputFile, oboClsIter, namespacesToInclude, synonymType, null, null);
+		buildDictionary(outputFile, ontUtil, namespacesToInclude, synonymType, null, null);
 	}
 
 	/**
 	 * @param outputFile
-	 * @param oboClsIter
+	 * @param ontClsIter
 	 * @param namespacesToInclude
 	 * @param synonymType
-	 *            ALL to include all synonyms,EXACT_ONLY to include only exact synonyms
+	 *            ALL to include all synonyms,EXACT_ONLY to include only exact
+	 *            synonyms
 	 * @throws IOException
 	 */
-	public static void buildDictionary(File outputFile, OboClassIterator oboClsIter, Set<String> namespacesToInclude,
-			SynonymType synonymType, Set<String> subTreeRootIdsToExclude, Set<String> subTreeRootIdsToInclude)
+	public static void buildDictionary(File outputFile, OntologyUtil ontUtil, Set<String> namespacesToInclude,
+			SynonymType synonymType, Set<OWLClass> subTreeRootIdsToExclude, Set<OWLClass> subTreeRootIdsToInclude)
 			throws IOException {
 		BufferedWriter writer = FileWriterUtil.initBufferedWriter(outputFile, CharacterEncoding.UTF_8,
 				WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<synonym>");
 		writer.newLine();
-
-		while (oboClsIter.hasNext()) {
-			OBOClass oboObj = oboClsIter.next().getOboClass();
-			if (oboObj != null && !oboObj.getName().startsWith("obo:")
-					&& classNotInExcludedSubtree(oboObj, subTreeRootIdsToExclude)
-					&& classInIncludedSubtree(oboObj, subTreeRootIdsToInclude)) {
+		for (Iterator<OWLClass> ontClsIter = ontUtil.getClassIterator(); ontClsIter.hasNext();) {
+			OWLClass owlClass = ontClsIter.next();
+			if (owlClass != null // && !oboObj.getName().startsWith("obo:")
+					&& classNotInExcludedSubtree(owlClass, subTreeRootIdsToExclude, ontUtil)
+					&& classInIncludedSubtree(owlClass, subTreeRootIdsToInclude, ontUtil)) {
 				if (namespacesToInclude == null || namespacesToInclude.isEmpty()) {
-					writer.write(objToString(oboObj.getID(), oboObj, synonymType));
+					writer.write(objToString(owlClass.toStringID(), owlClass, synonymType, ontUtil));
 				} else {
-					Namespace objNS = oboObj.getNamespace();
-					if (objNS != null) {
-						String ns = objNS.toString();
+					String ns = ontUtil.getNamespace(owlClass);
+					if (ns != null) {
 						if (namespacesToInclude.contains(ns)) {
-							writer.write(objToString(oboObj.getID(), oboObj, synonymType));
+							writer.write(objToString(owlClass.toStringID(), owlClass, synonymType, ontUtil));
 						}
 					}
 				}
@@ -130,13 +122,14 @@ public class OboToDictionary {
 	 * @param subTreeRootIdsToInclude
 	 * @return
 	 */
-	private static boolean classInIncludedSubtree(OBOClass oboObj, Set<String> subTreeRootIdsToInclude) {
+	private static boolean classInIncludedSubtree(OWLClass oboObj, Set<OWLClass> subTreeRootIdsToInclude,
+			OntologyUtil ontUtil) {
 		if (subTreeRootIdsToInclude == null) {
 			return true;
 		}
-		Set<OBOClass> ancestors = OboUtil.getAncestors(oboObj);
-		for (OBOClass ancestor : ancestors) {
-			if (subTreeRootIdsToInclude.contains(ancestor.getID())) {
+		Set<OWLClass> ancestors = ontUtil.getAncestors(oboObj);
+		for (OWLClass ancestor : ancestors) {
+			if (subTreeRootIdsToInclude.contains(ancestor)) {
 				return true;
 			}
 		}
@@ -144,17 +137,18 @@ public class OboToDictionary {
 	}
 
 	/**
-	 * @param oboObj
+	 * @param owlClass
 	 * @param subTreeRootIdsToExclude
 	 * @return
 	 */
-	private static boolean classNotInExcludedSubtree(OBOClass oboObj, Set<String> subTreeRootIdsToExclude) {
+	private static boolean classNotInExcludedSubtree(OWLClass owlClass, Set<OWLClass> subTreeRootIdsToExclude,
+			OntologyUtil ontUtil) {
 		if (subTreeRootIdsToExclude == null) {
 			return true;
 		}
-		Set<OBOClass> ancestors = OboUtil.getAncestors(oboObj);
-		for (OBOClass ancestor : ancestors) {
-			if (subTreeRootIdsToExclude.contains(ancestor.getID())) {
+		Set<OWLClass> ancestors = ontUtil.getAncestors(owlClass);
+		for (OWLClass ancestor : ancestors) {
+			if (subTreeRootIdsToExclude.contains(ancestor)) {
 				return false;
 			}
 		}
@@ -167,15 +161,15 @@ public class OboToDictionary {
 	 * 
 	 * @param id
 	 *            the ID of the OBO object
-	 * @param oboObj
+	 * @param owlClass
 	 *            the OBO object itself
 	 * @param synonymType
 	 * @return an XML-formatted string in the ConceptMapper Dictionary format.
 	 */
-	private static String objToString(String id, OBOClass oboObj, SynonymType synonymType) {
+	private static String objToString(String id, OWLClass owlClass, SynonymType synonymType, OntologyUtil ontUtil) {
 		StringBuffer buf = new StringBuffer();
 
-		String name = oboObj.getName();
+		String name = ontUtil.getLabel(owlClass);
 		if (name == null || name == "" || name == "<new term>") {
 			// id without a name. Don't add to dictionary.
 			return "";
@@ -198,19 +192,16 @@ public class OboToDictionary {
 		}
 
 		buf.append(buildSynonymLine(name));
-		Set<Synonym> syns = oboObj.getSynonyms();
+		Set<String> syns = ontUtil.getSynonyms(owlClass, synonymType);
 		Pattern endsWithActivityPattern = Pattern.compile("(.*)\\sactivity");
-		for (Synonym syn : syns) {
-			int scope = syn.getScope();
-			if (synonymType.equals(SynonymType.ALL) || (synonymType.equals(SynonymType.EXACT_ONLY) && scope == 1)) {
-				String variantStr = XmlUtil.convertXmlEscapeCharacters(syn.getText());
-				buf.append(buildSynonymLine(variantStr));
+		for (String syn : syns) {
+			String variantStr = XmlUtil.convertXmlEscapeCharacters(syn);
+			buf.append(buildSynonymLine(variantStr));
 
-				Matcher m = endsWithActivityPattern.matcher(variantStr);
-				if (m.matches()) {
-					String enzyme = m.group(1);
-					buf.append(buildSynonymLine(enzyme));
-				}
+			Matcher m = endsWithActivityPattern.matcher(variantStr);
+			if (m.matches()) {
+				String enzyme = m.group(1);
+				buf.append(buildSynonymLine(enzyme));
 			}
 		}
 		buf.append("</" + TOKEN_TAG + ">\n");

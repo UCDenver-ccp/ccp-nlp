@@ -53,9 +53,9 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.collections.CombinationsUtil;
 import edu.ucdenver.ccp.common.string.StringUtil;
+import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil.SynonymType;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.SearchStrategyParamValue;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.TokenNormalizerConfigParam.CaseMatchParamValue;
-import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo.OboToDictionary.SynonymType;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.stemmer.ConceptMapperStemmerFactory;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.stemmer.ConceptMapperStemmerFactory.StemmerType;
 
@@ -189,7 +189,7 @@ public class ConceptMapperPermutationFactory {
 	 */
 	public enum ConceptMapperSynonymTypeParam implements UimaConfigParamValue<SynonymType> {
 		ALL(SynonymType.ALL),
-		EXACT_ONLY(SynonymType.EXACT_ONLY);
+		EXACT_ONLY(SynonymType.EXACT);
 
 		private final SynonymType synonymType;
 

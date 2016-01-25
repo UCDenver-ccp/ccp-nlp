@@ -38,14 +38,19 @@
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>common</artifactId>
-				<version>1.5</version>
+				<version>1.5.1</version>
 			</dependency>
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>common</artifactId>
-				<version>1.5</version>
+				<version>1.5.1</version>
 				<type>test-jar</type>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>edu.ucdenver.ccp</groupId>
+				<artifactId>datasource-fileparsers</artifactId>
+				<version>0.6</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>

@@ -26,9 +26,6 @@
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>datasource-fileparsers</artifactId>
-			<version>0.4</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>

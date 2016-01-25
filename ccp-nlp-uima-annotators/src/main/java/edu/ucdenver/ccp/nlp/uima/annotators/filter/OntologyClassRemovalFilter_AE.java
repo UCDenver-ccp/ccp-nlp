@@ -37,12 +37,9 @@ package edu.ucdenver.ccp.nlp.uima.annotators.filter;
  */
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
@@ -51,30 +48,33 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.ConfigurationParameterFactory;
 import org.uimafit.util.JCasUtil;
 
-import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
-import edu.ucdenver.ccp.datasource.fileparsers.obo.OboUtil;
+import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil;
 import edu.ucdenver.ccp.uima.shims.annotation.AnnotationDataExtractor;
 
 /**
- * Given an input ontology (OBO file) and the identifier for a term in that ontology, all
- * annotations to the specified term or subclasses of that term are removed from the CAS.
+ * Given an input ontology (OBO or OWL file) and the identifier for a term in
+ * that ontology, all annotations to the specified term or subclasses of that
+ * term are removed from the CAS.
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 
 	/* ==== AnnotationDataExtractor configuration ==== */
 	/**
-	 * Parameter name used in the UIMA descriptor file for the annotation data extractor
-	 * implementation to use
+	 * Parameter name used in the UIMA descriptor file for the annotation data
+	 * extractor implementation to use
 	 */
 	public static final String PARAM_ANNOTATION_DATA_EXTRACTOR_CLASS = ConfigurationParameterFactory
 			.createConfigurationParameterName(OntologyClassRemovalFilter_AE.class, "annotationDataExtractorClassName");
@@ -86,30 +86,20 @@ public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 	private String annotationDataExtractorClassName;
 
 	/**
-	 * this {@link AnnotationDataExtractor} will be initialized based on the class name specified by
-	 * the annotationDataExtractorClassName parameter
+	 * this {@link AnnotationDataExtractor} will be initialized based on the
+	 * class name specified by the annotationDataExtractorClassName parameter
 	 */
 	private AnnotationDataExtractor annotationDataExtractor;
 
-	/* ==== OBO file configuration ==== */
+	/* ==== ontology file configuration ==== */
 	/**
-	 * The OBO file containing the ontology
+	 * The file containing the ontology
 	 */
 	public static final String PARAM_OBO_FILE = ConfigurationParameterFactory.createConfigurationParameterName(
-			OntologyClassRemovalFilter_AE.class, "oboFile");
+			OntologyClassRemovalFilter_AE.class, "ontologyFile");
 
-	@ConfigurationParameter(mandatory = true, description = "path to the OBO file containing the ontology")
-	private File oboFile;
-
-	/* ==== OBO file encoding configuration ==== */
-	/**
-	 * The encoding used by the input OBO file
-	 */
-	public static final String PARAM_OBO_FILE_ENCODING = ConfigurationParameterFactory
-			.createConfigurationParameterName(OntologyClassRemovalFilter_AE.class, "oboEncoding");
-
-	@ConfigurationParameter(mandatory = true, description = "encoding used by the OBO file containing the ontology", defaultValue = "UTF_8")
-	private CharacterEncoding oboEncoding;
+	@ConfigurationParameter(mandatory = true, description = "path to the file containing the ontology")
+	private File ontologyFile;
 
 	/* ==== Ontology term id configuration ==== */
 	/**
@@ -121,14 +111,27 @@ public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(mandatory = true, description = "identifer for the term to remove from the CAS. All subclasses of this term will also be removed.")
 	private String termIdToRemove;
 
-	private OboUtil oboUtil;
+	private OntologyUtil ontUtil;
 
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		try {
-			oboUtil = new OboUtil(oboFile, oboEncoding);
-		} catch (IOException e) {
+			ontUtil = new OntologyUtil(ontologyFile);
+
+			/*
+			 * check that the term to remove is in the ontology -- if it is not,
+			 * it could be a format issue
+			 */
+			OWLClass cls = ontUtil.getOWLClassFromId(termIdToRemove);
+			if (cls == null) {
+				String errorMessage = "Ontology term ID selected for removal is not in the given ontology. "
+						+ "This could be a formatting issue. Term selected for removal: " + termIdToRemove
+						+ " Example term ID from the ontology: " + ontUtil.getClassIterator().next().toStringID();
+				throw new ResourceInitializationException(new IllegalArgumentException(errorMessage));
+			}
+
+		} catch (OWLOntologyCreationException e) {
 			throw new ResourceInitializationException(e);
 		}
 		annotationDataExtractor = (AnnotationDataExtractor) ConstructorUtil
@@ -136,8 +139,8 @@ public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 	}
 
 	/**
-	 * Cycles through all annotations in the CAS, removing any that match the specified
-	 * termIdToRemove or that are subclasses of that term identifier
+	 * Cycles through all annotations in the CAS, removing any that match the
+	 * specified termIdToRemove or that are subclasses of that term identifier
 	 */
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
@@ -146,10 +149,12 @@ public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 			Annotation annotation = annotIter.next();
 			String annotationType = annotationDataExtractor.getAnnotationType(annotation);
 			if (annotationType != null) {
-				if (annotationType.equals(termIdToRemove) || oboUtil.isDescendent(annotationType, termIdToRemove)
-						|| oboUtil.isObsolete(annotationType)) {
+				if (annotationType.equals(termIdToRemove)
+						|| ontUtil.isDescendent(ontUtil.getOWLClassFromId(annotationType),
+								ontUtil.getOWLClassFromId(termIdToRemove))
+						|| ontUtil.isObsolete(ontUtil.getOWLClassFromId(annotationType))) {
 					annotationsToRemove.add(annotation);
-				} 
+				}
 			}
 		}
 
@@ -159,12 +164,11 @@ public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 	}
 
 	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd,
-			Class<? extends AnnotationDataExtractor> annotationDataExtractorClass, String idToRemove, File oboFile,
-			CharacterEncoding oboFileEncoding) throws ResourceInitializationException {
+			Class<? extends AnnotationDataExtractor> annotationDataExtractorClass, String idToRemove, File oboFile)
+			throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(OntologyClassRemovalFilter_AE.class, tsd,
 				PARAM_ANNOTATION_DATA_EXTRACTOR_CLASS, annotationDataExtractorClass.getName(),
-				PARAM_ANNOTATION_TYPE_OF_INTEREST, idToRemove, PARAM_OBO_FILE, oboFile.getAbsolutePath(),
-				PARAM_OBO_FILE_ENCODING, oboFileEncoding.name());
+				PARAM_ANNOTATION_TYPE_OF_INTEREST, idToRemove, PARAM_OBO_FILE, oboFile.getAbsolutePath());
 	}
 
 }
