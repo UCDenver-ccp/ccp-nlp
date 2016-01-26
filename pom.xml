@@ -4,7 +4,7 @@
 	<groupId>edu.ucdenver.ccp</groupId>
 	<artifactId>ccp-nlp</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.3.1</version>
+	<version>3.3.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
