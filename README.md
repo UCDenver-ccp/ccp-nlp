@@ -1,6 +1,15 @@
 # ccp nlp
-a library of utility code for a variety of "common" tasks
+a library of NLP-related code with a trend towards the biomedical domain. Much of this code takes 
+advantage of the [Apache UIMA](https://uima.apache.org/) infrastructure and complies with the CCP 
+UIMA Type System, a meta-model type system that eschews explicitly represented types in favor of a 
+generic structure capable of referencing an external data model that containing the full semantic 
+complexity of the types required for a particular application. The philosophy behind this approach 
+to a type system is further described [here](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.472.4055&rep=rep1&type=pdf), 
+and an old, but still applicable document describing its major components is included as part of this project, [here](https://github.com/UCDenver-ccp/ccp-nlp/blob/master/doc/CCP_Type_System_Manual.pdf). 
 
+## History
+This project represents an evolution of the original bionlp-uima code base which still exists [here](http://bionlp-uima.sourceforge.net/bionlp-uima-index.shtml), for historical purposes only.
+  
 ## Development
 This project follows the Git-Flow approach to branching as originally described [here](http://nvie.com/posts/a-successful-git-branching-model/). 
 To facilitate the Git-Flow branching approach, this project makes use of the [jgitflow-maven-plugin](https://bitbucket.org/atlassian/jgit-flow) as described [here](http://george-stathis.com/2013/11/09/painless-maven-project-releases-with-maven-gitflow-plugin/).
