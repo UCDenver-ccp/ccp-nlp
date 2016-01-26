@@ -9,7 +9,7 @@ package edu.ucdenver.ccp.nlp.uima.shims;
 
 /*
  * #%L
- * Colorado Computational Pharmacology's common module
+ * Colorado Computational Pharmacology's nlp module
  * %%
  * Copyright (C) 2012 - 2014 Regents of the University of Colorado
  * %%
