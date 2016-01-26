@@ -21,13 +21,6 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>uima-shims</artifactId>
-			<version>0.2</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
