@@ -53,6 +53,8 @@ echo "Please run from the root of the project."
 exit 1
 fi
 
+$MAVEN_BIN -version
+
 $MAVEN_BIN $MAVEN_OFFLINE -e -f scripts/pom-convert-pmc-nxml.xml exec:exec \
 -DnxmlDir=$NXML_DIR \
 -Dskip=$SKIP \
