@@ -36,10 +36,13 @@ package edu.ucdenver.ccp.nlp.doc2txt.pmc;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -50,6 +53,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.xml.sax.SAXException;
 
+import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
@@ -57,7 +61,8 @@ import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser;
 import edu.ucdenver.ccp.nlp.doc2txt.XsltConverter;
 
 /**
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Center for Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class PmcDocumentConverter {
@@ -73,28 +78,53 @@ public class PmcDocumentConverter {
 	@Option(name = "-o", usage = "indicates the output directory where plain text files will be written. This parameter is optional. If not specified, the plain text files will be written to the directory containing the input PMC XML files.")
 	private File outputDirectory = null;
 
-	@Argument
-	private List<String> fileSuffixesToProcess = new ArrayList<String>();
+	@Option(name = "-a", usage = "set to true to output document zone annotations to file. Default=true")
+	private boolean outputAnnotations = true;
 
-	private static void convertPmcToPlainText(String documentId, File pmcXmlFile, File outputDirectory)
-			throws IOException, SAXException {
+	@Argument
+	private List<String> fileSuffixesToProcess = CollectionsUtil.createList(".nxml", ".nxml.gz");
+
+	private void convertPmcToPlainText(String documentId, File pmcXmlFile, File outputDirectory) throws IOException,
+			SAXException {
 		// convert PMC XML to simpler CCP XML
 		XsltConverter xslt = new XsltConverter(new PmcDtdClasspathResolver());
-		String ccpXml = xslt.convert(new FileInputStream(pmcXmlFile), PmcXslLocator.getPmcXslStream());
+		InputStream xmlStream = null;
+		if (pmcXmlFile.getName().endsWith(".gz")) {
+			xmlStream = new GZIPInputStream(new FileInputStream(pmcXmlFile));
+		} else {
+			xmlStream = new FileInputStream(pmcXmlFile);
+		}
+		String ccpXml = xslt.convert(xmlStream, PmcXslLocator.getPmcXslStream());
 
 		// convert CCP XML to plain text
 		CcpXmlParser parser = new CcpXmlParser();
 		String plainText = parser.parse(ccpXml, documentId);
 
-		String outputFilename = documentId + ".utf8";
+		String outputFilename = documentId + ".utf8.gz";
 		File outputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(), outputFilename) : new File(
 				outputDirectory, outputFilename);
-		BufferedWriter writer = FileWriterUtil.initBufferedWriter(outputFile, CharacterEncoding.UTF_8);
+		BufferedWriter writer = FileWriterUtil.initBufferedWriter(
+				new GZIPOutputStream(new FileOutputStream(outputFile)), CharacterEncoding.UTF_8);
 		writer.write(plainText);
 		writer.close();
 
-		// List<CcpXmlParser.Annotation> annotations = null;
-		// annotations = parser.getAnnotations();
+		if (outputAnnotations) {
+			List<CcpXmlParser.Annotation> annotations = parser.getAnnotations();
+			String annotationFilename = documentId + ".ann.gz";
+			File annotOutputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(), annotationFilename)
+					: new File(outputDirectory, annotationFilename);
+			BufferedWriter annotWriter = FileWriterUtil.initBufferedWriter(new GZIPOutputStream(new FileOutputStream(
+					annotOutputFile)), CharacterEncoding.UTF_8);
+			try {
+				for (CcpXmlParser.Annotation annot : annotations) {
+					String annotLine = annot.type + "|" + annot.name + "|" + annot.start + "|" + annot.end + "\n";
+					annotWriter.write(annotLine);
+				}
+			} finally {
+				annotWriter.close();
+			}
+		}
+
 	}
 
 	public static void main(String[] args) {
@@ -136,6 +166,12 @@ public class PmcDocumentConverter {
 				logger.info("No output directory has been specified. Plain text files will be written in the same directory as input PMC XML file.");
 			} else {
 				logger.info("All plain text files will be written to: " + outputDirectory.getAbsolutePath());
+			}
+
+			if (outputAnnotations) {
+				logger.info("Annotations will be saved to a .ann file.");
+			} else {
+				logger.info("Annotations will not be saved to a separate file.");
 			}
 
 		} catch (CmdLineException e) {
