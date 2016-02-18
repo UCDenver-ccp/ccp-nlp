@@ -1,0 +1,65 @@
+<!-- The POM invokes an OWLTools command that will load all ontology imports 
+	and output a single file that includes the source ontology and the content 
+	of all imported ontologies. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.ucdenver.ccp</groupId>
+	<artifactId>convert-pmc-nxml</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>ccp-nlp-doc2txt</artifactId>
+			<version>3.3.2-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>bionlp-sourceforge</id>
+			<url>http://svn.code.sf.net/p/bionlp/code/repo/</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<executable>java</executable>
+					<arguments>
+						<argument>-Xmx2G</argument>
+						<argument>-classpath</argument>
+						<classpath />
+						<argument>edu.ucdenver.ccp.nlp.doc2txt.pmc.PmcDocumentConverter</argument>
+						<argument>-i</argument>
+						<argument>${nxmlDir}</argument> <!-- input directory -->
+					</arguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+
+</project>
