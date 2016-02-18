@@ -82,6 +82,9 @@ public class CcpXmlParser {
 	private List<Annotation> annotations = new ArrayList<Annotation>();
 	private StringBuffer documentText = new StringBuffer();
 	private String docID;
+	private boolean inAbstract = false;
+	private boolean inSection = false;
+	private boolean inSubsection = false;
 
 	public CcpXmlParser() throws IOException, SAXException {
 		parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
@@ -121,8 +124,8 @@ public class CcpXmlParser {
 	}
 
 	/**
-	 * General method for parsing PMC xml that takes an InputSource as input. This method should
-	 * replace the deprecated parsePMCXML(String) method.
+	 * General method for parsing PMC xml that takes an InputSource as input.
+	 * This method should replace the deprecated parsePMCXML(String) method.
 	 * 
 	 * @param inputSource
 	 * @return
@@ -169,55 +172,98 @@ public class CcpXmlParser {
 		}
 
 		public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
-			if (tagSet.contains(localName.toLowerCase())) {
+			// if (tagSet.contains(localName.toLowerCase())) {
 
-				if (localName.equals("ABSTRACT")) {
-					documentText.append("Abstract\n\n");
-				}
-				
-				if (localName.equals("KEYWORD")) {
-					documentText.append("Keyword: ");
-				}
-				
-				Annotation ta = new Annotation();
-				ta.start = documentText.length();
-				ta.end = 1000000;
-
-				ta.type = localName;
-				if (atts.getLength() > 0) {
-					if (atts.getValue(NAME_ATTRIBUTE_NAME) != null) {
-						ta.name = atts.getValue(0);
-						if (atts.getValue(0).trim().length() > 0) {
-							documentText.append(" " + atts.getValue(0) + " ");
-						}
-					}
-					/*
-					 * if (atts.getValue(TITLE_ATTRIBUTE_NAME) != null) { ta.name=atts.getValue(0);
-					 * if (atts.getValue(0).trim().length() > 0) { documentText.append(" " +
-					 * atts.getValue(0) + " "); System.out.println("title attribute name: \"" +
-					 * atts.getValue(0) + "\""); } }
-					 */
-				}
-				stack.push(ta);
+			if (localName.equals("ABSTRACT")) {
+				documentText.append("Abstract\n\n");
+				inAbstract = true;
 			}
+
+			if (localName.equals("KEYWORD")) {
+				documentText.append("Keyword: ");
+			}
+
+			if (localName.equals("SECTION")) {
+				inSection = true;
+			}
+
+			if (localName.equals("SUBSECTION")) {
+				inSubsection = true;
+			}
+
+			Annotation ta = new Annotation();
+			ta.start = documentText.length();
+			ta.end = Integer.MAX_VALUE;
+
+			ta.type = localName;
+			if (localName.equals("TITLE")) {
+				if (inAbstract) {
+					ta.type = "ABSTRACT_" + localName;
+				} else if (inSubsection) {
+					ta.type = "SUBSECTION_" + localName;
+				} else if (inSection) {
+					ta.type = "SECTION_" + localName;
+				}
+			}
+
+			// // System.out.println("QNAME: " + qName);
+			// if (atts.getLength() > 0) {
+			// System.out.println("ATTS LENGTH: " + atts.getLength());
+			// if (atts.getValue(NAME_ATTRIBUTE_NAME) != null) {
+			// ta.name = atts.getValue(0);
+			// if (atts.getValue(0).trim().length() > 0) {
+			// documentText.append(" " + atts.getValue(0) + " ");
+			// }
+			// }
+			// /*
+			// * if (atts.getValue(TITLE_ATTRIBUTE_NAME) != null) {
+			// * ta.name=atts.getValue(0); if
+			// * (atts.getValue(0).trim().length() > 0) {
+			// * documentText.append(" " + atts.getValue(0) + " ");
+			// * System.out.println("title attribute name: \"" +
+			// * atts.getValue(0) + "\""); } }
+			// */
+			// }
+			stack.push(ta);
+			// }
 		}
 
 		public void endElement(String uri, String localName, String qName) throws SAXException {
 			if (!stack.isEmpty()) {
-				Annotation ta = stack.peek();
+				Annotation ta = stack.pop();
 				if (ta != null) {
 					String taType = ta.type;
-					logger.debug("TA TYPE: " + taType);
-					if (taType.toLowerCase().equals(localName.toLowerCase())) {
+					if (localName.equals("ABSTRACT")) {
+						inAbstract = false;
+					}
+
+					if (localName.equals("SECTION")) {
+						inSection = false;
+					}
+
+					if (localName.equals("SUBSECTION")) {
+						inSubsection = false;
+					}
+					// logger.debug("TA TYPE: " + taType);
+					if (taType.toLowerCase().contains(localName.toLowerCase())) {
 						ta.end = documentText.length();
+						if (ta.type.contains("TITLE")) {
+							ta.name = documentText.substring(ta.start, ta.end);
+						} else {
+							ta.name = null;
+						}
 						annotations.add(ta);
-						if (taType.equals("PARAGRAPH") || taType.equals("TITLE") || taType.equals("ABSTRACT") || taType.equals("SECTION")) {
+						if (taType.equals("PARAGRAPH") || taType.contains("TITLE") || taType.equals("ABSTRACT")
+								|| taType.equals("SECTION")) {
 							documentText.append("\n\n");
-						} else 
-						if (taType.equals("KEYWORD")) {
+						} else if (taType.equals("KEYWORD")) {
 							documentText.append("\n");
 						}
+					} else {
+						logger.warn("Popped: " + taType + " annotation but was expecting " + localName);
 					}
+				} else {
+					logger.warn("Popped null annotation!!");
 				}
 			}
 		}
@@ -227,9 +273,9 @@ public class CcpXmlParser {
 			if (s.trim().length() > 0) {
 				documentText.append(s);
 			}
-//			if (documentText.toString().lastIndexOf("\n") > 60) {
-//				documentText.append("\n");
-//			}
+			// if (documentText.toString().lastIndexOf("\n") > 60) {
+			// documentText.append("\n");
+			// }
 
 		}
 
