@@ -81,6 +81,12 @@ public class PmcDocumentConverter {
 	@Option(name = "-a", usage = "set to true to output document zone annotations to file. Default=true")
 	private boolean outputAnnotations = true;
 
+	@Option(name = "-n", usage = "the number of nxml files to process. Default = -1 (i.e. process them all)")
+	private int numToProcess = -1;
+
+	@Option(name = "-s", usage = "the number of nxml files to skip before beginning to process them. Default = 0.")
+	private int numToSkip = 0;
+
 	@Argument
 	private List<String> fileSuffixesToProcess = CollectionsUtil.createList(".nxml", ".nxml.gz");
 
@@ -173,6 +179,9 @@ public class PmcDocumentConverter {
 			} else {
 				logger.info("Annotations will not be saved to a separate file.");
 			}
+			
+			logger.info("Set to skip " + numToSkip + " files prior to processing.");
+			logger.info("Set to process " + numToProcess + " files after skip.");
 
 		} catch (CmdLineException e) {
 			logger.error(e);
@@ -183,12 +192,20 @@ public class PmcDocumentConverter {
 		}
 
 		try {
-			for (Iterator<File> fileIter = FileUtil.getFileIterator(inputFileOrDirectory, recurseDirectoryStructure,
-					fileSuffixesToProcess.toArray(new String[fileSuffixesToProcess.size()])); fileIter.hasNext();) {
+			Iterator<File> fileIter = FileUtil.getFileIterator(inputFileOrDirectory, recurseDirectoryStructure,
+					fileSuffixesToProcess.toArray(new String[fileSuffixesToProcess.size()]));
+
+			int count = 0;
+			while (fileIter.hasNext()) {
 				File pmcXmlFile = fileIter.next();
-				logger.info("processing file: " + pmcXmlFile.getAbsolutePath());
-				String documentId = pmcXmlFile.getName();
-				convertPmcToPlainText(documentId, pmcXmlFile, outputDirectory);
+				if (count >= numToSkip) {
+					if (numToProcess < 0 || count < (numToSkip + numToProcess)) {
+						logger.info("processing file: " + pmcXmlFile.getAbsolutePath());
+						String documentId = pmcXmlFile.getName();
+						convertPmcToPlainText(documentId, pmcXmlFile, outputDirectory);
+					}
+				}
+				count++;
 			}
 		} catch (Exception e) {
 			logger.error("Failure during PMC XML conversion to plain text.");

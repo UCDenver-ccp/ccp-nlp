@@ -45,6 +45,10 @@
 						<argument>edu.ucdenver.ccp.nlp.doc2txt.pmc.PmcDocumentConverter</argument>
 						<argument>-i</argument>
 						<argument>${nxmlDir}</argument> <!-- input directory -->
+						<argument>-s</argument>
+						<argument>${skip}</argument> <!-- num to skip -->
+						<argument>-n</argument>
+						<argument>${numToProcess}</argument> <!-- num to process -->
 					</arguments>
 				</configuration>
 			</plugin>
