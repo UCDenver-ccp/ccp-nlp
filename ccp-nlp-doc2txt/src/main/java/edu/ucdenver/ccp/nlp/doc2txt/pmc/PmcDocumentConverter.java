@@ -55,6 +55,7 @@ import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
+import edu.ucdenver.ccp.common.file.FileReaderUtil;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser;
@@ -86,6 +87,9 @@ public class PmcDocumentConverter {
 
 	@Option(name = "-s", usage = "the number of nxml files to skip before beginning to process them. Default = 0.")
 	private int numToSkip = 0;
+
+	@Option(name = "-l", usage = "a list of files to process. path is relative to the directory specified in the -i parameter. MUST BE ABSOLUTE PATH.")
+	private File listOfNxmlFile;
 
 	@Argument
 	private List<String> fileSuffixesToProcess = CollectionsUtil.createList(".nxml", ".nxml.gz");
@@ -155,6 +159,13 @@ public class PmcDocumentConverter {
 				logger.info("Processing single file: " + inputFileOrDirectory.getAbsolutePath());
 			}
 
+			if (listOfNxmlFile.getName().contains("NULL")) {
+				listOfNxmlFile = null;
+			}
+			if (listOfNxmlFile != null) {
+				logger.info("Processing files from the list in: " + listOfNxmlFile.getAbsolutePath());
+			}
+
 			if (isDir && recurseDirectoryStructure) {
 				logger.info("-r flag is set, the input directory structure will be traversed recursively");
 			} else {
@@ -179,7 +190,7 @@ public class PmcDocumentConverter {
 			} else {
 				logger.info("Annotations will not be saved to a separate file.");
 			}
-			
+
 			logger.info("Set to skip " + numToSkip + " files prior to processing.");
 			logger.info("Set to process " + numToProcess + " files after skip.");
 
@@ -192,8 +203,13 @@ public class PmcDocumentConverter {
 		}
 
 		try {
-			Iterator<File> fileIter = FileUtil.getFileIterator(inputFileOrDirectory, recurseDirectoryStructure,
-					fileSuffixesToProcess.toArray(new String[fileSuffixesToProcess.size()]));
+			Iterator<File> fileIter = null;
+			if (listOfNxmlFile != null) {
+				fileIter = getFileListIterator();
+			} else {
+				fileIter = FileUtil.getFileIterator(inputFileOrDirectory, recurseDirectoryStructure,
+						fileSuffixesToProcess.toArray(new String[fileSuffixesToProcess.size()]));
+			}
 
 			int count = 0;
 			while (fileIter.hasNext()) {
@@ -213,6 +229,25 @@ public class PmcDocumentConverter {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+	}
+
+	private Iterator<File> getFileListIterator() throws IOException {
+		List<String> relativeFileNames = FileReaderUtil.loadLinesFromFile(listOfNxmlFile, CharacterEncoding.US_ASCII);
+
+		final Iterator<String> fileIter = relativeFileNames.iterator();
+		return new Iterator<File>() {
+
+			@Override
+			public boolean hasNext() {
+				return fileIter.hasNext();
+			}
+
+			@Override
+			public File next() {
+				String relativeFileName = fileIter.next();
+				return new File(inputFileOrDirectory, relativeFileName);
+			}
+		};
 	}
 
 }

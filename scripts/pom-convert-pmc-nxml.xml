@@ -49,6 +49,8 @@
 						<argument>${skip}</argument> <!-- num to skip -->
 						<argument>-n</argument>
 						<argument>${numToProcess}</argument> <!-- num to process -->
+						<argument>-l</argument>
+						<argument>${nxmlListFile}</argument> <!-- num to process -->
 					</arguments>
 				</configuration>
 			</plugin>

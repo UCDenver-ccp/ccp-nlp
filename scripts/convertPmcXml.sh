@@ -10,6 +10,7 @@ echo "  [-s <num to skip>]: OPTIONAL. Number of files to skip prior to processin
 echo "  [-n <num to process>]: OPTIONAL. Number of files to process (after any that are skipped). Default = -1 (process all)."
 echo "  [-o <maven offline mode>]: OPTIONAL. If set, runs Maven in its offline mode."
 echo "  [-m <maven binary>]: OPTIONAL. If set, this is used as the mvn command. By default, the script assumes mvn is on your path."
+echo "  [-l <nxml list file>]: OPTIONAL. Points to a file that lists the nxml file (paths relative to the directory specified by -i)."
 
 
 }
@@ -18,8 +19,9 @@ SKIP=0
 NUM_TO_PROCESS=-1
 MAVEN_OFFLINE=""
 MAVEN_BIN=mvn
+NXML_LIST_FILE=/NULL
 
-while getopts "i:n:s:m:o" OPTION; do
+while getopts "i:n:s:m:l:o" OPTION; do
 case $OPTION in
 # The input ontology file
 i) NXML_DIR=$OPTARG
@@ -35,6 +37,9 @@ o) MAVEN_OFFLINE=-o
 ;;
 # If set, use the -o flag when running maven
 m) MAVEN_BIN=$OPTARG
+;;
+# If set, use the -o flag when running maven
+l) NXML_LIST_FILE=$OPTARG
 ;;
 # HELP!
 h) print_usage; exit 0
@@ -58,4 +63,5 @@ $MAVEN_BIN -version
 $MAVEN_BIN $MAVEN_OFFLINE -e -f scripts/pom-convert-pmc-nxml.xml exec:exec \
 -DnxmlDir=$NXML_DIR \
 -Dskip=$SKIP \
--DnumToProcess=$NUM_TO_PROCESS
+-DnumToProcess=$NUM_TO_PROCESS \
+-DnxmlListFile=$NXML_LIST_FILE
