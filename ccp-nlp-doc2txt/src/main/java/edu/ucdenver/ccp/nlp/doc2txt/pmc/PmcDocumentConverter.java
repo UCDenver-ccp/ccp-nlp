@@ -222,6 +222,9 @@ public class PmcDocumentConverter {
 					}
 				}
 				count++;
+				if (count > (numToSkip + numToProcess)) {
+					break;
+				}
 			}
 		} catch (Exception e) {
 			logger.error("Failure during PMC XML conversion to plain text.");
