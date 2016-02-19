@@ -232,7 +232,14 @@ public class PmcDocumentConverter {
 	}
 
 	private Iterator<File> getFileListIterator() throws IOException {
-		List<String> relativeFileNames = FileReaderUtil.loadLinesFromFile(listOfNxmlFile, CharacterEncoding.US_ASCII);
+
+		List<String> relativeFileNames = null;
+		if (listOfNxmlFile.getName().endsWith(".gz")) {
+			relativeFileNames = FileReaderUtil.loadLinesFromFile(new GZIPInputStream(
+					new FileInputStream(listOfNxmlFile)), CharacterEncoding.US_ASCII);
+		} else {
+			relativeFileNames = FileReaderUtil.loadLinesFromFile(listOfNxmlFile, CharacterEncoding.US_ASCII);
+		}
 
 		final Iterator<String> fileIter = relativeFileNames.iterator();
 		return new Iterator<File>() {
