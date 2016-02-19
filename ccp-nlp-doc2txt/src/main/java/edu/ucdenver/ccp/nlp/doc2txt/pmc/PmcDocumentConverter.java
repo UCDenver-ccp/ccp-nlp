@@ -252,7 +252,11 @@ public class PmcDocumentConverter {
 			@Override
 			public File next() {
 				String relativeFileName = fileIter.next();
-				return new File(inputFileOrDirectory, relativeFileName);
+				File f = new File(inputFileOrDirectory, relativeFileName);
+				if (!f.exists()) {
+					return new File(inputFileOrDirectory, relativeFileName + ".gz");
+				}
+				return f;
 			}
 		};
 	}
