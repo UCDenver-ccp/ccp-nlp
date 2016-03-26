@@ -77,6 +77,17 @@
 		<xsl:text> </xsl:text>
 		</xsl:element>
 	</xsl:template>
+	
+	<xsl:template match="ack/sec" priority='0'>
+		<xsl:element name="ACKNOWLEDGEMENT_SECTION"> 
+		<xsl:text> </xsl:text>
+			<xsl:attribute name="NAME">
+				<xsl:value-of select="./title/text()" /> 
+			</xsl:attribute>
+			<xsl:apply-templates select="node()" />
+		<xsl:text> </xsl:text>
+		</xsl:element>
+	</xsl:template>
 
 	<xsl:template match="kwd-group/kwd" priority='0'>
 	<!-- sometimes this is just a keyword, sometimes it's an abbreviation

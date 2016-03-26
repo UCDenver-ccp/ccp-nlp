@@ -77,22 +77,23 @@ public class CcpXmlParser {
 	static final String PARSER_NAME = "CCP XML Parser";
 
 	private XMLReader parser;
-	private HashSet<String> tagSet;
+	// private HashSet<String> tagSet;
 	private Stack<Annotation> stack = new Stack<Annotation>();
 	private List<Annotation> annotations = new ArrayList<Annotation>();
 	private StringBuffer documentText = new StringBuffer();
-	private String docID;
+	// private String docID;
 	private boolean inAbstract = false;
 	private boolean inSection = false;
 	private boolean inSubsection = false;
+	private boolean inAckSection = false;
 
 	public CcpXmlParser() throws IOException, SAXException {
 		parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
-		tagSet = new HashSet<String>();
-		tagSet.addAll(Arrays.asList(tags));
-		for (String t : tags) {
-			tagSet.add(t.toLowerCase());
-		}
+		// tagSet = new HashSet<String>();
+		// tagSet.addAll(Arrays.asList(tags));
+		// for (String t : tags) {
+		// tagSet.add(t.toLowerCase());
+		// }
 	}
 
 	/**
@@ -133,7 +134,7 @@ public class CcpXmlParser {
 	 * @throws SAXException
 	 */
 	public String parse(InputSource inputSource, String docID) throws IOException, SAXException {
-		this.docID = docID;
+		// this.docID = docID;
 		PubMedCentralXMLContentHandler contentHandler = new PubMedCentralXMLContentHandler();
 
 		parser.setContentHandler(contentHandler);
@@ -175,8 +176,15 @@ public class CcpXmlParser {
 			// if (tagSet.contains(localName.toLowerCase())) {
 
 			if (localName.equals("ABSTRACT")) {
-				documentText.append("Abstract\n\n");
+				Annotation ta = new Annotation();
+				ta.start = documentText.length();
+				documentText.append("Abstract");
+				ta.end = documentText.length();
+				ta.name = documentText.substring(ta.start, ta.end);
+				ta.type = "ABSTRACT_HEADING";
+				documentText.append("\n\n");
 				inAbstract = true;
+				annotations.add(ta);
 			}
 
 			if (localName.equals("KEYWORD")) {
@@ -185,6 +193,9 @@ public class CcpXmlParser {
 
 			if (localName.equals("SECTION")) {
 				inSection = true;
+			}
+			if (localName.equals("ACKNOWLEDGEMENT_SECTION")) {
+				inAckSection = true;
 			}
 
 			if (localName.equals("SUBSECTION")) {
@@ -198,11 +209,13 @@ public class CcpXmlParser {
 			ta.type = localName;
 			if (localName.equals("TITLE")) {
 				if (inAbstract) {
-					ta.type = "ABSTRACT_" + localName;
+					ta.type = "ABSTRACT_SUBSECTION_HEADING";
 				} else if (inSubsection) {
-					ta.type = "SUBSECTION_" + localName;
+					ta.type = "SUBSECTION_HEADING";
 				} else if (inSection) {
-					ta.type = "SECTION_" + localName;
+					ta.type = "SECTION_HEADING";
+				} else if (inAckSection) {
+					ta.type = "ACKNOWLEDGEMENT_SECTION_HEADING";
 				}
 			}
 
@@ -241,27 +254,34 @@ public class CcpXmlParser {
 						inSection = false;
 					}
 
+					if (localName.equals("ACKNOWLEDGEMENT_SECTION")) {
+						inAckSection = false;
+					}
+
 					if (localName.equals("SUBSECTION")) {
 						inSubsection = false;
 					}
 					// logger.debug("TA TYPE: " + taType);
-					if (taType.toLowerCase().contains(localName.toLowerCase())) {
-						ta.end = documentText.length();
-						if (ta.type.contains("TITLE")) {
-							ta.name = documentText.substring(ta.start, ta.end);
-						} else {
-							ta.name = null;
-						}
-						annotations.add(ta);
-						if (taType.equals("PARAGRAPH") || taType.contains("TITLE") || taType.equals("ABSTRACT")
-								|| taType.equals("SECTION")) {
-							documentText.append("\n\n");
-						} else if (taType.equals("KEYWORD")) {
-							documentText.append("\n");
-						}
+					// if
+					// (taType.toLowerCase().contains(localName.toLowerCase()))
+					// {
+					ta.end = documentText.length();
+					if (ta.type.contains("TITLE") || ta.type.contains("HEADING")) {
+						ta.name = documentText.substring(ta.start, ta.end);
 					} else {
-						logger.warn("Popped: " + taType + " annotation but was expecting " + localName);
+						ta.name = null;
 					}
+					annotations.add(ta);
+					if (taType.equals("PARAGRAPH") || taType.contains("TITLE") || taType.equals("ABSTRACT")
+							|| taType.equals("SECTION") || taType.equals("ACKNOWLEDGEMENT_SECTION")) {
+						documentText.append("\n\n");
+					} else if (taType.equals("KEYWORD")) {
+						documentText.append("\n");
+					}
+					// } else {
+					// logger.warn("Popped: " + taType +
+					// " annotation but was expecting " + localName);
+					// }
 				} else {
 					logger.warn("Popped null annotation!!");
 				}

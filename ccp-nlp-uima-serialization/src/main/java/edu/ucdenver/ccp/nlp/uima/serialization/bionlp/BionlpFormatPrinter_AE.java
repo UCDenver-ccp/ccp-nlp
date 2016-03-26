@@ -155,6 +155,8 @@ System.out.println("--not-- DOING NORMALIZED" + addNormalization);
 		put("DRON", "drug");
 		put("DB", "drug");
 		put("CHEBI", "chemical_entity");
+		
+		put("section", "section");
 			
 	} };
 

@@ -222,7 +222,7 @@ public class PmcDocumentConverter {
 					}
 				}
 				count++;
-				if (count > (numToSkip + numToProcess)) {
+				if (numToProcess > 0 && count > (numToSkip + numToProcess)) {
 					break;
 				}
 			}
