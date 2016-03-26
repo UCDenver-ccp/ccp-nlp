@@ -42,6 +42,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.tools.ant.util.StringUtils;
 import org.semanticweb.owlapi.model.OWLClass;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
@@ -174,6 +175,11 @@ public class OboToDictionary {
 			// id without a name. Don't add to dictionary.
 			return "";
 		}
+		/* often seen when parsing OWL string literals */
+		if (name.endsWith("\"@en")) {
+			name = StringUtils.removeSuffix(name, "\"@en");
+		}
+		System.out.println("label: " + name);
 
 		if (filterTermsByLength && name.length() < MINIMUM_TERM_LENGTH)
 			return "";
@@ -195,13 +201,18 @@ public class OboToDictionary {
 		Set<String> syns = ontUtil.getSynonyms(owlClass, synonymType);
 		Pattern endsWithActivityPattern = Pattern.compile("(.*)\\sactivity");
 		for (String syn : syns) {
-			String variantStr = XmlUtil.convertXmlEscapeCharacters(syn);
-			buf.append(buildSynonymLine(variantStr));
+			if (syn.endsWith("\"@en")) {
+				syn = StringUtils.removeSuffix(syn, "\"@en");
+			}
+			if (!syn.equals(name)) {
+				String variantStr = XmlUtil.convertXmlEscapeCharacters(syn);
+				buf.append(buildSynonymLine(variantStr));
 
-			Matcher m = endsWithActivityPattern.matcher(variantStr);
-			if (m.matches()) {
-				String enzyme = m.group(1);
-				buf.append(buildSynonymLine(enzyme));
+				Matcher m = endsWithActivityPattern.matcher(variantStr);
+				if (m.matches()) {
+					String enzyme = m.group(1);
+					buf.append(buildSynonymLine(enzyme));
+				}
 			}
 		}
 		buf.append("</" + TOKEN_TAG + ">\n");
