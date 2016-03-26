@@ -94,8 +94,8 @@ public class PmcDocumentConverter {
 	@Argument
 	private List<String> fileSuffixesToProcess = CollectionsUtil.createList(".nxml", ".nxml.gz");
 
-	public static void convertPmcToPlainText(File pmcXmlFile, File outputDirectory, boolean outputAnnotations) throws IOException,
-			SAXException {
+	public static void convertPmcToPlainText(File pmcXmlFile, File outputDirectory, boolean outputAnnotations)
+			throws IOException, SAXException {
 		// convert PMC XML to simpler CCP XML
 		XsltConverter xslt = new XsltConverter(new PmcDtdClasspathResolver());
 		InputStream xmlStream = null;
@@ -104,36 +104,40 @@ public class PmcDocumentConverter {
 		} else {
 			xmlStream = new FileInputStream(pmcXmlFile);
 		}
-		String ccpXml = xslt.convert(xmlStream, PmcXslLocator.getPmcXslStream());
+		try {
+			String ccpXml = xslt.convert(xmlStream, PmcXslLocator.getPmcXslStream());
 
-		// convert CCP XML to plain text
-		CcpXmlParser parser = new CcpXmlParser();
-		String documentId = pmcXmlFile.getName();
-		String plainText = parser.parse(ccpXml, documentId);
+			// convert CCP XML to plain text
+			CcpXmlParser parser = new CcpXmlParser();
+			String documentId = pmcXmlFile.getName();
+			String plainText = parser.parse(ccpXml, documentId);
 
-		String outputFilename = documentId + ".utf8.gz";
-		File outputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(), outputFilename) : new File(
-				outputDirectory, outputFilename);
-		BufferedWriter writer = FileWriterUtil.initBufferedWriter(
-				new GZIPOutputStream(new FileOutputStream(outputFile)), CharacterEncoding.UTF_8);
-		writer.write(plainText);
-		writer.close();
+			String outputFilename = documentId + ".utf8.gz";
+			File outputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(), outputFilename)
+					: new File(outputDirectory, outputFilename);
+			BufferedWriter writer = FileWriterUtil.initBufferedWriter(new GZIPOutputStream(new FileOutputStream(
+					outputFile)), CharacterEncoding.UTF_8);
+			writer.write(plainText);
+			writer.close();
 
-		if (outputAnnotations) {
-			List<CcpXmlParser.Annotation> annotations = parser.getAnnotations();
-			String annotationFilename = documentId + ".ann.gz";
-			File annotOutputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(), annotationFilename)
-					: new File(outputDirectory, annotationFilename);
-			BufferedWriter annotWriter = FileWriterUtil.initBufferedWriter(new GZIPOutputStream(new FileOutputStream(
-					annotOutputFile)), CharacterEncoding.UTF_8);
-			try {
-				for (CcpXmlParser.Annotation annot : annotations) {
-					String annotLine = annot.type + "|" + annot.name + "|" + annot.start + "|" + annot.end + "\n";
-					annotWriter.write(annotLine);
+			if (outputAnnotations) {
+				List<CcpXmlParser.Annotation> annotations = parser.getAnnotations();
+				String annotationFilename = documentId + ".ann.gz";
+				File annotOutputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(),
+						annotationFilename) : new File(outputDirectory, annotationFilename);
+				BufferedWriter annotWriter = FileWriterUtil.initBufferedWriter(new GZIPOutputStream(
+						new FileOutputStream(annotOutputFile)), CharacterEncoding.UTF_8);
+				try {
+					for (CcpXmlParser.Annotation annot : annotations) {
+						String annotLine = annot.type + "|" + annot.name + "|" + annot.start + "|" + annot.end + "\n";
+						annotWriter.write(annotLine);
+					}
+				} finally {
+					annotWriter.close();
 				}
-			} finally {
-				annotWriter.close();
 			}
+		} catch (RuntimeException e) {
+			logger.error("!!!ERROR: Runtime exception for document: " + pmcXmlFile.getAbsolutePath(), e);
 		}
 
 	}
