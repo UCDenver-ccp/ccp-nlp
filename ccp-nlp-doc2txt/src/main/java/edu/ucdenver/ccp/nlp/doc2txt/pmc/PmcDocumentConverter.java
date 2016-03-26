@@ -94,7 +94,7 @@ public class PmcDocumentConverter {
 	@Argument
 	private List<String> fileSuffixesToProcess = CollectionsUtil.createList(".nxml", ".nxml.gz");
 
-	private void convertPmcToPlainText(String documentId, File pmcXmlFile, File outputDirectory) throws IOException,
+	public static void convertPmcToPlainText(File pmcXmlFile, File outputDirectory, boolean outputAnnotations) throws IOException,
 			SAXException {
 		// convert PMC XML to simpler CCP XML
 		XsltConverter xslt = new XsltConverter(new PmcDtdClasspathResolver());
@@ -108,6 +108,7 @@ public class PmcDocumentConverter {
 
 		// convert CCP XML to plain text
 		CcpXmlParser parser = new CcpXmlParser();
+		String documentId = pmcXmlFile.getName();
 		String plainText = parser.parse(ccpXml, documentId);
 
 		String outputFilename = documentId + ".utf8.gz";
@@ -217,8 +218,7 @@ public class PmcDocumentConverter {
 				if (count >= numToSkip) {
 					if (numToProcess < 0 || count < (numToSkip + numToProcess)) {
 						logger.info("processing file: " + pmcXmlFile.getAbsolutePath());
-						String documentId = pmcXmlFile.getName();
-						convertPmcToPlainText(documentId, pmcXmlFile, outputDirectory);
+						convertPmcToPlainText(pmcXmlFile, outputDirectory, outputAnnotations);
 					}
 				}
 				count++;
