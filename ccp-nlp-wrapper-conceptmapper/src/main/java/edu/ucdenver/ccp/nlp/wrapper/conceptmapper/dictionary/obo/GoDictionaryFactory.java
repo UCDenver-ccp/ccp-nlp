@@ -45,6 +45,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 import edu.ucdenver.ccp.common.file.FileUtil;
@@ -59,6 +60,8 @@ import edu.ucdenver.ccp.datasource.fileparsers.obo.impl.GeneOntologyClassIterato
  * 
  */
 public class GoDictionaryFactory {
+
+	private static final Logger logger = Logger.getLogger(GoDictionaryFactory.class);
 
 	public enum GoNamespace {
 		BP("biological_process"), MF("molecular_function"), CC("cellular_component");
@@ -101,7 +104,8 @@ public class GoDictionaryFactory {
 		File geneOntologyOboFile = goIter.getGeneOntologyOboFile();
 		goIter.close();
 
-		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, geneOntologyOboFile, doClean, synonymType);
+		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, geneOntologyOboFile, doClean,
+				synonymType);
 	}
 
 	/**
@@ -111,10 +115,11 @@ public class GoDictionaryFactory {
 	 * @param synonymType
 	 * @return
 	 * @throws IOException
-	 * @throws OWLOntologyCreationException 
+	 * @throws OWLOntologyCreationException
 	 */
-	private static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File outputDirectory,
-			File ontFile, boolean cleanDictFile, SynonymType synonymType) throws IOException, OWLOntologyCreationException {
+	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File outputDirectory,
+			File ontFile, boolean cleanDictFile, SynonymType synonymType) throws IOException,
+			OWLOntologyCreationException {
 		String dictionaryKey = "";
 		List<String> nsKeys = new ArrayList<String>();
 		for (GoNamespace ns : namespacesToInclude) {
@@ -137,6 +142,7 @@ public class GoDictionaryFactory {
 		for (GoNamespace ns : namespacesToInclude) {
 			namespaces.add(ns.namespace());
 		}
+		logger.info("Dictionary file does not yet exist. Generating dictionary: " + dictionaryFile);
 		OntologyUtil ontUtil = new OntologyUtil(ontFile);
 		OboToDictionary.buildDictionary(dictionaryFile, ontUtil, new HashSet<String>(namespaces), synonymType);
 		return dictionaryFile;
