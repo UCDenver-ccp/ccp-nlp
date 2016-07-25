@@ -101,8 +101,8 @@ public class AnnotationGroup {
 
 	/* returns true if all fields in the AnnotationGroup are non-null */
 	public boolean isValid() {
-		if (groupID != null & annotationSetID != null & annotatorID != null
-				& (annotationTypeList.size() != 0 || annotationTypeRegexList.size() != 0)) {
+		if (groupID != null && annotationSetID != null && annotatorID != null
+				&& (annotationTypeList.size() != 0 || annotationTypeRegexList.size() != 0)) {
 			return true;
 		} else {
 			logger.warn("Invalid AnnotationGroup detected.");
