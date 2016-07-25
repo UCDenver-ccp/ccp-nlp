@@ -58,6 +58,7 @@
             <plugin>
                 <groupId>org.cleartk</groupId>
                 <artifactId>jcasgen-maven-plugin</artifactId>
+                <version>0.9.3</version>
                 <configuration>
                     <typeSystem>src/main/resources/edu/ucdenver/ccp/nlp/core/uima/TypeSystem.xml</typeSystem>
                 </configuration>
@@ -71,6 +72,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.12</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
