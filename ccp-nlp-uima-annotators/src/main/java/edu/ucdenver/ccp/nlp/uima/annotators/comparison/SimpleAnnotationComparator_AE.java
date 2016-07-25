@@ -127,7 +127,7 @@ public class SimpleAnnotationComparator_AE extends AnnotationComparator_AE {
 
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
 			SpanComparatorType spanComparatorType, MentionComparatorType mentionComparatorType,
-			File evaluationResultsOutputFile, AnnotationGroup goldGroup, AnnotationGroup evalGroup)
+			File evaluationResultsOutputFile, AnnotationGroup goldGroup, AnnotationGroup evalGroup, int maximumComparisonDepth)
 			throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(SimpleAnnotationComparator_AE.class, tsd,
 				PARAM_SPAN_COMPARATOR_TYPE_NAME, spanComparatorType.name(), PARAM_MENTION_COMPARATOR_TYPE_NAME,
@@ -139,6 +139,7 @@ public class SimpleAnnotationComparator_AE extends AnnotationComparator_AE {
 				PARAM_EVAL_SET_ID, evalGroup.getAnnotationSetID(), PARAM_EVAL_ANNOTATOR_ID, evalGroup.getAnnotatorID(),
 				PARAM_EVAL_TYPE_REGEX,
 				evalGroup.getAnnotationTypeRegexList().toArray(new String[evalGroup.getAnnotationTypeList().size()]),
+				PARAM_MAX_COMPARISON_DEPTH, maximumComparisonDepth,
 				PARAM_CONFIG_FILE, "not/a/real/file"); // config file parameter set b/c it
 																	// is mandatory, but is never
 																	// used
