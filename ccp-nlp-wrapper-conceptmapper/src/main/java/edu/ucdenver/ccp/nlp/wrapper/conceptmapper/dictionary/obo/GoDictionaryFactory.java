@@ -45,6 +45,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 import edu.ucdenver.ccp.common.file.FileUtil;
@@ -59,6 +60,8 @@ import edu.ucdenver.ccp.datasource.fileparsers.obo.impl.GeneOntologyClassIterato
  * 
  */
 public class GoDictionaryFactory {
+
+	private static final Logger logger = Logger.getLogger(GoDictionaryFactory.class);
 
 	public enum GoNamespace {
 		BP("biological_process"), MF("molecular_function"), CC("cellular_component");
@@ -99,20 +102,10 @@ public class GoDictionaryFactory {
 		GeneOntologyClassIterator goIter = new GeneOntologyClassIterator(workDirectory, doClean);
 
 		File geneOntologyOboFile = goIter.getGeneOntologyOboFile();
-		OntologyUtil ontUtil = new OntologyUtil(geneOntologyOboFile);
 		goIter.close();
 
-		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, ontUtil, doClean, synonymType);
-	}
-
-	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File goOboFile,
-			File outputDirectory, boolean cleanDictFile, SynonymType synonymType) throws IOException,
-			OWLOntologyCreationException {
-		if (namespacesToInclude.isEmpty())
-			return null;
-
-		OntologyUtil ontUtil = new OntologyUtil(goOboFile);
-		return buildConceptMapperDictionary(namespacesToInclude, outputDirectory, ontUtil, cleanDictFile, synonymType);
+		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, geneOntologyOboFile, doClean,
+				synonymType);
 	}
 
 	/**
@@ -122,9 +115,11 @@ public class GoDictionaryFactory {
 	 * @param synonymType
 	 * @return
 	 * @throws IOException
+	 * @throws OWLOntologyCreationException
 	 */
-	private static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File outputDirectory,
-			OntologyUtil ontUtil, boolean cleanDictFile, SynonymType synonymType) throws IOException {
+	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File outputDirectory,
+			File ontFile, boolean cleanDictFile, SynonymType synonymType) throws IOException,
+			OWLOntologyCreationException {
 		String dictionaryKey = "";
 		List<String> nsKeys = new ArrayList<String>();
 		for (GoNamespace ns : namespacesToInclude) {
@@ -144,8 +139,11 @@ public class GoDictionaryFactory {
 			}
 		}
 		Set<String> namespaces = new HashSet<String>();
-		for (GoNamespace ns : namespacesToInclude)
+		for (GoNamespace ns : namespacesToInclude) {
 			namespaces.add(ns.namespace());
+		}
+		logger.info("Dictionary file does not yet exist. Generating dictionary: " + dictionaryFile);
+		OntologyUtil ontUtil = new OntologyUtil(ontFile);
 		OboToDictionary.buildDictionary(dictionaryFile, ontUtil, new HashSet<String>(namespaces), synonymType);
 		return dictionaryFile;
 	}

@@ -45,18 +45,23 @@ import org.apache.log4j.Logger;
 
 /**
  * 
- * This class is used to allow DTD's to be added to the classpath and then found accordingly.<br>
- * Code snippet from: http://www.theserverside.com/discussions/thread.tss?thread_id=24895 <br>
+ * This class is used to allow DTD's to be added to the classpath and then found
+ * accordingly.<br>
+ * Code snippet from:
+ * http://www.theserverside.com/discussions/thread.tss?thread_id=24895 <br>
  * Reference: http://www.ibm.com/developerworks/library/x-tipent.html
  * 
- * The latest PMC DTD can be downloaded from: ftp://ftp.ncbi.nih.gov/pub/archive_dtd/archiving/
+ * The latest PMC DTD can be downloaded from:
+ * ftp://ftp.ncbi.nih.gov/pub/archive_dtd/archiving/
  * 
- * Download and unpack archive-interchange-dtd-3.0.zip for example. When unpacked there will be an
- * archiving/ directory. From that directory, create a jar file using the following command:
+ * Download and unpack archive-interchange-dtd-3.0.zip for example. When
+ * unpacked there will be an archiving/ directory. From that directory, create a
+ * jar file using the following command:
  * 
  * jar -cf pmc-dtd-3.0.jar *
  * 
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Center for Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class PmcDtdClasspathResolver implements EntityResolver {
@@ -65,10 +70,10 @@ public class PmcDtdClasspathResolver implements EntityResolver {
 
 	@Override
 	public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-		logger.debug("Input system ID: " + systemId);
+		// logger.debug("Input system ID: " + systemId);
 		String sysId = null;
 		if (systemId.contains("/mathml/")) {
-			sysId = systemId.substring(systemId.lastIndexOf("/mathml/"));  
+			sysId = systemId.substring(systemId.lastIndexOf("/mathml/"));
 		} else if (systemId.contains("/iso8879/")) {
 			sysId = systemId.substring(systemId.lastIndexOf("/iso8879/"));
 		} else if (systemId.contains("/iso9573-13/")) {
@@ -78,7 +83,8 @@ public class PmcDtdClasspathResolver implements EntityResolver {
 		} else {
 			sysId = systemId.substring(systemId.lastIndexOf("/"));
 		}
-		logger.debug("RESOLVING ENTITY: publicID: \"" + publicId + "\"   systemID: \"" + sysId + "\"");
+		// logger.debug("RESOLVING ENTITY: publicID: \"" + publicId +
+		// "\"   systemID: \"" + sysId + "\"");
 
 		InputStream stream = getClass().getResourceAsStream(sysId);
 		if (stream == null) {

@@ -33,6 +33,7 @@ package edu.ucdenver.ccp.nlp.core.annotation;
  * #L%
  */
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
@@ -49,7 +50,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
-public class Span implements Comparable {
+public class Span implements Comparable<Span>, Serializable {
 
 	private int spanStart;
 
@@ -239,16 +240,11 @@ public class Span implements Comparable {
 		return newSpan;
 	}
 
-	public int compareTo(Object spanToEquate) {
-		if (spanToEquate instanceof Span) {
+	public int compareTo(Span spanToEquate) {
 			SpanComparator sc = new StrictSpanComparator();
 			Span span = (Span) spanToEquate;
 
 			return sc.compare(this, span);
-		} else {
-			System.err.println("Error, cannot compare a Span to a " + spanToEquate.getClass().getName());
-			return -1;
-		}
 	}
 
 	/**

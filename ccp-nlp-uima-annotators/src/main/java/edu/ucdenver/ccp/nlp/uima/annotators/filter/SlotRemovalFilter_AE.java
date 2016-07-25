@@ -85,6 +85,7 @@ import edu.ucdenver.ccp.nlp.uima.annotation.impl.WrappedCCPTextAnnotation;
 public class SlotRemovalFilter_AE extends JCasAnnotator_ImplBase {
 
 	public enum SlotRemovalOption {
+		REMOVE_NONE,
 		REMOVE_ALL,
 		REMOVE_COMPLEX,
 		REMOVE_PRIMITIVE
@@ -156,24 +157,27 @@ public class SlotRemovalFilter_AE extends JCasAnnotator_ImplBase {
 				case REMOVE_ALL:
 					if (ta.getClassMention().getPrimitiveSlotMentions().size() > 0
 							|| ta.getClassMention().getComplexSlotMentions().size() > 0) {
-						logger.log(Level.INFO, "Removing ALL slots from: " + ta.toString());
+//						logger.log(Level.INFO, "Removing ALL slots from: " + ta.toString());
 						ta.getClassMention().setComplexSlotMentions(new ArrayList<ComplexSlotMention>());
 						ta.getClassMention().setPrimitiveSlotMentions(new ArrayList<PrimitiveSlotMention>());
 					}
 					break;
 				case REMOVE_COMPLEX:
 					if (ta.getClassMention().getComplexSlotMentions().size() > 0) {
-						logger.log(Level.INFO, "Removing complex slots from: " + ta.toString());
+//						logger.log(Level.INFO, "Removing complex slots from: " + ta.toString());
 						ta.getClassMention().setComplexSlotMentions(new ArrayList<ComplexSlotMention>());
-						logger.log(Level.INFO, "# complex slots remaining: "
-								+ ta.getClassMention().getComplexSlotMentions().size());
+//						logger.log(Level.INFO, "# complex slots remaining: "
+//								+ ta.getClassMention().getComplexSlotMentions().size());
 					}
 					break;
 				case REMOVE_PRIMITIVE:
 					if (ta.getClassMention().getPrimitiveSlotMentions().size() > 0) {
-						logger.log(Level.INFO, "Removing primitive slots from: " + ta.toString());
+//						logger.log(Level.INFO, "Removing primitive slots from: " + ta.toString());
 						ta.getClassMention().setPrimitiveSlotMentions(new ArrayList<PrimitiveSlotMention>());
 					}
+					break;
+				case REMOVE_NONE:
+					// don't do anything
 					break;
 				default:
 					throw new IllegalArgumentException("Unhandled SlotRemoveOption: " + removeOption.name());

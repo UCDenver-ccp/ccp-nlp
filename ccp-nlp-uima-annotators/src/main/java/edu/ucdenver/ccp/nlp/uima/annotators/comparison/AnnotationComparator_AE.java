@@ -218,6 +218,12 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(defaultValue = "false")
 	private boolean assignEvaluationResultPropertiesToAnnotations;
 
+	
+	public static final String PARAM_MAX_COMPARISON_DEPTH = ConfigurationParameterFactory
+			.createConfigurationParameterName(AnnotationComparator_AE.class, "maxComparisonDepth");
+	@ConfigurationParameter(description="by default, comparisons are conducted to the maximum depth of the mention hierarchy (as signified by a maximum comparison depth < 0)")
+	private int maxComparisonDepth = -1;
+	
 	private SpanComparator spanComparator;
 
 	private MentionComparator mentionComparator;
@@ -470,7 +476,7 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		Map<Integer, PRFResult> comparisonGroupID2ScoreForThisCASOnly;
 		try {
 			comparisonGroupID2ScoreForThisCASOnly = doAnnotationComparisons(documentID,
-					comparisonGroupID2MemberTextAnnotationsMap);
+					comparisonGroupID2MemberTextAnnotationsMap, maxComparisonDepth);
 		} catch (IOException e) {
 			throw new AnalysisEngineProcessException(e);
 		}
@@ -683,10 +689,11 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 	 * 
 	 * @param documentID
 	 * @param comparisonGroupID2MemberTextAnnotationsMap
+	 * @param maxComparisonDepth 
 	 * @throws IOException
 	 */
 	private Map<Integer, PRFResult> doAnnotationComparisons(String documentID,
-			Map<Integer, Collection<TextAnnotation>> comparisonGroupID2MemberTextAnnotationsMap) throws IOException {
+			Map<Integer, Collection<TextAnnotation>> comparisonGroupID2MemberTextAnnotationsMap, int maxComparisonDepth) throws IOException {
 		AnnotationComparator annotationComparator = new AnnotationComparator();
 
 		Map<Integer, PRFResult> comparisonGroupID2ScoreForThisCASOnly = new HashMap<Integer, PRFResult>();
@@ -698,7 +705,7 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 					.get(comparisonGroupID);
 
 			PRFResult prf = annotationComparator.compare(goldStandardAnnotations, compareAnnotations, spanComparator,
-					mentionComparator);
+					mentionComparator, maxComparisonDepth);
 
 			/*
 			 * Do not output the gold standard vs. gold standard comparison for the incremental

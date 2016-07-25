@@ -4,14 +4,11 @@
 	<groupId>edu.ucdenver.ccp</groupId>
 	<artifactId>ccp-nlp</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.3.1</version>
+	<version>3.3.2</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- This property is inherited by all sub-modules and used to define their 
-			version -->
-		<project.version>3.4-SNAPSHOT</project.version>
 	</properties>
 
 
@@ -49,7 +46,7 @@
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>datasource-fileparsers</artifactId>
-				<version>0.6</version>
+				<version>0.6.1</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
@@ -78,6 +75,20 @@
 						<source>1.8</source>
 						<target>1.8</target>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>3.0.1</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>

@@ -11,7 +11,7 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.3.1</version>
+		<version>3.3.2</version>
 	</parent>
 
 	<dependencies>
@@ -79,6 +79,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.5.0</version>
 				<executions>
 					<execution>
 						<!-- Skip generation of type system files using ${jcasgen.typesystem} 

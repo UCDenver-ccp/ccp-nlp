@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.3.1</version>
+		<version>3.3.2</version>
 	</parent>
 	<artifactId>ccp-nlp-wrapper-conceptmapper</artifactId>
 
@@ -72,6 +72,7 @@
 			<plugin>
 				<groupId>org.cleartk</groupId>
 				<artifactId>jcasgen-maven-plugin</artifactId>
+				<version>0.9.3</version>
 				<configuration>
 					<typeSystem>src/main/resources/edu/ucdenver/ccp/nlp/wrapper/conceptmapper/TypeSystem.xml</typeSystem>
 				</configuration>
@@ -87,6 +88,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.12</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

@@ -36,10 +36,13 @@ package edu.ucdenver.ccp.nlp.doc2txt.pmc;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -50,14 +53,17 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.xml.sax.SAXException;
 
+import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
+import edu.ucdenver.ccp.common.file.FileReaderUtil;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser;
 import edu.ucdenver.ccp.nlp.doc2txt.XsltConverter;
 
 /**
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Center for Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class PmcDocumentConverter {
@@ -73,28 +79,67 @@ public class PmcDocumentConverter {
 	@Option(name = "-o", usage = "indicates the output directory where plain text files will be written. This parameter is optional. If not specified, the plain text files will be written to the directory containing the input PMC XML files.")
 	private File outputDirectory = null;
 
-	@Argument
-	private List<String> fileSuffixesToProcess = new ArrayList<String>();
+	@Option(name = "-a", usage = "set to true to output document zone annotations to file. Default=true")
+	private boolean outputAnnotations = true;
 
-	private static void convertPmcToPlainText(String documentId, File pmcXmlFile, File outputDirectory)
+	@Option(name = "-n", usage = "the number of nxml files to process. Default = -1 (i.e. process them all)")
+	private int numToProcess = -1;
+
+	@Option(name = "-s", usage = "the number of nxml files to skip before beginning to process them. Default = 0.")
+	private int numToSkip = 0;
+
+	@Option(name = "-l", usage = "a list of files to process. path is relative to the directory specified in the -i parameter. MUST BE ABSOLUTE PATH.")
+	private File listOfNxmlFile;
+
+	@Argument
+	private List<String> fileSuffixesToProcess = CollectionsUtil.createList(".nxml", ".nxml.gz");
+
+	public static void convertPmcToPlainText(File pmcXmlFile, File outputDirectory, boolean outputAnnotations)
 			throws IOException, SAXException {
 		// convert PMC XML to simpler CCP XML
 		XsltConverter xslt = new XsltConverter(new PmcDtdClasspathResolver());
-		String ccpXml = xslt.convert(new FileInputStream(pmcXmlFile), PmcXslLocator.getPmcXslStream());
+		InputStream xmlStream = null;
+		if (pmcXmlFile.getName().endsWith(".gz")) {
+			xmlStream = new GZIPInputStream(new FileInputStream(pmcXmlFile));
+		} else {
+			xmlStream = new FileInputStream(pmcXmlFile);
+		}
+		try {
+			String ccpXml = xslt.convert(xmlStream, PmcXslLocator.getPmcXslStream());
 
-		// convert CCP XML to plain text
-		CcpXmlParser parser = new CcpXmlParser();
-		String plainText = parser.parse(ccpXml, documentId);
+			// convert CCP XML to plain text
+			CcpXmlParser parser = new CcpXmlParser();
+			String documentId = pmcXmlFile.getName();
+			String plainText = parser.parse(ccpXml, documentId);
 
-		String outputFilename = documentId + ".utf8";
-		File outputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(), outputFilename) : new File(
-				outputDirectory, outputFilename);
-		BufferedWriter writer = FileWriterUtil.initBufferedWriter(outputFile, CharacterEncoding.UTF_8);
-		writer.write(plainText);
-		writer.close();
+			String outputFilename = documentId + ".utf8.gz";
+			File outputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(), outputFilename)
+					: new File(outputDirectory, outputFilename);
+			BufferedWriter writer = FileWriterUtil.initBufferedWriter(new GZIPOutputStream(new FileOutputStream(
+					outputFile)), CharacterEncoding.UTF_8);
+			writer.write(plainText);
+			writer.close();
 
-		// List<CcpXmlParser.Annotation> annotations = null;
-		// annotations = parser.getAnnotations();
+			if (outputAnnotations) {
+				List<CcpXmlParser.Annotation> annotations = parser.getAnnotations();
+				String annotationFilename = documentId + ".ann.gz";
+				File annotOutputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(),
+						annotationFilename) : new File(outputDirectory, annotationFilename);
+				BufferedWriter annotWriter = FileWriterUtil.initBufferedWriter(new GZIPOutputStream(
+						new FileOutputStream(annotOutputFile)), CharacterEncoding.UTF_8);
+				try {
+					for (CcpXmlParser.Annotation annot : annotations) {
+						String annotLine = annot.type + "|" + annot.name + "|" + annot.start + "|" + annot.end + "\n";
+						annotWriter.write(annotLine);
+					}
+				} finally {
+					annotWriter.close();
+				}
+			}
+		} catch (RuntimeException e) {
+			logger.error("!!!ERROR: Runtime exception for document: " + pmcXmlFile.getAbsolutePath(), e);
+		}
+
 	}
 
 	public static void main(String[] args) {
@@ -119,6 +164,13 @@ public class PmcDocumentConverter {
 				logger.info("Processing single file: " + inputFileOrDirectory.getAbsolutePath());
 			}
 
+			if (listOfNxmlFile.getName().contains("NULL")) {
+				listOfNxmlFile = null;
+			}
+			if (listOfNxmlFile != null) {
+				logger.info("Processing files from the list in: " + listOfNxmlFile.getAbsolutePath());
+			}
+
 			if (isDir && recurseDirectoryStructure) {
 				logger.info("-r flag is set, the input directory structure will be traversed recursively");
 			} else {
@@ -138,6 +190,15 @@ public class PmcDocumentConverter {
 				logger.info("All plain text files will be written to: " + outputDirectory.getAbsolutePath());
 			}
 
+			if (outputAnnotations) {
+				logger.info("Annotations will be saved to a .ann file.");
+			} else {
+				logger.info("Annotations will not be saved to a separate file.");
+			}
+
+			logger.info("Set to skip " + numToSkip + " files prior to processing.");
+			logger.info("Set to process " + numToProcess + " files after skip.");
+
 		} catch (CmdLineException e) {
 			logger.error(e);
 			System.err.println("java SampleMain [options...] arguments...");
@@ -147,12 +208,27 @@ public class PmcDocumentConverter {
 		}
 
 		try {
-			for (Iterator<File> fileIter = FileUtil.getFileIterator(inputFileOrDirectory, recurseDirectoryStructure,
-					fileSuffixesToProcess.toArray(new String[fileSuffixesToProcess.size()])); fileIter.hasNext();) {
+			Iterator<File> fileIter = null;
+			if (listOfNxmlFile != null) {
+				fileIter = getFileListIterator();
+			} else {
+				fileIter = FileUtil.getFileIterator(inputFileOrDirectory, recurseDirectoryStructure,
+						fileSuffixesToProcess.toArray(new String[fileSuffixesToProcess.size()]));
+			}
+
+			int count = 0;
+			while (fileIter.hasNext()) {
 				File pmcXmlFile = fileIter.next();
-				logger.info("processing file: " + pmcXmlFile.getAbsolutePath());
-				String documentId = pmcXmlFile.getName();
-				convertPmcToPlainText(documentId, pmcXmlFile, outputDirectory);
+				if (count >= numToSkip) {
+					if (numToProcess < 0 || count < (numToSkip + numToProcess)) {
+						logger.info("processing file: " + pmcXmlFile.getAbsolutePath());
+						convertPmcToPlainText(pmcXmlFile, outputDirectory, outputAnnotations);
+					}
+				}
+				count++;
+				if (numToProcess > 0 && count > (numToSkip + numToProcess)) {
+					break;
+				}
 			}
 		} catch (Exception e) {
 			logger.error("Failure during PMC XML conversion to plain text.");
@@ -160,6 +236,36 @@ public class PmcDocumentConverter {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+	}
+
+	private Iterator<File> getFileListIterator() throws IOException {
+
+		List<String> relativeFileNames = null;
+		if (listOfNxmlFile.getName().endsWith(".gz")) {
+			relativeFileNames = FileReaderUtil.loadLinesFromFile(new GZIPInputStream(
+					new FileInputStream(listOfNxmlFile)), CharacterEncoding.US_ASCII);
+		} else {
+			relativeFileNames = FileReaderUtil.loadLinesFromFile(listOfNxmlFile, CharacterEncoding.US_ASCII);
+		}
+
+		final Iterator<String> fileIter = relativeFileNames.iterator();
+		return new Iterator<File>() {
+
+			@Override
+			public boolean hasNext() {
+				return fileIter.hasNext();
+			}
+
+			@Override
+			public File next() {
+				String relativeFileName = fileIter.next();
+				File f = new File(inputFileOrDirectory, relativeFileName);
+				if (!f.exists()) {
+					return new File(inputFileOrDirectory, relativeFileName + ".gz");
+				}
+				return f;
+			}
+		};
 	}
 
 }
