@@ -52,25 +52,25 @@ The ccp-nlp project is a multi-module Maven project. Below is a brief descriptio
 <dependency>
   <groupId>edu.ucdenver.ccp</groupId>
   <artifactId>ccp-nlp-core</artifactId>
-  <version>3.3.1</version>
+  <version>3.3.2</version>
 </dependency>
 
 <dependency>
   <groupId>edu.ucdenver.ccp</groupId>
   <artifactId>ccp-nlp-doc2txt</artifactId>
-  <version>3.3.1</version>
+  <version>3.3.2</version>
 </dependency>
 
 <dependency>
   <groupId>edu.ucdenver.ccp</groupId>
   <artifactId>ccp-nlp-uima</artifactId>
-  <version>3.3.1</version>
+  <version>3.3.2</version>
 </dependency>
 
 <dependency>
   <groupId>edu.ucdenver.ccp</groupId>
   <artifactId>ccp-nlp-uima</artifactId>
-  <version>3.3.1</version>
+  <version>3.3.2</version>
   <type>test-jar</type>
   <scope>test</scope>
 </dependency>
@@ -78,37 +78,37 @@ The ccp-nlp project is a multi-module Maven project. Below is a brief descriptio
 <dependency>
   <groupId>edu.ucdenver.ccp</groupId>
   <artifactId>ccp-nlp-uima-annotators</artifactId>
-  <version>3.3.1</version>
+  <version>3.3.2</version>
 </dependency>
 
 <dependency>
   <groupId>edu.ucdenver.ccp</groupId>
   <artifactId>ccp-nlp-uima-collections</artifactId>
-  <version>3.3.1</version>
+  <version>3.3.2</version>
 </dependency>
 
 <dependency>
   <groupId>edu.ucdenver.ccp</groupId>
   <artifactId>ccp-nlp-uima-serialization</artifactId>
-  <version>3.3.1</version>
+  <version>3.3.2</version>
 </dependency>
 
 <dependency>
   <groupId>edu.ucdenver.ccp</groupId>
   <artifactId>ccp-nlp-uima-shims</artifactId>
-  <version>3.3.1</version>
+  <version>3.3.2</version>
 </dependency>
 
 <dependency>
   <groupId>edu.ucdenver.ccp</groupId>
   <artifactId>ccp-nlp-wrapper-banner</artifactId>
-  <version>3.3.1</version>
+  <version>3.3.2</version>
 </dependency>
 
 <dependency>
   <groupId>edu.ucdenver.ccp</groupId>
   <artifactId>ccp-nlp-wrapper-conceptmapper</artifactId>
-  <version>3.3.1</version>
+  <version>3.3.2</version>
 </dependency>
 
 <repository>
