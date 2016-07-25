@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.3.3-SNAPSHOT</version>
+		<version>3.3.2</version>
 	</parent>
 	<artifactId>ccp-nlp-wrapper-banner</artifactId>
 
