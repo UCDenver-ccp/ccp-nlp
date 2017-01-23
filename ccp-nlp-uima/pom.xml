@@ -3,6 +3,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jcasgen.typesystem>edu/ucdenver/ccp/nlp/core/uima/TypeSystem.xml</jcasgen.typesystem>
+		<ver.uima>2.9.0</ver.uima>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -24,7 +25,7 @@
 		<dependency>
 			<groupId>org.apache.uima</groupId>
 			<artifactId>uimaj-core</artifactId>
-			<version>2.4.0</version>
+			<version>${ver.uima}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.uimafit</groupId>
