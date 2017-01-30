@@ -110,7 +110,7 @@ public class PmcDocumentConverter {
 			// convert CCP XML to plain text
 			CcpXmlParser parser = new CcpXmlParser();
 			String documentId = pmcXmlFile.getName();
-			String plainText = parser.parse(ccpXml, documentId);
+			String plainText = parser.parse(ccpXml);
 
 			String outputFilename = documentId + ".utf8.gz";
 			File outputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(), outputFilename)

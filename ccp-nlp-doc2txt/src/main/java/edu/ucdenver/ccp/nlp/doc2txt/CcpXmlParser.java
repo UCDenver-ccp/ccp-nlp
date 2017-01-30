@@ -38,8 +38,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 
@@ -104,8 +102,8 @@ public class CcpXmlParser {
 	 * @throws IOException
 	 * @throws SAXException
 	 */
-	public String parse(String xml, String docID) throws IOException, SAXException {
-		return parse(new InputSource(new StringReader(xml)), docID);
+	public String parse(String xml) throws IOException, SAXException {
+		return parse(new InputSource(new StringReader(xml)));
 	}
 
 	public List<Annotation> getAnnotations() {
@@ -120,8 +118,8 @@ public class CcpXmlParser {
 	 * @throws IOException
 	 * @throws SAXException
 	 */
-	public String parsePmcNxml(File nxmlFile, String docID) throws IOException, SAXException {
-		return parse(new InputSource(new FileReader(nxmlFile)), docID);
+	public String parsePmcNxml(File nxmlFile) throws IOException, SAXException {
+		return parse(new InputSource(new FileReader(nxmlFile)));
 	}
 
 	/**
@@ -133,8 +131,7 @@ public class CcpXmlParser {
 	 * @throws IOException
 	 * @throws SAXException
 	 */
-	public String parse(InputSource inputSource, String docID) throws IOException, SAXException {
-		// this.docID = docID;
+	public String parse(InputSource inputSource) throws IOException, SAXException {
 		PubMedCentralXMLContentHandler contentHandler = new PubMedCentralXMLContentHandler();
 
 		parser.setContentHandler(contentHandler);
