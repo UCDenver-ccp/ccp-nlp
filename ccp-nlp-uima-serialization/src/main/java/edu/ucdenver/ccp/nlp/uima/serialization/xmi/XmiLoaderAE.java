@@ -45,15 +45,14 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.impl.XmiCasDeserializer;
 import org.apache.uima.cas.impl.XmiSerializationSharedData;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.Level;
 import org.apache.uima.util.Logger;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
@@ -65,36 +64,41 @@ import edu.ucdenver.ccp.nlp.uima.shims.ShimDefaults;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
- * This {@link AnalysisEngine} implementation is capable of loading UIMA XMI files. File can be
- * loaded from the file system or classpath. Compressed (.gz) XMI files can be used.
+ * This {@link AnalysisEngine} implementation is capable of loading UIMA XMI
+ * files. File can be loaded from the file system or classpath. Compressed (.gz)
+ * XMI files can be used.
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 
 	/**
-	 * The XmiLoaderAE can load XMI files from either the classpath or the filesystem. This enum is
-	 * used to indicate the location of the XMI files to load.
+	 * The XmiLoaderAE can load XMI files from either the classpath or the
+	 * filesystem. This enum is used to indicate the location of the XMI files
+	 * to load.
 	 * 
-	 * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+	 * @author Colorado Computational Pharmacology, UC Denver;
+	 *         ccpsupport@ucdenver.edu
 	 * 
 	 */
 	public enum XmiPathType {
 		/**
-		 * Indicates the XMI files to load are on the classpath, therefore the xmiDirectoriesOrPaths
-		 * input parameter represents paths on the classpath
+		 * Indicates the XMI files to load are on the classpath, therefore the
+		 * xmiDirectoriesOrPaths input parameter represents paths on the
+		 * classpath
 		 */
 		CLASSPATH,
 		/**
 		 * Indicates the XMI files to load are on the file system, therefore the
-		 * xmiDirectoriesOrPaths input parameter represents a file system directory
+		 * xmiDirectoriesOrPaths input parameter represents a file system
+		 * directory
 		 */
 		FILESYSTEM
 	}
 
-	public static final String PARAM_XMI_PATH_TYPE = ConfigurationParameterFactory.createConfigurationParameterName(
-			XmiLoaderAE.class, "xmiPathType");
+	public static final String PARAM_XMI_PATH_TYPE = "xmiPathType";
 
 	@ConfigurationParameter(mandatory = true, description = "Indicates the path type for the values in the xmiPaths configuration parameter, CLASSPATH or FILESYSTEM")
 	private XmiPathType xmiPathType;
@@ -110,18 +114,16 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 		NONE
 	}
 
-	public static final String PARAM_XMI_FILE_COMPRESSION_TYPE = ConfigurationParameterFactory
-			.createConfigurationParameterName(XmiLoaderAE.class, "xmiFileCompressionType");
+	public static final String PARAM_XMI_FILE_COMPRESSION_TYPE = "xmiFileCompressionType";
 
 	@ConfigurationParameter(defaultValue = "NONE", description = "Indicates the compression type used to store the XMI files, GZ or NONE. This has ramifications on whether they are looked for using a .gz suffix or note, and how they are loaded.")
 	private XmiFileCompressionType xmiFileCompressionType;
 
 	/**
-	 * Parameter name (mainly used in descriptor files) for the XMI input directory configuration
-	 * parameter
+	 * Parameter name (mainly used in descriptor files) for the XMI input
+	 * directory configuration parameter
 	 */
-	public static final String PARAM_XMI_PATH_NAMES = ConfigurationParameterFactory.createConfigurationParameterName(
-			XmiLoaderAE.class, "xmiPaths");
+	public static final String PARAM_XMI_PATH_NAMES = "xmiPaths";
 
 	/**
 	 * The directory where XMI files to load are stored
@@ -131,11 +133,10 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 
 	/* ==== DocumentMetaDataExtractor configuration ==== */
 	/**
-	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
-	 * implementation to use
+	 * Parameter name used in the UIMA descriptor file for the token attribute
+	 * extractor implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(XmiLoaderAE.class, "documentMetadataHandlerClassName");
+	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = "documentMetadataHandlerClassName";
 
 	/**
 	 * The name of the DocumentMetadataHandler implementation to use
@@ -144,16 +145,16 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	private String documentMetadataHandlerClassName;
 
 	/**
-	 * this {@link DocumentMetadataHandler} will be initialized based on the class name specified by
-	 * the documentMetadataExtractorClassName parameter
+	 * this {@link DocumentMetadataHandler} will be initialized based on the
+	 * class name specified by the documentMetadataExtractorClassName parameter
 	 */
 	private DocumentMetadataHandler documentMetaDataHandler;
 
 	private Logger logger;
 
 	/**
-	 * If true, then an exception is thrown if an unknown UIMA type is observed during the
-	 * deserialization process
+	 * If true, then an exception is thrown if an unknown UIMA type is observed
+	 * during the deserialization process
 	 */
 	boolean THROW_EXCEPTION_ON_UNKNOWN_TYPE_OBSERVATION = true;
 
@@ -161,8 +162,8 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.apache.uima.analysis_component.AnalysisComponent_ImplBase#initialize(org.apache.uima.
-	 * UimaContext)
+	 * org.apache.uima.analysis_component.AnalysisComponent_ImplBase#initialize(
+	 * org.apache.uima. UimaContext)
 	 */
 	@Override
 	public void initialize(UimaContext aContext) throws ResourceInitializationException {
@@ -177,7 +178,8 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.apache.uima.analysis_component.JCasAnnotator_ImplBase#process(org.apache.uima.jcas.JCas)
+	 * org.apache.uima.analysis_component.JCasAnnotator_ImplBase#process(org.
+	 * apache.uima.jcas.JCas)
 	 */
 	@Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {

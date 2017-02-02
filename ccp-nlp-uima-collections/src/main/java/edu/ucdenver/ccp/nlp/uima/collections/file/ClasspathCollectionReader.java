@@ -46,11 +46,12 @@ import java.util.zip.GZIPInputStream;
 import org.apache.uima.UimaContext;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.CollectionReaderFactory;
+import org.apache.uima.fit.factory.ConfigurationParameterFactory;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.CollectionReaderFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.file.FileArchiveUtil;
 import edu.ucdenver.ccp.common.io.ClassPathUtil;
@@ -71,8 +72,7 @@ import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 public class ClasspathCollectionReader extends BaseTextCollectionReader {
 
 	/* ==== classpath directory configuration ==== */
-	public static final String PARAM_COLLECTION_PATH = ConfigurationParameterFactory.createConfigurationParameterName(
-			ClasspathCollectionReader.class, "collectionPath");
+	public static final String PARAM_COLLECTION_PATH = "collectionPath";
 
 	@ConfigurationParameter(mandatory = true, description = "The path on the classpath to the directory containing the collection. This path should not start with a forward slash.")
 	protected String collectionPath;
@@ -193,10 +193,20 @@ public class ClasspathCollectionReader extends BaseTextCollectionReader {
 	public static CollectionReader createCollectionReader(TypeSystemDescription tsd, String collectionPath,
 			int numToSkip, int numToProcess, Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass)
 			throws ResourceInitializationException {
-		return CollectionReaderFactory.createCollectionReader(ClasspathCollectionReader.class, tsd,
+		return CollectionReaderFactory.createReader(ClasspathCollectionReader.class, tsd,
 				PARAM_COLLECTION_PATH, collectionPath, PARAM_DISABLE_PROGRESS, true,
 				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING, "UTF_8",
 				PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME, View.DEFAULT.name());
 	}
 
+	
+	public static CollectionReaderDescription createCollectionReaderDescription(TypeSystemDescription tsd, String collectionPath,
+			int numToSkip, int numToProcess, Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass)
+			throws ResourceInitializationException {
+		return CollectionReaderFactory.createReaderDescription(ClasspathCollectionReader.class, tsd,
+				PARAM_COLLECTION_PATH, collectionPath, PARAM_DISABLE_PROGRESS, true,
+				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING, "UTF_8",
+				PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME, View.DEFAULT.name());
+	}
+	
 }

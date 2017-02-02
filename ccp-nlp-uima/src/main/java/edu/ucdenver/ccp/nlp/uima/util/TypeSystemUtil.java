@@ -1,5 +1,7 @@
 package edu.ucdenver.ccp.nlp.uima.util;
 
+import org.apache.uima.fit.factory.TypeSystemDescriptionFactory;
+
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -34,7 +36,6 @@ package edu.ucdenver.ccp.nlp.uima.util;
  */
 
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
 
 /**
  * Contains constants for the CCP type system

@@ -43,14 +43,13 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.impl.XmiCasSerializer;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.XMLSerializer;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
@@ -76,8 +75,7 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	 * Parameter name (mainly used in descriptor files) for the output directory configuration
 	 * parameter
 	 */
-	public static final String PARAM_OUTPUT_DIRECTORY = ConfigurationParameterFactory.createConfigurationParameterName(
-			XmiPrinterAE.class, "outputDirectory");
+	public static final String PARAM_OUTPUT_DIRECTORY = "outputDirectory";
 
 	/**
 	 * File suffix appended to the XMI output files
@@ -95,8 +93,7 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
 	 * implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(XmiPrinterAE.class, "documentMetadataHandlerClassName");
+	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = "documentMetadataHandlerClassName";
 
 	/**
 	 * The name of the DocumentMetaDataExtractor implementation to use

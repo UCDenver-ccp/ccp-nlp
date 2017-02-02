@@ -42,11 +42,10 @@ import java.util.Iterator;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.fit.pipeline.JCasIterable;
 import org.apache.uima.jcas.JCas;
 import org.junit.Before;
 import org.junit.Test;
-import org.uimafit.factory.CollectionReaderFactory;
-import org.uimafit.pipeline.JCasIterable;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
@@ -152,7 +151,7 @@ public class FileSystemCollectionReaderTest extends DefaultTestCase {
 				viewName, fileSuffixesToProcess);
 
 		int casCount = 0;
-		for (JCas jcas : new JCasIterable(CollectionReaderFactory.createCollectionReader(desc))) {
+		for (JCas jcas : new JCasIterable(desc)) {
 			casCount++;
 		}
 
@@ -169,7 +168,7 @@ public class FileSystemCollectionReaderTest extends DefaultTestCase {
 				ENCODING, "en", false, 8,0, View.RAW.viewName(), 
 				fileSuffixesToProcess);
 		int casCount = 0;
-		for (JCas jcas : new JCasIterable(CollectionReaderFactory.createCollectionReader(desc))) {
+		for (JCas jcas : new JCasIterable(desc)) {
 
 			// check views' names for RAW
 			 for (Iterator<JCas> viewIter = jcas.getViewIterator(); viewIter.hasNext();) {
@@ -196,7 +195,7 @@ public class FileSystemCollectionReaderTest extends DefaultTestCase {
 				viewName, fileSuffixesToProcess);
 
 		int casCount = 0;
-		for (JCas jcas : new JCasIterable(CollectionReaderFactory.createCollectionReader(desc))) {
+		for (JCas jcas : new JCasIterable(desc)) {
 			casCount++;
 		}
 
@@ -215,7 +214,7 @@ public class FileSystemCollectionReaderTest extends DefaultTestCase {
 				viewName, fileSuffixesToProcess);
 
 		int casCount = 0;
-		for (JCas jcas : new JCasIterable(CollectionReaderFactory.createCollectionReader(desc))) {
+		for (JCas jcas : new JCasIterable(desc)) {
 			casCount++;
 		}
 
@@ -234,7 +233,7 @@ public class FileSystemCollectionReaderTest extends DefaultTestCase {
 				viewName, fileSuffixesToProcess);
 
 		int casCount = 0;
-		for (JCas jcas : new JCasIterable(CollectionReaderFactory.createCollectionReader(desc))) {
+		for (JCas jcas : new JCasIterable(desc)) {
 			casCount++;
 		}
 
@@ -253,7 +252,7 @@ public class FileSystemCollectionReaderTest extends DefaultTestCase {
 				viewName, fileSuffixesToProcess);
 
 		int casCount = 0;
-		for (JCas jcas : new JCasIterable(CollectionReaderFactory.createCollectionReader(desc))) {
+		for (JCas jcas : new JCasIterable(desc)) {
 			casCount++;
 		}
 

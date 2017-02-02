@@ -55,8 +55,6 @@ import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
-import edu.ucdenver.ccp.nlp.uima.serialization.bionlp.parser.BioNlpThemeFactory;
-import edu.ucdenver.ccp.nlp.uima.serialization.bionlp.parser.BioNlpThemeIterator;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu

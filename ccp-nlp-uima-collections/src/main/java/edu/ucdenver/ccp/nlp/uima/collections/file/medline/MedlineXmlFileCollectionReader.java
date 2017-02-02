@@ -41,11 +41,11 @@ import java.util.NoSuchElementException;
 import org.apache.uima.UimaContext;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.CollectionReaderFactory;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.CollectionReaderFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.string.StringConstants;
 import edu.ucdenver.ccp.medline.parser.MedlineCitation;
@@ -67,8 +67,7 @@ import edu.ucdenver.ccp.nlp.uima.util.View;
 public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 
 	/* ==== Input file configuration ==== */
-	public static final String PARAM_MEDLINE_XML_FILE = ConfigurationParameterFactory.createConfigurationParameterName(
-			MedlineXmlFileCollectionReader.class, "medlineXmlFile");
+	public static final String PARAM_MEDLINE_XML_FILE = "medlineXmlFile";
 
 	@ConfigurationParameter(mandatory = true, description = "The file containing the Medline XML comprising this document collection")
 	protected File medlineXmlFile;
@@ -180,7 +179,16 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 	public static CollectionReader createCollectionReader(TypeSystemDescription tsd, File medlineXmlFile,
 			int numToSkip, int numToProcess, Class<CcpDocumentMetadataHandler> documentMetadataHandlerClass)
 			throws ResourceInitializationException {
-		return CollectionReaderFactory.createCollectionReader(MedlineXmlFileCollectionReader.class, tsd,
+		return CollectionReaderFactory.createReader(MedlineXmlFileCollectionReader.class, tsd,
+				PARAM_MEDLINE_XML_FILE, medlineXmlFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
+				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING, "UTF_8",
+				PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME, View.DEFAULT.name());
+	}
+	
+	public static CollectionReaderDescription createCollectionReaderDescription(TypeSystemDescription tsd, File medlineXmlFile,
+			int numToSkip, int numToProcess, Class<CcpDocumentMetadataHandler> documentMetadataHandlerClass)
+			throws ResourceInitializationException {
+		return CollectionReaderFactory.createReaderDescription(MedlineXmlFileCollectionReader.class, tsd,
 				PARAM_MEDLINE_XML_FILE, medlineXmlFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
 				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING, "UTF_8",
 				PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME, View.DEFAULT.name());

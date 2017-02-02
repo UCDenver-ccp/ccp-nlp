@@ -41,12 +41,11 @@ import java.util.Iterator;
 import org.apache.uima.UimaContext;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.CollectionReaderFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.CollectionReaderFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
@@ -63,8 +62,7 @@ import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
  */
 public class TermVariantCollectionReader extends BaseTextCollectionReader {
 
-	public static final String PARAM_TERM_VARIANT_FILE = ConfigurationParameterFactory
-			.createConfigurationParameterName(TermVariantCollectionReader.class, "termVariantFile");
+	public static final String PARAM_TERM_VARIANT_FILE = "termVariantFile";
 	@ConfigurationParameter(mandatory = true, description = "file path to the file containing the term/variant info. For format, see TermVariantFileParser documentation")
 	protected File termVariantFile;
 

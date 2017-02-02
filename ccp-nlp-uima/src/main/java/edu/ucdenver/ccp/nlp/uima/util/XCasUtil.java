@@ -43,9 +43,9 @@ import java.io.InputStream;
 import org.apache.uima.UIMAException;
 import org.apache.uima.cas.impl.XCASDeserializer;
 import org.apache.uima.cas.impl.XCASSerializer;
+import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.factory.JCasFactory;
 import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;

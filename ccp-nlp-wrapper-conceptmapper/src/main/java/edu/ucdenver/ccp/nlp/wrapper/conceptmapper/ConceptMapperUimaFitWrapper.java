@@ -36,11 +36,7 @@ package edu.ucdenver.ccp.nlp.wrapper.conceptmapper;
 import java.util.List;
 
 import org.apache.uima.conceptMapper.ConceptMapper;
-import org.apache.uima.resource.ExternalResourceDescription;
-import org.apache.uima.resource.ExternalResourceDependency;
-import org.uimafit.descriptor.ExternalResource;
-
-import org.uimafit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
 
 /* This class is a wrapper around the ConceptMapper used to
    help uimaFIT initialize parameters for CM */

@@ -40,11 +40,12 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.fit.pipeline.JCasIterable;
+import org.apache.uima.fit.pipeline.JCasIterator;
 import org.apache.uima.jcas.JCas;
 import org.junit.Before;
 import org.junit.Test;
-import org.uimafit.pipeline.JCasIterable;
 
 import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
@@ -71,10 +72,10 @@ public class MedlineXmlFileCollectionReaderTest extends DefaultTestCase {
 	public void testMedlineXmlCollectionReader() throws UIMAException, IOException {
 		int numToSkip = 0;
 		int numToProcess = -1; // process all
-		CollectionReader cr = MedlineXmlFileCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
+		CollectionReaderDescription cr = MedlineXmlFileCollectionReader.createCollectionReaderDescription(TypeSystemUtil.getCcpTypeSystem(),
 				sampleMedlineXmlFile, numToSkip, numToProcess, CcpDocumentMetadataHandler.class);
 
-		JCasIterable jCasIterable = new JCasIterable(cr);
+		JCasIterator jCasIterable = new JCasIterable(cr).iterator();
 
 		int count = 1;
 		while (jCasIterable.hasNext() && count < 11) {

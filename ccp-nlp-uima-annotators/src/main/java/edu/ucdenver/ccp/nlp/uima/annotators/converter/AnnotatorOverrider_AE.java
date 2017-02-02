@@ -59,14 +59,13 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotator;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
@@ -82,33 +81,27 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
  */
 public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 
-	public static final String PARAM_ANNOTATOR_ID = ConfigurationParameterFactory.createConfigurationParameterName(
-			AnnotatorOverrider_AE.class, "annotatorID");
+	public static final String PARAM_ANNOTATOR_ID = "annotatorID";
 	@ConfigurationParameter(mandatory = true)
 	private int annotatorID = -1;
 
-	public static final String PARAM_FIRST_NAME = ConfigurationParameterFactory.createConfigurationParameterName(
-			AnnotatorOverrider_AE.class, "firstName");
+	public static final String PARAM_FIRST_NAME = "firstName";
 	@ConfigurationParameter()
 	private String firstName = null;
 
-	public static final String PARAM_LAST_NAME = ConfigurationParameterFactory.createConfigurationParameterName(
-			AnnotatorOverrider_AE.class, "lastName");
+	public static final String PARAM_LAST_NAME = "lastName";
 	@ConfigurationParameter()
 	private String lastName = null;
 
-	public static final String PARAM_AFFILIATION = ConfigurationParameterFactory.createConfigurationParameterName(
-			AnnotatorOverrider_AE.class, "affiliation");
+	public static final String PARAM_AFFILIATION = "affiliation";
 	@ConfigurationParameter()
 	private String affiliation = null;
 
-	public static final String PARAM_ANNOTATOR_IDS_TO_IGNORE = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotatorOverrider_AE.class, "annotatorIDsToIgnore");
+	public static final String PARAM_ANNOTATOR_IDS_TO_IGNORE = "annotatorIDsToIgnore";
 	@ConfigurationParameter()
 	private Set<Integer> annotatorIDsToIgnore;
 
-	public static final String PARAM_ANNOTATION_SET_IDS_TO_IGNORE = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotatorOverrider_AE.class, "annotationSetIDsToIgnore");
+	public static final String PARAM_ANNOTATION_SET_IDS_TO_IGNORE = "annotationSetIDsToIgnore";
 	@ConfigurationParameter()
 	private Set<Integer> annotationSetIDsToIgnore;
 

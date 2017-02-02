@@ -59,16 +59,15 @@ import java.util.Iterator;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.Level;
 import org.apache.uima.util.Logger;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
-import org.uimafit.util.JCasUtil;
 
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.ComplexSlotMention;
@@ -107,8 +106,7 @@ public class SlotRemovalFilter_AE extends JCasAnnotator_ImplBase {
 	//
 	// private Map<String, Set<String>> classToSlotNamesToRemoveMap;
 
-	public static final String PARAM_SLOT_REMOVE_OPTION = ConfigurationParameterFactory
-			.createConfigurationParameterName(SlotRemovalFilter_AE.class, "removeOption");
+	public static final String PARAM_SLOT_REMOVE_OPTION = "removeOption";
 
 	@ConfigurationParameter(description = "", mandatory = true)
 	private SlotRemovalOption removeOption = null;

@@ -42,13 +42,12 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CASException;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
@@ -68,28 +67,23 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 public class SlotValueToClassMentionPromoter_AE extends JCasAnnotator_ImplBase {
 	private static Logger logger = Logger.getLogger(SlotValueToClassMentionPromoter_AE.class);
 
-	public final static String PARAM_CLASS_MENTION_NAME_REGEX = ConfigurationParameterFactory
-			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "mentionTypeRegexString");
+	public final static String PARAM_CLASS_MENTION_NAME_REGEX = "mentionTypeRegexString";
 	@ConfigurationParameter(mandatory = true, description = "A regex designed to match the class mention name for annotations that may contain the slot whose value will be promoted to a class mention type")
 	private String mentionTypeRegexString;
 
-	public final static String PARAM_SLOT_NAME_TO_PROMOTE = ConfigurationParameterFactory
-			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "slotNameToPromote");
+	public final static String PARAM_SLOT_NAME_TO_PROMOTE = "slotNameToPromote";
 	@ConfigurationParameter(mandatory = true, description = "The name of the slot whose value will be promoted to a class mention type")
 	private String slotNameToPromote;
 
-	public final static String PARAM_SLOT_VALUE_PREFIX_TO_ADD = ConfigurationParameterFactory
-			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "slotValuePrefixToAdd");
+	public final static String PARAM_SLOT_VALUE_PREFIX_TO_ADD = "slotValuePrefixToAdd";
 	@ConfigurationParameter(mandatory = false, description = "This prefix, if specified, will be added to the slot value when creating the promoted class name. For example, a prefix of \"NCBITaxon:\" might be useful when promoting taxonomy ID slot fillers that are simply integers to full-fledged annotations, e.g. \"NCBITaxon:9606\".", defaultValue = "")
 	private String slotValuePrefixToAdd;
 
-	public final static String PARAM_TRANSFER_SLOT_VALUES = ConfigurationParameterFactory
-			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "transferSlotValues");
+	public final static String PARAM_TRANSFER_SLOT_VALUES = "transferSlotValues";
 	@ConfigurationParameter(description = "If true, then the new annotations that are created will have the same slot values as the original. If false, then the slot values are not transferred and the new annotations are linked to ClassMentions with no slots.", defaultValue = "true")
 	private boolean transferSlotValues;
 
-	public final static String PARAM_DELETE_SOURCE_ANNOTATION = ConfigurationParameterFactory
-			.createConfigurationParameterName(SlotValueToClassMentionPromoter_AE.class, "deleteSourceAnnotation");
+	public final static String PARAM_DELETE_SOURCE_ANNOTATION = "deleteSourceAnnotation";
 	@ConfigurationParameter(description = "If true, then the annotation that contains the slot value being promoted is removed from the CAS after the slot value has been promoted. Note that all annotations with a type that matches the mentionTypeRegexString will be deleted if this parameter is set to true, regardless of whether or not they contained a slot value that got promoted.", defaultValue = "false")
 	private boolean deleteSourceAnnotation;
 

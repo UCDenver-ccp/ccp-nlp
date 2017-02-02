@@ -41,14 +41,15 @@ import java.io.IOException;
 import java.util.Collection;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.fit.factory.CollectionReaderFactory;
+import org.apache.uima.fit.pipeline.JCasIterable;
+import org.apache.uima.fit.pipeline.JCasIterator;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Test;
-import org.uimafit.factory.CollectionReaderFactory;
-import org.uimafit.pipeline.JCasIterable;
-import org.uimafit.util.JCasUtil;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.io.ClassPathUtil;
@@ -68,10 +69,9 @@ public class TermVariantCollectionReaderTest extends DefaultTestCase {
 
 		File termVariantFile = folder.newFile("termVariant.input");
 		ClassPathUtil.copyClasspathResourceToFile(getClass(), TEST_INPUT_FILE_NAME, termVariantFile);
-		CollectionReader cr = CollectionReaderFactory.createCollectionReader(TermVariantCollectionReader
-				.createDefaultDescription(tsd, termVariantFile, CharacterEncoding.UTF_8));
+		CollectionReaderDescription cr = TermVariantCollectionReader.createDefaultDescription(tsd, termVariantFile, CharacterEncoding.UTF_8);
 
-		JCasIterable jcasIter = new JCasIterable(cr);
+		JCasIterator jcasIter = new JCasIterable(cr).iterator();
 		assertTrue(jcasIter.hasNext());
 		JCas jCas = jcasIter.next();
 		assertEquals("document 1", UIMA_Util.getDocumentID(jCas));

@@ -41,6 +41,9 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CASException;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
@@ -51,10 +54,6 @@ import org.apache.uima.resourceSpecifier.factory.UimaASPrimitiveDeploymentDescri
 import org.apache.uima.resourceSpecifier.factory.impl.ServiceContextImpl;
 import org.apache.uima.util.Level;
 import org.apache.uima.util.Logger;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
@@ -74,29 +73,17 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 
 	/* ==== XML encoding configuration ==== */
 	/**
-	 * Parameter name used in the UIMA descriptor file for the XML file
-	 * character encoding; default = UTF-8
-	 */
-	public static final String PARAM_XML_ENCODING = ConfigurationParameterFactory.createConfigurationParameterName(
-			PmcDocumentConverterAE.class, "xmlEncoding");
-
-	/**
 	 * The character encoding to use when parsing the XML file
 	 */
+	public static final String PARAM_XML_ENCODING = "xmlEncoding";
 	@ConfigurationParameter(mandatory = false, description = "The character encoding to use when parsing the XML file", defaultValue = "UTF-8")
 	private String xmlEncoding;
 
 	/* ==== XML view configuration ==== */
 	/**
-	 * Parameter name used in the UIMA descriptor file for the XML view;
-	 * default=XML
-	 */
-	public static final String PARAM_XML_VIEW_NAME = ConfigurationParameterFactory.createConfigurationParameterName(
-			PmcDocumentConverterAE.class, "xmlViewName");
-
-	/**
 	 * The name of the CAS View containing the XML to parse
 	 */
+	public static final String PARAM_XML_VIEW_NAME = "xmlViewName";
 	@ConfigurationParameter(mandatory = false, description = "The name of the CAS View containing the XML to parse", defaultValue = "XML")
 	private String xmlViewName;
 

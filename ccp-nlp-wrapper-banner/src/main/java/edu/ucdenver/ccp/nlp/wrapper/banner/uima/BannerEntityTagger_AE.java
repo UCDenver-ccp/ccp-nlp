@@ -40,13 +40,13 @@ import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.fit.descriptor.ExternalResource;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
+import org.apache.uima.fit.factory.ExternalResourceFactory;
 import org.apache.uima.resource.DataResource;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.InvalidXMLException;
-import org.uimafit.descriptor.ExternalResource;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ExternalResourceFactory;
 
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.io.ClassPathUtil;

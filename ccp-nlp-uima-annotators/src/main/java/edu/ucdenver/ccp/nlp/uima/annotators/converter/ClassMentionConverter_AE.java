@@ -45,14 +45,13 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
@@ -98,8 +97,7 @@ public class ClassMentionConverter_AE extends JCasAnnotator_ImplBase {
 	public static final String PARAM_TARGET_MENTION = "ToMentionType";
 	public static final String PARAM_MENTION_TYPES_TO_CONVERT = "MentionTypesToConvertRegExes";
 
-	public static final String PARAM_ANNOTATION_SET_IDS_TO_IGNORE = ConfigurationParameterFactory
-			.createConfigurationParameterName(ClassMentionConverter_AE.class, "annotationSetIdsToIgnore");
+	public static final String PARAM_ANNOTATION_SET_IDS_TO_IGNORE = "annotationSetIdsToIgnore";
 	@ConfigurationParameter()
 	private int[] annotationSetIdsToIgnore;
 

@@ -35,7 +35,6 @@ package edu.ucdenver.ccp.nlp.uima.collections.line;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
@@ -43,11 +42,11 @@ import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.CollectionReaderFactory;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.CollectionReaderFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.file.FileReaderUtil;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
@@ -67,8 +66,7 @@ import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 
 	/* ==== Input file configuration ==== */
-	public static final String PARAM_COLLECTION_FILE = ConfigurationParameterFactory.createConfigurationParameterName(
-			DocumentPerLineCollectionReader.class, "collectionFile");
+	public static final String PARAM_COLLECTION_FILE = "collectionFile";
 
 	@ConfigurationParameter(mandatory = true, description = "The file containing the document collection")
 	protected File collectionFile;
@@ -78,8 +76,7 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
 	 * implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_EXTRACTOR_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(DocumentPerLineCollectionReader.class, "documentExtractorClassName");
+	public static final String PARAM_DOCUMENT_EXTRACTOR_CLASS = "documentExtractorClassName";
 
 	/**
 	 * The name of the DocumentFromLineExtractor implementation to use
@@ -198,7 +195,19 @@ public class DocumentPerLineCollectionReader extends BaseTextCollectionReader {
 			Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass)
 			throws ResourceInitializationException {
 		logger.info("medline dump file is null: " + (medlineDumpFile == null));
-		return CollectionReaderFactory.createCollectionReader(DocumentPerLineCollectionReader.class, tsd,
+		return CollectionReaderFactory.createReader(DocumentPerLineCollectionReader.class, tsd,
+				PARAM_COLLECTION_FILE, medlineDumpFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
+				PARAM_DOCUMENT_EXTRACTOR_CLASS, documentExtractorClass.getName(),
+				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING, "UTF_8",
+				PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME, View.DEFAULT.name());
+	}
+	
+	public static CollectionReaderDescription createCollectionReaderDescription(TypeSystemDescription tsd, File medlineDumpFile,
+			int numToSkip, int numToProcess, Class<? extends DocumentExtractor> documentExtractorClass,
+			Class<? extends DocumentMetadataHandler> documentMetadataHandlerClass)
+			throws ResourceInitializationException {
+		logger.info("medline dump file is null: " + (medlineDumpFile == null));
+		return CollectionReaderFactory.createReaderDescription(DocumentPerLineCollectionReader.class, tsd,
 				PARAM_COLLECTION_FILE, medlineDumpFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
 				PARAM_DOCUMENT_EXTRACTOR_CLASS, documentExtractorClass.getName(),
 				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING, "UTF_8",

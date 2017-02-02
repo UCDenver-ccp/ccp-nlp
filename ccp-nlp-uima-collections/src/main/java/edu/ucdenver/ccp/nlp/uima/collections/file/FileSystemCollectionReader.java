@@ -41,12 +41,11 @@ import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.descriptor.SofaCapability;
+import org.apache.uima.fit.factory.CollectionReaderFactory;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.descriptor.SofaCapability;
-import org.uimafit.factory.CollectionReaderFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileUtil;
@@ -85,8 +84,7 @@ public class FileSystemCollectionReader extends BaseTextCollectionReader {
 
 	private static final String DESCRIPTION_BASE_FILE = "The BaseFileOrDirectory parameter must point to either a single file "
 			+ "or a directory from which the collection will be drawn.";
-	public static final String PARAM_BASE_FILE = ConfigurationParameterFactory.createConfigurationParameterName(
-			FileSystemCollectionReader.class, "baseFileOrDirectory");
+	public static final String PARAM_BASE_FILE = "baseFileOrDirectory";
 	@ConfigurationParameter(mandatory = true, description = DESCRIPTION_BASE_FILE)
 	protected File baseFileOrDirectory;
 
@@ -94,16 +92,14 @@ public class FileSystemCollectionReader extends BaseTextCollectionReader {
 			+ "parameter points to a directory, then the CollectionReader will recurse into the directory structure (if there are "
 			+ "directories inside the base directory). If false, then the Collection Reader will process only those files in the top "
 			+ "level of the base directory.";
-	public static final String PARAM_RECURSE = ConfigurationParameterFactory.createConfigurationParameterName(
-			FileSystemCollectionReader.class, "recurseIntoDirectory");
+	public static final String PARAM_RECURSE = "recurseIntoDirectory";
 	@ConfigurationParameter(defaultValue = "false", description = DESCRIPTION_RECURSE)
 	protected boolean recurseIntoDirectory;
 
 	private static final String DESCRIPTION_FILESUFFIXES_TO_PROCESS = "The parameter will filter the documents in the collection based "
 			+ "on their file suffix. Only those files whose suffixes are represented by this parameter will be processed. If left empty, "
 			+ "then all files are processed regardless of suffix.";
-	public static final String PARAM_FILESUFFIXES_TO_PROCESS = ConfigurationParameterFactory
-			.createConfigurationParameterName(FileSystemCollectionReader.class, "fileSuffixesToProcess");
+	public static final String PARAM_FILESUFFIXES_TO_PROCESS = "fileSuffixesToProcess";
 	@ConfigurationParameter(description = DESCRIPTION_FILESUFFIXES_TO_PROCESS)
 	protected String[] fileSuffixesToProcess;
 

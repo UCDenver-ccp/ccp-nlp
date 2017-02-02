@@ -45,16 +45,15 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.fit.component.ViewCreatorAnnotator;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.CollectionReaderFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.component.ViewCreatorAnnotator;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.CollectionReaderFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.string.StringConstants;
-import edu.ucdenver.ccp.medline.parser.MedlineCitation.AbstractText;
 import edu.ucdenver.ccp.medline.parser.PubmedArticleBase;
 import edu.ucdenver.ccp.medline.parser.PubmedXmlDeserializer;
 import edu.ucdenver.ccp.nlp.core.document.GenericDocument;
@@ -75,8 +74,7 @@ public class PubmedXmlFileCollectionReader extends BaseTextCollectionReader {
 	private static final Logger logger = Logger.getLogger(PubmedXmlFileCollectionReader.class);
 
 	/* ==== Input file configuration ==== */
-	public static final String PARAM_MEDLINE_XML_FILE = ConfigurationParameterFactory.createConfigurationParameterName(
-			PubmedXmlFileCollectionReader.class, "pubmedXmlFile");
+	public static final String PARAM_MEDLINE_XML_FILE = "pubmedXmlFile";
 
 	@ConfigurationParameter(mandatory = true, description = "The file containing the Pubmed XML comprising this document collection")
 	protected File pubmedXmlFile;
@@ -222,10 +220,19 @@ public class PubmedXmlFileCollectionReader extends BaseTextCollectionReader {
 	public static CollectionReader createCollectionReader(TypeSystemDescription tsd, File medlineXmlFile,
 			int numToSkip, int numToProcess, Class<CcpDocumentMetadataHandler> documentMetadataHandlerClass)
 			throws ResourceInitializationException {
-		return CollectionReaderFactory.createCollectionReader(PubmedXmlFileCollectionReader.class, tsd,
+		return CollectionReaderFactory.createReader(PubmedXmlFileCollectionReader.class, tsd,
 				PARAM_MEDLINE_XML_FILE, medlineXmlFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
 				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING, "UTF_8",
 				PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME, View.DEFAULT.name());
 	}
 
+	public static CollectionReaderDescription createCollectionReaderDescription(TypeSystemDescription tsd, File medlineXmlFile,
+			int numToSkip, int numToProcess, Class<CcpDocumentMetadataHandler> documentMetadataHandlerClass)
+			throws ResourceInitializationException {
+		return CollectionReaderFactory.createReaderDescription(PubmedXmlFileCollectionReader.class, tsd,
+				PARAM_MEDLINE_XML_FILE, medlineXmlFile.getAbsolutePath(), PARAM_DISABLE_PROGRESS, true,
+				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetadataHandlerClass.getName(), PARAM_ENCODING, "UTF_8",
+				PARAM_NUM2PROCESS, numToProcess, PARAM_NUM2SKIP, numToSkip, PARAM_VIEWNAME, View.DEFAULT.name());
+	}
+	
 }

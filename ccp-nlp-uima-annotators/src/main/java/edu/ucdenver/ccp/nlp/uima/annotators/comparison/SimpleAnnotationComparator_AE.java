@@ -39,11 +39,10 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 
@@ -61,34 +60,28 @@ public class SimpleAnnotationComparator_AE extends AnnotationComparator_AE {
 	private static final Logger logger = Logger.getLogger(SimpleAnnotationComparator_AE.class);
 
 	// Gold Standard Set
-	public static final String PARAM_GOLD_SET_ID = ConfigurationParameterFactory.createConfigurationParameterName(
-			SimpleAnnotationComparator_AE.class, "goldSetId");
+	public static final String PARAM_GOLD_SET_ID = "goldSetId";
 	@ConfigurationParameter(mandatory = true)
 	private int goldSetId;
 
-	public static final String PARAM_GOLD_ANNOTATOR_ID = ConfigurationParameterFactory
-			.createConfigurationParameterName(SimpleAnnotationComparator_AE.class, "goldAnnotatorId");
+	public static final String PARAM_GOLD_ANNOTATOR_ID = "goldAnnotatorId";
 	@ConfigurationParameter(mandatory = true)
 	private int goldAnnotatorId;
 
-	public static final String PARAM_GOLD_TYPE_REGEX = ConfigurationParameterFactory.createConfigurationParameterName(
-			SimpleAnnotationComparator_AE.class, "goldTypeRegexes");
+	public static final String PARAM_GOLD_TYPE_REGEX = "goldTypeRegexes";
 	@ConfigurationParameter(mandatory = true)
 	private String[] goldTypeRegexes;
 
 	// Evaluation Set
-	public static final String PARAM_EVAL_SET_ID = ConfigurationParameterFactory.createConfigurationParameterName(
-			SimpleAnnotationComparator_AE.class, "evalSetId");
+	public static final String PARAM_EVAL_SET_ID = "evalSetId";
 	@ConfigurationParameter(mandatory = true)
 	private int evalSetId;
 
-	public static final String PARAM_EVAL_ANNOTATOR_ID = ConfigurationParameterFactory
-			.createConfigurationParameterName(SimpleAnnotationComparator_AE.class, "evalAnnotatorId");
+	public static final String PARAM_EVAL_ANNOTATOR_ID = "evalAnnotatorId";
 	@ConfigurationParameter(mandatory = true)
 	private int evalAnnotatorId;
 
-	public static final String PARAM_EVAL_TYPE_REGEX = ConfigurationParameterFactory.createConfigurationParameterName(
-			SimpleAnnotationComparator_AE.class, "evalTypeRegexes");
+	public static final String PARAM_EVAL_TYPE_REGEX = "evalTypeRegexes";
 	@ConfigurationParameter(mandatory = true)
 	private String[] evalTypeRegexes;
 

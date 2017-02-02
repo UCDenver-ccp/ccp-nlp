@@ -42,15 +42,17 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Iterator;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.fit.factory.JCasFactory;
+import org.apache.uima.fit.factory.TypeSystemDescriptionFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.cas.IntegerArray;
@@ -60,8 +62,6 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.uimafit.factory.JCasFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
 
 import edu.ucdenver.ccp.nlp.core.annotation.AnnotationSet;
 import edu.ucdenver.ccp.nlp.core.annotation.Annotator;

@@ -40,15 +40,14 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.collection.CollectionException;
+import org.apache.uima.fit.component.JCasCollectionReader_ImplBase;
+import org.apache.uima.fit.component.ViewCreatorAnnotator;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.descriptor.SofaCapability;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 import org.apache.uima.util.ProgressImpl;
-import org.uimafit.component.JCasCollectionReader_ImplBase;
-import org.uimafit.component.ViewCreatorAnnotator;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.descriptor.SofaCapability;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
@@ -69,22 +68,19 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 
 	private static final String DESCRIPTION_ENCODING = "The encoding parameter should be set to the character encoding of the input "
 			+ "collection, e.g. UTF-8.";
-	public static final String PARAM_ENCODING = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "encoding");
+	public static final String PARAM_ENCODING = "encoding";
 	@ConfigurationParameter(description = DESCRIPTION_ENCODING)
 	protected CharacterEncoding encoding;
 
 	private static final String DESCRIPTION_LANGUAGE = "The encoding parameter should be set to the language of the input collection, "
 			+ "e.g. English.";
-	public static final String PARAM_LANGUAGE = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "language");
+	public static final String PARAM_LANGUAGE = "language";
 	@ConfigurationParameter(defaultValue = "English", description = DESCRIPTION_LANGUAGE)
 	protected String language;
 
 	private static final String DESCRIPTION_NUM2SKIP = "The number to skip parameter enables the user to provide a number of documents "
 			+ "to skip before processing begins. This can be useful for testing purposes.";
-	public static final String PARAM_NUM2SKIP = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "numberToSkip");
+	public static final String PARAM_NUM2SKIP = "numberToSkip";
 	@ConfigurationParameter(defaultValue = "0", description = DESCRIPTION_NUM2SKIP)
 	protected int numberToSkip;
 
@@ -92,15 +88,13 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 			+ "documents that will be processed. This can be useful for testing purposes. Any number < 0 will result in the entire "
 			+ "collection being processed. If the number to skip parameter is set, then that number of documents will be skipped before "
 			+ "the number of documents to be processed are processed.";
-	public static final String PARAM_NUM2PROCESS = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "numberToProcess");
+	public static final String PARAM_NUM2PROCESS = "numberToProcess";
 	@ConfigurationParameter(defaultValue = "-1", description = DESCRIPTION_NUM2PROCESS)
 	protected int numberToProcess;
 
 	private static final String DESCRIPTION_VIEWNAME = "This parameter enables the user to place the contents of each document into a "
 			+ "user-specified view.";
-	public static final String PARAM_VIEWNAME = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "viewName");
+	public static final String PARAM_VIEWNAME = "viewName";
 	@ConfigurationParameter(defaultValue = CAS.NAME_DEFAULT_SOFA, description = DESCRIPTION_VIEWNAME)
 	protected String viewName;
 
@@ -109,8 +103,7 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 			+ "collections, simply counting the number of documents can take an inordinate amount of time. If this flag is set to true, then "
 			+ "the number of documents in the collection is not computed and the data returned by getProgress() refects simply the number "
 			+ "of documents processed.";
-	public static final String PARAM_DISABLE_PROGRESS = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "disableProgressTracking");
+	public static final String PARAM_DISABLE_PROGRESS = "disableProgressTracking";
 	@ConfigurationParameter(defaultValue = "false", description = DESCRIPTION_DISABLE_PROGRESS)
 	protected boolean disableProgressTracking;
 
@@ -119,8 +112,7 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
 	 * implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(BaseTextCollectionReader.class, "documentMetadataHandlerClassName");
+	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = "documentMetadataHandlerClassName";
 
 	/**
 	 * The name of the {@link DocumentMetadataHandler} implementation to use
