@@ -34,9 +34,19 @@
 			<version>${ver.uima}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.uimafit</groupId>
-			<artifactId>uimafit</artifactId>
-			<version>1.4.0</version>
+			<groupId>org.apache.uima</groupId>
+			<artifactId>uimaj-as-jms</artifactId>
+			<version>${ver.uima}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.uima</groupId>
+			<artifactId>uimaj-as-activemq</artifactId>
+			<version>${ver.uima}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.uima</groupId>
+			<artifactId>uimafit-core</artifactId>
+			<version>2.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

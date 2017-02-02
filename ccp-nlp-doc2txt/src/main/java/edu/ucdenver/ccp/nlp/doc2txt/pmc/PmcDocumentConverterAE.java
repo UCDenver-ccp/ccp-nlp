@@ -135,21 +135,13 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 
 	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd)
 			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitiveDescription(PmcDocumentConverterAE.class, tsd);
+		return AnalysisEngineFactory.createEngineDescription(PmcDocumentConverterAE.class, tsd);
 	}
 
 	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd, CharacterEncoding xmlEncoding,
 			String xmlViewName) throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitiveDescription(PmcDocumentConverterAE.class, tsd, PARAM_XML_ENCODING,
+		return AnalysisEngineFactory.createEngineDescription(PmcDocumentConverterAE.class, tsd, PARAM_XML_ENCODING,
 				xmlEncoding, PARAM_XML_VIEW_NAME, xmlViewName);
-	}
-
-	public static DeploymentDescriptor getDeploymentDescriptor(String brokerUrl) throws ResourceInitializationException {
-		ServiceContext context = new ServiceContextImpl("nxml2txt", "Converts nxml from the XML view into plain text in the default view.","descriptor","nxml2txtQueue", brokerUrl);
-		UimaASPrimitiveDeploymentDescriptor dd = DeploymentDescriptorFactory.createPrimitiveDeploymentDescriptor(context);
-//		dd.getProcessErrorHandlingSettings().setThresholdCount(4);
-		dd.setScaleup(2);
-		return dd;
 	}
 	
 }

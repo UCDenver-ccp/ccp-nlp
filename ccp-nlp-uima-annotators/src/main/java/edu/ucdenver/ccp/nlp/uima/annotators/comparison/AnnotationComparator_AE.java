@@ -995,14 +995,14 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File configurationFile,
 			SpanComparatorType spanComparatorType, MentionComparatorType mentionComparatorType,
 			File evaluationResultsOutputFile) throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitive(createAnalysisEngineDescription(tsd, configurationFile,
+		return AnalysisEngineFactory.createEngine(createAnalysisEngineDescription(tsd, configurationFile,
 				spanComparatorType, mentionComparatorType, evaluationResultsOutputFile));
 	}
 
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
 			File configurationFile, SpanComparatorType spanComparatorType, MentionComparatorType mentionComparatorType,
 			File evaluationResultsOutputFile) throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitiveDescription(AnnotationComparator_AE.class, tsd, PARAM_CONFIG_FILE,
+		return AnalysisEngineFactory.createEngineDescription(AnnotationComparator_AE.class, tsd, PARAM_CONFIG_FILE,
 				configurationFile.getAbsolutePath(), PARAM_SPAN_COMPARATOR_TYPE_NAME, spanComparatorType.name(),
 				PARAM_MENTION_COMPARATOR_TYPE_NAME, mentionComparatorType.name(), PARAM_ANNOTATION_OUTPUT_FILE,
 				(evaluationResultsOutputFile != null) ? evaluationResultsOutputFile.getAbsolutePath() : null);
