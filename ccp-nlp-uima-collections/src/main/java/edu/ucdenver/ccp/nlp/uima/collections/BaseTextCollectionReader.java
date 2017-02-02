@@ -219,6 +219,9 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 				jcas.setDocumentLanguage(this.language);
 			}
 			loadAnnotationsIntoCas(jcas, document);
+			if (document.getSourceFile() != null) {
+				getDocumentMetadataHandler().setSourceDocumentPath(jcas, document.getSourceFile());
+			}
 		} else {
 			JCas view = ViewCreatorAnnotator.createViewSafely(jcas, this.viewName);
 			view.setSofaDataString(document.getDocumentText(), "text/plain");
@@ -226,6 +229,10 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 				view.setDocumentLanguage(this.language);
 			}
 			loadAnnotationsIntoCas(view, document);
+			getDocumentMetadataHandler().setDocumentId(view, document.getDocumentID());
+			if (document.getSourceFile() != null) {
+				getDocumentMetadataHandler().setSourceDocumentPath(view, document.getSourceFile());
+			}
 		}
 		getDocumentMetadataHandler().setDocumentId(jcas, document.getDocumentID());
 		getDocumentMetadataHandler().setDocumentEncoding(jcas, encoding.getCharacterSetName());

@@ -3,6 +3,8 @@
  */
 package edu.ucdenver.ccp.uima.shims.document.impl;
 
+import java.io.File;
+
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -126,6 +128,21 @@ public class UimaExampleDocumentMetadataHandler implements DocumentMetadataHandl
 	@Override
 	public TOP getMetaDataContainer(JCas jCas) {
 		return getSourceDocInfo(jCas);
+	}
+
+	@Override
+	public void setSourceDocumentPath(JCas jCas, File sourceDocumentFile) {
+		throw new UnsupportedOperationException(
+				"The SourceDocumentInformation class does not store the source document path "
+				+ "since we are using the URI field to store the document ID.");
+		
+	}
+
+	@Override
+	public File extractSourceDocumentPath(JCas jCas) {
+		throw new UnsupportedOperationException(
+				"The SourceDocumentInformation class does not store the source document path "
+				+ "since we are using the URI field to store the document ID.");
 	}
 
 }

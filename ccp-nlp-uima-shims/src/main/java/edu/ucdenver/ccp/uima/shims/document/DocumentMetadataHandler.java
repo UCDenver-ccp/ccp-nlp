@@ -1,5 +1,7 @@
 package edu.ucdenver.ccp.uima.shims.document;
 
+import java.io.File;
+
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -38,37 +40,40 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.TOP;
 
 /**
- * The DocumentMetadataHandler interface provides a standard interface to set and retrieve document
- * metadata from a JCas.
+ * The DocumentMetadataHandler interface provides a standard interface to set
+ * and retrieve document metadata from a JCas.
  * 
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Center for Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public interface DocumentMetadataHandler {
 
 	/**
-	 * Extracts and returns a document identifier in the form of a {@link String} from the input
-	 * {@link JCas}
+	 * Extracts and returns a document identifier in the form of a
+	 * {@link String} from the input {@link JCas}
 	 * 
 	 * @param jCas
 	 *            the {@link JCas} from which to extract the document identifier
-	 * @return a {@link String} representing the document identifier for the document stored in the
-	 *         {@JCas}
+	 * @return a {@link String} representing the document identifier for the
+	 *         document stored in the {@JCas}
 	 */
 	public String extractDocumentId(JCas jCas);
 
 	/**
-	 * Extracts and returns the character encoding used by the document stored in the {@link JCas}
+	 * Extracts and returns the character encoding used by the document stored
+	 * in the {@link JCas}
 	 * 
 	 * @param jCas
 	 *            the {@link JCas} from which to extract the character encoding
-	 * @return the {@link String} used by the document stored in the input {@link JCas}
+	 * @return the {@link String} used by the document stored in the input
+	 *         {@link JCas}
 	 */
 	public String extractDocumentEncoding(JCas jCas);
 
 	/**
-	 * Sets the document identifier in the input JCas metadata (as defined by some
-	 * implementation-specific type system)
+	 * Sets the document identifier in the input JCas metadata (as defined by
+	 * some implementation-specific type system)
 	 * 
 	 * @param jCas
 	 * @param documentId
@@ -86,9 +91,27 @@ public interface DocumentMetadataHandler {
 
 	/**
 	 * @param jCas
-	 * @return the metadata Object itself, for example if using the uima-examples type system this
-	 *         method should return a {@link SourceDocumentInformation} object
+	 * @return the metadata Object itself, for example if using the
+	 *         uima-examples type system this method should return a
+	 *         {@link SourceDocumentInformation} object
 	 */
 	public TOP getMetaDataContainer(JCas jCas);
+
+	/**
+	 * @param jCas
+	 * @param sourceDocumentFile
+	 *            the local file that was loaded into the CAS documentText field
+	 *            In cases where the document being processed exists locally in
+	 *            a file, this method allows the local path to be cached in the
+	 *            CAS.
+	 */
+	public void setSourceDocumentPath(JCas jCas, File sourceDocumentFile);
+
+	/**
+	 * @param jCas
+	 * @return the local path to the source document that was loaded into the
+	 *         CAS.
+	 */
+	public File extractSourceDocumentPath(JCas jCas);
 
 }

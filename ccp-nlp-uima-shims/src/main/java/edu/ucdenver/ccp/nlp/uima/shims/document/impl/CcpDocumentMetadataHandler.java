@@ -1,5 +1,7 @@
 package edu.ucdenver.ccp.nlp.uima.shims.document.impl;
 
+import java.io.File;
+
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -99,6 +101,17 @@ public class CcpDocumentMetadataHandler implements DocumentMetadataHandler {
 	@Override
 	public CCPDocumentInformation getMetaDataContainer(JCas jCas) {
 		return UIMA_Util.getDocumentInfo(jCas);
+	}
+
+	@Override
+	public void setSourceDocumentPath(JCas jCas, File sourceDocumentFile) {
+		UIMA_Util.setSourceDocumentPath(jCas, sourceDocumentFile);
+		
+	}
+
+	@Override
+	public File extractSourceDocumentPath(JCas jCas) {
+		return UIMA_Util.getSourceDocumentPath(jCas);
 	}
 
 }

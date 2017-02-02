@@ -93,11 +93,6 @@ import edu.ucdenver.ccp.nlp.core.mention.ComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.InvalidInputException;
 import edu.ucdenver.ccp.nlp.core.mention.Mention;
 import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
-import edu.ucdenver.ccp.nlp.core.mention.BooleanSlotMention;
-import edu.ucdenver.ccp.nlp.core.mention.DoubleSlotMention;
-import edu.ucdenver.ccp.nlp.core.mention.FloatSlotMention;
-import edu.ucdenver.ccp.nlp.core.mention.IntegerSlotMention;
-import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.SlotMention;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotationSet;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotator;
@@ -127,10 +122,11 @@ import edu.ucdenver.ccp.nlp.uima.mention.impl.WrappedCCPIntegerSlotMention;
 import edu.ucdenver.ccp.nlp.uima.mention.impl.WrappedCCPStringSlotMention;
 
 /**
- * This is a utility class meant to streamline interaction with the <code>CCPTextAnnotation</code>
- * class.
+ * This is a utility class meant to streamline interaction with the
+ * <code>CCPTextAnnotation</code> class.
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class UIMA_Util {
@@ -143,55 +139,64 @@ public class UIMA_Util {
 			writer = FileWriterUtil.initBufferedWriter(outputFile, CharacterEncoding.UTF_8, WriteMode.OVERWRITE,
 					FileSuffixEnforcement.OFF);
 
-//			FlowControllerDeclaration flowControllerDeclaration = desc.getFlowControllerDeclaration();
-//			System.out.println("FlowControllerDecl == null: " + (flowControllerDeclaration == null));
-//			if (flowControllerDeclaration == null) {
-				desc.setFlowControllerDeclaration(new FlowControllerDeclaration_impl());
-//			}
-//			ResourceMetaData metaData = desc.getMetaData();
-//			System.out.println("MetaData == null: " + (metaData == null));
-//			System.out.println(metaData.toString());
-//			if (metaData.getUUID() == null) {
-//				metaData.setUUID("");
-//			}
-//			if (metaData.getDescription() == null) {
-//				metaData.setDescription("");
-//			}
-//			if (metaData.getConfigurationParameterDeclarations().getDefaultGroupName() == null) {
-//				metaData.getConfigurationParameterDeclarations().setDefaultGroupName("");
-//			}
-//			if (metaData.getConfigurationParameterDeclarations().getSearchStrategy() == null) {
-//				metaData.getConfigurationParameterDeclarations().setSearchStrategy("");
-//			}
-//			if (metaData.getCopyright()==null) {
-//				metaData.setCopyright("");
-//			}
-//			if (metaData.getVendor()==null) {
-//				metaData.setVendor("");
-//			}
-//			if (metaData.getVersion()==null) {
-//				metaData.setVersion("");
-//			}
-//			if (metaData.getName() == null) {
-//				metaData.setName("");
-//			}
-//			if (metaData.getAttributeValue("flowConstraints") == null) {
-//				metaData.setAttributeValue("flowConstraints", new FlowConstraints);
-//			}
-//			
-//			
-//System.out.println("********************************************");			
-//			System.out.println(metaData.toString());
-//			System.out.println("********************************************");			
-//			System.out.println(metaData.listAttributes());
-			
+			// FlowControllerDeclaration flowControllerDeclaration =
+			// desc.getFlowControllerDeclaration();
+			// System.out.println("FlowControllerDecl == null: " +
+			// (flowControllerDeclaration == null));
+			// if (flowControllerDeclaration == null) {
+			desc.setFlowControllerDeclaration(new FlowControllerDeclaration_impl());
+			// }
+			// ResourceMetaData metaData = desc.getMetaData();
+			// System.out.println("MetaData == null: " + (metaData == null));
+			// System.out.println(metaData.toString());
+			// if (metaData.getUUID() == null) {
+			// metaData.setUUID("");
+			// }
+			// if (metaData.getDescription() == null) {
+			// metaData.setDescription("");
+			// }
+			// if
+			// (metaData.getConfigurationParameterDeclarations().getDefaultGroupName()
+			// == null) {
+			// metaData.getConfigurationParameterDeclarations().setDefaultGroupName("");
+			// }
+			// if
+			// (metaData.getConfigurationParameterDeclarations().getSearchStrategy()
+			// == null) {
+			// metaData.getConfigurationParameterDeclarations().setSearchStrategy("");
+			// }
+			// if (metaData.getCopyright()==null) {
+			// metaData.setCopyright("");
+			// }
+			// if (metaData.getVendor()==null) {
+			// metaData.setVendor("");
+			// }
+			// if (metaData.getVersion()==null) {
+			// metaData.setVersion("");
+			// }
+			// if (metaData.getName() == null) {
+			// metaData.setName("");
+			// }
+			// if (metaData.getAttributeValue("flowConstraints") == null) {
+			// metaData.setAttributeValue("flowConstraints", new
+			// FlowConstraints);
+			// }
+			//
+			//
+			// System.out.println("********************************************");
+			// System.out.println(metaData.toString());
+			// System.out.println("********************************************");
+			// System.out.println(metaData.listAttributes());
+
 			desc.setMetaData(new ProcessingResourceMetaData_impl());
-			
-//			ResourceManagerConfiguration resourceManagerConfiguration = desc.getResourceManagerConfiguration();
-//			System.out.println("ResourceManagerConfig == null: " + (resourceManagerConfiguration == null));
-//			if (resourceManagerConfiguration == null) {
-				desc.setResourceManagerConfiguration(new ResourceManagerConfiguration_impl());
-//			}
+
+			// ResourceManagerConfiguration resourceManagerConfiguration =
+			// desc.getResourceManagerConfiguration();
+			// System.out.println("ResourceManagerConfig == null: " +
+			// (resourceManagerConfiguration == null));
+			// if (resourceManagerConfiguration == null) {
+			desc.setResourceManagerConfiguration(new ResourceManagerConfiguration_impl());
+			// }
 			desc.toXML(writer);
 		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException(e);
@@ -206,8 +211,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * Returns the documentID from the CCPDocumentInformation annotation if there is one. Returns
-	 * "-1" otherwise.
+	 * Returns the documentID from the CCPDocumentInformation annotation if
+	 * there is one. Returns "-1" otherwise.
 	 * 
 	 * @param jcas
 	 * @return
@@ -215,7 +220,10 @@ public class UIMA_Util {
 	public static String getDocumentID(JCas jcas) {
 		String documentID;
 		FSIterator it = jcas.getJFSIndexRepository().getAllIndexedFS(CCPDocumentInformation.type);
-		if (it.hasNext()) { /* there will be at most one CCPDocumentInformation annotation */
+		if (it.hasNext()) { /*
+							 * there will be at most one CCPDocumentInformation
+							 * annotation
+							 */
 			CCPDocumentInformation docInfo = (CCPDocumentInformation) it.next();
 			documentID = docInfo.getDocumentID();
 			return documentID;
@@ -224,9 +232,40 @@ public class UIMA_Util {
 		return "-1";
 	}
 
+	/**
+	 * 
+	 * Sets the CCPDocumentInformation documentID field
+	 * 
+	 * @param jcas
+	 * @param documentID
+	 */
+	public static void setDocumentID(JCas jcas, String documentID) {
+		CCPDocumentInformation docInfo = getCcpDocumentInformation(jcas);
+		docInfo.setDocumentID(documentID);
+	}
+
+	public static void setSourceDocumentPath(JCas jCas, File sourceDocumentFile) {
+		CCPDocumentInformation docInfo = getCcpDocumentInformation(jCas);
+		docInfo.setSourceDocumentPath(sourceDocumentFile.getAbsolutePath());
+	}
+
+	public static File getSourceDocumentPath(JCas jCas) {
+		TOP docInfo = jCas.getJFSIndexRepository().getAllIndexedFS(CCPDocumentInformation.type).next();
+		if (docInfo != null) {
+			String path = ((CCPDocumentInformation) docInfo).getSourceDocumentPath();
+			if (path != null) {
+				return new File(path);
+			}
+		}
+		return null;
+	}
+
 	public static CCPDocumentInformation getDocumentInfo(JCas jcas) {
 		FSIterator it = jcas.getJFSIndexRepository().getAllIndexedFS(CCPDocumentInformation.type);
-		if (it.hasNext()) { /* there will be at most one CCPDocumentInformation annotation */
+		if (it.hasNext()) { /*
+							 * there will be at most one CCPDocumentInformation
+							 * annotation
+							 */
 			CCPDocumentInformation docInfo = (CCPDocumentInformation) it.next();
 			return docInfo;
 		}
@@ -255,8 +294,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * Sets the encoding field for the meta data. This encoding should correspond to the encoding
-	 * used by the document text stored in the JCas.
+	 * Sets the encoding field for the meta data. This encoding should
+	 * correspond to the encoding used by the document text stored in the JCas.
 	 * 
 	 * @param jCas
 	 * @param encoding
@@ -266,8 +305,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * Returns the documentID from the CCPDocumentInformation annotation if there is one. Returns
-	 * "-1" otherwise.
+	 * Returns the documentID from the CCPDocumentInformation annotation if
+	 * there is one. Returns "-1" otherwise.
 	 * 
 	 * @param jcas
 	 * @return
@@ -275,7 +314,10 @@ public class UIMA_Util {
 	public static int getDocumentCollectionID(JCas jcas) {
 		int documentCollectionID;
 		FSIterator it = jcas.getJFSIndexRepository().getAllIndexedFS(CCPDocumentInformation.type);
-		if (it.hasNext()) { /* there will be at most one CCPDocumentInformation annotation */
+		if (it.hasNext()) { /*
+							 * there will be at most one CCPDocumentInformation
+							 * annotation
+							 */
 			CCPDocumentInformation docInfo = (CCPDocumentInformation) it.next();
 			documentCollectionID = docInfo.getDocumentCollectionID();
 			return documentCollectionID;
@@ -297,7 +339,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * Returns an Iterator over CCPTextAnnotations that have a give class type (class mention name).
+	 * Returns an Iterator over CCPTextAnnotations that have a give class type
+	 * (class mention name).
 	 * 
 	 * @param jcas
 	 * @param classType
@@ -347,10 +390,11 @@ public class UIMA_Util {
 			}
 
 			/**
-			 * If the input CCPTextAnnotation is not null, and the classType is not null, then this
-			 * method returns true if the classType matches the class mention name for the
-			 * CCPTextAnnotation. If classType is null, then this method returns true as long as the
-			 * input CCPTextAnnotation is not null.
+			 * If the input CCPTextAnnotation is not null, and the classType is
+			 * not null, then this method returns true if the classType matches
+			 * the class mention name for the CCPTextAnnotation. If classType is
+			 * null, then this method returns true as long as the input
+			 * CCPTextAnnotation is not null.
 			 * 
 			 * @param ccpTA
 			 * @return
@@ -379,18 +423,6 @@ public class UIMA_Util {
 		return annotationsToReturn;
 	}
 
-	/**
-	 * 
-	 * Sets the CCPDocumentInformation documentID field
-	 * 
-	 * @param jcas
-	 * @param documentID
-	 */
-	public static void setDocumentID(JCas jcas, String documentID) {
-		CCPDocumentInformation docInfo = getCcpDocumentInformation(jcas);
-		docInfo.setDocumentID(documentID);
-	}
-
 	public static void setDocumentCollectionID(JCas jcas, int documentCollectionID) {
 		CCPDocumentInformation docInfo = getCcpDocumentInformation(jcas);
 		docInfo.setDocumentCollectionID(documentCollectionID);
@@ -399,7 +431,10 @@ public class UIMA_Util {
 	private static CCPDocumentInformation getCcpDocumentInformation(JCas jcas) {
 		CCPDocumentInformation docInfo;
 		FSIterator it = jcas.getJFSIndexRepository().getAllIndexedFS(CCPDocumentInformation.type);
-		if (it.hasNext()) { /* there should be at most one CCPDocumentInformation annotation */
+		if (it.hasNext()) { /*
+							 * there should be at most one
+							 * CCPDocumentInformation annotation
+							 */
 			docInfo = (CCPDocumentInformation) it.next();
 		} else {
 			docInfo = new CCPDocumentInformation(jcas);
@@ -440,8 +475,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * This method transfers general annotation info, i.e. span, annotator, etc. from a
-	 * TextAnnotation to a CCPTextAnnotation.
+	 * This method transfers general annotation info, i.e. span, annotator, etc.
+	 * from a TextAnnotation to a CCPTextAnnotation.
 	 * 
 	 * @param ta
 	 * @param ccpAnnotation
@@ -472,9 +507,10 @@ public class UIMA_Util {
 		UIMA_Util.swapAnnotationMetadata(annotationMetadata, ccpAnnotationMetadata, jcas);
 
 		/*
-		 * set the Span(s) A CCPSpan object is created for each Span object associated with the
-		 * TextAnnotation. Also, the default Begin and End fields for the UIMA annotation are set to
-		 * the min and max indexes of all Span objects.
+		 * set the Span(s) A CCPSpan object is created for each Span object
+		 * associated with the TextAnnotation. Also, the default Begin and End
+		 * fields for the UIMA annotation are set to the min and max indexes of
+		 * all Span objects.
 		 */
 		int minSpanIndex = Integer.MAX_VALUE;
 		int maxSpanIndex = Integer.MIN_VALUE;
@@ -515,8 +551,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * This method transfers general annotation info, i.e. span, annotator, etc. from a
-	 * CCPTextAnnotation to a TextAnnotation
+	 * This method transfers general annotation info, i.e. span, annotator, etc.
+	 * from a CCPTextAnnotation to a TextAnnotation
 	 * 
 	 * @param ccpAnnotation
 	 * @param ta
@@ -555,15 +591,16 @@ public class UIMA_Util {
 		List<Span> spans = new ArrayList<Span>();
 		FSArray ccpSpans = fromUIMA.getSpans();
 		/*
-		 * if there are no explicit spans in the CCPTextAnnotation, then we need to create a default
-		 * span using the start/end indexes
+		 * if there are no explicit spans in the CCPTextAnnotation, then we need
+		 * to create a default span using the start/end indexes
 		 */
 		try {
 			if (ccpSpans.size() == 0) {
 				Span span = new Span(fromUIMA.getStart(), fromUIMA.getEnd());
 				spans.add(span);
 			} else {
-				for (int i = 0; i < ccpSpans.size(); i++) {// FeatureStructure fs : fsArray) {
+				for (int i = 0; i < ccpSpans.size(); i++) {// FeatureStructure
+															// fs : fsArray) {
 					CCPSpan ccpSpan = (CCPSpan) ccpSpans.get(i);
 					Span span = new Span(ccpSpan.getSpanStart(), ccpSpan.getSpanEnd());
 					spans.add(span);
@@ -816,7 +853,10 @@ public class UIMA_Util {
 				for (int i = 0; i < metaDataProperties.size(); i++) {
 					newMetaDataProperties.set(i, metaDataProperties.get(i));
 				}
-				/* now add the properties that are being transferred -- this could cause duplicates */
+				/*
+				 * now add the properties that are being transferred -- this
+				 * could cause duplicates
+				 */
 				int addIndex = metaDataProperties.size() - 1;
 				for (int i = 0; i < ccpMetadataPropertiesToAdd.size(); i++) {
 					newMetaDataProperties.set(i + addIndex, metaDataProperties.get(i));
@@ -875,8 +915,8 @@ public class UIMA_Util {
 	/**
 	 * @param ccpTa
 	 * @param setId
-	 * @return true if the input {@link CCPTextAnnotation} is associated with the input annotation
-	 *         set identifier
+	 * @return true if the input {@link CCPTextAnnotation} is associated with
+	 *         the input annotation set identifier
 	 */
 	public static boolean hasAnnotationSet(CCPTextAnnotation ccpTa, int setId) {
 		FSArray annotationSets = ccpTa.getAnnotationSets();
@@ -892,8 +932,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * Removes the annotation set identified by the setIdToRemove identifier from the input
-	 * {@link CCPTextAnnotation} if that set is present
+	 * Removes the annotation set identified by the setIdToRemove identifier
+	 * from the input {@link CCPTextAnnotation} if that set is present
 	 * 
 	 * @param ccpTa
 	 * @param setIdToRemove
@@ -938,9 +978,9 @@ public class UIMA_Util {
 			UIMA_Util.swapAnnotationInfo(ta, ccpTextAnnotation, jcas);
 
 			/**
-			 * This has the potential to introduce a duplicate comment, however when working with
-			 * knowtator annotations - where there is no meta data, this is the only way to transfer
-			 * comments
+			 * This has the potential to introduce a duplicate comment, however
+			 * when working with knowtator annotations - where there is no meta
+			 * data, this is the only way to transfer comments
 			 */
 			String comment = ta.getAnnotationComment();
 			if (comment != null)
@@ -977,7 +1017,8 @@ public class UIMA_Util {
 	}
 
 	private CCPMention createUIMAMention(Mention mentionToAdd, JCas jcas,
-			HashMap<String, String> alreadyCreatedAnnotations, HashMap<String, CCPClassMention> alreadyCreatedMentions) {
+			HashMap<String, String> alreadyCreatedAnnotations,
+			HashMap<String, CCPClassMention> alreadyCreatedMentions) {
 
 		CCPMention returnMention;
 
@@ -991,8 +1032,8 @@ public class UIMA_Util {
 			returnMention = processSlotMention((SlotMention) mentionToAdd, jcas, alreadyCreatedAnnotations,
 					alreadyCreatedMentions);
 		} else {
-			System.err.println("The mention you are trying to create is an instance of: "
-					+ mentionToAdd.getClass().getName());
+			System.err.println(
+					"The mention you are trying to create is an instance of: " + mentionToAdd.getClass().getName());
 			System.err.println("Currently, only ClassMentions, ComplexSlotMentions, and SlotMentions can be added.");
 			returnMention = null;
 		}
@@ -1001,7 +1042,8 @@ public class UIMA_Util {
 	}
 
 	private CCPClassMention processClassMention(ClassMention classMention, JCas jcas,
-			HashMap<String, String> alreadyCreatedAnnotations, HashMap<String, CCPClassMention> alreadyCreatedMentions) {
+			HashMap<String, String> alreadyCreatedAnnotations,
+			HashMap<String, CCPClassMention> alreadyCreatedMentions) {
 
 		CCPClassMention ccpClassMention;
 
@@ -1015,8 +1057,8 @@ public class UIMA_Util {
 			ccpClassMention.setMentionName(classMention.getMentionName());
 
 			/**
-			 * should this be at the end??? No, it doesn't matter because classMention.getHashKey is
-			 * complete
+			 * should this be at the end??? No, it doesn't matter because
+			 * classMention.getHashKey is complete
 			 */
 			// add the knowtator to the alreadyCreatedMentions hash
 			alreadyCreatedMentions.put(classMention.getSingleLineRepresentation(), ccpClassMention);
@@ -1045,8 +1087,8 @@ public class UIMA_Util {
 			}
 
 			for (SlotMention sm : slotMentions) {
-				CCPPrimitiveSlotMention ccpNonComplexSlotMention = (CCPPrimitiveSlotMention) createUIMAMention(sm,
-						jcas, alreadyCreatedAnnotations, alreadyCreatedMentions);
+				CCPPrimitiveSlotMention ccpNonComplexSlotMention = (CCPPrimitiveSlotMention) createUIMAMention(sm, jcas,
+						alreadyCreatedAnnotations, alreadyCreatedMentions);
 
 				if (ccpNonComplexSlotMention != null) {
 					slotMentionFSArray.set(fsArrayIndex++, ccpNonComplexSlotMention);
@@ -1065,7 +1107,8 @@ public class UIMA_Util {
 	}
 
 	private CCPComplexSlotMention processComplexSlotMention(ComplexSlotMention complexSlotMention, JCas jcas,
-			HashMap<String, String> alreadyCreatedAnnotations, HashMap<String, CCPClassMention> alreadyCreatedMentions) {
+			HashMap<String, String> alreadyCreatedAnnotations,
+			HashMap<String, CCPClassMention> alreadyCreatedMentions) {
 
 		// create a new Knowtator mention
 		CCPComplexSlotMention ccpComplexSlotMention = new CCPComplexSlotMention(jcas);
@@ -1094,7 +1137,8 @@ public class UIMA_Util {
 	}
 
 	private CCPPrimitiveSlotMention processSlotMention(SlotMention slotMention, JCas jcas,
-			HashMap<String, String> alreadyCreatedAnnotations, HashMap<String, CCPClassMention> alreadyCreatedMentions) {
+			HashMap<String, String> alreadyCreatedAnnotations,
+			HashMap<String, CCPClassMention> alreadyCreatedMentions) {
 
 		Collection<Object> slotValues = slotMention.getSlotValues();
 		CCPPrimitiveSlotMention ccpPSM = null;
@@ -1212,7 +1256,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * Returns a list of the CCPClassMention objects that are the slot fillers for the named slot
+	 * Returns a list of the CCPClassMention objects that are the slot fillers
+	 * for the named slot
 	 * 
 	 * @param ccpTA
 	 * @param slotMentionName
@@ -1223,7 +1268,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * Returns a list of the CCPClassMention objects that are the slot fillers for the named slot
+	 * Returns a list of the CCPClassMention objects that are the slot fillers
+	 * for the named slot
 	 * 
 	 * @param ccpClassMention
 	 * @param slotMentionName
@@ -1314,8 +1360,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * Returns a new FSArray consisting of the contents of the input FSArray and the Collection of
-	 * FeatureStructure objects
+	 * Returns a new FSArray consisting of the contents of the input FSArray and
+	 * the Collection of FeatureStructure objects
 	 * 
 	 * @param fsArray
 	 * @param featureStructuresToAdd
@@ -1454,7 +1500,8 @@ public class UIMA_Util {
 	}
 
 	public static IntegerArray removeArrayIndex(IntegerArray intArray, int index, JCas jcas) {
-		// logger.debug("RemoveArrayIndex: intArray size: " + intArray.size() + " index: " + index);
+		// logger.debug("RemoveArrayIndex: intArray size: " + intArray.size() +
+		// " index: " + index);
 		IntegerArray updatedArray = null;
 		if (intArray != null) {
 			if (index < intArray.size()) {
@@ -1475,7 +1522,8 @@ public class UIMA_Util {
 	}
 
 	public static StringArray removeArrayIndex(StringArray strArray, int index, JCas jcas) {
-		// logger.debug("RemoveArrayIndex: strArray size: " + strArray.size() + " index: " + index);
+		// logger.debug("RemoveArrayIndex: strArray size: " + strArray.size() +
+		// " index: " + index);
 		StringArray updatedArray = null;
 		if (strArray != null) {
 			if (index < strArray.size()) {
@@ -1545,6 +1593,7 @@ public class UIMA_Util {
 		}
 		return null;
 	}
+
 	public static Double getFirstSlotValue(CCPDoubleSlotMention ccpSSM) {
 		DoubleArray slotArray = ccpSSM.getSlotValues();
 		if (slotArray != null && slotArray.size() > 0) {
@@ -1552,6 +1601,7 @@ public class UIMA_Util {
 		}
 		return null;
 	}
+
 	public static boolean getFirstSlotValue(CCPBooleanSlotMention ccpSSM) {
 		return ccpSSM.getSlotValue();
 	}
@@ -1583,8 +1633,8 @@ public class UIMA_Util {
 				slotValues = addToStringArray(slotValues, slotValue, jcas);
 				ccpSSM.setSlotValues(slotValues);
 			} else {
-				throw new CASException(new KnowledgeRepresentationWrapperException("Cannot store a String in a "
-						+ slotMention.getClass().getName()));
+				throw new CASException(new KnowledgeRepresentationWrapperException(
+						"Cannot store a String in a " + slotMention.getClass().getName()));
 			}
 		} else {
 			CCPStringSlotMention ccpSSM = new CCPStringSlotMention(jcas);
@@ -1599,8 +1649,8 @@ public class UIMA_Util {
 
 	public static void addSlotValue(CCPClassMention ccpClassMention, String slotMentionName,
 			CCPClassMention slotFillerCM) throws CASException {
-		CCPComplexSlotMention ccpComplexSlotMention = (CCPComplexSlotMention) UIMA_Util.getSlotMentionByName(
-				ccpClassMention, slotMentionName);
+		CCPComplexSlotMention ccpComplexSlotMention = (CCPComplexSlotMention) UIMA_Util
+				.getSlotMentionByName(ccpClassMention, slotMentionName);
 		if (ccpComplexSlotMention == null) { // then we need to create a new
 			// CCPNonComplexSlotMention
 			JCas jcas = ccpClassMention.getCAS().getJCas();
@@ -1616,8 +1666,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * Sets a non-complex slot value (overwrites any previous slot values). Adds a new slot if one
-	 * was not there prior
+	 * Sets a non-complex slot value (overwrites any previous slot values). Adds
+	 * a new slot if one was not there prior
 	 * 
 	 * @param ccpClassMention
 	 * @param slotMentionName
@@ -1639,36 +1689,36 @@ public class UIMA_Util {
 						CCPStringSlotMention ccpSSM = (CCPStringSlotMention) ccpSlotMention;
 						new WrappedCCPStringSlotMention(ccpSSM).overwriteSlotValues((String) slotValue);
 					} else {
-						throw new CASException(new KnowledgeRepresentationWrapperException("Cannot use a "
-								+ slotValue.getClass().getName() + " as a slot value in a "
-								+ ccpSlotMention.getClass().getName()));
+						throw new CASException(new KnowledgeRepresentationWrapperException(
+								"Cannot use a " + slotValue.getClass().getName() + " as a slot value in a "
+										+ ccpSlotMention.getClass().getName()));
 					}
 				} else if (ccpSlotMention instanceof CCPFloatSlotMention) {
 					if (slotValue instanceof Float) {
 						CCPFloatSlotMention ccpSSM = (CCPFloatSlotMention) ccpSlotMention;
 						new WrappedCCPFloatSlotMention(ccpSSM).overwriteSlotValues((Float) slotValue);
 					} else {
-						throw new CASException(new KnowledgeRepresentationWrapperException("Cannot use a "
-								+ slotValue.getClass().getName() + " as a slot value in a "
-								+ ccpSlotMention.getClass().getName()));
+						throw new CASException(new KnowledgeRepresentationWrapperException(
+								"Cannot use a " + slotValue.getClass().getName() + " as a slot value in a "
+										+ ccpSlotMention.getClass().getName()));
 					}
 				} else if (ccpSlotMention instanceof CCPIntegerSlotMention) {
 					if (slotValue instanceof Integer) {
 						CCPIntegerSlotMention ccpSSM = (CCPIntegerSlotMention) ccpSlotMention;
 						new WrappedCCPIntegerSlotMention(ccpSSM).overwriteSlotValues((Integer) slotValue);
 					} else {
-						throw new CASException(new KnowledgeRepresentationWrapperException("Cannot use a "
-								+ slotValue.getClass().getName() + " as a slot value in a "
-								+ ccpSlotMention.getClass().getName()));
+						throw new CASException(new KnowledgeRepresentationWrapperException(
+								"Cannot use a " + slotValue.getClass().getName() + " as a slot value in a "
+										+ ccpSlotMention.getClass().getName()));
 					}
 				} else if (ccpSlotMention instanceof CCPBooleanSlotMention) {
 					if (slotValue instanceof Boolean) {
 						CCPBooleanSlotMention ccpSSM = (CCPBooleanSlotMention) ccpSlotMention;
 						ccpSSM.setSlotValue((Boolean) slotValue);
 					} else {
-						throw new CASException(new KnowledgeRepresentationWrapperException("Cannot use a "
-								+ slotValue.getClass().getName() + " as a slot value in a "
-								+ ccpSlotMention.getClass().getName()));
+						throw new CASException(new KnowledgeRepresentationWrapperException(
+								"Cannot use a " + slotValue.getClass().getName() + " as a slot value in a "
+										+ ccpSlotMention.getClass().getName()));
 					}
 				} else {
 					throw new CASException(new KnowledgeRepresentationWrapperException(
@@ -1719,8 +1769,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * Create a string that includes all of the spans within this mention. This includes recursively
-	 * pulling out slot spans as well.
+	 * Create a string that includes all of the spans within this mention. This
+	 * includes recursively pulling out slot spans as well.
 	 * 
 	 * @param mention
 	 *            The mention to process
@@ -1749,7 +1799,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * Add all of the text spans that take part in a mention into a sorted list of text spans.
+	 * Add all of the text spans that take part in a mention into a sorted list
+	 * of text spans.
 	 * 
 	 * @param textSpans
 	 *            The sorted list of text spans
@@ -1776,9 +1827,8 @@ public class UIMA_Util {
 		// Get all the spans from the base annotation
 		FSArray spans = annotation.getSpans();
 		if (spans == null) {
-			sortIn(textSpans,
-					new TextSpan(annotation.getBegin(), annotation.getEnd(), data.substring(annotation.getBegin(),
-							annotation.getEnd())));
+			sortIn(textSpans, new TextSpan(annotation.getBegin(), annotation.getEnd(),
+					data.substring(annotation.getBegin(), annotation.getEnd())));
 		} else {
 			for (int i = 0; i < spans.size(); i++) {
 				Object jcasSpan = spans.get(i);
@@ -1787,9 +1837,8 @@ public class UIMA_Util {
 					span = (CCPSpan) jcasSpan;
 				}
 				if (span != null) {
-					sortIn(textSpans,
-							new TextSpan(span.getSpanStart(), span.getSpanEnd(), data.substring(span.getSpanStart(),
-									span.getSpanEnd())));
+					sortIn(textSpans, new TextSpan(span.getSpanStart(), span.getSpanEnd(),
+							data.substring(span.getSpanStart(), span.getSpanEnd())));
 				}
 			}
 		}
@@ -1860,7 +1909,8 @@ public class UIMA_Util {
 	 */
 	public static Iterator<Annotation> getAnnotationsWithinSpan(Span span, JCas jcas, int annotationType) {
 
-		// System.out.println("Looking for annotations within " + span.getSpanStart() + " -- " +
+		// System.out.println("Looking for annotations within " +
+		// span.getSpanStart() + " -- " +
 		// span.getSpanEnd());
 		/* Get a reference to the CAS and the CAS ConstraintFactory */
 		CAS cas = jcas.getCas();
@@ -1887,8 +1937,8 @@ public class UIMA_Util {
 		pathToEndValue.addFeature(endFeature);
 
 		/*
-		 * Connect the tests to the feature paths (s = the span of the trigger annotation, c = the
-		 * span of the phrases and tokens to compare)
+		 * Connect the tests to the feature paths (s = the span of the trigger
+		 * annotation, c = the span of the phrases and tokens to compare)
 		 */
 
 		/**
@@ -1902,12 +1952,15 @@ public class UIMA_Util {
 		FSMatchConstraint testBegin = cf.embedConstraint(pathToBeginValue, gtEqToSpanStart);
 		FSMatchConstraint testEnd = cf.embedConstraint(pathToEndValue, ltEqToSpanEnd);
 
-		/* AND the tests for each of the three cases, then OR the AND'ed tests together */
+		/*
+		 * AND the tests for each of the three cases, then OR the AND'ed tests
+		 * together
+		 */
 		FSMatchConstraint testBoth = cf.and(testBegin, testEnd);
 
 		/* Create a filtered iterator that uses this constraint */
-		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas.getJFSIndexRepository()
-				.getAnnotationIndex(annotationType).iterator(), testBoth);
+		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(
+				jcas.getJFSIndexRepository().getAnnotationIndex(annotationType).iterator(), testBoth);
 
 		return iter;
 
@@ -1915,7 +1968,8 @@ public class UIMA_Util {
 
 	public static Iterator<Annotation> getAnnotationsWithinSpan(Span span, JCas jcas, Type annotationType) {
 
-		// System.out.println("Looking for annotations within " + span.getSpanStart() + " -- " +
+		// System.out.println("Looking for annotations within " +
+		// span.getSpanStart() + " -- " +
 		// span.getSpanEnd());
 
 		/* Get a reference to the CAS and the CAS ConstraintFactory */
@@ -1943,8 +1997,8 @@ public class UIMA_Util {
 		pathToEndValue.addFeature(endFeature);
 
 		/*
-		 * Connect the tests to the feature paths (s = the span of the trigger annotation, c = the
-		 * span of the phrases and tokens to compare)
+		 * Connect the tests to the feature paths (s = the span of the trigger
+		 * annotation, c = the span of the phrases and tokens to compare)
 		 */
 
 		/**
@@ -1958,12 +2012,15 @@ public class UIMA_Util {
 		FSMatchConstraint testBegin = cf.embedConstraint(pathToBeginValue, gtEqToSpanStart);
 		FSMatchConstraint testEnd = cf.embedConstraint(pathToEndValue, ltEqToSpanEnd);
 
-		/* AND the tests for each of the three cases, then OR the AND'ed tests together */
+		/*
+		 * AND the tests for each of the three cases, then OR the AND'ed tests
+		 * together
+		 */
 		FSMatchConstraint testBoth = cf.and(testBegin, testEnd);
 
 		/* Create a filtered iterator that uses this constraint */
-		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(
-				jcas.getAnnotationIndex(annotationType).iterator(), testBoth);
+		Iterator<Annotation> iter = (Iterator<Annotation>) cas
+				.createFilteredIterator(jcas.getAnnotationIndex(annotationType).iterator(), testBoth);
 
 		return iter;
 
@@ -1995,7 +2052,8 @@ public class UIMA_Util {
 	 */
 	public static Iterator<Annotation> getAnnotationsEncompassingSpan(Span span, JCas jcas, int annotType) {
 
-		// System.out.println("Looking for annotations overlapping " + span.getSpanStart() + " -- "
+		// System.out.println("Looking for annotations overlapping " +
+		// span.getSpanStart() + " -- "
 		// +
 		// span.getSpanEnd());
 
@@ -2032,8 +2090,8 @@ public class UIMA_Util {
 		pathToEndValue.addFeature(endFeature);
 
 		/*
-		 * Connect the tests to the feature paths (s = the span of the trigger annotation, c = the
-		 * span of the phrases and tokens to compare)
+		 * Connect the tests to the feature paths (s = the span of the trigger
+		 * annotation, c = the span of the phrases and tokens to compare)
 		 */
 
 		/**
@@ -2067,7 +2125,10 @@ public class UIMA_Util {
 		FSMatchConstraint testBegin3 = cf.embedConstraint(pathToBeginValue, gtEqToSpanStart);
 		FSMatchConstraint testEnd3 = cf.embedConstraint(pathToEndValue, ltEqToSpanEnd);
 
-		/* AND the tests for each of the three cases, then OR the AND'ed tests together */
+		/*
+		 * AND the tests for each of the three cases, then OR the AND'ed tests
+		 * together
+		 */
 		FSMatchConstraint testBoth1 = cf.and(testBegin1, testEnd1);
 		FSMatchConstraint testBoth2 = cf.and(testBegin2, testEnd2);
 		FSMatchConstraint testBoth3 = cf.and(testBegin3, testEnd3);
@@ -2076,8 +2137,8 @@ public class UIMA_Util {
 		FSMatchConstraint testBoth123 = cf.or(testBoth12, testBoth3);
 
 		/* Create a filtered iterator that uses this constraint */
-		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas.getJFSIndexRepository()
-				.getAnnotationIndex(annotType).iterator(), testBoth123);
+		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(
+				jcas.getJFSIndexRepository().getAnnotationIndex(annotType).iterator(), testBoth123);
 
 		return iter;
 
@@ -2093,7 +2154,8 @@ public class UIMA_Util {
 	public static Iterator<CCPTextAnnotation> getAnnotationsInBetweenSpans(Span upstreamSpan, Span downstreamSpan,
 			JCas jcas) {
 
-		// System.out.println("Looking for annotations in between " + upstreamSpan.getSpanEnd() +
+		// System.out.println("Looking for annotations in between " +
+		// upstreamSpan.getSpanEnd() +
 		// " -- " +
 		// downstreamSpan.getSpanStart());
 
@@ -2124,7 +2186,8 @@ public class UIMA_Util {
 	 */
 	public static Iterator<Annotation> getAnnotationsWithSameStart(int startIndex, JCas jcas) {
 
-		// System.out.println("Looking for annotations starting at " + startIndex);
+		// System.out.println("Looking for annotations starting at " +
+		// startIndex);
 
 		/* Get a reference to the CAS and the CAS ConstraintFactory */
 		CAS cas = jcas.getCas();
@@ -2145,8 +2208,8 @@ public class UIMA_Util {
 		pathToBeginValue.addFeature(beginFeature);
 
 		/*
-		 * Connect the tests to the feature paths (s = the span of the trigger annotation, c = the
-		 * span of the phrases and tokens to compare)
+		 * Connect the tests to the feature paths (s = the span of the trigger
+		 * annotation, c = the span of the phrases and tokens to compare)
 		 */
 
 		/**
@@ -2160,8 +2223,8 @@ public class UIMA_Util {
 		FSMatchConstraint testStart = cf.embedConstraint(pathToBeginValue, eqToSpanStart);
 
 		/* Create a filtered iterator that uses this constraint */
-		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas.getJFSIndexRepository()
-				.getAnnotationIndex(CCPTextAnnotation.type).iterator(), testStart);
+		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(
+				jcas.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type).iterator(), testStart);
 
 		return iter;
 
@@ -2169,7 +2232,8 @@ public class UIMA_Util {
 
 	public static Iterator<Annotation> getPrecedingAnnotations(int startIndex, int ccpAnnotationType, JCas jcas) {
 
-		// System.out.println("Looking for annotations ending before  " + startIndex);
+		// System.out.println("Looking for annotations ending before " +
+		// startIndex);
 
 		/* Get a reference to the CAS and the CAS ConstraintFactory */
 		CAS cas = jcas.getCas();
@@ -2190,8 +2254,8 @@ public class UIMA_Util {
 		pathToEndValue.addFeature(endFeature);
 
 		/*
-		 * Connect the tests to the feature paths (s = the span of the trigger annotation, c = the
-		 * span of the phrases and tokens to compare)
+		 * Connect the tests to the feature paths (s = the span of the trigger
+		 * annotation, c = the span of the phrases and tokens to compare)
 		 */
 
 		/**
@@ -2205,15 +2269,16 @@ public class UIMA_Util {
 		FSMatchConstraint testStart = cf.embedConstraint(pathToEndValue, ltSpanStart);
 
 		/* Create a filtered iterator that uses this constraint */
-		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(jcas.getJFSIndexRepository()
-				.getAnnotationIndex(ccpAnnotationType).iterator(), testStart);
+		Iterator<Annotation> iter = (Iterator<Annotation>) cas.createFilteredIterator(
+				jcas.getJFSIndexRepository().getAnnotationIndex(ccpAnnotationType).iterator(), testStart);
 
 		return iter;
 
 	}
 
 	/**
-	 * this method resets the span for an annotation.. this includes the Span FSArray
+	 * this method resets the span for an annotation.. this includes the Span
+	 * FSArray
 	 * 
 	 * @param ccpTA
 	 * @param spanStart
@@ -2248,8 +2313,8 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * sets the class mention for the CCPTextAnnotation, and also links the CCPTextAnnotation with
-	 * the CCPClassMention
+	 * sets the class mention for the CCPTextAnnotation, and also links the
+	 * CCPTextAnnotation with the CCPClassMention
 	 * 
 	 * @param ccpTA
 	 * @param ccpCM
@@ -2263,10 +2328,11 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * This method provides a sanity check when constructing CCPTextAnnotations, and in particular
-	 * the class mention structure from scratch. Slots are checked for appropriate filler, and
-	 * logger.error messages are raised if an invalid slot filler is discovered. True is returned if
-	 * the CCPTextAnnotation has a valid mention structure, false otherwise.
+	 * This method provides a sanity check when constructing CCPTextAnnotations,
+	 * and in particular the class mention structure from scratch. Slots are
+	 * checked for appropriate filler, and logger.error messages are raised if
+	 * an invalid slot filler is discovered. True is returned if the
+	 * CCPTextAnnotation has a valid mention structure, false otherwise.
 	 * 
 	 * @param ccpTA
 	 * @return
@@ -2283,9 +2349,9 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * This method checks each slot mention associated with the input class mention for valid slot
-	 * fillers. True is returned if the CCPClassMention has a valid mention structure, false
-	 * otherwise.
+	 * This method checks each slot mention associated with the input class
+	 * mention for valid slot fillers. True is returned if the CCPClassMention
+	 * has a valid mention structure, false otherwise.
 	 * 
 	 * @param ccpTA
 	 * @return
@@ -2301,8 +2367,9 @@ public class UIMA_Util {
 					if (shouldBeSM instanceof CCPSlotMention) {
 						return validateCCPSlotMention((CCPSlotMention) shouldBeSM);
 					} else {
-						logger.error("Invalid mention structure detected. Unexpected object found in FSArray holding CCPSlotMentions for the CCPClassMention: \""
-								+ ccpCM.getMentionName() + "\" -- " + shouldBeSM.getClass().getName());
+						logger.error(
+								"Invalid mention structure detected. Unexpected object found in FSArray holding CCPSlotMentions for the CCPClassMention: \""
+										+ ccpCM.getMentionName() + "\" -- " + shouldBeSM.getClass().getName());
 						logger.debug("Returning false from validateCCPClassMention() mid1");
 						return false;
 					}
@@ -2316,8 +2383,9 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * This method determines the type of slot mention inputted, and calls either
-	 * validateCCPComplexSlotMention() or validateCCPNonComplexSlotMention()
+	 * This method determines the type of slot mention inputted, and calls
+	 * either validateCCPComplexSlotMention() or
+	 * validateCCPNonComplexSlotMention()
 	 * 
 	 * @param ccpSM
 	 * @return
@@ -2328,16 +2396,18 @@ public class UIMA_Util {
 		} else if (ccpSM instanceof CCPPrimitiveSlotMention) {
 			return validateCCPPrimitiveSlotMention((CCPPrimitiveSlotMention) ccpSM);
 		} else {
-			logger.error("The superclass CCPSlotMention was found to occupy a slot. Only subclasses of CCPSlotMention are allowed.");
+			logger.error(
+					"The superclass CCPSlotMention was found to occupy a slot. Only subclasses of CCPSlotMention are allowed.");
 			logger.debug("Returning false from validateCCPSlotMention() end");
 			return false;
 		}
 	}
 
 	/**
-	 * This method checks for valid slot fillers of the input CCPComplexSlotMention, i.e. slot
-	 * fillers must be valid CCPClassMentions. True is returned if the CCPClassMention has a valid
-	 * mention structure, false otherwise.
+	 * This method checks for valid slot fillers of the input
+	 * CCPComplexSlotMention, i.e. slot fillers must be valid CCPClassMentions.
+	 * True is returned if the CCPClassMention has a valid mention structure,
+	 * false otherwise.
 	 * 
 	 * @param ccpTA
 	 * @return
@@ -2353,8 +2423,9 @@ public class UIMA_Util {
 					if (shouldBeAClassMention instanceof CCPClassMention) {
 						isValid = isValid && validateCCPClassMention((CCPClassMention) shouldBeAClassMention);
 					} else {
-						logger.error("Invalid mention structure discovered. Instead of a CCPClassMention, this slot filler for this CCPComplexSlotMention is a: "
-								+ shouldBeAClassMention.getClass().getName());
+						logger.error(
+								"Invalid mention structure discovered. Instead of a CCPClassMention, this slot filler for this CCPComplexSlotMention is a: "
+										+ shouldBeAClassMention.getClass().getName());
 						logger.debug("Returning false from validateCCPComplexSlotMention()");
 						return false;
 					}
@@ -2366,18 +2437,20 @@ public class UIMA_Util {
 	}
 
 	/**
-	 * This method checks for valid slot fillers of the input CCPNonComplexSlotMention, i.e. slot
-	 * fillers must be Strings. This method is not necessary in truth because the StringArray object
-	 * of each CCPNonComplexSlotMention will force the slot values to be strings, but is included
-	 * for completeness.
+	 * This method checks for valid slot fillers of the input
+	 * CCPNonComplexSlotMention, i.e. slot fillers must be Strings. This method
+	 * is not necessary in truth because the StringArray object of each
+	 * CCPNonComplexSlotMention will force the slot values to be strings, but is
+	 * included for completeness.
 	 * 
 	 * @param ccpTA
 	 * @return
 	 */
 	public static boolean validateCCPPrimitiveSlotMention(CCPPrimitiveSlotMention ccpNCSM) {
 		/*
-		 * the CCPPrimitiveSlotMention is forced to hold a certain primitive type, so its mention
-		 * structure will always be valid. This method is included only for completeness.
+		 * the CCPPrimitiveSlotMention is forced to hold a certain primitive
+		 * type, so its mention structure will always be valid. This method is
+		 * included only for completeness.
 		 */
 		return true;
 	}
@@ -2401,7 +2474,8 @@ public class UIMA_Util {
 }
 
 /**
- * A local class to hold a span of text along with its document start and end position.
+ * A local class to hold a span of text along with its document start and end
+ * position.
  * 
  * @author Jim Firby
  */

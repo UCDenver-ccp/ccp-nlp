@@ -1,5 +1,7 @@
 package edu.ucdenver.ccp.nlp.core.document;
 
+import java.io.File;
+
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -72,6 +74,11 @@ public class GenericDocument {
 	private List<DocumentSection> documentSections;
 
 	private List<TextAnnotation> annotations;
+
+	/**
+	 * Local path to the file containing this document text
+	 */
+	private File sourceFile;
 
 	public GenericDocument(String documentID) {
 		otherDocumentIDs = new HashMap<String, String>();
@@ -203,6 +210,14 @@ public class GenericDocument {
 		for (TextAnnotation ta : this.annotations) {
 			ta.printAnnotation(ps);
 		}
+	}
+
+	public File getSourceFile() {
+		return this.sourceFile;
+	}
+	
+	public void setSourceFile(File file) {
+		this.sourceFile = file;
 	}
 
 }
