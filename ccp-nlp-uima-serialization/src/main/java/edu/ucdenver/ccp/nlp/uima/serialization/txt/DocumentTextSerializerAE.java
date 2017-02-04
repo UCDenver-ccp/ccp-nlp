@@ -170,9 +170,6 @@ public class DocumentTextSerializerAE extends JCasAnnotator_ImplBase {
 	 * @throws AnalysisEngineProcessException
 	 */
 	private File getOutputFile(JCas jCas, String documentId) throws AnalysisEngineProcessException {
-		System.out.println("~~~~~~~~~~~~~~~~~~~~GETTING OUTPUT FILE");
-		System.out.println("output directory: " + outputDirectory);
-		System.out.println("source view name: " + sourceViewName);
 		String outputFilename = documentId + outputFileSuffix;
 		if (compressOutput) {
 			outputFilename += ".gz";
@@ -191,14 +188,11 @@ public class DocumentTextSerializerAE extends JCasAnnotator_ImplBase {
 			} else {
 				try {
 					view = View_Util.getView(jCas, sourceViewName);
-					System.out.println("GOT TO HERE.. there is a source view!");
 				} catch (CASException e) {
-					System.out.println("CRAPPING OUT HERE.. no source view!!");
 					throw new AnalysisEngineProcessException(e);
 				}
 			}
 			File sourceDocumentFile = documentMetaDataHandler.extractSourceDocumentPath(view);
-			System.out.println("Source doc file: " + sourceDocumentFile);
 			if (sourceDocumentFile != null) {
 				outputFile = new File(sourceDocumentFile.getParentFile(), outputFilename);
 			}
