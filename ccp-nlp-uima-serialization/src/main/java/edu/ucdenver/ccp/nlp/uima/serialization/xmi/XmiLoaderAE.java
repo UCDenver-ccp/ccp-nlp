@@ -277,10 +277,7 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	private InputStream getStreamFromClasspath(String documentId, String xmiPathBase, String infix) {
 		InputStream xmiStream = null;
 		String xmiFilePath = xmiPathBase + StringConstants.FORWARD_SLASH
-				+ XmiPrinterAE.getXmiFileName(documentId, infix);
-		if (xmiFileCompressionType.equals(XmiFileCompressionType.GZ)) {
-			xmiFilePath = xmiFilePath + ".gz";
-		}
+				+ XmiPrinterAE.getXmiFileName(documentId, infix, xmiFileCompressionType == XmiFileCompressionType.GZ);
 		xmiStream = ClassPathUtil.getResourceStreamFromClasspath(getClass(), xmiFilePath);
 		if (xmiStream == null) {
 			logger.log(Level.WARNING, "Unable to load XMI file from classpath: " + xmiFilePath);
@@ -299,10 +296,8 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 			throws AnalysisEngineProcessException {
 		InputStream xmiStream = null;
 		File xmiDirectory = new File(xmiPathBase);
-		String xmiFileName = XmiPrinterAE.getXmiFileName(documentId, infix);
-		if (xmiFileCompressionType.equals(XmiFileCompressionType.GZ)) {
-			xmiFileName = xmiFileName + ".gz";
-		}
+		String xmiFileName = XmiPrinterAE.getXmiFileName(documentId, infix,
+				(xmiFileCompressionType == XmiFileCompressionType.GZ));
 		File xmiFile = new File(xmiDirectory, xmiFileName);
 		if (!xmiFile.exists()) {
 			logger.log(Level.WARNING, "Expected XMI file does not exist: " + xmiFile.getAbsolutePath());

@@ -1,5 +1,7 @@
 package edu.ucdenver.ccp.nlp.uima.serialization.xmi;
 
+import java.io.BufferedWriter;
+
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -34,8 +36,11 @@ package edu.ucdenver.ccp.nlp.uima.serialization.xmi;
  */
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngine;
@@ -49,14 +54,15 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.XMLSerializer;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.xml.sax.SAXException;
 
-import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
-import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
-import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
+import edu.ucdenver.ccp.nlp.pipelines.log.AnnotationOutputLog;
 import edu.ucdenver.ccp.nlp.uima.shims.ShimDefaults;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
@@ -113,6 +119,10 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	 */
 	private DocumentMetadataHandler documentMetaDataExtractor;
 
+	public static final String PARAM_COMPRESS_OUTPUT = "compressOutput";
+	@ConfigurationParameter(mandatory = false, description = "if true, the output XMI file will be compressed using gzip", defaultValue = "true")
+	private boolean compressOutput;
+
 	/**
 	 * This method returns an initialized {@link AnalysisEngine} capable of
 	 * persisting a CAS as an XMI file
@@ -135,25 +145,27 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	}
 
 	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd,
-			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, File outputDirectory, String infix)
-			throws ResourceInitializationException {
+			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, File outputDirectory, String infix,
+			boolean compressOutput) throws ResourceInitializationException {
 		return AnalysisEngineFactory.createEngineDescription(XmiPrinterAE.class, tsd,
 				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetaDataExtractorClass.getName(), PARAM_OUTPUT_DIRECTORY,
-				outputDirectory.getAbsolutePath(), PARAM_OUTPUT_FILENAME_INFIX, infix);
+				outputDirectory.getAbsolutePath(), PARAM_OUTPUT_FILENAME_INFIX, infix, PARAM_COMPRESS_OUTPUT,
+				compressOutput);
 	}
 
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd,
-			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, File outputDirectory, String infix)
-			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createEngine(getDescription(tsd, documentMetaDataExtractorClass, outputDirectory, infix));
+			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, File outputDirectory, String infix,
+			boolean compressOutput) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createEngine(
+				getDescription(tsd, documentMetaDataExtractorClass, outputDirectory, infix, compressOutput));
 	}
-	
+
 	public static AnalysisEngineDescription getDescription_SaveToSourceFileDirectory(TypeSystemDescription tsd,
-			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, String infix)
-			throws ResourceInitializationException {
+			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, String infix,
+			boolean compressOutput) throws ResourceInitializationException {
 		return AnalysisEngineFactory.createEngineDescription(XmiPrinterAE.class, tsd,
 				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetaDataExtractorClass.getName(), PARAM_OUTPUT_DIRECTORY,
-				null, PARAM_OUTPUT_FILENAME_INFIX, infix);
+				null, PARAM_OUTPUT_FILENAME_INFIX, infix, PARAM_COMPRESS_OUTPUT, compressOutput);
 	}
 
 	/**
@@ -167,7 +179,9 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 		super.initialize(context);
 		documentMetaDataExtractor = (DocumentMetadataHandler) ConstructorUtil
 				.invokeConstructor(documentMetadataHandlerClassName);
-		FileUtil.mkdir(outputDirectory);
+		if (outputDirectory != null) {
+			FileUtil.mkdir(outputDirectory);
+		}
 	}
 
 	/**
@@ -208,11 +222,23 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 		}
 		try {
 			serializeCasToXmi(jcas, xmiFile);
+			logSerializedFile(jcas, xmiFile);
 		} catch (IOException e) {
 			throw new AnalysisEngineProcessException(e);
 		} catch (SAXException e) {
 			throw new AnalysisEngineProcessException(e);
 		}
+	}
+
+	public static DateTimeFormatter DATE_FORMATTER = ISODateTimeFormat.dateTime();
+
+	private void logSerializedFile(JCas jcas, File xmiFile) {
+		AnnotationOutputLog aoLog = new AnnotationOutputLog(jcas);
+		aoLog.setAnnotationCount(jcas.getAnnotationIndex().size());
+		aoLog.setLocalAnnotationFile(xmiFile.getAbsolutePath());
+		aoLog.setRunDate(DATE_FORMATTER.print(new DateTime()));
+		aoLog.setRunKey(outputFilenameInfix);
+		aoLog.addToIndexes();
 	}
 
 	/**
@@ -224,7 +250,7 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	 * @return
 	 */
 	public String getXmiFileName(String documentId) {
-		return getXmiFileName(documentId, outputFilenameInfix);
+		return getXmiFileName(documentId, outputFilenameInfix, compressOutput);
 	}
 
 	/**
@@ -233,11 +259,11 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	 *            optional text string to insert as part of the filename
 	 * @return
 	 */
-	public static String getXmiFileName(String documentId, String infix) {
+	public static String getXmiFileName(String documentId, String infix, boolean compressOutput) {
 		if (infix == null) {
-			return documentId + XMI_FILE_SUFFIX;
+			return documentId + XMI_FILE_SUFFIX + ((compressOutput) ? ".gz" : "");
 		} else {
-			return documentId + "-" + infix + XMI_FILE_SUFFIX;
+			return documentId + "-" + infix + XMI_FILE_SUFFIX + ((compressOutput) ? ".gz" : "");
 		}
 	}
 
@@ -254,15 +280,12 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	 *             if there's an issue serializing the CAS
 	 */
 	private void serializeCasToXmi(JCas jcas, File xmiFile) throws IOException, SAXException {
-		Writer writer = FileWriterUtil.initBufferedWriter(xmiFile, CharacterEncoding.UTF_8, WriteMode.OVERWRITE,
-				FileSuffixEnforcement.OFF);
-		try {
+		try (Writer writer = (compressOutput)
+				? new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(xmiFile))))
+				: FileWriterUtil.initBufferedWriter(xmiFile)) {
 			XmiCasSerializer serializer = new XmiCasSerializer(jcas.getTypeSystem());
 			XMLSerializer xmlSerializer = new XMLSerializer(writer, false);
 			serializer.serialize(jcas.getCas(), xmlSerializer.getContentHandler());
-		} finally {
-			if (writer != null)
-				writer.close();
 		}
 
 	}

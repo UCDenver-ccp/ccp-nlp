@@ -40,6 +40,11 @@
 			<artifactId>ccp-nlp-uima-shims</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.7</version>
+		</dependency>
 		<!-- listing commons-io v2.0 b/c v1.4 is imported by default (part of uimafit 
 			I think) -->
 		<dependency>
