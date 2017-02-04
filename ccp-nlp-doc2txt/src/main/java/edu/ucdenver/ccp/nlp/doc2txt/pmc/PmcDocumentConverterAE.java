@@ -141,7 +141,7 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd, CharacterEncoding xmlEncoding,
 			String xmlViewName) throws ResourceInitializationException {
 		return AnalysisEngineFactory.createEngineDescription(PmcDocumentConverterAE.class, tsd, PARAM_XML_ENCODING,
-				xmlEncoding, PARAM_XML_VIEW_NAME, xmlViewName);
+				xmlEncoding.getCharacterSetName(), PARAM_XML_VIEW_NAME, xmlViewName);
 	}
 	
 }
