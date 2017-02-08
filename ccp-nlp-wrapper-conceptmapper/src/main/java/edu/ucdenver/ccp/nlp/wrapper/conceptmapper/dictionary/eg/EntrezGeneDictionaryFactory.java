@@ -106,16 +106,16 @@ public class EntrezGeneDictionaryFactory {
 		return buildConceptMapperDictionary(workDirectory, cleanWorkDirectory, MODEL_ORG_TAX_IDS);
 	}
 
-	public static File buildModelOrganismConceptMapperDictionary(File geneInfoFile, File outputDirectory,
+	public static File buildModelOrganismConceptMapperDictionary(File geneInfoFile, File dictionaryFile,
 			boolean cleanDictFile) throws IOException {
 
-		return buildConceptMapperDictionary(geneInfoFile, outputDirectory, MODEL_ORG_TAX_IDS, cleanDictFile);
+		return buildConceptMapperDictionary(geneInfoFile, dictionaryFile, MODEL_ORG_TAX_IDS, cleanDictFile);
 	}
 
-	public static File buildConceptMapperDictionary(File geneInfoFile, File outputDirectory,
+	public static File buildConceptMapperDictionary(File geneInfoFile, File dictionaryFile,
 			Set<NcbiTaxonomyID> taxonomyIdsToInclude, boolean cleanDictFile) throws IOException {
 		EntrezGeneInfoFileParser parser = new EntrezGeneInfoFileParser(geneInfoFile, CharacterEncoding.UTF_8);
-		return buildConceptMapperDictionary(outputDirectory, taxonomyIdsToInclude, parser, cleanDictFile);
+		return buildConceptMapperDictionary(dictionaryFile, taxonomyIdsToInclude, parser, cleanDictFile);
 	}
 
 	public static File buildConceptMapperDictionary(File workDirectory, CleanDirectory cleanWorkDirectory,
@@ -132,9 +132,8 @@ public class EntrezGeneDictionaryFactory {
 	 * @return
 	 * @throws IOException
 	 */
-	private static File buildConceptMapperDictionary(File workDirectory, Set<NcbiTaxonomyID> taxonomyIdsToInclude,
+	private static File buildConceptMapperDictionary(File dictionaryFile, Set<NcbiTaxonomyID> taxonomyIdsToInclude,
 			EntrezGeneInfoFileParser parser, boolean cleanDictFile) throws IOException {
-		File dictionaryFile = new File(workDirectory, "cmDict-EntrezGene.xml");
 		if (dictionaryFile.exists()) {
 			if (cleanDictFile) {
 				FileUtil.deleteFile(dictionaryFile);

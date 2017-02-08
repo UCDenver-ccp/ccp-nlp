@@ -117,20 +117,19 @@ public class GoDictionaryFactory {
 	 * @throws IOException
 	 * @throws OWLOntologyCreationException
 	 */
-	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File outputDirectory,
+	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File dictionaryFile,
 			File ontFile, boolean cleanDictFile, SynonymType synonymType) throws IOException,
 			OWLOntologyCreationException {
-		String dictionaryKey = "";
-		List<String> nsKeys = new ArrayList<String>();
-		for (GoNamespace ns : namespacesToInclude) {
-			nsKeys.add(ns.name());
-		}
-		Collections.sort(nsKeys);
-		for (String ns : nsKeys) {
-			dictionaryKey += ns;
-		}
+//		String dictionaryKey = "";
+//		List<String> nsKeys = new ArrayList<String>();
+//		for (GoNamespace ns : namespacesToInclude) {
+//			nsKeys.add(ns.name());
+//		}
+//		Collections.sort(nsKeys);
+//		for (String ns : nsKeys) {
+//			dictionaryKey += ns;
+//		}
 
-		File dictionaryFile = new File(outputDirectory, "cmDict-GO-" + dictionaryKey + ".xml");
 		if (dictionaryFile.exists()) {
 			if (cleanDictFile) {
 				FileUtil.deleteFile(dictionaryFile);

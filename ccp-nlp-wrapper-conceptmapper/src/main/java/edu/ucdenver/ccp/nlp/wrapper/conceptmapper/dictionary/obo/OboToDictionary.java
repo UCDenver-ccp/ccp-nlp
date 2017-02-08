@@ -178,7 +178,6 @@ public class OboToDictionary {
 		if (name.endsWith("\"@en")) {
 			name = StringUtils.removeSuffix(name, "\"@en");
 		}
-		System.out.println("label: " + name);
 
 		if (filterTermsByLength && name.length() < MINIMUM_TERM_LENGTH)
 			return "";
