@@ -218,6 +218,7 @@ public class CcpXmlParser {
 					captionTitle = captionTitle + ": " + captionLabel.toUpperCase();
 				}
 				addTitle(captionTitle);
+				documentText.append("\n");
 				break;
 			case COPYRIGHT:
 				documentText.append("\n\n");

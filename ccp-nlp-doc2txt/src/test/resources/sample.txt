@@ -34,7 +34,8 @@ Results
 PINK1 Interacts with TRAP1
 To identify PINK1-interacting proteins, we performed affinity purification experiments using anti-FLAG M2 affinity gel to isolate proteins associated with C-terminally FLAG-tagged human wild-type PINK1 from transfected HeLa cell extracts. Consistent with previous reports [11,12], Western blot analysis detected a 63-kDa full-length form (PINK1f) and a 52-kDa processed form (PINK1p) of PINK1 protein in the cell extracts (Figure 1A , “Input”). Both forms of PINK1 were eluted from the affinity column in fractions 3 and 4 (Figure 1A). Ponceau S staining of the affinity-purified PINK1 immune complexes revealed the presence of several proteins that were specifically associated with PINK1 (Figure 1B). Mass spectrometry analysis unambiguously identified the 75-kDa PINK1-associated protein as TRAP1, a ubiquitously expressed protein with significant sequence homology to the HSP90AA1 family of molecular chaperones [21–23].
 
-Caption (FIG): FIGURE 1Interaction of TRAP1 with Wild-Type and Mutant PINK1
+Caption (FIG): FIGURE 1
+Interaction of TRAP1 with Wild-Type and Mutant PINK1
 (A) Lysates of HeLa cells expressing C-terminally FLAG-tagged wild-type PINK1 (Input) were affinity purified with anti-FLAG M2 affinity gel, and the eluate fractions were analyzed by immunoblotting with anti-FLAG antibody.
 (B) Affinity-purified proteins from PINK1-transfected cells and vector control were resolved on SDS-PAGE and detected by Ponceau S staining. Arrows indicate three bands identified by mass spectrometry as TRAP1, PINK1f, and PINK1p.
 (C) Specificity of the polyclonal anti-PINK1 antibody. Homogenates (50 μg of protein per lane) from rat brain, liver, untransfected PC12 cells, and transfected PC12 cells expressing wild-type (WT) or mutant PINK1 were analyzed by immunoblotting with anti-PINK1 and anti-actin antibodies.
@@ -46,14 +47,16 @@ PINK1 Colocalizes with TRAP1 in the Mitochondria
 Next, we analyzed the intracellular distribution and colocalization of PINK1 and TRAP1 by using immunofluorescence confocal microscopy. PINK1 and TRAP1 both contain a predicted mitochondria targeting signal at their N-terminus, and a mitochondrial localization has previously been reported for PINK1 [12] as well as for TRAP1 [23]. In agreement with the earlier studies, we found that both PINK1 and TRAP1 proteins are localized to the mitochondria labeled by MitoTracker (Figure S1). Moreover, double labeling immunocytochemistry analysis revealed a substantial overlap between PINK1 and TRAP1 staining (Figure S1), suggesting that these two proteins colocalize in the mitochondria.
 To complement our immunocytochemistry data, we used subcellular fractionation to characterize the intracellular distribution of PINK1 and TRAP1. Western blot analysis showed a clear co-fractionation of endogenous PINK1 and TRAP1 on a 5%–15% linear Optiprep gradient with mitochondria marker TIMM23, but not with endoplasmic reticulum marker CANX (Figure 2A). Further fractionation studies of the isolated mitochondria revealed that endogenous PINK1 and TRAP1 were both primarily found in the mitochondrial inner membrane and intermembrane space fractions (Figure 2B). Together, these results provide strong support for an in vivo association of PINK1 with TRAP1 in the mitochondria. Similar analyses of PC12 cells expressing wild-type PINK1 or PD-linked G309D, W437X, and L347P mutant PINK1 showed that the mitochondrial colocalization of PINK1 with TRAP1 was not affected by the pathogenic PINK1 mutations (Figure S2).
 
-Caption (FIG): FIGURE 2PINK1 and TRAP1 Colocalize in the Mitochondrial Inner Membrane and the Intermembrane Space
+Caption (FIG): FIGURE 2
+PINK1 and TRAP1 Colocalize in the Mitochondrial Inner Membrane and the Intermembrane Space
 (A) Post-nuclear supernatants of PC12 cells were fractionated on a 5%–15% linear Optiprep gradient, and the fractions were analyzed by immunoblotting for PINK1, TRAP1, TIMM23, and CANX.
 (B) Mitochondria (Mito) isolated from PC12 cells were fractionated into matrix, inner mitochondrial membrane (IM), intermembrane space (IMS), and outer mitochondrial membrane (OM) fractions, and analyzed by immunoblotting for PINK1, TRAP1, and markers of mitochondrial subcompartments: HSPD1 (matrix), TIMM23 (IM), cytochrome c (IMS), and VDAC (OM).
 
 PINK1 Phosphorylates TRAP1, and the Kinase Activity Is Abrogated by PD-linked Mutations
 Our finding of a specific interaction and colocalization between TRAP1 and PINK1 raises the possibility that TRAP1 may be a substrate of PINK1 kinase. To examine this possibility, we performed in vitro kinase assays to investigate the ability of wild-type and mutant PINK1 to phosphorylate TRAP1. We observed a robust phosphorylation of TRAP1 by wild-type PINK1, as shown by the PINK1-mediated transfer of32P from [γ-32P] ATP to the TRAP1 protein (Figure 3A). Computer modeling analysis of the PINK1 kinase domain suggests that the amino acid residues K219, D362, and D384 might be key determinants of PINK1 catalytic activity [11]. To test this prediction, we assessed the effects of single or triple mutations of these residues to alanines (K219A, D362A, D384A, or KDD) on the kinase activity of PINK1 in phosphorylating TRAP1. Although K219A mutation had no significant effect on the PINK1 kinase activity, the D362A, D384A, and KDD triple mutations dramatically reduced PINK1 activity in phosphorylating TRAP1 (Figure 3A and3B). Analysis of the effects of PD-linked PINK1 mutations on the in vitro phosphorylation of TRAP1 revealed that the pathogenic mutation G309D or L347P virtually abolished the kinase activity of PINK1. In contrast, the kinase activity of PINK1 was not significantly affected by the W437X mutation (Figure 3A and3B).
 
-Caption (FIG): FIGURE 3Phosphorylation of TRAP1 by Wild-Type and Mutant PINK1
+Caption (FIG): FIGURE 3
+Phosphorylation of TRAP1 by Wild-Type and Mutant PINK1
 (A) In vitro kinase assays were performed by incubation of purified TRAP1 with [γ32-P] ATP in the absence (control) or presence of FLAG-tagged wild-type (WT) or mutant PINK1 proteins as indicated. Phosphorylated TRAP1 was visualized by autoradiography (top panel). PINK1 and TRAP1 proteins used in the kinase assays were shown by immunoblotting with anti-TRAP1 (middle panel) and anti-FLAG antibodies (bottom panel).
 (B) Normalized levels of in vitro TRAP1 phosphorylation by wild-type or mutant PINK1. Data represent mean ± standard error of the mean (SEM) from three independent experiments.*Significantly different from the wild-type PINK1 ( p< 0.01).
 (C) PC12 cells expressing wild-type or mutant PINK1 or vector-transfected controls were treated with 400 μM H2O2as indicated. In vivo phosphorylation of endogenous TRAP1 was determined by immunoprecipitation with anti-TRAP1 antibody followed by immunoblotting using anti-phosphoserine (upper panel) and anti-TRAP1 (lower panel) antibodies.
@@ -64,7 +67,8 @@ We next examined the effects of overexpressing wild-type or mutant PINK1 on the 
 PINK1 Protects against Oxidative-Stress-Induced Cell Death, and the Protective Action Depends on Its Kinase Activity
 Given the observed effects of PINK1 on oxidative-stress-induced phosphorylation of TRAP1 (Figure 3), we investigated the roles of wild-type and mutant PINK1 proteins in cell vulnerability to oxidative stress. PC12 cells were transfected with C-terminally FLAG-tagged wild-type or mutant PINK1 to achieve similar levels of exogenous PINK1 protein expression, as confirmed by Western blot analysis (data not shown). Cell viability assays revealed that treatment of untransfected or vector-transfected PC12 cells with H2O2resulted in cell death (Figure 4A; and additional data not shown). Cells expressing exogenous wild-type PINK1 were much more resistant to H2O2-induced cell death (Figure 4A), supporting a protective role of PINK1 against oxidative stress. The protective effect of PINK1 was significantly decreased by the putative kinase-dead K219A mutation and was completely abolished by the catalytically inactive D362A, D384A, and KDD triple mutations (Figure 4A), indicating that the cytoprotective function of PINK1 depends on its kinase activity.
 
-Caption (FIG): FIGURE 4Wild-Type PINK1, but Not Kinase-Dead or PD-Linked Mutant PINK1, Protects against Oxidative-Stress-Induced Apoptosis
+Caption (FIG): FIGURE 4
+Wild-Type PINK1, but Not Kinase-Dead or PD-Linked Mutant PINK1, Protects against Oxidative-Stress-Induced Apoptosis
 (A) PC12 cells expressing wild-type (WT) or mutant PINK1 or vector-transfected controls were treated with 400 μM H2O2for 16 h. The extent of cell survival was assessed by using the MTT assay. Data represent mean ± SEM from three independent experiments.aSignificantly different from the vector-transfected controls ( p< 0.01).bSignificantly different from the wild-type PINK1-transfected cells ( p< 0.01).
 (B) Immunoblot analysis of cytochrome c (Cyt. c) in the cytosol and mitochondria fractions isolated from PC12 cells expressing wild-type or mutant PINK1 after treatment with 400 μM H2O2for the indicated times.
 (C) The level of cytochrome c released to the cytosol is normalized to the total level of cytochrome c in each cell sample. Data represent mean ± SEM from three independent experiments.aSignificantly different from the corresponding H2O2-treated vector-transfected controls ( p< 0.01).bSignificantly different from the wild-type PINK1-transfected cells ( p< 0.01).
@@ -77,7 +81,8 @@ Analysis of the effects of PD-linked PINK1 mutations on cytochrome c release sho
 PINK1 Is Essential for Phosphorylation of TRAP1 and Protection against Oxidative-Stress-Induced Apoptosis
 To provide further evidence supporting the role of PINK1 in regulation of TRAP1 phosphorylation and mitochondrial apoptotic signaling, we examined the effect of siRNA-mediated PINK1 knockdown on TRAP1 phosphorylation and oxidative-stress-induced apoptosis. As shown inFigure 5A, PINK1 siRNA-1 and PINK1 siRNA-2, two distinct siRNA duplexes targeting different regions of PINK1 mRNA, both specifically inhibited the expression of endogenous PINK1 in PC12 cells. We found that, in cells transfected with either PINK1 siRNA-1 or PINK1 siRNA-2, H2O2-induced phosphorylation of endogenous TRAP1 was significantly decreased compared with the cells transfected with non-targeting (NT) control siRNA or with vehicle alone (Figure 5B and5C). These results further confirm that TRAP1 is indeed a substrate of PINK1 kinase.
 
-Caption (FIG): FIGURE 5PINK1 Knockdown Reduces TRAP1 Phosphorylation and Protection against Oxidative Stress
+Caption (FIG): FIGURE 5
+PINK1 Knockdown Reduces TRAP1 Phosphorylation and Protection against Oxidative Stress
 (A) PC12 cells were transfected with vehicle (control), NT siRNA, or PINK1-specific siRNAs (PINK1 siRNA-1 and PINK1 siRNA-2). The levels of PINK1 and actin in the cell lysates were analyzed by immunoblotting with anti-PINK1 and anti-actin antibodies.
 (B) PC12 cells transfected with the indicated siRNA or vehicle (control) were treated with 400 μM H2O2for the indicated times. In vivo phosphorylation of endogenous TRAP1 was determined by immunoprecipitation with anti-TRAP1 antibody followed by immunoblotting using anti-phosphoserine and anti-TRAP1 antibodies.
 (C) Normalized levels of in vivo TRAP1 phosphorylation in the control and siRNA-transfected cells. Data represent mean ± SEM from three independent experiments.*Significantly different from the corresponding H2O2-treated control cells ( p< 0.01). AU, arbitrary units.
@@ -86,7 +91,8 @@ Caption (FIG): FIGURE 5PINK1 Knockdown Reduces TRAP1 Phosphorylation and Protect
 (F) Apoptosis is expressed as the percentage of transfected cells with apoptotic nuclear morphology. Data represent mean ± SEM from three independent experiments.*Significantly different from the H2O2-treated control cells ( p< 0.01).
 Cell viability and nuclear morphology analyses revealed that depletion of endogenous PINK1 by PINK1 siRNA-1 or PINK1 siRNA-2 enhanced the susceptibility of PC12 cells to oxidative-stress-induced apoptosis (Figure 5D–5F). Moreover, PINK1 depletion significantly increased oxidative-stress-induced release of cytochrome c from mitochondria to the cytosol (Figure 6). Together, these data provide strong support for a critical role of PINK1 in regulation of the mitochondrial apoptotic pathway.
 
-Caption (FIG): FIGURE 6PINK1 Depletion Increases Cytochrome c Release from Mitochondria
+Caption (FIG): FIGURE 6
+PINK1 Depletion Increases Cytochrome c Release from Mitochondria
 (A) PC12 cells transfected with the indicated siRNA or vehicle (control) were treated with 400 μM H2O2for the indicated times. The levels of cytochrome c (Cyt. c) and actin in the cytosol were determined by immunoblotting with anti-cytochrome c and anti-actin antibodies.
 (B) The level of cytochrome c released to the cytosol is normalized to the level of actin in each cell sample. Data represent mean ± SEM from three independent experiments.*Significantly different from the corresponding H2O2-treated control cells ( p< 0.01). AU, arbitrary units.
 (C) PC12 cells co-transfected with pEGFP and vehicle (control) or indicated siRNAs were treated with 400 μM H2O2for 16 h. Cell morphology was imaged by using phase-contrast microscopy (grey), transfected cells were visualized by the green fluorescence emitted by green fluorescent protein (GFP), and the cellular distribution of cytochrome c was detected by immunostaining with anti-cytochrome c antibody (red). Transfected cells with mitochondrial cytochrome c staining are indicated by arrows, and those with diffuse, cytosolic cytochrome c staining are indicated by arrowheads. Scale bar, 10 μm.
@@ -95,7 +101,8 @@ Caption (FIG): FIGURE 6PINK1 Depletion Increases Cytochrome c Release from Mitoc
 TRAP1 Is Required for PINK1-Mediated Protection against Oxidative-Stress-Induced Apoptosis
 Our finding that TRAP1 phosphorylation by PINK1 correlates with the anti-apoptotic activity of PINK1 raises the possibility that TRAP1 may be the intermediate between PINK1 and apoptosis inhibition. To test this possibility, we investigated the effect of siRNA-mediated TRAP1 knockdown on the cytoprotective function of PINK1. Two different TRAP1-targeting siRNAs (TRAP1 siRNA-1 and TRAP1 siRNA-2) were used to reduce the expression of endogenous TRAP1 in PC12 cells. Western blot analysis showed that TRAP1 siRNA-2 caused a greater decrease in TRAP1 protein level than TRAP1 siRNA-1, whereas the NT control siRNA had no effect on TRAP1 expression (Figure 7A). Analyses of cell viability, nuclear morphology, and cytochrome c release revealed that TRAP1 depletion resulted in a significant increase in oxidative-stress-induced cytochrome c release and cell death (Figure 7B–7F). We found that, in contrast to the protective effect of overexpressing wild-type PINK1 seen in the control (Figure 4) or in the NT siRNA-treated PC12 cells (Figure 7), overexpression of wild-type PINK1 in TRAP1-depleted PC12 cells was no longer able to inhibit oxidative-stress-induced cytochrome c release and cell death (Figure 7B–7F). Moreover, the dominant negative effects on cell survival observed with PD-linked G309D and L347P mutant PINK1 (Figure 4) were also abolished by TRAP1 depletion (Figure 7B–7F). Taken together, these results provide evidence supporting a role of TRAP1 as the downstream effector of PINK1 in protection against oxidative-stress-induced apoptosis.
 
-Caption (FIG): FIGURE 7TRAP1 Depletion Abolishes the Effects of Wild-Type and Mutant PINK1 on Cell Vulnerability to Oxidative Stress
+Caption (FIG): FIGURE 7
+TRAP1 Depletion Abolishes the Effects of Wild-Type and Mutant PINK1 on Cell Vulnerability to Oxidative Stress
 (A) PC12 cells were transfected with vehicle (control), NT siRNA, or TRAP1-specific siRNAs (TRAP1 siRNA-1 and TRAP1 siRNA-2). The levels of TRAP1 and actin in the cell lysates were analyzed by immunoblotting with anti-TRAP1 and anti-actin antibodies.
 (B) PC12 cells treated with TRAP1 siRNA-2 or NT siRNA were either untransfected (UT) or transfected with wild-type (WT) or mutant PINK1 as indicated. Vehicle-treated, non-transfected PC12 cells were used as the control. Cells were exposed to 400 μM H2O2for 16 h, and the extent of cell survival was assessed by using the MTT assay. Data represent mean ± SEM from three independent experiments. *, p< 0.05; ns, not significant.
 (C) PC12 cells co-transfected with pEGFP and vehicle (control) or indicated siRNAs and PINK1 plasmids were treated with 400 μM H2O2for 16 h, and the extent of apoptosis was determined by morphological analysis of DAPI-stained nuclei. The percentage of transfected cells with apoptotic nuclear morphology was quantified. Data represent mean ± SEM from three independent experiments.*, p< 0.05; ns, not significant.
@@ -145,26 +152,32 @@ Statistical analysis of the data was performed by using ANOVA with Tukey's post 
 
 Supporting Information
 
-Caption (SUPPLEMENTARY-MATERIAL): FIGURE S1Colocalization of PINK1 with TRAP1 in the Mitochondria
+Caption (SUPPLEMENTARY-MATERIAL): FIGURE S1
+Colocalization of PINK1 with TRAP1 in the Mitochondria
 Untransfected HeLa cells (D–F) or transfected HeLa cells expressing PINK1-FLAG (A–C) or PINK1-HA (G–I) were analyzed by double labeling confocal microscopy with MitoTracker (B and E), anti-FLAG (A), anti-TRAP1 (D and H), and anti-HA (G) antibodies. Scale bar, 10 μm.
 (12 MB TIF)
 
 Caption (MEDIA)
+
 Click here for additional data file.
 
-Caption (SUPPLEMENTARY-MATERIAL): FIGURE S2PD-Associated PINK1 Mutations Have No Effect on the Mitochondrial Colocalization of PINK1 with TRAP1
+Caption (SUPPLEMENTARY-MATERIAL): FIGURE S2
+PD-Associated PINK1 Mutations Have No Effect on the Mitochondrial Colocalization of PINK1 with TRAP1
 Mitochondria (Mito) isolated from transfected PC12 cells expressing wild-type PINK1 or PD-linked G309D, W437X, or L347P mutant PINK1 were fractionated into matrix, inner mitochondrial membrane (IM), intermembrane space (IMS), and outer mitochondrial membrane (OM) fractions, and analyzed by immunoblotting for PINK1 and TRAP1.
 (1.6 MB TIF)
 
 Caption (MEDIA)
+
 Click here for additional data file.
 
-Caption (SUPPLEMENTARY-MATERIAL): FIGURE S3TRAP1 Does Not Associate with Cytochrome c in the Absence or Presence of PINK1 and Oxidative Stress
+Caption (SUPPLEMENTARY-MATERIAL): FIGURE S3
+TRAP1 Does Not Associate with Cytochrome c in the Absence or Presence of PINK1 and Oxidative Stress
 (A) Lysates from untransfected (UT) or transfected PC12 cells expressing wild-type (WT) PINK1 or the indicated mutant PINK1 were immunoprecipitated with anti-TRAP1 antibody, followed by immunoblotting using antibodies against TRAP1 and cytochrome c (Cyt. c). “Input” lane shows the levels of endogenous TRAP1 and cytochrome c in the lysate of untransfected PC12 cells.
 (B) PC12 cells expressing wild-type PINK1 or vector-transfected controls were incubated in the presence or absence of 400 μM H2O2for 16 h. Cell lysates (Input) were subjected to immunoprecipitation with anti-TRAP1, followed by immunoblotting using antibodies against TRAP1 and cytochrome c (Cyt. c).
 (1.2 MB TIF)
 
 Caption (MEDIA)
+
 Click here for additional data file.
 
 Accession Numbers
