@@ -33,62 +33,50 @@ package edu.ucdenver.ccp.nlp.doc2txt.pmc;
  * #L%
  */
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
-import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.apache.uima.analysis_engine.AnalysisEngineDescription;
-import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.CASException;
-import org.apache.uima.fit.factory.AnalysisEngineFactory;
-import org.apache.uima.fit.util.JCasUtil;
-import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ResourceInitializationException;
 import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
+import edu.ucdenver.ccp.common.file.FileComparisonUtil;
+import edu.ucdenver.ccp.common.file.FileComparisonUtil.ColumnOrder;
+import edu.ucdenver.ccp.common.file.FileComparisonUtil.LineOrder;
+import edu.ucdenver.ccp.common.file.FileComparisonUtil.LineTrim;
+import edu.ucdenver.ccp.common.file.FileComparisonUtil.ShowWhiteSpace;
 import edu.ucdenver.ccp.common.io.ClassPathUtil;
-import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser;
-import edu.ucdenver.ccp.nlp.uima.test.DefaultUIMATestCase;
-import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
-import edu.ucdenver.ccp.nlp.uima.util.View;
-import edu.ucdenver.ccp.nlp.uima.util.View_Util;
+import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser.Annotation;
 
-public class PmcDocumentConverterAETest extends DefaultUIMATestCase {
-
-	@Override
-	protected void initJCas() throws IOException, CASException {
-		String nxml = ClassPathUtil.getContentsFromClasspathResource(getClass(), "/sample_pmc.xml",
-				CharacterEncoding.UTF_8);
-		JCas xmlView = View_Util.getView(jcas, View.XML);
-		xmlView.setDocumentText(nxml);
-		UIMA_Util.setDocumentID(xmlView, "12345");
-
-	}
+public class CcpXmlParserTest {
 
 	@Test
-	public void testNxmlToTxtConversion()
-			throws AnalysisEngineProcessException, ResourceInitializationException, IOException, SAXException {
+	public void test() throws IOException, SAXException {
 		String expectedPlainText = ClassPathUtil.getContentsFromClasspathResource(getClass(), "/sample.txt",
 				CharacterEncoding.UTF_8);
 
-		AnalysisEngineDescription converterDesc = PmcDocumentConverterAE.getDescription(getTypeSystem());
-		AnalysisEngine converterEngine = AnalysisEngineFactory.createEngine(converterDesc);
-		converterEngine.process(jcas);
-
-		assertNotNull(jcas.getDocumentText());
-		assertEquals(expectedPlainText, jcas.getDocumentText());
-		assertEquals("12345", UIMA_Util.getDocumentID(jcas));
-
-		/* make sure the CAS annotation count is correct */
 		CcpXmlParser parser = new CcpXmlParser();
-		parser.parse(new InputSource(this.getClass().getResourceAsStream("/sample_ccp.xml")));
-		assertEquals(parser.getAnnotations().size(), JCasUtil.select(jcas, CCPTextAnnotation.class).size());
+		String plainText = parser.parse(new InputSource(this.getClass().getResourceAsStream("/sample_ccp.xml")));
+
+		List<String> expectedPlainTextLines = Arrays.asList(expectedPlainText.split("\\n"));
+		List<String> plainTextLines = Arrays.asList(plainText.split("\\n"));
+		assertTrue(FileComparisonUtil.hasExpectedLines(plainTextLines, expectedPlainTextLines, null,
+				LineOrder.AS_IN_FILE, ColumnOrder.AS_IN_FILE, LineTrim.OFF, ShowWhiteSpace.ON));
+		
+		assertTrue(parser.getAnnotations().size() > 0);
+		for (Annotation annotation : parser.getAnnotations()) {
+			assertNotNull(annotation);
+			assertNotNull(annotation.getType());
+			assertTrue(annotation.getStart() < plainText.length()+1);
+			assertTrue(annotation.getEnd() < plainText.length()+1);
+		}
+
 	}
 
 }

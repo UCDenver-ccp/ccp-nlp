@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -49,6 +48,9 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+
+import lombok.Data;
+import lombok.Getter;
 
 /*
  * See the Test class for an example of what an input doc. looks like.
@@ -63,35 +65,27 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 public class CcpXmlParser {
 
-	private static final String[] tags = { "DOC", "SECTION", "SUBSECTION", "PARAGRAPH", "KEYWORD", "DEFINITION",
-			"ABSTRACT", "FIGURE", "TITLE", "ITALICS" };
+	public enum DocumentElement {
+		DOCUMENT, ARTICLE_TITLE, ABSTRACT, KEYWORD, SECTION, TITLE, PARAGRAPH, CAPTION, ITALIC, BOLD, SUB, SUP, COPYRIGHT, SOURCE
+	}
 
-	static final String CLASS_MENTION_NAME = "Section";
-	static final String TYPE_SLOT_NAME = "Type";
-	static final String NAME_SLOT_NAME = "Name";
-	static final String TITLE_SLOT_NAME = "Name";
-	static final String NAME_ATTRIBUTE_NAME = "name";
-	static final String TITLE_ATTRIBUTE_NAME = "name";
-	static final String PARSER_NAME = "CCP XML Parser";
+	// static final String CLASS_MENTION_NAME = "Section";
+	// static final String TYPE_SLOT_NAME = "Type";
+	// static final String NAME_SLOT_NAME = "Name";
+	// static final String TITLE_SLOT_NAME = "Name";
+	// static final String NAME_ATTRIBUTE_NAME = "name";
+	// static final String TITLE_ATTRIBUTE_NAME = "name";
+	// static final String PARSER_NAME = "CCP XML Parser";
+
+	@Getter
+	private List<Annotation> annotations = new ArrayList<Annotation>();
 
 	private XMLReader parser;
-	// private HashSet<String> tagSet;
 	private Stack<Annotation> stack = new Stack<Annotation>();
-	private List<Annotation> annotations = new ArrayList<Annotation>();
 	private StringBuffer documentText = new StringBuffer();
-	// private String docID;
-	private boolean inAbstract = false;
-	private boolean inSection = false;
-	private boolean inSubsection = false;
-	private boolean inAckSection = false;
 
 	public CcpXmlParser() throws IOException, SAXException {
 		parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
-		// tagSet = new HashSet<String>();
-		// tagSet.addAll(Arrays.asList(tags));
-		// for (String t : tags) {
-		// tagSet.add(t.toLowerCase());
-		// }
 	}
 
 	/**
@@ -106,20 +100,16 @@ public class CcpXmlParser {
 		return parse(new InputSource(new StringReader(xml)));
 	}
 
-	public List<Annotation> getAnnotations() {
-		return annotations;
-	}
-
 	/**
 	 * Returns the parsed version of the input PMC NXML File
 	 * 
-	 * @param nxmlFile
+	 * @param xmlFile
 	 * @return
 	 * @throws IOException
 	 * @throws SAXException
 	 */
-	public String parsePmcNxml(File nxmlFile) throws IOException, SAXException {
-		return parse(new InputSource(new FileReader(nxmlFile)));
+	public String parse(File xmlFile) throws IOException, SAXException {
+		return parse(new InputSource(new FileReader(xmlFile)));
 	}
 
 	/**
@@ -143,7 +133,10 @@ public class CcpXmlParser {
 
 	class PubMedCentralXMLContentHandler implements ContentHandler {
 
-		private final Logger logger = Logger.getLogger(PubMedCentralXMLContentHandler.class);
+		private static final String ABSTRACT_TYPE_ATT_NAME = "abstract-type";
+		private static final String ABSTRACT_TYPE_SUMMARY = "summary";
+		private static final String CAPTION_LABEL_ATT_NAME = "label";
+		private static final String CAPTION_TYPE_ATT_NAME = "type";
 
 		public void startDocument() throws SAXException {
 		}
@@ -170,142 +163,172 @@ public class CcpXmlParser {
 		}
 
 		public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
-			// if (tagSet.contains(localName.toLowerCase())) {
+			DocumentElement docElement = null;
+			try {
+				docElement = DocumentElement.valueOf(localName.toUpperCase().replaceAll("-", "_"));
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException("Unhandled XML element: " + localName + ". Code changes required. ",
+						e);
+			}
 
-			if (localName.equals("ABSTRACT")) {
-				Annotation ta = new Annotation();
-				ta.start = documentText.length();
-				documentText.append("Abstract");
-				ta.end = documentText.length();
-				ta.name = documentText.substring(ta.start, ta.end);
-				ta.type = "ABSTRACT_HEADING";
+			switch (docElement) {
+			case DOCUMENT:
+				break;
+			case ARTICLE_TITLE:
+				break;
+			case ABSTRACT:
 				documentText.append("\n\n");
-				inAbstract = true;
-				annotations.add(ta);
-			}
-
-			if (localName.equals("KEYWORD")) {
+				if (atts.getValue(ABSTRACT_TYPE_ATT_NAME) == null) {
+					/*
+					 * then this is the main abstract, so we add a "Abstract"
+					 * title annotation
+					 */
+					addTitle("Abstract");
+				} else {
+					String abstractType = atts.getValue(ABSTRACT_TYPE_ATT_NAME);
+					if (!abstractType.equals(ABSTRACT_TYPE_SUMMARY)) {
+						/*
+						 * The Author Summary abstract already has a title, so
+						 * we don't need to add another
+						 */
+						addTitle("Abstract:" + abstractType.toUpperCase());
+					}
+				}
+				break;
+			case KEYWORD:
 				documentText.append("Keyword: ");
-			}
-
-			if (localName.equals("SECTION")) {
-				inSection = true;
-			}
-			if (localName.equals("ACKNOWLEDGEMENT_SECTION")) {
-				inAckSection = true;
-			}
-
-			if (localName.equals("SUBSECTION")) {
-				inSubsection = true;
+				break;
+			case PARAGRAPH:
+				documentText.append("\n");
+				break;
+			case SECTION:
+				documentText.append("\n\n");
+				break;
+			case TITLE:
+				break;
+			case CAPTION:
+				documentText.append("\n\n");
+				String captionTitle = "Caption";
+				String captionType = atts.getValue(CAPTION_TYPE_ATT_NAME);
+				if (captionType != null) {
+					captionTitle = captionTitle + " (" + captionType.toUpperCase() + ")";
+				}
+				String captionLabel = atts.getValue(CAPTION_LABEL_ATT_NAME);
+				if (captionLabel != null) {
+					captionTitle = captionTitle + ": " + captionLabel.toUpperCase();
+				}
+				addTitle(captionTitle);
+				break;
+			case COPYRIGHT:
+				documentText.append("\n\n");
+				break;
+			case SOURCE:
+				documentText.append("\n\n");
+				break;
+			case ITALIC:
+				break;
+			case BOLD:
+				break;
+			case SUB:
+				break;
+			case SUP:
+				break;
+			default:
+				throw new IllegalArgumentException(
+						"Unhandled document element: " + docElement.name() + ". Code changes required.");
 			}
 
 			Annotation ta = new Annotation();
-			ta.start = documentText.length();
-			ta.end = Integer.MAX_VALUE;
-
-			ta.type = localName;
-			if (localName.equals("TITLE")) {
-				if (inAbstract) {
-					ta.type = "ABSTRACT_SUBSECTION_HEADING";
-				} else if (inSubsection) {
-					ta.type = "SUBSECTION_HEADING";
-				} else if (inSection) {
-					ta.type = "SECTION_HEADING";
-				} else if (inAckSection) {
-					ta.type = "ACKNOWLEDGEMENT_SECTION_HEADING";
-				}
-			}
-
-			// // System.out.println("QNAME: " + qName);
-			// if (atts.getLength() > 0) {
-			// System.out.println("ATTS LENGTH: " + atts.getLength());
-			// if (atts.getValue(NAME_ATTRIBUTE_NAME) != null) {
-			// ta.name = atts.getValue(0);
-			// if (atts.getValue(0).trim().length() > 0) {
-			// documentText.append(" " + atts.getValue(0) + " ");
-			// }
-			// }
-			// /*
-			// * if (atts.getValue(TITLE_ATTRIBUTE_NAME) != null) {
-			// * ta.name=atts.getValue(0); if
-			// * (atts.getValue(0).trim().length() > 0) {
-			// * documentText.append(" " + atts.getValue(0) + " ");
-			// * System.out.println("title attribute name: \"" +
-			// * atts.getValue(0) + "\""); } }
-			// */
-			// }
+			ta.setType(docElement);
+			ta.setStart(documentText.length());
 			stack.push(ta);
-			// }
+		}
+
+		/**
+		 * Add a TITLE annotation to the document text. This method is used to
+		 * add the "Abstract" title to the document.
+		 * 
+		 * @param title
+		 */
+		private void addTitle(String title) {
+			Annotation ta = new Annotation();
+			ta.setStart(documentText.length());
+			documentText.append(title);
+			ta.setEnd(documentText.length());
+			ta.setType(DocumentElement.TITLE);
+			annotations.add(ta);
 		}
 
 		public void endElement(String uri, String localName, String qName) throws SAXException {
-			if (!stack.isEmpty()) {
-				Annotation ta = stack.pop();
-				if (ta != null) {
-					String taType = ta.type;
-					if (localName.equals("ABSTRACT")) {
-						inAbstract = false;
-					}
+			Annotation ta = stack.pop();
+			DocumentElement docElement = DocumentElement.valueOf(localName.toUpperCase().replaceAll("-", "_"));
 
-					if (localName.equals("SECTION")) {
-						inSection = false;
-					}
-
-					if (localName.equals("ACKNOWLEDGEMENT_SECTION")) {
-						inAckSection = false;
-					}
-
-					if (localName.equals("SUBSECTION")) {
-						inSubsection = false;
-					}
-					// logger.debug("TA TYPE: " + taType);
-					// if
-					// (taType.toLowerCase().contains(localName.toLowerCase()))
-					// {
-					ta.end = documentText.length();
-					if (ta.type.contains("TITLE") || ta.type.contains("HEADING")) {
-						ta.name = documentText.substring(ta.start, ta.end);
-					} else {
-						ta.name = null;
-					}
-					annotations.add(ta);
-					if (taType.equals("PARAGRAPH") || taType.contains("TITLE") || taType.equals("ABSTRACT")
-							|| taType.equals("SECTION") || taType.equals("ACKNOWLEDGEMENT_SECTION")) {
-						documentText.append("\n\n");
-					} else if (taType.equals("KEYWORD")) {
-						documentText.append("\n");
-					}
-					// } else {
-					// logger.warn("Popped: " + taType +
-					// " annotation but was expecting " + localName);
-					// }
-				} else {
-					logger.warn("Popped null annotation!!");
-				}
+			switch (docElement) {
+			case DOCUMENT:
+				break;
+			case ARTICLE_TITLE:
+				break;
+			case ABSTRACT:
+				break;
+			case KEYWORD:
+				break;
+			case PARAGRAPH:
+				break;
+			case SECTION:
+				break;
+			case TITLE:
+				break;
+			case CAPTION:
+				break;
+			case COPYRIGHT:
+				break;
+			case SOURCE:
+				break;
+			case ITALIC:
+				break;
+			case BOLD:
+				break;
+			case SUB:
+				break;
+			case SUP:
+				break;
+			default:
+				throw new IllegalArgumentException(
+						"Unhandled document element: " + docElement.name() + ". Code changes required.");
 			}
+
+			ta.setEnd(documentText.length());
+
+			annotations.add(ta);
+
+			// /* add some whitespace in the form of line breaks */
+			// if (EnumSet.of(DocumentElement.ARTICLE_TITLE,
+			// DocumentElement.TITLE, DocumentElement.ABSTRACT,
+			// DocumentElement.SECTION).contains(docElement)) {
+			// documentText.append("\n\n");
+			// } else if (docElement == DocumentElement.KEYWORD) {
+			// documentText.append("\n");
+			// }
 		}
 
 		public void characters(char[] ch, int start, int length) throws SAXException {
 			String s = new String(ch, start, length);
 			if (s.trim().length() > 0) {
+				// while (s.endsWith("\n")) {
+				// s = StringUtil.removeLastCharacter(s);
+				// System.err.println("Removing line break!!");
+				// }
 				documentText.append(s);
-			}
-			// if (documentText.toString().lastIndexOf("\n") > 60) {
-			// documentText.append("\n");
-			// }
 
+			}
 		}
 
 	}
 
-	public class Annotation {
-		public String type;
-		public String name;
-		public int start;
-		public int end;
-
-		public String toString() {
-			return name + ":" + type + ", " + start + ":" + end;
-		}
+	@Data
+	public static class Annotation {
+		private DocumentElement type;
+		private int start;
+		private int end;
 	}
 }

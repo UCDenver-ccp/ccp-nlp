@@ -36,6 +36,9 @@ package edu.ucdenver.ccp.nlp.doc2txt.pmc;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
@@ -47,19 +50,17 @@ import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.apache.uima.resourceSpecifier.factory.DeploymentDescriptor;
-import org.apache.uima.resourceSpecifier.factory.DeploymentDescriptorFactory;
-import org.apache.uima.resourceSpecifier.factory.ServiceContext;
-import org.apache.uima.resourceSpecifier.factory.UimaASPrimitiveDeploymentDescriptor;
-import org.apache.uima.resourceSpecifier.factory.impl.ServiceContextImpl;
 import org.apache.uima.util.Level;
 import org.apache.uima.util.Logger;
 import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
+import edu.ucdenver.ccp.nlp.core.annotation.Annotator;
+import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser;
 import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser.Annotation;
-import edu.ucdenver.ccp.nlp.doc2txt.XsltConverter;
+import edu.ucdenver.ccp.nlp.doc2txt.XslUtil;
+import edu.ucdenver.ccp.nlp.uima.util.UIMA_Annotation_Util;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.uima.util.View_Util;
 
@@ -88,13 +89,11 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 	private String xmlViewName;
 
 	private Logger logger;
-	private XsltConverter xslt;
 
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		logger = context.getLogger();
-		xslt = new XsltConverter(new PmcDtdClasspathResolver());
 	}
 
 	@Override
@@ -104,13 +103,14 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 				JCas xmlView = View_Util.getView(jCas, xmlViewName);
 				String documentId = UIMA_Util.getDocumentID(xmlView);
 				InputStream xmlStream = IOUtils.toInputStream(xmlView.getDocumentText(), xmlEncoding);
-				String ccpXml = xslt.convert(xmlStream, PmcXslLocator.getPmcXslStream());
+				String ccpXml = XslUtil.applyPmcXslt(xmlStream);
 
-				// convert CCP XML to plain text and add annotations for
-				// document sections, etc.
+				/*
+				 * convert CCP XML to plain text and add annotations for
+				 * document sections, etc.
+				 */
 				CcpXmlParser parser = new CcpXmlParser();
 				String plainText = parser.parse(ccpXml);
-
 				jCas.setDocumentText(plainText);
 				UIMA_Util.setDocumentID(jCas, documentId);
 
@@ -122,15 +122,17 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 				logger.log(Level.WARNING, "XML View does not exist in CAS. Cannot populate the default "
 						+ "view with plain text because expected XML is not present in the CAS.");
 			}
-		} catch (CASException | IOException | SAXException e) {
+		} catch (CASException | IOException | SAXException | ParserConfigurationException | TransformerException e) {
 			throw new AnalysisEngineProcessException(e);
 		}
 
 	}
 
 	private void importAnnotationIntoCas(Annotation annot, JCas jCas) {
-		String annotLine = annot.type + "|" + annot.name + "|" + annot.start + "|" + annot.end + "\n";
-		System.out.println("ANNOT: " + annotLine);
+		CCPTextAnnotation ccpTa = UIMA_Annotation_Util.createCCPTextAnnotation(annot.getType().name(), annot.getStart(),
+				annot.getEnd(), jCas);
+		Annotator annotator = new Annotator(-1, "PMC XML", "", "");
+		UIMA_Annotation_Util.setAnnotator(ccpTa, annotator, jCas);
 	}
 
 	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd)
@@ -143,5 +145,5 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 		return AnalysisEngineFactory.createEngineDescription(PmcDocumentConverterAE.class, tsd, PARAM_XML_ENCODING,
 				xmlEncoding.getCharacterSetName(), PARAM_XML_VIEW_NAME, xmlViewName);
 	}
-	
+
 }

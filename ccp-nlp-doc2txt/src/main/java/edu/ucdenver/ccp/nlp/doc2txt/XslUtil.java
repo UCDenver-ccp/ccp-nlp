@@ -1,4 +1,4 @@
-package edu.ucdenver.ccp.nlp.doc2txt.pmc;
+package edu.ucdenver.ccp.nlp.doc2txt;
 
 /*
  * #%L
@@ -33,40 +33,62 @@ package edu.ucdenver.ccp.nlp.doc2txt.pmc;
  * #L%
  */
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
+import java.io.StringWriter;
+import java.io.Writer;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
-import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import edu.ucdenver.ccp.common.file.CharacterEncoding;
-import edu.ucdenver.ccp.common.file.FileComparisonUtil;
-import edu.ucdenver.ccp.common.file.FileComparisonUtil.ColumnOrder;
-import edu.ucdenver.ccp.common.file.FileComparisonUtil.LineOrder;
-import edu.ucdenver.ccp.common.file.FileComparisonUtil.LineTrim;
-import edu.ucdenver.ccp.common.file.FileComparisonUtil.ShowWhiteSpace;
-import edu.ucdenver.ccp.common.io.ClassPathUtil;
-import edu.ucdenver.ccp.nlp.doc2txt.XslUtil;
+import edu.ucdenver.ccp.nlp.doc2txt.pmc.PmcXslLocator;
 
-public class XsltConverterTest {
+/**
+ * Code modified from
+ * https://docs.oracle.com/javase/tutorial/jaxp/xslt/transformingXML.html
+ */
+public class XslUtil {
 
-	@Test
-	public void testPmcXslt() throws SAXException, IOException, ParserConfigurationException, TransformerException {
-		InputStream xmlStream = this.getClass().getResourceAsStream("/sample_pmc.xml");
+	public static String applyPmcXslt(InputStream xmlStream)
+			throws SAXException, IOException, ParserConfigurationException, TransformerException {
 		InputStream styleSheetStream = PmcXslLocator.getPmcXslStream();
 		String elementName = "article";
-		List<String> ccpXmlLines = Arrays
-				.asList(XslUtil.applyXslt(styleSheetStream, xmlStream, elementName).split("\\n"));
-		List<String> expectedCcpXmlLines = Arrays.asList(ClassPathUtil
-				.getContentsFromClasspathResource(getClass(), "/sample_ccp.xml", CharacterEncoding.UTF_8).split("\\n"));
-		assertTrue(FileComparisonUtil.hasExpectedLines(ccpXmlLines, expectedCcpXmlLines, null, LineOrder.AS_IN_FILE,
-				ColumnOrder.AS_IN_FILE, LineTrim.OFF, ShowWhiteSpace.ON));
+		return applyXslt(styleSheetStream, xmlStream, elementName);
 	}
+
+	public static String applyXslt(InputStream stylesheet, InputStream xmlStream, String elementName)
+			throws SAXException, IOException, ParserConfigurationException, TransformerException {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document document = builder.parse(xmlStream);
+
+		// Get the first <elementName> element in the DOM
+		NodeList list = document.getElementsByTagName(elementName);
+		Node node = list.item(0);
+
+		// Use a Transformer for output
+		TransformerFactory tFactory = TransformerFactory.newInstance();
+		StreamSource stylesource = new StreamSource(stylesheet);
+		Transformer transformer = tFactory.newTransformer(stylesource);
+
+		DOMSource source = new DOMSource(node);
+		Writer writer = new StringWriter();
+		StreamResult result = new StreamResult(writer);
+		transformer.transform(source, result);
+		return writer.toString();
+	}
+
 }
