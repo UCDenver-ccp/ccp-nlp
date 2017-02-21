@@ -53,7 +53,7 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.uima.annotators.sentence_detection.OpenNlpSentenceDetectorAE.OpenNlpSentenceDetector;
 import edu.ucdenver.ccp.nlp.uima.test.DefaultUIMATestCase;
 
-public class OpenNlpSentenceDetectorAETest extends DefaultUIMATestCase {
+public class OpenNlpSentenceDetectorAESimpleTest extends DefaultUIMATestCase {
 
 	private String paragraph = "This is a sentence. Here is another sentence. This paragraph has three sentences.";
 

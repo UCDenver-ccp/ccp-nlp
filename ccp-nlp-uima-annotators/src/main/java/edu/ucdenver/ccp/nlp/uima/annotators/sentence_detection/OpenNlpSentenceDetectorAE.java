@@ -68,18 +68,15 @@ public class OpenNlpSentenceDetectorAE extends SentenceDetector_AE {
 		}
 		super.initialize(context);
 	}
-	
-	
+
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
 			Class<? extends SentenceCasInserter> sentenceCasInserterClass, boolean treatLineBreaksAsSentenceBoundaries)
 			throws ResourceInitializationException {
-		return AnalysisEngineFactory
-				.createEngineDescription(OpenNlpSentenceDetectorAE.class, tsd,
-						SentenceDetector_AE.PARAM_SENTENCE_CAS_INSERTER_CLASS, sentenceCasInserterClass.getName(),
-						SentenceDetector_AE.PARAM_TREAT_LINE_BREAKS_AS_SENTENCE_BOUNDARIES,
-						treatLineBreaksAsSentenceBoundaries);
+		return AnalysisEngineFactory.createEngineDescription(OpenNlpSentenceDetectorAE.class, tsd,
+				SentenceDetector_AE.PARAM_SENTENCE_CAS_INSERTER_CLASS, sentenceCasInserterClass.getName(),
+				SentenceDetector_AE.PARAM_TREAT_LINE_BREAKS_AS_SENTENCE_BOUNDARIES,
+				treatLineBreaksAsSentenceBoundaries);
 	}
-	
 
 	public static class OpenNlpSentenceDetector implements ISentenceDetector {
 
@@ -104,17 +101,21 @@ public class OpenNlpSentenceDetectorAE extends SentenceDetector_AE {
 			return getSentencesFromText(0, inputText);
 		}
 
+		/*
+		 * the character offset is the offset to be applied to the generated
+		 * annotations. It is not the offset from which to substring the text.
+		 */
 		@Override
 		public List<TextAnnotation> getSentencesFromText(int characterOffset, String inputText) {
 			List<TextAnnotation> annots = new ArrayList<TextAnnotation>();
-			String textToProcess = inputText.substring(characterOffset);
-			Span[] spans = sentenceDetector.sentPosDetect(textToProcess);
+			Span[] spans = sentenceDetector.sentPosDetect(inputText);
 			for (Span span : spans) {
 				span.getStart();
 				span.getEnd();
 				span.getType();
-				DefaultTextAnnotation annot = new DefaultTextAnnotation(span.getStart(), span.getEnd());
-				annot.setCoveredText(span.getCoveredText(textToProcess).toString());
+				DefaultTextAnnotation annot = new DefaultTextAnnotation(span.getStart() + characterOffset,
+						span.getEnd() + characterOffset);
+				annot.setCoveredText(span.getCoveredText(inputText).toString());
 				DefaultClassMention cm = new DefaultClassMention(SENTENCE);
 				annot.setClassMention(cm);
 				annot.setAnnotator(annotator);
