@@ -47,6 +47,7 @@ import org.apache.uima.cas.CASException;
 import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
 import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.fit.factory.AnalysisEngineFactory;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
@@ -54,6 +55,7 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
+import edu.ucdenver.ccp.nlp.pipelines.log.ProcessingErrorLog;
 import edu.ucdenver.ccp.nlp.pipelines.log.SerializedFileLog;
 import edu.ucdenver.ccp.nlp.uima.shims.ShimDefaults;
 import edu.ucdenver.ccp.nlp.uima.util.View_Util;
@@ -113,15 +115,14 @@ public class DocumentTextSerializerAE extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
-		String documentId = documentMetaDataHandler.extractDocumentId(jCas);
-
-		String documentText = getDocumentTextToSerialize(jCas);
-
-		File outputFile = getOutputFile(jCas, documentId);
-
-		serializeDocumentText(jCas, documentText, outputFile);
-		logSerializedFile(jCas, outputFile);
-
+		/* If an error has been reported, then do not process this CAS. */
+		if (JCasUtil.select(jCas, ProcessingErrorLog.class).isEmpty()) {
+			String documentId = documentMetaDataHandler.extractDocumentId(jCas);
+			String documentText = getDocumentTextToSerialize(jCas);
+			File outputFile = getOutputFile(jCas, documentId);
+			serializeDocumentText(jCas, documentText, outputFile);
+			logSerializedFile(jCas, outputFile);
+		}
 	}
 
 	private void logSerializedFile(JCas jCas, File outputFile) {
