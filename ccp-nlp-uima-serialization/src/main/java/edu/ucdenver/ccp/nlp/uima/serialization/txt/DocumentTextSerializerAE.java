@@ -150,10 +150,12 @@ public class DocumentTextSerializerAE extends JCasAnnotator_ImplBase {
 			writer.write(documentText);
 			if (outputViewName == null) {
 				documentMetaDataHandler.setSourceDocumentPath(jCas, outputFile);
+				documentMetaDataHandler.setDocumentId(jCas, outputFile.getName());
 			} else {
 				try {
 					JCas view = View_Util.getView(jCas, outputViewName);
 					documentMetaDataHandler.setSourceDocumentPath(view, outputFile);
+					documentMetaDataHandler.setDocumentId(view, outputFile.getName());
 				} catch (CASException e) {
 					throw new AnalysisEngineProcessException(e);
 				}
