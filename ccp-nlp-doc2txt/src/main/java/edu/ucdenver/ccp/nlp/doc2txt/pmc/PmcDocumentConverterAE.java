@@ -40,6 +40,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -60,6 +61,7 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser;
 import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser.Annotation;
 import edu.ucdenver.ccp.nlp.doc2txt.XslUtil;
+import edu.ucdenver.ccp.nlp.pipelines.log.ProcessingErrorLog;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Annotation_Util;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.uima.util.View_Util;
@@ -119,13 +121,29 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 				}
 
 			} else {
-				logger.log(Level.WARNING, "XML View does not exist in CAS. Cannot populate the default "
-						+ "view with plain text because expected XML is not present in the CAS.");
+				String errorMessage = "XML View does not exist in CAS for document: " + UIMA_Util.getDocumentID(jCas)
+						+ ". Cannot populate the default "
+						+ "view with plain text because expected XML is not present in the CAS.";
+				ProcessingErrorLog errorLog = new ProcessingErrorLog(jCas);
+				errorLog.setErrorMessage(errorMessage);
+				errorLog.setComponentAtFault(this.getClass().getName());
+				errorLog.addToIndexes();
+				logger.log(Level.WARNING, errorMessage);
 			}
 		} catch (CASException | IOException | SAXException | ParserConfigurationException | TransformerException e) {
-			throw new AnalysisEngineProcessException(e);
+			/*
+			 * an error has occurred during the XML processing, so we log the
+			 * error in the CAS so that downstream AEs can handle the document
+			 * as is appropriate
+			 */
+			ProcessingErrorLog errorLog = new ProcessingErrorLog(jCas);
+			errorLog.setErrorMessage(e.getMessage());
+			errorLog.setStackTrace(ExceptionUtils.getStackTrace(e));
+			errorLog.setComponentAtFault(this.getClass().getName());
+			errorLog.addToIndexes();
+			logger.log(Level.WARNING, "Error during XML processing for document: " + UIMA_Util.getDocumentID(jCas)
+					+ " -- " + e.getMessage());
 		}
-
 	}
 
 	private void importAnnotationIntoCas(Annotation annot, JCas jCas) {
