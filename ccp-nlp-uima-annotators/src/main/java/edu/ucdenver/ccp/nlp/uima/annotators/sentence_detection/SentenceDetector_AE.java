@@ -56,6 +56,7 @@ package edu.ucdenver.ccp.nlp.uima.annotators.sentence_detection;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
@@ -64,10 +65,12 @@ import org.apache.uima.fit.factory.ConfigurationParameterFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Level;
+import org.apache.uima.util.Logger;
 
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.interfaces.ISentenceDetector;
+import edu.ucdenver.ccp.nlp.pipelines.log.ProcessingErrorLog;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
@@ -100,45 +103,56 @@ public abstract class SentenceDetector_AE extends JCasAnnotator_ImplBase {
 	 */
 	private SentenceCasInserter sentenceCasInserter;
 
+	private Logger logger;
+
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
-		context.getLogger().log(Level.INFO,
+		logger = context.getLogger();
+		logger.log(Level.INFO,
 				"Sentence detector - treat line breaks as sentence boundaries: " + treatLineBreaksAsSentenceBoundaries);
 		sentenceCasInserter = (SentenceCasInserter) ConstructorUtil.invokeConstructor(sentenceCasInserterClassName);
 	}
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
-		String documentText = jCas.getDocumentText();
 		String documentID = UIMA_Util.getDocumentID(jCas);
-
-		int charOffset = 0;
-		String[] chunks = new String[] { documentText };
-		if (treatLineBreaksAsSentenceBoundaries) {
-			chunks = documentText.split("\\n");
-		}
-		List<TextAnnotation> sentenceAnnotations = new ArrayList<TextAnnotation>();
-		for (String textChunk : chunks) {
-			List<TextAnnotation> sentencesFromText = sentenceDetector.getSentencesFromText(charOffset, textChunk);
-			for (TextAnnotation sentence : sentencesFromText) {
-				if (!sentence.getCoveredText().equals(
-						documentText.substring(sentence.getAnnotationSpanStart(), sentence.getAnnotationSpanEnd()))) {
-					throw new RuntimeException("Sentence offsets incorrect. for document: " + documentID + " Expected: "
-							+ sentence.getCoveredText() + " but was covering: '"
-							+ documentText.substring(sentence.getAnnotationSpanStart(), sentence.getAnnotationSpanEnd())
-							+ "'");
-				}
+		try {
+			String documentText = jCas.getDocumentText();
+			int charOffset = 0;
+			String[] chunks = new String[] { documentText };
+			if (treatLineBreaksAsSentenceBoundaries) {
+				chunks = documentText.split("\\n");
 			}
-			sentenceAnnotations.addAll(sentencesFromText);
-			charOffset = charOffset + textChunk.length() + 1;
-		}
+			List<TextAnnotation> sentenceAnnotations = new ArrayList<TextAnnotation>();
+			for (String textChunk : chunks) {
+				List<TextAnnotation> sentencesFromText = sentenceDetector.getSentencesFromText(charOffset, textChunk);
+				for (TextAnnotation sentence : sentencesFromText) {
+					if (!sentence.getCoveredText().equals(documentText.substring(sentence.getAnnotationSpanStart(),
+							sentence.getAnnotationSpanEnd()))) {
+						throw new RuntimeException("Sentence offsets incorrect. for document: " + documentID
+								+ " Expected: " + sentence.getCoveredText() + " but was covering: '" + documentText
+										.substring(sentence.getAnnotationSpanStart(), sentence.getAnnotationSpanEnd())
+								+ "'");
+					}
+				}
+				sentenceAnnotations.addAll(sentencesFromText);
+				charOffset = charOffset + textChunk.length() + 1;
+			}
 
-		for (TextAnnotation sentence : sentenceAnnotations) {
-			sentenceCasInserter.insertSentence(sentence.getAnnotationSpanStart(), sentence.getAnnotationSpanEnd(),
-					jCas);
+			for (TextAnnotation sentence : sentenceAnnotations) {
+				sentenceCasInserter.insertSentence(sentence.getAnnotationSpanStart(), sentence.getAnnotationSpanEnd(),
+						jCas);
+			}
+		} catch (Exception e) {
+			ProcessingErrorLog errorLog = new ProcessingErrorLog(jCas);
+			errorLog.setErrorMessage(e.getMessage());
+			errorLog.setStackTrace(ExceptionUtils.getStackTrace(e));
+			errorLog.setComponentAtFault(this.getClass().getName());
+			errorLog.addToIndexes();
+			logger.log(Level.WARNING, "Error during sentence detection for document: " + UIMA_Util.getDocumentID(jCas)
+					+ " -- " + e.getMessage());
 		}
-
 	}
 
 }
