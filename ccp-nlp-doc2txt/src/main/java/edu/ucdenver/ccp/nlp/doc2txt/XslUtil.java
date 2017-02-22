@@ -71,7 +71,8 @@ public class XslUtil {
 	public static String applyXslt(InputStream stylesheet, InputStream xmlStream, String elementName)
 			throws SAXException, IOException, ParserConfigurationException, TransformerException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
+		/* the following flag removes the need for external DTDs */
+		factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document document = builder.parse(xmlStream);
 
