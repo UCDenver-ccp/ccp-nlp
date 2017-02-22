@@ -36,10 +36,10 @@ package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.tools.ant.util.StringUtils;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -77,7 +77,12 @@ public class OboToDictionary {
 
 	public static void buildDictionary(File outputFile, OntologyUtil ontUtil, Set<String> namespacesToInclude,
 			SynonymType synonymType) throws IOException {
-		buildDictionary(outputFile, ontUtil, namespacesToInclude, synonymType, null, null);
+		buildDictionary(outputFile, ontUtil, namespacesToInclude, synonymType, null, null, null);
+	}
+
+	public static void buildDictionary(File outputFile, OntologyUtil ontUtil, Set<String> namespacesToInclude,
+			SynonymType synonymType, Map<String, Set<String>> id2externalSynonymMap) throws IOException {
+		buildDictionary(outputFile, ontUtil, namespacesToInclude, synonymType, null, null, id2externalSynonymMap);
 	}
 
 	/**
@@ -90,8 +95,8 @@ public class OboToDictionary {
 	 * @throws IOException
 	 */
 	public static void buildDictionary(File outputFile, OntologyUtil ontUtil, Set<String> namespacesToInclude,
-			SynonymType synonymType, Set<OWLClass> subTreeRootIdsToExclude, Set<OWLClass> subTreeRootIdsToInclude)
-			throws IOException {
+			SynonymType synonymType, Set<OWLClass> subTreeRootIdsToExclude, Set<OWLClass> subTreeRootIdsToInclude,
+			Map<String, Set<String>> id2externalSynonymMap) throws IOException {
 		BufferedWriter writer = FileWriterUtil.initBufferedWriter(outputFile, CharacterEncoding.UTF_8,
 				WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<synonym>");
@@ -102,12 +107,14 @@ public class OboToDictionary {
 					&& classNotInExcludedSubtree(owlClass, subTreeRootIdsToExclude, ontUtil)
 					&& classInIncludedSubtree(owlClass, subTreeRootIdsToInclude, ontUtil)) {
 				if (namespacesToInclude == null || namespacesToInclude.isEmpty()) {
-					writer.write(objToString(owlClass.toStringID(), owlClass, synonymType, ontUtil));
+					writer.write(objToString(owlClass.getIRI().getShortForm().replace("_", ":"), owlClass, synonymType,
+							ontUtil, id2externalSynonymMap));
 				} else {
 					String ns = ontUtil.getNamespace(owlClass);
 					if (ns != null) {
 						if (namespacesToInclude.contains(ns)) {
-							writer.write(objToString(owlClass.toStringID(), owlClass, synonymType, ontUtil));
+							writer.write(objToString(owlClass.toStringID(), owlClass, synonymType, ontUtil,
+									id2externalSynonymMap));
 						}
 					}
 				}
@@ -166,7 +173,8 @@ public class OboToDictionary {
 	 * @param synonymType
 	 * @return an XML-formatted string in the ConceptMapper Dictionary format.
 	 */
-	private static String objToString(String id, OWLClass owlClass, SynonymType synonymType, OntologyUtil ontUtil) {
+	private static String objToString(String id, OWLClass owlClass, SynonymType synonymType, OntologyUtil ontUtil,
+			Map<String, Set<String>> id2externalSynonymMap) {
 		StringBuffer buf = new StringBuffer();
 
 		String name = ontUtil.getLabel(owlClass);
@@ -179,37 +187,51 @@ public class OboToDictionary {
 			name = StringUtils.removeSuffix(name, "\"@en");
 		}
 
-		if (filterTermsByLength && name.length() < MINIMUM_TERM_LENGTH)
+		if (filterTermsByLength && name.length() < MINIMUM_TERM_LENGTH) {
 			return "";
+		}
 
 		name = XmlUtil.convertXmlEscapeCharacters(name);
 
 		buf.append("<" + TOKEN_TAG + " id=\"" + id + "\"" + " canonical=\"" + name + "\"" + ">\n");
 
-		{
-			Pattern endsWithActivityPattern = Pattern.compile("(.*)\\sactivity");
-			Matcher m = endsWithActivityPattern.matcher(name);
-			if (m.matches()) {
-				String enzyme = m.group(1);
-				buf.append(buildSynonymLine(enzyme));
-			}
-		}
-
-		buf.append(buildSynonymLine(name));
+		// this code is specific to the GO MF hierarchy and should not be in
+		// this generic OboToDictionary code
+		// {
+		// Pattern endsWithActivityPattern = Pattern.compile("(.*)\\sactivity");
+		// Matcher m = endsWithActivityPattern.matcher(name);
+		// if (m.matches()) {
+		// String enzyme = m.group(1);
+		// buf.append(buildSynonymLine(enzyme));
+		// }
+		// }
+		Set<String> alreadyAddedSyns = new HashSet<String>();
+		buf.append(buildSynonymLine(name, alreadyAddedSyns));
 		Set<String> syns = ontUtil.getSynonyms(owlClass, synonymType);
-		Pattern endsWithActivityPattern = Pattern.compile("(.*)\\sactivity");
+		// this code and the code below is specific to the GO MF hierarchy and
+		// should not be in this generic OboToDictionary code
+		// Pattern endsWithActivityPattern = Pattern.compile("(.*)\\sactivity");
 		for (String syn : syns) {
 			if (syn.endsWith("\"@en")) {
 				syn = StringUtils.removeSuffix(syn, "\"@en");
 			}
 			if (!syn.equals(name)) {
 				String variantStr = XmlUtil.convertXmlEscapeCharacters(syn);
-				buf.append(buildSynonymLine(variantStr));
+				buf.append(buildSynonymLine(variantStr, alreadyAddedSyns));
+				// Matcher m = endsWithActivityPattern.matcher(variantStr);
+				// if (m.matches()) {
+				// String enzyme = m.group(1);
+				// buf.append(buildSynonymLine(enzyme));
+				// }
+			}
+		}
 
-				Matcher m = endsWithActivityPattern.matcher(variantStr);
-				if (m.matches()) {
-					String enzyme = m.group(1);
-					buf.append(buildSynonymLine(enzyme));
+		/* check for external synonyms here and add any if they exist */
+		if (id2externalSynonymMap != null && id2externalSynonymMap.containsKey(id)) {
+			for (String syn : id2externalSynonymMap.get(id)) {
+				if (!syn.equals(name)) {
+					String variantStr = XmlUtil.convertXmlEscapeCharacters(syn);
+					buf.append(buildSynonymLine(variantStr, alreadyAddedSyns));
 				}
 			}
 		}
@@ -217,9 +239,14 @@ public class OboToDictionary {
 		return buf.toString();
 	}
 
-	private static String buildSynonymLine(String name) {
-		if (filterTermsByLength && name.length() < MINIMUM_TERM_LENGTH)
+	private static String buildSynonymLine(String name, Set<String> alreadyAddedSyns) {
+		System.out.println("SYN1: " + name + " SYNS: " + alreadyAddedSyns.toString() + " contains? "
+				+ alreadyAddedSyns.contains(name));
+
+		if ((filterTermsByLength && name.length() < MINIMUM_TERM_LENGTH) || alreadyAddedSyns.contains(name)) {
+			System.out.println("Return nothing...");
 			return "";
+		}
 
 		StringBuffer buf = new StringBuffer();
 		buf.append("\t<");
@@ -229,10 +256,12 @@ public class OboToDictionary {
 		buf.append("\"");
 		buf.append("/>\n");
 
+		alreadyAddedSyns.add(name);
+
 		// check for term_like_this
 		String namevar = name.replace('_', ' ');
-		if (!namevar.equals(name)) {
-			buf.append(buildSynonymLine(namevar));
+		if (!namevar.equals(name) && !alreadyAddedSyns.contains(namevar)) {
+			buf.append(buildSynonymLine(namevar, alreadyAddedSyns));
 		}
 
 		return buf.toString();

@@ -38,18 +38,26 @@ package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.zip.GZIPInputStream;
 
 import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
+import edu.ucdenver.ccp.common.collections.CollectionsUtil;
+import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileUtil.CleanDirectory;
+import edu.ucdenver.ccp.common.file.reader.StreamLineIterator;
+import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil.SynonymType;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.impl.GeneOntologyClassIterator;
@@ -77,6 +85,10 @@ public class GoDictionaryFactory {
 		}
 	}
 
+	public enum IncludeFunkSynonyms {
+		YES, NO
+	}
+
 	/**
 	 * Creates a dictionary for use by the ConceptMapper that includes GO terms
 	 * from the namespaces defined in the namespacesToInclude set.
@@ -93,10 +105,11 @@ public class GoDictionaryFactory {
 	 * @throws OBOParseException
 	 */
 	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File workDirectory,
-			CleanDirectory cleanWorkDirectory, SynonymType synonymType) throws IOException, IllegalArgumentException,
-			IllegalAccessException, OWLOntologyCreationException {
-		if (namespacesToInclude.isEmpty())
+			CleanDirectory cleanWorkDirectory, SynonymType synonymType, IncludeFunkSynonyms includeFunkSyns)
+			throws IOException, IllegalArgumentException, IllegalAccessException, OWLOntologyCreationException {
+		if (namespacesToInclude.isEmpty()) {
 			return null;
+		}
 
 		boolean doClean = cleanWorkDirectory.equals(CleanDirectory.YES);
 		GeneOntologyClassIterator goIter = new GeneOntologyClassIterator(workDirectory, doClean);
@@ -105,7 +118,7 @@ public class GoDictionaryFactory {
 		goIter.close();
 
 		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, geneOntologyOboFile, doClean,
-				synonymType);
+				synonymType, includeFunkSyns);
 	}
 
 	/**
@@ -117,19 +130,26 @@ public class GoDictionaryFactory {
 	 * @throws IOException
 	 * @throws OWLOntologyCreationException
 	 */
-	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File dictionaryFile,
-			File ontFile, boolean cleanDictFile, SynonymType synonymType) throws IOException,
-			OWLOntologyCreationException {
-//		String dictionaryKey = "";
-//		List<String> nsKeys = new ArrayList<String>();
-//		for (GoNamespace ns : namespacesToInclude) {
-//			nsKeys.add(ns.name());
-//		}
-//		Collections.sort(nsKeys);
-//		for (String ns : nsKeys) {
-//			dictionaryKey += ns;
-//		}
+	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File outputDirectory,
+			File ontFile, boolean cleanDictFile, SynonymType synonymType, IncludeFunkSynonyms includeFunkSyns)
+			throws IOException, OWLOntologyCreationException {
 
+		Map<String, Set<String>> externalGoId2SynMap = new HashMap<String, Set<String>>();
+		if (includeFunkSyns == IncludeFunkSynonyms.YES) {
+			externalGoId2SynMap = loadFunkSynonymMap();
+		}
+
+		String dictionaryKey = "";
+		List<String> nsKeys = new ArrayList<String>();
+		for (GoNamespace ns : namespacesToInclude) {
+			nsKeys.add(ns.name());
+		}
+		Collections.sort(nsKeys);
+		for (String ns : nsKeys) {
+			dictionaryKey += ns;
+		}
+
+		File dictionaryFile = new File(outputDirectory, "cmDict-GO-" + dictionaryKey + ".xml");
 		if (dictionaryFile.exists()) {
 			if (cleanDictFile) {
 				FileUtil.deleteFile(dictionaryFile);
@@ -143,8 +163,38 @@ public class GoDictionaryFactory {
 		}
 		logger.info("Dictionary file does not yet exist. Generating dictionary: " + dictionaryFile);
 		OntologyUtil ontUtil = new OntologyUtil(ontFile);
-		OboToDictionary.buildDictionary(dictionaryFile, ontUtil, new HashSet<String>(namespaces), synonymType);
+		OboToDictionary.buildDictionary(dictionaryFile, ontUtil, new HashSet<String>(namespaces), synonymType,
+				externalGoId2SynMap);
+
 		return dictionaryFile;
+	}
+
+	/**
+	 * The synonyms generated in Funk et al 2016 are available in
+	 * src/main/resources/funk2016
+	 * 
+	 * @return a mapping from GO ID (e.g. GO:0001234) to synonym sets parsed
+	 *         from the supplementary data file associated with Funk et al 2016
+	 *         (J Biomed Semantics. 2016; 7(1): 52).
+	 * @throws IOException
+	 */
+	static Map<String, Set<String>> loadFunkSynonymMap() throws IOException {
+		Map<String, Set<String>> map = new HashMap<String, Set<String>>();
+		InputStream stream = new GZIPInputStream(ClassPathUtil.getResourceStreamFromClasspath(
+				GoDictionaryFactory.class, "/funk2016/13326_2016_96_MOESM5_ESM.txt.gz"));
+		int count = 0;
+		for (StreamLineIterator lineIter = new StreamLineIterator(stream, CharacterEncoding.US_ASCII, null); lineIter
+				.hasNext();) {
+			if (count++ % 100000 == 0) {
+				logger.info("Loading Funk Synonyms: " + (count - 1));
+			}
+			String[] toks = lineIter.next().getText().split("\\t+");
+			String id = toks[0];
+			String syn = toks[1];
+			CollectionsUtil.addToOne2ManyUniqueMap(id, syn, map);
+		}
+
+		return map;
 	}
 
 }
