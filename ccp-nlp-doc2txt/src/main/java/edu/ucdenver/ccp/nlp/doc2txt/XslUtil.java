@@ -72,10 +72,15 @@ public class XslUtil {
 			throws SAXException, IOException, ParserConfigurationException, TransformerException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		/* the following flag removes the need for external DTDs */
+		factory.setValidating(false);
+		factory.setNamespaceAware(true);
+		factory.setFeature("http://xml.org/sax/features/namespaces", false);
+		factory.setFeature("http://xml.org/sax/features/validation", false);
+		factory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
 		factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document document = builder.parse(xmlStream);
-
+		
 		// Get the first <elementName> element in the DOM
 		NodeList list = document.getElementsByTagName(elementName);
 		Node node = list.item(0);
