@@ -149,7 +149,8 @@ public class GoDictionaryFactory {
 			dictionaryKey += ns;
 		}
 
-		File dictionaryFile = new File(outputDirectory, "cmDict-GO-" + dictionaryKey + ".xml");
+		File dictionaryFile = new File(outputDirectory, "cmDict-"
+				+ ((includeFunkSyns == IncludeFunkSynonyms.YES) ? "FUNK_" : "") + "GO_" + dictionaryKey + ".xml");
 		if (dictionaryFile.exists()) {
 			if (cleanDictFile) {
 				FileUtil.deleteFile(dictionaryFile);
@@ -180,8 +181,8 @@ public class GoDictionaryFactory {
 	 */
 	static Map<String, Set<String>> loadFunkSynonymMap() throws IOException {
 		Map<String, Set<String>> map = new HashMap<String, Set<String>>();
-		InputStream stream = new GZIPInputStream(ClassPathUtil.getResourceStreamFromClasspath(
-				GoDictionaryFactory.class, "/funk2016/13326_2016_96_MOESM5_ESM.txt.gz"));
+		InputStream stream = new GZIPInputStream(ClassPathUtil.getResourceStreamFromClasspath(GoDictionaryFactory.class,
+				"/funk2016/13326_2016_96_MOESM5_ESM.txt.gz"));
 		int count = 0;
 		for (StreamLineIterator lineIter = new StreamLineIterator(stream, CharacterEncoding.US_ASCII, null); lineIter
 				.hasNext();) {
