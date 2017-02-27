@@ -113,8 +113,8 @@ public class OboToDictionary {
 					String ns = ontUtil.getNamespace(owlClass);
 					if (ns != null) {
 						if (namespacesToInclude.contains(ns)) {
-							writer.write(objToString(owlClass.toStringID(), owlClass, synonymType, ontUtil,
-									id2externalSynonymMap));
+							writer.write(objToString(owlClass.getIRI().getShortForm().replace("_", ":"), owlClass,
+									synonymType, ontUtil, id2externalSynonymMap));
 						}
 					}
 				}
@@ -240,11 +240,8 @@ public class OboToDictionary {
 	}
 
 	private static String buildSynonymLine(String name, Set<String> alreadyAddedSyns) {
-		System.out.println("SYN1: " + name + " SYNS: " + alreadyAddedSyns.toString() + " contains? "
-				+ alreadyAddedSyns.contains(name));
 
 		if ((filterTermsByLength && name.length() < MINIMUM_TERM_LENGTH) || alreadyAddedSyns.contains(name)) {
-			System.out.println("Return nothing...");
 			return "";
 		}
 
