@@ -107,14 +107,12 @@ public class OboToDictionary {
 					&& classNotInExcludedSubtree(owlClass, subTreeRootIdsToExclude, ontUtil)
 					&& classInIncludedSubtree(owlClass, subTreeRootIdsToInclude, ontUtil)) {
 				if (namespacesToInclude == null || namespacesToInclude.isEmpty()) {
-					writer.write(objToString(owlClass.getIRI().getShortForm().replace("_", ":"), owlClass, synonymType,
-							ontUtil, id2externalSynonymMap));
+					writer.write(objToString(owlClass, synonymType, ontUtil, id2externalSynonymMap));
 				} else {
 					String ns = ontUtil.getNamespace(owlClass);
 					if (ns != null) {
 						if (namespacesToInclude.contains(ns)) {
-							writer.write(objToString(owlClass.getIRI().getShortForm().replace("_", ":"), owlClass,
-									synonymType, ontUtil, id2externalSynonymMap));
+							writer.write(objToString(owlClass, synonymType, ontUtil, id2externalSynonymMap));
 						}
 					}
 				}
@@ -173,7 +171,7 @@ public class OboToDictionary {
 	 * @param synonymType
 	 * @return an XML-formatted string in the ConceptMapper Dictionary format.
 	 */
-	private static String objToString(String id, OWLClass owlClass, SynonymType synonymType, OntologyUtil ontUtil,
+	private static String objToString(OWLClass owlClass, SynonymType synonymType, OntologyUtil ontUtil,
 			Map<String, Set<String>> id2externalSynonymMap) {
 		StringBuffer buf = new StringBuffer();
 
@@ -193,7 +191,8 @@ public class OboToDictionary {
 
 		name = XmlUtil.convertXmlEscapeCharacters(name);
 
-		buf.append("<" + TOKEN_TAG + " id=\"" + id + "\"" + " canonical=\"" + name + "\"" + ">\n");
+		buf.append("<" + TOKEN_TAG + " id=\"" + owlClass.getIRI().toString() + "\"" + " canonical=\"" + name + "\""
+				+ ">\n");
 
 		// this code is specific to the GO MF hierarchy and should not be in
 		// this generic OboToDictionary code
@@ -227,8 +226,9 @@ public class OboToDictionary {
 		}
 
 		/* check for external synonyms here and add any if they exist */
-		if (id2externalSynonymMap != null && id2externalSynonymMap.containsKey(id)) {
-			for (String syn : id2externalSynonymMap.get(id)) {
+		String idToLookUp = owlClass.getIRI().getShortForm().replace("_", ":");
+		if (id2externalSynonymMap != null && id2externalSynonymMap.containsKey(idToLookUp)) {
+			for (String syn : id2externalSynonymMap.get(idToLookUp)) {
 				if (!syn.equals(name)) {
 					String variantStr = XmlUtil.convertXmlEscapeCharacters(syn);
 					buf.append(buildSynonymLine(variantStr, alreadyAddedSyns));
