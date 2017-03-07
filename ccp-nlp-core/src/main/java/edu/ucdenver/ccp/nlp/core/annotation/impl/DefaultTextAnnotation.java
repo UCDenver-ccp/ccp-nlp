@@ -162,7 +162,7 @@ public class DefaultTextAnnotation extends TextAnnotation {
 
 	public DefaultTextAnnotation(List<Span> spanList) {
 		super((Object[]) null);
-		this.spanList = spanList;
+		this.spanList = new ArrayList<Span>(spanList);
 		this.coveredText = "";
 		this.annotator = new Annotator(new Integer(-1), "", "", "");
 		this.annotationSets = new HashSet<AnnotationSet>();
