@@ -72,22 +72,29 @@ public class WebAnnotationRdfGenerator implements AnnotationRdfGenerator {
 
 		URI bodyUri = uriFactory.getResourceUri(annotationDataExtractor, annotation);
 
-		URIImpl targetUri = new URIImpl(
-				DataSource.KABOB.longName() + "lice/specificresource_" + UUID.randomUUID().toString());
+		/*
+		 * the bodyUri can be null, for example in the case of the document
+		 * annotation since we are not interested in representing it in the RDF
+		 * model
+		 */
+		if (bodyUri != null) {
+			URIImpl targetUri = new URIImpl(
+					DataSource.KABOB.longName() + "lice/specificresource_" + UUID.randomUUID().toString());
 
-		/* annotationInstance --rdf:type--> oa:Annotation */
-		stmts.add(new StatementImpl(annotationUri, RDF.TYPE, WebAnnotationClass.ANNOTATION.uri()));
-		/* annotationInstance --oa:hasBody--> body */
-		stmts.add(new StatementImpl(annotationUri, WebAnnotationProperty.HAS_BODY.uri(), bodyUri));
-		/* annotationInstance --oa:hasTarget--> targetInstance */
-		stmts.add(new StatementImpl(annotationUri, WebAnnotationProperty.HAS_TARGET.uri(), targetUri));
-		/* targetInstance --rdf:type--> oa:SpecificResource */
-		stmts.add(new StatementImpl(targetUri, RDF.TYPE, WebAnnotationClass.SPECIFIC_RESOURCE.uri()));
-		/* targetInstance --oa:hasSource--> documentIri */
-		stmts.add(new StatementImpl(targetUri, WebAnnotationProperty.HAS_SOURCE.uri(), documentUri));
+			/* annotationInstance --rdf:type--> oa:Annotation */
+			stmts.add(new StatementImpl(annotationUri, RDF.TYPE, WebAnnotationClass.ANNOTATION.uri()));
+			/* annotationInstance --oa:hasBody--> body */
+			stmts.add(new StatementImpl(annotationUri, WebAnnotationProperty.HAS_BODY.uri(), bodyUri));
+			/* annotationInstance --oa:hasTarget--> targetInstance */
+			stmts.add(new StatementImpl(annotationUri, WebAnnotationProperty.HAS_TARGET.uri(), targetUri));
+			/* targetInstance --rdf:type--> oa:SpecificResource */
+			stmts.add(new StatementImpl(targetUri, RDF.TYPE, WebAnnotationClass.SPECIFIC_RESOURCE.uri()));
+			/* targetInstance --oa:hasSource--> documentIri */
+			stmts.add(new StatementImpl(targetUri, WebAnnotationProperty.HAS_SOURCE.uri(), documentUri));
 
-		stmts.addAll(selectorType.getStatements(targetUri, annotationDataExtractor.getAnnotationSpans(annotation),
-				documentText));
+			stmts.addAll(selectorType.getStatements(targetUri, annotationDataExtractor.getAnnotationSpans(annotation),
+					documentText));
+		}
 
 		return stmts;
 	}
