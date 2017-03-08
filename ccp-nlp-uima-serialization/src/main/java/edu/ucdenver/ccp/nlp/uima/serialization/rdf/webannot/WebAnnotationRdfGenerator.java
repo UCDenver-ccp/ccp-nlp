@@ -35,8 +35,8 @@ package edu.ucdenver.ccp.nlp.uima.serialization.rdf.webannot;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.uima.jcas.tcas.Annotation;
 import org.openrdf.model.Statement;
@@ -45,10 +45,12 @@ import org.openrdf.model.impl.StatementImpl;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.RDF;
 
+import edu.ucdenver.ccp.common.digest.DigestUtil;
 import edu.ucdenver.ccp.datasource.identifiers.DataSource;
 import edu.ucdenver.ccp.nlp.uima.serialization.rdf.AnnotationRdfGenerator;
 import edu.ucdenver.ccp.nlp.uima.serialization.rdf.UriFactory;
 import edu.ucdenver.ccp.uima.shims.annotation.AnnotationDataExtractor;
+import edu.ucdenver.ccp.uima.shims.annotation.Span;
 
 /**
  * Generates RDF representing annotations using the W3C Web Annotation standard.
@@ -67,9 +69,6 @@ public class WebAnnotationRdfGenerator implements AnnotationRdfGenerator {
 			Annotation annotation, UriFactory uriFactory, URI documentUri, String documentText) {
 		List<Statement> stmts = new ArrayList<Statement>();
 
-		URIImpl annotationUri = new URIImpl(
-				DataSource.KABOB.longName() + "lice/annotation_" + UUID.randomUUID().toString());
-
 		URI bodyUri = uriFactory.getResourceUri(annotationDataExtractor, annotation);
 
 		/*
@@ -78,8 +77,15 @@ public class WebAnnotationRdfGenerator implements AnnotationRdfGenerator {
 		 * model
 		 */
 		if (bodyUri != null) {
-			URIImpl targetUri = new URIImpl(
-					DataSource.KABOB.longName() + "lice/specificresource_" + UUID.randomUUID().toString());
+			List<Span> spans = annotationDataExtractor.getAnnotationSpans(annotation);
+			Collections.sort(spans, Span.ASCENDING());
+			String annotationKey = annotationDataExtractor.getAnnotationType(annotation) + "_" + documentUri + "_"
+					+ spans.toString();
+			String annotationDigest = DigestUtil.getBase64Sha1Digest(annotationKey);
+
+			URIImpl annotationUri = new URIImpl(DataSource.KABOB.longName() + "lice/A_" + annotationDigest);
+
+			URIImpl targetUri = new URIImpl(DataSource.KABOB.longName() + "lice/SR_" + annotationDigest);
 
 			/* annotationInstance --rdf:type--> oa:Annotation */
 			stmts.add(new StatementImpl(annotationUri, RDF.TYPE, WebAnnotationClass.ANNOTATION.uri()));
@@ -92,8 +98,8 @@ public class WebAnnotationRdfGenerator implements AnnotationRdfGenerator {
 			/* targetInstance --oa:hasSource--> documentIri */
 			stmts.add(new StatementImpl(targetUri, WebAnnotationProperty.HAS_SOURCE.uri(), documentUri));
 
-			stmts.addAll(selectorType.getStatements(targetUri, annotationDataExtractor.getAnnotationSpans(annotation),
-					documentText));
+			stmts.addAll(selectorType.getStatements(targetUri, documentUri,
+					annotationDataExtractor.getAnnotationSpans(annotation), documentText));
 		}
 
 		return stmts;

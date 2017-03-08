@@ -35,14 +35,16 @@ package edu.ucdenver.ccp.nlp.uima.serialization.rdf.webannot;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
 import org.openrdf.model.impl.StatementImpl;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.RDF;
 
+import edu.ucdenver.ccp.common.digest.DigestUtil;
 import edu.ucdenver.ccp.datasource.identifiers.DataSource;
 import edu.ucdenver.ccp.datasource.rdfizer.rdf.ice.RdfUtil;
 import edu.ucdenver.ccp.uima.shims.annotation.Span;
@@ -50,13 +52,16 @@ import edu.ucdenver.ccp.uima.shims.annotation.Span;
 public enum WebAnnotationSelectorType {
 	TEXT_POSITION {
 		@Override
-		public Collection<? extends Statement> getStatements(URIImpl specificResourceUri, List<Span> spans,
-				String documentText) {
+		public Collection<? extends Statement> getStatements(URIImpl specificResourceUri, URI documentUri,
+				List<Span> spans, String documentText) {
 			List<Statement> stmts = new ArrayList<Statement>();
 
+			Collections.sort(spans, Span.ASCENDING());
+			String selectorKey = spans.toString();
+			String selectorDigest = DigestUtil.getBase64Sha1Digest(selectorKey);
+
 			for (Span span : spans) {
-				URIImpl selectorUri = new URIImpl(
-						DataSource.KABOB.longName() + "lice/selector_" + UUID.randomUUID().toString());
+				URIImpl selectorUri = new URIImpl(DataSource.KABOB.longName() + "lice/S_" + selectorDigest);
 				/* selectorInstance --rdf:type--> oa:TextPositionSelector */
 				stmts.add(new StatementImpl(selectorUri, RDF.TYPE, WebAnnotationClass.TEXT_POSITION_SELECTOR.uri()));
 				/* specificResourceInstance --oa:hasSelector--> selectorInst. */
@@ -73,6 +78,6 @@ public enum WebAnnotationSelectorType {
 		}
 	};
 
-	public abstract Collection<? extends Statement> getStatements(URIImpl specificResourceUri, List<Span> spans,
-			String documentText);
+	public abstract Collection<? extends Statement> getStatements(URIImpl specificResourceUri, URI documentUri,
+			List<Span> spans, String documentText);
 }
