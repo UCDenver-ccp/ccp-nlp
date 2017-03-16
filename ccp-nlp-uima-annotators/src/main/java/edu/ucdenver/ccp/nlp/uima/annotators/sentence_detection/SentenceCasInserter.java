@@ -53,6 +53,6 @@ public interface SentenceCasInserter {
 	 * @param jCas
 	 * @return the sentence annotation that was inserted
 	 */
-	public Annotation insertSentence(int spanStart, int spanEnd, JCas jCas);
+	public Annotation insertSentence(int spanStart, int spanEnd, String annotatorName, JCas jCas);
 
 }

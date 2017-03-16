@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
@@ -49,6 +50,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.tcas.Annotation;
+
 import edu.ucdenver.ccp.nlp.core.annotation.AnnotationSet;
 import edu.ucdenver.ccp.nlp.core.annotation.Annotator;
 import edu.ucdenver.ccp.nlp.core.annotation.InvalidSpanException;
@@ -72,11 +74,13 @@ import edu.ucdenver.ccp.nlp.uima.annotation.impl.WrappedCCPTextAnnotation;
 
 /**
  * 
- * Some simple utilities for dealing with <code>CCPTextAnnotation</code> objects.
+ * Some simple utilities for dealing with <code>CCPTextAnnotation</code>
+ * objects.
  * 
  * 
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  * 
  */
@@ -133,6 +137,19 @@ public class UIMA_Annotation_Util {
 		return ccpTA;
 	}
 
+	public static CCPTextAnnotation createCCPTextAnnotation(String mentionType, int start, int end,
+			String annotatorName, JCas jcas) {
+		int[] span = new int[2];
+		span[0] = start;
+		span[1] = end;
+		CCPAnnotator annotator = new CCPAnnotator(jcas);
+		annotator.setFirstName(annotatorName);
+		annotator.setLastName("");
+		annotator.setAffiliation("");
+		CCPTextAnnotation ccpTA = createCCPTextAnnotation(mentionType, span, jcas, annotator, null);
+		return ccpTA;
+	}
+
 	public static void addTextAnnotationsToIndex(List<CCPTextAnnotation> listTAs) {
 		for (CCPTextAnnotation ccpTA : listTAs) {
 			ccpTA.addToIndexes();
@@ -154,9 +171,11 @@ public class UIMA_Annotation_Util {
 		ccpSpans.set(0, ccpSpan);
 		ccpTA.setSpans(ccpSpans);
 		ccpTA.setAnnotator(annotatorInfo);
-		FSArray asets = new FSArray(jcas, 1);
-		asets.set(0, annotationSetInfo);
-		ccpTA.setAnnotationSets(asets);
+		if (annotationSetInfo != null) {
+			FSArray asets = new FSArray(jcas, 1);
+			asets.set(0, annotationSetInfo);
+			ccpTA.setAnnotationSets(asets);
+		}
 		ccpTA.setDocumentSectionID(-1);
 		CCPClassMention ccpCM = new CCPClassMention(jcas);
 		ccpCM.setMentionName(mentionType);
@@ -186,7 +205,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Adds a span to a CCPTextAnnotation. The aggregate span (begin and end fields) is also
+	 * Adds a span to a CCPTextAnnotation. The aggregate span (begin and end
+	 * fields) is also
 	 * 
 	 * updated.
 	 * 
@@ -207,7 +227,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Adds a span to a CCPTextAnnotation. The aggregate span (begin and end fields) is also
+	 * Adds a span to a CCPTextAnnotation. The aggregate span (begin and end
+	 * fields) is also
 	 * 
 	 * updated.
 	 * 
@@ -256,7 +277,7 @@ public class UIMA_Annotation_Util {
 		try {
 			jcas = ccpTA.getCAS().getJCas();
 			// set below removes any duplicate spans
-			List<Span> spanList = new ArrayList<Span>(new HashSet<Span>(getSpanList(ccpTA))); 
+			List<Span> spanList = new ArrayList<Span>(new HashSet<Span>(getSpanList(ccpTA)));
 			if (spanList != null) {
 				Collections.sort(spanList, Span.ASCENDING());
 				FSArray sortedSpans = new FSArray(jcas, spanList.size());
@@ -274,7 +295,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Checks to see if a FeatureStructure that is expected to be a CCPSpan, really is a CCPSpan.
+	 * Checks to see if a FeatureStructure that is expected to be a CCPSpan,
+	 * really is a CCPSpan.
 	 * 
 	 * 
 	 * 
@@ -298,7 +320,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Extracts the aggregate span from the individual CCPSpans in the CCPTextAnnotation span list
+	 * Extracts the aggregate span from the individual CCPSpans in the
+	 * CCPTextAnnotation span list
 	 * 
 	 * 
 	 * 
@@ -330,7 +353,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Clears the span list for the input CCPTextAnnotation. (This should be done on a temporary
+	 * Clears the span list for the input CCPTextAnnotation. (This should be
+	 * done on a temporary
 	 * 
 	 * basis only!!)
 	 * 
@@ -478,7 +502,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Offsets the current span of the input CCPTextAnnotation by the input offset amount. "Offset"
+	 * Offsets the current span of the input CCPTextAnnotation by the input
+	 * offset amount. "Offset"
 	 * 
 	 * is in terms of characters.
 	 * 
@@ -548,7 +573,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Returns the AnnotationMetaData object for a CCPTextAnnotation. If one does not exist, a new
+	 * Returns the AnnotationMetaData object for a CCPTextAnnotation. If one
+	 * does not exist, a new
 	 * 
 	 * AnnotationMetadata is initialized and added to the CCPTextAnnotation
 	 * 
@@ -571,7 +597,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Returns the edu.uchsc.ccp.util.nlp.annotation.metadata.AnnotationMetadata object for a
+	 * Returns the edu.uchsc.ccp.util.nlp.annotation.metadata.AnnotationMetadata
+	 * object for a
 	 * 
 	 * CCPTextAnnotation.
 	 * 
@@ -624,8 +651,10 @@ public class UIMA_Annotation_Util {
 	 * 
 	 * @throws CASException
 	 */
-	//public static void addMetaDataProperty(CCPTextAnnotation ccpTA, AnnotationProperty propertyToAdd, JCas jcas) {
-	public static void addMetaDataProperty(CCPTextAnnotation ccpTA, AnnotationMetadataProperty propertyToAdd, JCas jcas) {
+	// public static void addMetaDataProperty(CCPTextAnnotation ccpTA,
+	// AnnotationProperty propertyToAdd, JCas jcas) {
+	public static void addMetaDataProperty(CCPTextAnnotation ccpTA, AnnotationMetadataProperty propertyToAdd,
+			JCas jcas) {
 		Collection<TOP> annotationPropertiesToAdd = new ArrayList<TOP>();
 		annotationPropertiesToAdd.add(propertyToAdd);
 		addMetaDataProperties(ccpTA, annotationPropertiesToAdd, jcas);
@@ -669,9 +698,10 @@ public class UIMA_Annotation_Util {
 	 * 
 	 * @return
 	 */
-	//public static <T extends AnnotationProperty> Collection<T> getAnnotationProperties(
-	public static <T extends AnnotationMetadataProperty> Collection<T> getAnnotationProperties(
-			CCPTextAnnotation ccpTA, Class<T> annotationPropertyClass, JCas jcas) {
+	// public static <T extends AnnotationProperty> Collection<T>
+	// getAnnotationProperties(
+	public static <T extends AnnotationMetadataProperty> Collection<T> getAnnotationProperties(CCPTextAnnotation ccpTA,
+			Class<T> annotationPropertyClass, JCas jcas) {
 		// int returnType = getFeatureStructureType(annotationPropertyClass);
 		Collection<T> annotationPropertiesToReturn = new ArrayList<T>();
 		AnnotationMetadata metaData = getAnnotationMetadata(ccpTA, jcas);
@@ -687,9 +717,10 @@ public class UIMA_Annotation_Util {
 		return annotationPropertiesToReturn;
 	}
 
-	//public static <T extends AnnotationProperty> Collection<T> getAnnotationProperties(
-	public static <T extends AnnotationMetadataProperty> Collection<T> getAnnotationProperties(
-			CCPTextAnnotation ccpTA, Class<T> annotationPropertyClass) {
+	// public static <T extends AnnotationProperty> Collection<T>
+	// getAnnotationProperties(
+	public static <T extends AnnotationMetadataProperty> Collection<T> getAnnotationProperties(CCPTextAnnotation ccpTA,
+			Class<T> annotationPropertyClass) {
 		try {
 			JCas jcas = ccpTA.getCAS().getJCas();
 			return getAnnotationProperties(ccpTA, annotationPropertyClass, jcas);
@@ -701,7 +732,8 @@ public class UIMA_Annotation_Util {
 
 	/*
 	 * 
-	 * This method removes blank lines from the beginning and end of the input paragraph
+	 * This method removes blank lines from the beginning and end of the input
+	 * paragraph
 	 */
 	public static void removeLeadingAndTrailingBlankLines(Annotation annotation) {
 		Matcher matcher;
@@ -815,9 +847,11 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Given a list of CCPTextAnnotation objects, this method returns a list of duplicate
+	 * Given a list of CCPTextAnnotation objects, this method returns a list of
+	 * duplicate
 	 * 
-	 * annotations. The meta-data, e.g. annotator, annotation set, is not considered when
+	 * annotations. The meta-data, e.g. annotator, annotation set, is not
+	 * considered when
 	 * 
 	 * determining duplicates.
 	 * 
@@ -846,7 +880,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Converts a list of CCPTextAnnotation objects to a list of WrappedCCPTextAnnotation objects
+	 * Converts a list of CCPTextAnnotation objects to a list of
+	 * WrappedCCPTextAnnotation objects
 	 * 
 	 * 
 	 * 
@@ -865,7 +900,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Converts a list of WrappedCCPTextAnnotation objects to a list of CCPTextAnnotation objects
+	 * Converts a list of WrappedCCPTextAnnotation objects to a list of
+	 * CCPTextAnnotation objects
 	 * 
 	 * 
 	 * 
@@ -882,8 +918,8 @@ public class UIMA_Annotation_Util {
 			if (wrappedCcpTA instanceof WrappedCCPTextAnnotation) {
 				unWrappedList.add(((WrappedCCPTextAnnotation) wrappedCcpTA).getWrappedObject());
 			} else {
-				throw new InvalidInputException("Expected WrappedCCPTextAnnotation but found: "
-						+ wrappedCcpTA.getClass().getName());
+				throw new InvalidInputException(
+						"Expected WrappedCCPTextAnnotation but found: " + wrappedCcpTA.getClass().getName());
 			}
 		}
 		return unWrappedList;
@@ -891,7 +927,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Returns the Annotator equivalent of the CCPAnnotator for the input CCPTextAnnotation
+	 * Returns the Annotator equivalent of the CCPAnnotator for the input
+	 * CCPTextAnnotation
 	 * 
 	 * 
 	 * 
@@ -934,7 +971,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Checks to see if a FeatureStructure that is expected to be a CCPAnnotationSet, really is a
+	 * Checks to see if a FeatureStructure that is expected to be a
+	 * CCPAnnotationSet, really is a
 	 * 
 	 * CCPAnnotationSet.
 	 * 
@@ -960,7 +998,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * Checks to see if a FeatureStructure that is expected to be a CCPAnnotationSet, really is a
+	 * Checks to see if a FeatureStructure that is expected to be a
+	 * CCPAnnotationSet, really is a
 	 * 
 	 * CCPAnnotationSet.
 	 * 
@@ -986,7 +1025,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * This method removes all CCPNonComplexSlotMentions from the input CCPClassMention
+	 * This method removes all CCPNonComplexSlotMentions from the input
+	 * CCPClassMention
 	 * 
 	 * 
 	 * 
@@ -1009,7 +1049,8 @@ public class UIMA_Annotation_Util {
 
 	/**
 	 * 
-	 * This method removes all CCPComplexSlotMentions from the input CCPClassMention
+	 * This method removes all CCPComplexSlotMentions from the input
+	 * CCPClassMention
 	 * 
 	 * 
 	 * 

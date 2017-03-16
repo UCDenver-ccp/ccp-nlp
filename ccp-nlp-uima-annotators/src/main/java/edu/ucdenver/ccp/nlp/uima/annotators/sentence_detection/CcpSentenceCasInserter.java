@@ -52,8 +52,8 @@ public class CcpSentenceCasInserter implements SentenceCasInserter {
 	 * Creates sentences in the CAS using the CCPTextAnnotation/CCPClassMention structure.
 	 */
 	@Override
-	public Annotation insertSentence(int spanStart, int spanEnd, JCas jCas) {
-		return UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.SENTENCE.typeName(), spanStart, spanEnd, jCas);
+	public Annotation insertSentence(int spanStart, int spanEnd, String annotatorName, JCas jCas) {
+		return UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.SENTENCE.typeName(), spanStart, spanEnd, annotatorName, jCas);
 	}
 
 }
