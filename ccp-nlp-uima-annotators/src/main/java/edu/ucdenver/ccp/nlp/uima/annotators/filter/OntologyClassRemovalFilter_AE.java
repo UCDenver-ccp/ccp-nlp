@@ -70,6 +70,14 @@ import edu.ucdenver.ccp.uima.shims.annotation.AnnotationDataExtractor;
  */
 public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 
+	/**
+	 * If set, the namespace will be appended to the front of the ontology
+	 * concept prior to looking it up in the ontology util
+	 */
+	public static final String PARAM_ONT_NAMESPACE = "ontologyNamespace";
+	@ConfigurationParameter(mandatory = true, description = "namespace", defaultValue = "")
+	private String ontologyNamespace;
+
 	/* ==== AnnotationDataExtractor configuration ==== */
 	/**
 	 * Parameter name used in the UIMA descriptor file for the annotation data
@@ -146,9 +154,13 @@ public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 			String annotationType = annotationDataExtractor.getAnnotationType(annotation);
 			if (annotationType != null) {
 				if (annotationType.equals(termIdToRemove)
-						|| ontUtil.isDescendent(ontUtil.getOWLClassFromId(annotationType),
-								ontUtil.getOWLClassFromId(termIdToRemove))
-						|| ontUtil.isObsolete(ontUtil.getOWLClassFromId(annotationType))) {
+						/* if the concept isn't in the ontology, e.g. independent_continuant, then remove the annotation */
+						|| ontUtil.getOWLClassFromId(ontologyNamespace + annotationType.replace(":", "_")) == null
+						|| ontUtil.isDescendent(
+								ontUtil.getOWLClassFromId(ontologyNamespace + annotationType.replace(":", "_")),
+								ontUtil.getOWLClassFromId(ontologyNamespace + termIdToRemove.replace(":", "_")))
+						|| ontUtil.isObsolete(
+								ontUtil.getOWLClassFromId(ontologyNamespace + annotationType.replace(":", "_")))) {
 					annotationsToRemove.add(annotation);
 				}
 			}
@@ -160,11 +172,12 @@ public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 	}
 
 	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd,
-			Class<? extends AnnotationDataExtractor> annotationDataExtractorClass, String idToRemove, File oboFile)
-			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitiveDescription(OntologyClassRemovalFilter_AE.class, tsd,
+			Class<? extends AnnotationDataExtractor> annotationDataExtractorClass, String idToRemove, File oboFile,
+			String ontologyNamespace) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createEngineDescription(OntologyClassRemovalFilter_AE.class, tsd,
 				PARAM_ANNOTATION_DATA_EXTRACTOR_CLASS, annotationDataExtractorClass.getName(),
-				PARAM_ANNOTATION_TYPE_OF_INTEREST, idToRemove, PARAM_OBO_FILE, oboFile.getAbsolutePath());
+				PARAM_ANNOTATION_TYPE_OF_INTEREST, idToRemove, PARAM_OBO_FILE, oboFile.getAbsolutePath(),
+				PARAM_ONT_NAMESPACE, ontologyNamespace);
 	}
 
 }
