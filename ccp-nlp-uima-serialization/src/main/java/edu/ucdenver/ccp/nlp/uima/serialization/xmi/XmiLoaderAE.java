@@ -221,7 +221,7 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 		}
 
 		List<String> infixesToLoad = new ArrayList<String>();
-		if (infixes == null) {
+		if (infixes == null || infixes.length == 0) {
 			infixesToLoad.add(null);
 		} else {
 			infixesToLoad.addAll(Arrays.asList(infixes));
@@ -329,7 +329,7 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 				XmiLoaderAE.PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetaDataHandlerClass.getName(),
 				PARAM_XMI_PATH_TYPE, xmiPathType.name(), PARAM_XMI_FILE_COMPRESSION_TYPE, xmiCompressionType.name(),
 				XmiLoaderAE.PARAM_XMI_PATH_NAMES, xmiPaths, XmiLoaderAE.PARAM_XMI_FILENAME_INFIXES,
-				infixes.toArray(new String[infixes.size()]));
+				(infixes == null) ? null : infixes.toArray(new String[infixes.size()]));
 	}
 
 	public static AnalysisEngineDescription createAnalysisEngineDescription_LoadFromSourceFileDirectory(
