@@ -117,9 +117,9 @@ public class DocumentTextSerializerAE extends JCasAnnotator_ImplBase {
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		/* If an error has been reported, then do not process this CAS. */
 		if (JCasUtil.select(jCas, ProcessingErrorLog.class).isEmpty()) {
-			String documentId = documentMetaDataHandler.extractDocumentId(jCas);
 			String documentText = getDocumentTextToSerialize(jCas);
-			File outputFile = getOutputFile(jCas, documentId);
+			File outputFile = getOutputFile(jCas, documentMetaDataHandler, compressOutput, outputFileSuffix,
+					outputDirectory, sourceViewName);
 			serializeDocumentText(jCas, documentText, outputFile);
 			logSerializedFile(jCas, outputFile);
 		}
@@ -172,7 +172,10 @@ public class DocumentTextSerializerAE extends JCasAnnotator_ImplBase {
 	 *         saved
 	 * @throws AnalysisEngineProcessException
 	 */
-	private File getOutputFile(JCas jCas, String documentId) throws AnalysisEngineProcessException {
+	public static File getOutputFile(JCas jCas, DocumentMetadataHandler documentMetaDataHandler,
+			boolean compressOutput, String outputFileSuffix, File outputDirectory, String sourceViewName)
+			throws AnalysisEngineProcessException {
+		String documentId = documentMetaDataHandler.extractDocumentId(jCas);
 		String outputFilename = documentId + outputFileSuffix;
 		if (compressOutput) {
 			outputFilename += ".gz";
