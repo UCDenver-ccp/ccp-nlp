@@ -97,6 +97,7 @@ public class GoDictionaryFactory {
 	 * @param workDirectory
 	 * @param cleanWorkDirectory
 	 * @param synonymType
+	 * @param dictEntryModifier
 	 * @return
 	 * @throws IOException
 	 * @throws OWLOntologyCreationException
@@ -105,7 +106,8 @@ public class GoDictionaryFactory {
 	 * @throws OBOParseException
 	 */
 	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File workDirectory,
-			CleanDirectory cleanWorkDirectory, SynonymType synonymType, IncludeFunkSynonyms includeFunkSyns)
+			CleanDirectory cleanWorkDirectory, SynonymType synonymType, IncludeFunkSynonyms includeFunkSyns,
+			DictionaryEntryModifier dictEntryModifier)
 			throws IOException, IllegalArgumentException, IllegalAccessException, OWLOntologyCreationException {
 		if (namespacesToInclude.isEmpty()) {
 			return null;
@@ -118,7 +120,7 @@ public class GoDictionaryFactory {
 		goIter.close();
 
 		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, geneOntologyOboFile, doClean,
-				synonymType, includeFunkSyns);
+				synonymType, includeFunkSyns, dictEntryModifier);
 	}
 
 	/**
@@ -126,13 +128,14 @@ public class GoDictionaryFactory {
 	 * @param outputDirectory
 	 * @param ontUtil
 	 * @param synonymType
+	 * @param dictEntryModifier
 	 * @return
 	 * @throws IOException
 	 * @throws OWLOntologyCreationException
 	 */
 	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File outputDirectory,
-			File ontFile, boolean cleanDictFile, SynonymType synonymType, IncludeFunkSynonyms includeFunkSyns)
-			throws IOException, OWLOntologyCreationException {
+			File ontFile, boolean cleanDictFile, SynonymType synonymType, IncludeFunkSynonyms includeFunkSyns,
+			DictionaryEntryModifier dictEntryModifier) throws IOException, OWLOntologyCreationException {
 
 		Map<String, Set<String>> externalGoId2SynMap = new HashMap<String, Set<String>>();
 		if (includeFunkSyns == IncludeFunkSynonyms.YES) {
@@ -165,7 +168,7 @@ public class GoDictionaryFactory {
 		logger.info("Dictionary file does not yet exist. Generating dictionary: " + dictionaryFile);
 		OntologyUtil ontUtil = new OntologyUtil(ontFile);
 		OboToDictionary.buildDictionary(dictionaryFile, ontUtil, new HashSet<String>(namespaces), synonymType,
-				externalGoId2SynMap);
+				externalGoId2SynMap, dictEntryModifier);
 
 		return dictionaryFile;
 	}

@@ -76,7 +76,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				folder.newFolder("input"));
 		OntologyUtil ontUtil = new OntologyUtil(oboFile);
 		File outputFile = folder.newFile("dict.xml");
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT);
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, null);
 		/* @formatter:off */
 		List<String> expectedLines = CollectionsUtil.createList(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
@@ -99,7 +99,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				folder.newFolder("input"));
 		OntologyUtil ontUtil = new OntologyUtil(oboFile);
 		File outputFile = folder.newFile("dict.xml");
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT);
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, null);
 		/* @formatter:off */
 		List<String> expectedLines = CollectionsUtil.createList(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
@@ -128,7 +128,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				folder.newFolder("input"));
 		OntologyUtil ontUtil = new OntologyUtil(oboFile);
 		File outputFile = folder.newFile("dict.xml");
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.ALL);
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.ALL, null);
 		/* @formatter:off */
 		List<String> expectedLines = CollectionsUtil.createList(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
@@ -167,7 +167,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 		id2synsMap.put("CL:0000009", CollectionsUtil.createSet("fusi init", "fusi fusi"));
 		id2synsMap.put("CL:0000041", CollectionsUtil.createSet("mat eo", "mature eos"));
 
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.ALL, id2synsMap);
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.ALL, id2synsMap, null);
 		/* @formatter:off */
 	               List<String> expectedLines = CollectionsUtil.createList(
 	                               "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
