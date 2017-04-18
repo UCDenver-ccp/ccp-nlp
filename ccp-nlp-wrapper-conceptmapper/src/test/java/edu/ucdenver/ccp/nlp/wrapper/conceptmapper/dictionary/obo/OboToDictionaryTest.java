@@ -41,6 +41,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,6 +60,7 @@ import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil.SynonymType;
+import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo.OboToDictionary.Concept;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver;
@@ -197,6 +199,45 @@ public class OboToDictionaryTest extends DefaultTestCase {
 	               /* @formatter:on */
 		assertTrue(FileComparisonUtil.hasExpectedLines(outputFile, CharacterEncoding.UTF_8, expectedLines, null,
 				LineOrder.ANY_ORDER, ColumnOrder.AS_IN_FILE, LineTrim.ON, ShowWhiteSpace.ON));
+	}
+
+	@Test
+	public void testExactSynonymOnly_SO_OBO_WithDictEntryModifier() throws IOException, OWLOntologyCreationException {
+		File oboFile = ClassPathUtil.copyClasspathResourceToDirectory(getClass(), SAMPLE_SO_OBO_FILE_NAME,
+				folder.newFolder("input"));
+		OntologyUtil ontUtil = new OntologyUtil(oboFile);
+		File outputFile = folder.newFile("dict.xml");
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, new MyDictEntryModifier());
+		/* @formatter:off */
+		List<String> expectedLines = CollectionsUtil.createList(
+				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
+				"<synonym>", 
+				"<token id=\"http://purl.obolibrary.org/obo/SO_0000012\" canonical=\"scRNA_primary_transcript\">",
+				"<variant base=\"scRNA_primary_transcript\"/>", 
+				"<variant base=\"scRNA primary transcript\"/>", 
+				"<variant base=\"scRNA transcript\"/>",
+//				"<variant base=\"small cytoplasmic RNA transcript\"/>", 
+				"</token>", 
+				"</synonym>");
+		/* @formatter:on */
+		assertTrue(FileComparisonUtil.hasExpectedLines(outputFile, CharacterEncoding.UTF_8, expectedLines, null,
+				LineOrder.ANY_ORDER, ColumnOrder.AS_IN_FILE, LineTrim.ON, ShowWhiteSpace.ON));
+	}
+
+	private static class MyDictEntryModifier implements DictionaryEntryModifier {
+
+		@Override
+		public Concept modifyConcept(Concept inputConcept) {
+			Set<String> modSyns = new HashSet<String>();
+			for (String syn : inputConcept.getOfficialSynonyms()) {
+				if (!syn.contains(" RNA ")) {
+					modSyns.add(syn);
+				}
+			}
+			return new Concept(inputConcept.getIdentifier(), inputConcept.getName(), modSyns,
+					inputConcept.getDynamicallyGeneratedSynonyms());
+		}
+
 	}
 
 }
