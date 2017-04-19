@@ -112,14 +112,17 @@ public class OboToDictionary {
 			if (owlClass != null // && !oboObj.getName().startsWith("obo:")
 					&& classNotInExcludedSubtree(owlClass, subTreeRootIdsToExclude, ontUtil)
 					&& classInIncludedSubtree(owlClass, subTreeRootIdsToInclude, ontUtil)) {
-				if (namespacesToInclude == null || namespacesToInclude.isEmpty()) {
-					writer.write(objToString(owlClass, synonymType, ontUtil, id2externalSynonymMap, dictEntryModifier));
-				} else {
-					String ns = ontUtil.getNamespace(owlClass);
-					if (ns != null) {
-						if (namespacesToInclude.contains(ns)) {
-							writer.write(objToString(owlClass, synonymType, ontUtil, id2externalSynonymMap,
-									dictEntryModifier));
+				String objToString = objToString(owlClass, synonymType, ontUtil, id2externalSynonymMap,
+						dictEntryModifier);
+				if (objToString != null) {
+					if (namespacesToInclude == null || namespacesToInclude.isEmpty()) {
+						writer.write(objToString);
+					} else {
+						String ns = ontUtil.getNamespace(owlClass);
+						if (ns != null) {
+							if (namespacesToInclude.contains(ns)) {
+								writer.write(objToString);
+							}
 						}
 					}
 				}
@@ -237,19 +240,11 @@ public class OboToDictionary {
 		if (dictionaryEntryModifier != null) {
 			c = dictionaryEntryModifier.modifyConcept(c);
 		}
-
-		return c.getConceptMapperDictionaryString();
-
-		// /* write syns to the dictionary file */
-		// for (String syn : synsMinusEn) {
-		// if (!syn.equals(name)) {
-		// String variantStr = XmlUtil.convertXmlEscapeCharacters(syn);
-		// buf.append(buildSynonymLine(variantStr, alreadyAddedSyns));
-		// }
-		// }
-		//
-		// buf.append("</" + TOKEN_TAG + ">\n");
-		// return buf.toString();
+		/*
+		 * to remove a concept entirely from the dictionary, the
+		 * DictionaryEntryModifier can return null
+		 */
+		return (c == null) ? null : c.getConceptMapperDictionaryString();
 	}
 
 	private static String buildSynonymLine(String name, Set<String> alreadyAddedSyns) {
