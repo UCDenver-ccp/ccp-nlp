@@ -179,7 +179,7 @@ public class EntrezGeneDictionaryFactory {
 
 				synonymStrs = filterSynonyms(synonymStrs);
 
-				dictBuilder.addEntry(dataRecord.getGeneID().getId().toString(), synonymStrs);
+				dictBuilder.addEntry(dataRecord.getGeneID().getDataElement().toString(), synonymStrs);
 			}
 		}
 
