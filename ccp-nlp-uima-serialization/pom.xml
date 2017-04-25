@@ -28,7 +28,6 @@
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>datasource-rdfizer</artifactId>
-			<version>0.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
