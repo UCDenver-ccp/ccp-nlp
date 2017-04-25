@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.eg;
+package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.ncbi;
 
 /*
  * #%L
@@ -54,14 +54,15 @@ import edu.ucdenver.ccp.datasource.identifiers.ncbi.taxonomy.NcbiTaxonomyID;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.ConceptMapperDictionaryBuilder;
 
 /**
- * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Center for Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
-public class EntrezGeneDictionaryFactory {
+public class NcbiGeneDictionaryFactory {
 
 	private static final Set<String> SYNONYMS_TO_IGNORE = CollectionsUtil.createSet("NEWENTRY", "hypothetical protein",
 			"putative");
-	private static final Logger logger = Logger.getLogger(EntrezGeneDictionaryFactory.class);
+	private static final Logger logger = Logger.getLogger(NcbiGeneDictionaryFactory.class);
 
 	private static final int MINIMUM_TERM_LENGTH = 1;
 
@@ -206,26 +207,4 @@ public class EntrezGeneDictionaryFactory {
 		return filteredSyns;
 	}
 
-	// /**
-	// * @param args
-	// * args[0] = work directory<br>
-	// * args[1] = clean work directory (true/false) <br>
-	// * args[2+] = taxonomy Ids to include
-	// */
-	// public static void main(String[] args) {
-	// BasicConfigurator.configure();
-	// File workDirectory = new File(args[0]);
-	// boolean cleanWorkDirectory = Boolean.valueOf(args[1]);
-	// Set<NcbiTaxonomyID> taxonomyIdsToInclude = new HashSet<NcbiTaxonomyID>();
-	// for (int i = 2; i < args.length; i++) {
-	// taxonomyIdsToInclude.add(new NcbiTaxonomyID(args[i]));
-	// }
-	//
-	// try {
-	// EntrezGeneDictionaryFactory.buildConceptMapperDictionary(workDirectory, cleanWorkDirectory,
-	// taxonomyIdsToInclude);
-	// } catch (IOException e) {
-	// throw new RuntimeException(e);
-	// }
-	// }
 }
