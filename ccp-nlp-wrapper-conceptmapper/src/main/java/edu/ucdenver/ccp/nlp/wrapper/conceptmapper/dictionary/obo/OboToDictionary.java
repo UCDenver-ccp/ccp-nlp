@@ -1,5 +1,7 @@
 package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo;
 
+import java.io.BufferedReader;
+
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -36,11 +38,15 @@ package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.StringUtils;
 import org.semanticweb.owlapi.model.OWLClass;
 
@@ -63,9 +69,8 @@ import lombok.Data;
  */
 public class OboToDictionary {
 
-	/**
-	 * 
-	 */
+	private static final Logger logger = Logger.getLogger(OboToDictionary.class);
+
 	private static final int MINIMUM_TERM_LENGTH = 3;
 
 	public static String TOKEN_TAG = "token";
@@ -103,33 +108,42 @@ public class OboToDictionary {
 			SynonymType synonymType, Set<OWLClass> subTreeRootIdsToExclude, Set<OWLClass> subTreeRootIdsToInclude,
 			Map<String, Set<String>> id2externalSynonymMap, DictionaryEntryModifier dictEntryModifier)
 			throws IOException {
-		BufferedWriter writer = FileWriterUtil.initBufferedWriter(outputFile, CharacterEncoding.UTF_8,
-				WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
-		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<synonym>");
-		writer.newLine();
-		for (Iterator<OWLClass> ontClsIter = ontUtil.getClassIterator(); ontClsIter.hasNext();) {
-			OWLClass owlClass = ontClsIter.next();
-			if (owlClass != null // && !oboObj.getName().startsWith("obo:")
-					&& classNotInExcludedSubtree(owlClass, subTreeRootIdsToExclude, ontUtil)
-					&& classInIncludedSubtree(owlClass, subTreeRootIdsToInclude, ontUtil)) {
-				String objToString = objToString(owlClass, synonymType, ontUtil, id2externalSynonymMap,
-						dictEntryModifier);
-				if (objToString != null) {
-					if (namespacesToInclude == null || namespacesToInclude.isEmpty()) {
-						writer.write(objToString);
-					} else {
-						String ns = ontUtil.getNamespace(owlClass);
-						if (ns != null) {
-							if (namespacesToInclude.contains(ns)) {
-								writer.write(objToString);
+		long startTime = System.currentTimeMillis();
+		try (BufferedWriter writer = Files.newBufferedWriter(
+				FileSystems.getDefault().getPath(outputFile.getAbsolutePath()), StandardCharsets.UTF_8)) {
+			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<synonym>");
+			writer.newLine();
+			logger.info("Initialized dictionary writer: " + ((System.currentTimeMillis() - startTime) / 1000) + "s");
+			int count = 0;
+			startTime = System.currentTimeMillis();
+			for (Iterator<OWLClass> ontClsIter = ontUtil.getClassIterator(); ontClsIter.hasNext();) {
+				OWLClass owlClass = ontClsIter.next();
+				if (owlClass != null // && !oboObj.getName().startsWith("obo:")
+						&& classNotInExcludedSubtree(owlClass, subTreeRootIdsToExclude, ontUtil)
+						&& classInIncludedSubtree(owlClass, subTreeRootIdsToInclude, ontUtil)) {
+					if (count++ % 100 == 0) {
+						logger.info("Ontology processing progress: " + (count - 1) + " in "
+								+ ((System.currentTimeMillis() - startTime) / 1000) + "s");
+						startTime = System.currentTimeMillis();
+					}
+					String objToString = objToString(owlClass, synonymType, ontUtil, id2externalSynonymMap,
+							dictEntryModifier);
+					if (objToString != null) {
+						if (namespacesToInclude == null || namespacesToInclude.isEmpty()) {
+							writer.write(objToString);
+						} else {
+							String ns = ontUtil.getNamespace(owlClass);
+							if (ns != null) {
+								if (namespacesToInclude.contains(ns)) {
+									writer.write(objToString);
+								}
 							}
 						}
 					}
 				}
 			}
+			writer.write("</synonym>");
 		}
-		writer.write("</synonym>");
-		writer.close();
 	}
 
 	/**
