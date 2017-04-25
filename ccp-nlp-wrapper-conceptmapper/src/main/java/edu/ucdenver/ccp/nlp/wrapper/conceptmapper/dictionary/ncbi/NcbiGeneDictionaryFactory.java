@@ -58,11 +58,11 @@ import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.ConceptMapperDictio
  *         ccpsupport@ucdenver.edu
  * 
  */
-public class EntrezGeneDictionaryFactory {
+public class NcbiGeneDictionaryFactory {
 
 	private static final Set<String> SYNONYMS_TO_IGNORE = CollectionsUtil.createSet("NEWENTRY", "hypothetical protein",
 			"putative");
-	private static final Logger logger = Logger.getLogger(EntrezGeneDictionaryFactory.class);
+	private static final Logger logger = Logger.getLogger(NcbiGeneDictionaryFactory.class);
 
 	private static final int MINIMUM_TERM_LENGTH = 1;
 
