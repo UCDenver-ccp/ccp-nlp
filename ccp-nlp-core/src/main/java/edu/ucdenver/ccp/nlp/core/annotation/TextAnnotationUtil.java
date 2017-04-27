@@ -285,7 +285,7 @@ public class TextAnnotationUtil {
 			if (!annotationsToKeep.contains(ta)) {
 				annotationsToKeep.add(ta);
 			} else {
-				logger.info("Duplicate Annotation Removed: " + ta.getSingleLineRepresentation());
+				logger.debug("Duplicate Annotation Removed: " + ta.getSingleLineRepresentation());
 			}
 		}
 		return annotationsToKeep;

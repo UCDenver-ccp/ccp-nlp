@@ -109,7 +109,7 @@ public class ClassMentionRemovalFilter_AE extends JCasAnnotator_ImplBase {
 			// ccpTA = null;
 			count++;
 		}
-		logger.info("ClassMentionRemovalFilter Removed " + count + " annotations matching: "
+		logger.debug("ClassMentionRemovalFilter Removed " + count + " annotations matching: "
 				+ classMentionTypesToRemove.toString());
 
 	}

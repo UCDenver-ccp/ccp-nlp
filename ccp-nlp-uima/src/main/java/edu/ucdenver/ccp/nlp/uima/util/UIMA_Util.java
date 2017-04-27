@@ -418,8 +418,8 @@ public class UIMA_Util {
 		while (annotIter.hasNext()) {
 			annotationsToReturn.add(new WrappedCCPTextAnnotation(annotIter.next()));
 		}
-		System.err.println(String.format("Returning %d annotations from the JCAS", annotationsToReturn.size()));
-		logger.info(String.format("Returning %d annotations from the JCAS", annotationsToReturn.size()));
+//		System.err.println(String.format("Returning %d annotations from the JCAS", annotationsToReturn.size()));
+		logger.debug(String.format("Returning %d annotations from the JCAS", annotationsToReturn.size()));
 		return annotationsToReturn;
 	}
 

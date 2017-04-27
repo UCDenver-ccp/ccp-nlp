@@ -178,7 +178,6 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	public void initialize(UimaContext aContext) throws ResourceInitializationException {
 		super.initialize(aContext);
 		logger = aContext.getLogger();
-		System.out.println("DOCUMENT META DATA EXTRACTOR CLASS: " + documentMetadataHandlerClassName);
 		documentMetaDataHandler = (DocumentMetadataHandler) ConstructorUtil
 				.invokeConstructor(documentMetadataHandlerClassName);
 	}

@@ -554,7 +554,6 @@ public class ConceptMapperFactory {
 		boolean printDictionary = false;
 
 		File tokenizerDescriptorPath = FileUtil.createTempFile("tokenizer-desc", "xml");
-		System.out.println(tokenizerDescription.toString());
 
 		BufferedWriter writer = FileWriterUtil.initBufferedWriter(tokenizerDescriptorPath, CharacterEncoding.UTF_8,
 				WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
@@ -564,9 +563,6 @@ public class ConceptMapperFactory {
 			throw new RuntimeException(e);
 		}
 		writer.close();
-
-		// UIMA_Util.outputDescriptorToFile(tokenizerDescription, tokenizerDescriptorPath);
-		System.out.println("tokenizer desc: " + tokenizerDescriptorPath.getAbsolutePath());
 
 		Object[] configurationData = ConceptMapperFactory.buildConfigurationData(attributeList, dictionaryFile,
 				featureList, findAllMatches, matchedTokensFeatureName, orderIndependentLookup,

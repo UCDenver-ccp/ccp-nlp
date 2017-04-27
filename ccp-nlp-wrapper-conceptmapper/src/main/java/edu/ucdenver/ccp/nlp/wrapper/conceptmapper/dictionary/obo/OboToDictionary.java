@@ -121,7 +121,7 @@ public class OboToDictionary {
 				if (owlClass != null // && !oboObj.getName().startsWith("obo:")
 						&& classNotInExcludedSubtree(owlClass, subTreeRootIdsToExclude, ontUtil)
 						&& classInIncludedSubtree(owlClass, subTreeRootIdsToInclude, ontUtil)) {
-					if (count++ % 100 == 0) {
+					if (count++ % 1000 == 0) {
 						logger.info("Ontology processing progress: " + (count - 1) + " in "
 								+ ((System.currentTimeMillis() - startTime) / 1000) + "s");
 						startTime = System.currentTimeMillis();

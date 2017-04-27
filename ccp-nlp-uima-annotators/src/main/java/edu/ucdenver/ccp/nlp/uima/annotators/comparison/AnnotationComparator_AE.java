@@ -57,6 +57,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -477,6 +478,17 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		int goldTpFnCount = goldResult.getTruePositiveCount() + goldResult.getFalseNegativeCount();
 		for (Entry<Integer, PRFResult> entry : comparisonGroupID2ScoreForThisCASOnly.entrySet()) {
 			PRFResult prf = entry.getValue();
+			
+			if (!entry.getKey().equals(goldStandardComparisonGroupID)) {
+				DecimalFormat decimalFormatter = new DecimalFormat("#.###");
+				logger.info(documentID + "[" + entry.getKey() + "]\tTP:" + formatInteger(prf.getTruePositiveCount())
+						+ "\tFP:" + formatInteger(prf.getFalsePositiveCount()) + "\tFN:"
+						+ formatInteger(prf.getFalseNegativeCount()) + "\tP:"
+						+ decimalFormatter.format(prf.getPrecision()) + "\tR:"
+						+ decimalFormatter.format(prf.getRecall()) + "\tF:"
+						+ decimalFormatter.format(prf.getFmeasure()));
+			}
+			
 			int tpFnCount = prf.getTruePositiveCount() + prf.getFalseNegativeCount();
 			SpanComparatorType spanComparatorType = SpanComparatorType.valueOf(spanComparatorTypeName);
 			if ((spanComparatorType.equals(SpanComparatorType.STRICT) && goldTpFnCount != tpFnCount)) {
@@ -498,6 +510,15 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		if (assignEvaluationResultPropertiesToAnnotations) {
 			assignTpFpFnMetaPropertiesToAnnotations(jcas, comparisonGroupID2ScoreForThisCASOnly);
 		}
+	}
+	
+	private String formatInteger(int i) {
+		DecimalFormat integerFormatter = new DecimalFormat("000");
+		String iStr = integerFormatter.format(i).replaceAll("\\G0", " ");
+		if (iStr.trim().isEmpty()) {
+			iStr = "  0";
+		}
+		return iStr;
 	}
 
 	/**
