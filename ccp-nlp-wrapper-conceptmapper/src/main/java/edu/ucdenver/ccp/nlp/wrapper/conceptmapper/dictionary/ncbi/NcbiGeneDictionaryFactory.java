@@ -48,8 +48,8 @@ import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileUtil.CleanDirectory;
-import edu.ucdenver.ccp.datasource.fileparsers.ncbi.gene.EntrezGeneInfoFileData;
-import edu.ucdenver.ccp.datasource.fileparsers.ncbi.gene.EntrezGeneInfoFileParser;
+import edu.ucdenver.ccp.datasource.fileparsers.ncbi.gene.NcbiGeneInfoFileData;
+import edu.ucdenver.ccp.datasource.fileparsers.ncbi.gene.NcbiGeneInfoFileParser;
 import edu.ucdenver.ccp.datasource.identifiers.ncbi.taxonomy.NcbiTaxonomyID;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.ConceptMapperDictionaryBuilder;
 
@@ -115,14 +115,14 @@ public class NcbiGeneDictionaryFactory {
 
 	public static File buildConceptMapperDictionary(File geneInfoFile, File dictionaryFile,
 			Set<NcbiTaxonomyID> taxonomyIdsToInclude, boolean cleanDictFile) throws IOException {
-		EntrezGeneInfoFileParser parser = new EntrezGeneInfoFileParser(geneInfoFile, CharacterEncoding.UTF_8);
+		NcbiGeneInfoFileParser parser = new NcbiGeneInfoFileParser(geneInfoFile, CharacterEncoding.UTF_8);
 		return buildConceptMapperDictionary(dictionaryFile, taxonomyIdsToInclude, parser, cleanDictFile);
 	}
 
 	public static File buildConceptMapperDictionary(File workDirectory, CleanDirectory cleanWorkDirectory,
 			Set<NcbiTaxonomyID> taxonomyIdsToInclude) throws IOException {
 		boolean doClean = cleanWorkDirectory.equals(CleanDirectory.YES);
-		EntrezGeneInfoFileParser parser = new EntrezGeneInfoFileParser(workDirectory, doClean);
+		NcbiGeneInfoFileParser parser = new NcbiGeneInfoFileParser(workDirectory, doClean);
 		return buildConceptMapperDictionary(workDirectory, taxonomyIdsToInclude, parser, doClean);
 	}
 
@@ -134,7 +134,7 @@ public class NcbiGeneDictionaryFactory {
 	 * @throws IOException
 	 */
 	private static File buildConceptMapperDictionary(File dictionaryFile, Set<NcbiTaxonomyID> taxonomyIdsToInclude,
-			EntrezGeneInfoFileParser parser, boolean cleanDictFile) throws IOException {
+			NcbiGeneInfoFileParser parser, boolean cleanDictFile) throws IOException {
 		if (dictionaryFile.exists()) {
 			if (cleanDictFile) {
 				FileUtil.deleteFile(dictionaryFile);
@@ -149,7 +149,7 @@ public class NcbiGeneDictionaryFactory {
 			if (count++ % 100000 == 0)
 				logger.info("Progress: " + (count - 1));
 
-			EntrezGeneInfoFileData dataRecord = parser.next();
+			NcbiGeneInfoFileData dataRecord = parser.next();
 			NcbiTaxonomyID taxonID = dataRecord.getTaxonID();
 			boolean useRecord = true;
 			if (taxonomyIdsToInclude != null && !taxonomyIdsToInclude.isEmpty()) {
@@ -179,7 +179,7 @@ public class NcbiGeneDictionaryFactory {
 
 				synonymStrs = filterSynonyms(synonymStrs);
 
-				dictBuilder.addEntry(dataRecord.getGeneID().getDataElement().toString(), synonymStrs);
+				dictBuilder.addEntry(dataRecord.getGeneID().getId().toString(), synonymStrs);
 			}
 		}
 
