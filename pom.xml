@@ -47,12 +47,12 @@
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>datasource-fileparsers</artifactId>
-				<version>0.6.2-SNAPSHOT</version>
+				<version>0.6.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>datasource-rdfizer</artifactId>
-				<version>0.6.2-SNAPSHOT</version>
+				<version>0.6.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
