@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.zip.GZIPOutputStream;
 
+import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -58,6 +59,7 @@ import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.pipelines.log.ProcessingErrorLog;
 import edu.ucdenver.ccp.nlp.pipelines.log.SerializedFileLog;
 import edu.ucdenver.ccp.nlp.uima.shims.ShimDefaults;
+import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.uima.util.View_Util;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
@@ -165,6 +167,7 @@ public class DocumentTextSerializerAE extends JCasAnnotator_ImplBase {
 		}
 	}
 
+	private static final Logger logger = Logger.getLogger(DocumentTextSerializerAE.class);
 	/**
 	 * @param jCas
 	 * @param documentId
@@ -175,6 +178,7 @@ public class DocumentTextSerializerAE extends JCasAnnotator_ImplBase {
 	public static File getOutputFile(JCas jCas, DocumentMetadataHandler documentMetaDataHandler,
 			boolean compressOutput, String outputFileSuffix, File outputDirectory, String sourceViewName)
 			throws AnalysisEngineProcessException {
+		logger.info("source-doc-path3: " + UIMA_Util.getSourceDocumentPath(jCas));
 		String documentId = documentMetaDataHandler.extractDocumentId(jCas);
 		String outputFilename = documentId + outputFileSuffix;
 		if (compressOutput) {
