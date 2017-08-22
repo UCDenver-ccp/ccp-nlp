@@ -44,20 +44,27 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.nlp.core.annotation.AnnotationSet;
 import edu.ucdenver.ccp.nlp.core.annotation.Annotator;
+import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
+import edu.ucdenver.ccp.nlp.core.mention.ComplexSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
 import edu.ucdenver.ccp.nlp.core.mention.comparison.MentionComparator;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
+import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultComplexSlotMention;
 
 /**
- * TODO: Add tests on annotations at different depths. This is not crucial as the mention
- * comparators have been tested at different depths, but it would be good redundancy to have.
+ * TODO: Add tests on annotations at different depths. This is not crucial as
+ * the mention comparators have been tested at different depths, but it would be
+ * good redundancy to have.
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class AnnotationComparatorTest {
@@ -100,8 +107,9 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the default compare() method on individual annotations. The default method utilizes the
-	 * StrictSpanComparator and the IdenticalMentionComparator classes.
+	 * Test the default compare() method on individual annotations. The default
+	 * method utilizes the StrictSpanComparator and the
+	 * IdenticalMentionComparator classes.
 	 * 
 	 * @throws Exception
 	 */
@@ -135,8 +143,9 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the default compare() method on annotation lists. The default method utilizes the
-	 * StrictSpanComparator and the IdenticalMentionComparator classes.
+	 * Test the default compare() method on annotation lists. The default method
+	 * utilizes the StrictSpanComparator and the IdenticalMentionComparator
+	 * classes.
 	 * 
 	 * @throws Exception
 	 */
@@ -158,7 +167,10 @@ public class AnnotationComparatorTest {
 		assertEquals(0.0, prf.getRecall(), 0.0);
 		assertTrue(Double.isNaN(prf.getFmeasure()));
 
-		/* test when missing half of the annotations, the other half are strict matches */
+		/*
+		 * test when missing half of the annotations, the other half are strict
+		 * matches
+		 */
 		testAnnotations = createMissingHalfTestSet();
 		prf = ac.compare(goldAnnotations, testAnnotations);
 		assertEquals(1.0, prf.getPrecision(), 0.0);
@@ -188,8 +200,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the compare() method using the StrictSpanComparator and the IdenticalMentionComparator
-	 * classes
+	 * Test the compare() method using the StrictSpanComparator and the
+	 * IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -250,7 +262,10 @@ public class AnnotationComparatorTest {
 		assertEquals(0.0, prf.getRecall(), 0.0);
 		assertTrue(Double.isNaN(prf.getFmeasure()));
 
-		/* test when missing half of the annotations, the other half are strict matches */
+		/*
+		 * test when missing half of the annotations, the other half are strict
+		 * matches
+		 */
 		testAnnotations = createMissingHalfTestSet();
 		prf = ac.compare(goldAnnotations, testAnnotations, sc, cmc);
 		assertEquals(1.0, prf.getPrecision(), 0.0);
@@ -279,8 +294,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the compare() method using the SloppySpanComparator and the IdenticalMentionComparator
-	 * classes
+	 * Test the compare() method using the SloppySpanComparator and the
+	 * IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -341,7 +356,10 @@ public class AnnotationComparatorTest {
 		assertEquals(0.0, prf.getRecall(), 0.0);
 		assertTrue(Double.isNaN(prf.getFmeasure()));
 
-		/* test when missing half of the annotations, the other half are strict matches */
+		/*
+		 * test when missing half of the annotations, the other half are strict
+		 * matches
+		 */
 		testAnnotations = createMissingHalfTestSet();
 		prf = ac.compare(goldAnnotations, testAnnotations, sc, cmc);
 		assertEquals(1.0, prf.getPrecision(), 0.0);
@@ -407,8 +425,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the compare() method on lists using the SharedStartSpanComparator and the
-	 * IdenticalMentionComparator classes
+	 * Test the compare() method on lists using the SharedStartSpanComparator
+	 * and the IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -432,7 +450,10 @@ public class AnnotationComparatorTest {
 		assertEquals(0.0, prf.getRecall(), 0.0);
 		assertTrue(Double.isNaN(prf.getFmeasure()));
 
-		/* test when missing half of the annotations, the other half are strict matches */
+		/*
+		 * test when missing half of the annotations, the other half are strict
+		 * matches
+		 */
 		testAnnotations = createMissingHalfTestSet();
 		prf = ac.compare(goldAnnotations, testAnnotations, sc, cmc);
 		assertEquals(1.0, prf.getPrecision(), 0.0);
@@ -498,8 +519,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the compare() method on lists using the SharedEndSpanComparator and the
-	 * IdenticalMentionComparator classes
+	 * Test the compare() method on lists using the SharedEndSpanComparator and
+	 * the IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -523,7 +544,10 @@ public class AnnotationComparatorTest {
 		assertEquals(0.0, prf.getRecall(), 0.0);
 		assertTrue(Double.isNaN(prf.getFmeasure()));
 
-		/* test when missing half of the annotations, the other half are strict matches */
+		/*
+		 * test when missing half of the annotations, the other half are strict
+		 * matches
+		 */
 		testAnnotations = createMissingHalfTestSet();
 		prf = ac.compare(goldAnnotations, testAnnotations, sc, cmc);
 		assertEquals(1.0, prf.getPrecision(), 0.0);
@@ -552,8 +576,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the compare() method using the SharedStartOrEndSpanComparator and the
-	 * IdenticalMentionComparator classes
+	 * Test the compare() method using the SharedStartOrEndSpanComparator and
+	 * the IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -594,8 +618,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Test the compare() method on lists using the SharedStartOrEndSpanComparator and the
-	 * IdenticalMentionComparator classes
+	 * Test the compare() method on lists using the
+	 * SharedStartOrEndSpanComparator and the IdenticalMentionComparator classes
 	 * 
 	 * @throws Exception
 	 */
@@ -619,7 +643,10 @@ public class AnnotationComparatorTest {
 		assertEquals(0.0, prf.getRecall(), 0.0);
 		assertTrue(Double.isNaN(prf.getFmeasure()));
 
-		/* test when missing half of the annotations, the other half are strict matches */
+		/*
+		 * test when missing half of the annotations, the other half are strict
+		 * matches
+		 */
 		testAnnotations = createMissingHalfTestSet();
 		prf = ac.compare(goldAnnotations, testAnnotations, sc, cmc);
 		assertEquals(1.0, prf.getPrecision(), 0.0);
@@ -670,7 +697,10 @@ public class AnnotationComparatorTest {
 		assertEquals(0.0, prf.getRecall(), 0.0);
 		assertTrue(Double.isNaN(prf.getFmeasure()));
 
-		/* test when missing half of the annotations, the other half are strict matches */
+		/*
+		 * test when missing half of the annotations, the other half are strict
+		 * matches
+		 */
 		testAnnotations = createMissingHalfTestSet();
 		prf = ac.compare(goldAnnotations, testAnnotations);
 		assertEquals(1.0, prf.getPrecision(), 0.0);
@@ -682,7 +712,8 @@ public class AnnotationComparatorTest {
 		prf = ac.compare(goldAnnotations, testAnnotations);
 		assertEquals(48.0 / 70.0, prf.getPrecision(), 0.0);
 		assertEquals(48.0 / 69.0, prf.getRecall(), 0.0);
-		// assertEquals((2.0*48.0/70.0*48.0/69.0)/(48.0/70.0+48.0/69.0), stats.getFmeasure());
+		// assertEquals((2.0*48.0/70.0*48.0/69.0)/(48.0/70.0+48.0/69.0),
+		// stats.getFmeasure());
 
 		/* test on mixed results */
 		testAnnotations = createMixedResultAnnotations();
@@ -691,8 +722,8 @@ public class AnnotationComparatorTest {
 		assertEquals(8.0 / (8.0 + 23.0 + 38.0), prf.getRecall(), 0.0);
 
 		/*
-		 * make sure calls to compare() with extraneous input parameters return what is expected
-		 * (i.e. they ignore the extra input parameters)
+		 * make sure calls to compare() with extraneous input parameters return
+		 * what is expected (i.e. they ignore the extra input parameters)
 		 */
 		SpanComparator sc = new SharedStartOrEndSpanComparator();
 		MentionComparator cmc = new IdenticalMentionComparator();
@@ -708,6 +739,261 @@ public class AnnotationComparatorTest {
 		assertEquals((2.0 * 32.0 / 69.0) / (1.0 + 32.0 / 69.0), prf.getFmeasure(), 0.0);
 
 	}
+
+	/**
+	 * This test looks at complex slot mentions using an event annotation as an
+	 * example, and confirms that the order in which the complex slot mentions
+	 * are added does not matter when comparing annotations
+	 */
+	@Test
+	public void testEventAnnotationComparison_testOrderOfCsmAddition() {
+		String text = "The strong CYP2C8 inhibitor, Ritonavir, may decrease the metabolism and clearance of oral Tretinoin.";
+
+		int annotationId = 1;
+		String documentId = "sample01";
+		String hasParticipantRelation = "has_participant";
+		String regulatedTargetRelation = "regulated_target";
+		String regulatedByRelation = "regulated_by";
+
+		// Ritonavir [29,38]
+		DefaultTextAnnotation ritonavirAnnot = new DefaultTextAnnotation(29, 38, text.substring(29, 38), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				new DefaultClassMention("CHEBI_45409"));
+
+		// Tretinoin [90,99]
+		DefaultTextAnnotation tretinoinAnnot = new DefaultTextAnnotation(90, 99, text.substring(90, 99), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				new DefaultClassMention("CHEBI_15367"));
+
+		// metabolism [57,67]
+		ClassMention metabolismCm = new DefaultClassMention("drug_metabolism");
+		ComplexSlotMention hasParticipantTretinoinSlot1 = new DefaultComplexSlotMention(hasParticipantRelation);
+		hasParticipantTretinoinSlot1.addClassMention(tretinoinAnnot.getClassMention());
+		metabolismCm.addComplexSlotMention(hasParticipantTretinoinSlot1);
+		DefaultTextAnnotation metabolismAnnot = new DefaultTextAnnotation(57, 67, text.substring(57, 67), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, metabolismCm);
+
+		// clearance [72,81]
+		ClassMention clearanceCm = new DefaultClassMention("drug_clearance");
+		ComplexSlotMention hasParticipantTretinoinSlot2 = new DefaultComplexSlotMention(hasParticipantRelation);
+		hasParticipantTretinoinSlot2.addClassMention(tretinoinAnnot.getClassMention());
+		clearanceCm.addComplexSlotMention(hasParticipantTretinoinSlot2);
+		DefaultTextAnnotation clearanceAnnot = new DefaultTextAnnotation(72, 81, text.substring(72, 81), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, clearanceCm);
+
+		/*
+		 * make a negative regulation annotation where the metabolism csm is
+		 * added first
+		 */
+		ClassMention decreaseCm1 = new DefaultClassMention("negative_regulation");
+		ComplexSlotMention regulatedByRitonavirSlot1 = new DefaultComplexSlotMention(regulatedByRelation);
+		regulatedByRitonavirSlot1.addClassMention(ritonavirAnnot.getClassMention());
+		ComplexSlotMention regulatedTargetMetabolismSlot1 = new DefaultComplexSlotMention(regulatedTargetRelation + "1");
+		regulatedTargetMetabolismSlot1.addClassMention(metabolismAnnot.getClassMention());
+		ComplexSlotMention regulatedTargetClearanceSlot1 = new DefaultComplexSlotMention(regulatedTargetRelation + "2");
+		regulatedTargetClearanceSlot1.addClassMention(clearanceAnnot.getClassMention());
+
+		decreaseCm1.addComplexSlotMention(regulatedByRitonavirSlot1);
+		decreaseCm1.addComplexSlotMention(regulatedTargetMetabolismSlot1);
+		decreaseCm1.addComplexSlotMention(regulatedTargetClearanceSlot1);
+
+		// decrease [44,52]
+		DefaultTextAnnotation decreaseAnnot1 = new DefaultTextAnnotation(44, 52, text.substring(44, 52), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, decreaseCm1);
+
+		/*
+		 * make a negative_regulation annotation where the clearance csm is
+		 * added first
+		 */
+		ClassMention decreaseCm2 = new DefaultClassMention("negative_regulation");
+		ComplexSlotMention regulatedByRitonavirSlot2 = new DefaultComplexSlotMention(regulatedByRelation);
+		regulatedByRitonavirSlot2.addClassMention(ritonavirAnnot.getClassMention());
+		ComplexSlotMention regulatedTargetMetabolismSlot2 = new DefaultComplexSlotMention(regulatedTargetRelation + "2");
+		regulatedTargetMetabolismSlot2.addClassMention(metabolismAnnot.getClassMention());
+		ComplexSlotMention regulatedTargetClearanceSlot2 = new DefaultComplexSlotMention(regulatedTargetRelation + "1");
+		regulatedTargetClearanceSlot2.addClassMention(clearanceAnnot.getClassMention());
+
+		decreaseCm2.addComplexSlotMention(regulatedByRitonavirSlot2);
+		decreaseCm2.addComplexSlotMention(regulatedTargetClearanceSlot1);
+		decreaseCm2.addComplexSlotMention(regulatedTargetMetabolismSlot1);
+		
+		// decrease [44,52]
+		DefaultTextAnnotation decreaseAnnot2 = new DefaultTextAnnotation(44, 52, text.substring(44, 52), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, decreaseCm2);
+
+		AnnotationComparator ac = new AnnotationComparator();
+		SpanComparator sc = new StrictSpanComparator();
+		MentionComparator cmc = new IdenticalMentionComparator();
+
+		PRFResult prf = ac.compare(CollectionsUtil.createList(decreaseAnnot1), CollectionsUtil.createList(decreaseAnnot2), sc, cmc);
+		assertEquals(1.0, prf.getPrecision(), 0.0);
+		assertEquals(1.0, prf.getRecall(), 0.0);
+		assertEquals(1.0, prf.getFmeasure(), 0.0);
+
+	}
+	
+	/**
+	 * This test looks at complex slot mentions using an event annotation as an
+	 * example, and confirms that the order in which the complex slot mentions
+	 * are added does not matter when comparing annotations
+	 */
+	@Test
+	public void testEventAnnotationComparison_testOrderOfCsmAddition2() {
+		            //           1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6
+		            // 0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+		String text = "Consider alternate therapy or monitor for changes in Tretinoin effectiveness and adverse/toxic effects if Ritonavir is initiated, discontinued to dose changed";
+		
+		int annotationId = 1;
+		String documentId = "sample01";
+		String hasParticipantRelation = "has_participant";
+		String regulatedTargetRelation = "regulated_target";
+		String regulatedByRelation = "regulated_by";
+		
+		// Ritonavir [106,115]
+		DefaultTextAnnotation ritonavirAnnot1 = new DefaultTextAnnotation(106,115, text.substring(106, 115), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				new DefaultClassMention("CHEBI_45409"));
+		
+		DefaultTextAnnotation ritonavirAnnot2 = new DefaultTextAnnotation(106,115, text.substring(106, 115), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				new DefaultClassMention("CHEBI_45409"));
+		
+		// Tretinoin [53,62]
+		DefaultTextAnnotation tretinoinAnnot1 = new DefaultTextAnnotation(53, 62, text.substring(53, 62), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				new DefaultClassMention("CHEBI_15367"));
+		
+		DefaultTextAnnotation tretinoinAnnot2 = new DefaultTextAnnotation(53, 62, text.substring(53, 62), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				new DefaultClassMention("CHEBI_15367"));
+		
+		// effectiveness [63,76]
+		ClassMention effectivenessCm1 = new DefaultClassMention("drug_effect");
+		ComplexSlotMention hasParticipantTretinoinSlot1_1 = new DefaultComplexSlotMention(hasParticipantRelation);
+		hasParticipantTretinoinSlot1_1.addClassMention(tretinoinAnnot1.getClassMention());
+		effectivenessCm1.addComplexSlotMention(hasParticipantTretinoinSlot1_1);
+		DefaultTextAnnotation effectivenessAnnot1 = new DefaultTextAnnotation(63, 76, text.substring(63, 76), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, effectivenessCm1);
+		
+		ClassMention effectivenessCm2 = new DefaultClassMention("drug_effect");
+		ComplexSlotMention hasParticipantTretinoinSlot2_1 = new DefaultComplexSlotMention(hasParticipantRelation);
+		hasParticipantTretinoinSlot2_1.addClassMention(tretinoinAnnot2.getClassMention());
+		effectivenessCm2.addComplexSlotMention(hasParticipantTretinoinSlot2_1);
+		DefaultTextAnnotation effectivenessAnnot2 = new DefaultTextAnnotation(63, 76, text.substring(63, 76), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, effectivenessCm2);
+		
+		// adverse effects [81..88,95..102]
+		ClassMention adverseEffectsCm1 = new DefaultClassMention("drug_effect");
+		ComplexSlotMention hasParticipantTretinoinSlot1_2 = new DefaultComplexSlotMention(hasParticipantRelation);
+		hasParticipantTretinoinSlot1_2.addClassMention(tretinoinAnnot1.getClassMention());
+		adverseEffectsCm1.addComplexSlotMention(hasParticipantTretinoinSlot1_2);
+		List<Span> spanList1 = CollectionsUtil.createList(new Span(81,88), new Span(95,102));
+		DefaultTextAnnotation adverseEffectsAnnot1 = new DefaultTextAnnotation(spanList1);
+		adverseEffectsAnnot1.setCoveredText("adverse effects");
+		adverseEffectsAnnot1.setAnnotator(annotator);
+		adverseEffectsAnnot1.setAnnotationSets(CollectionsUtil.createSet(annotationSet));
+		adverseEffectsAnnot1.setAnnotationID(annotationId++);
+		adverseEffectsAnnot1.setDocumentCollectionID(documentCollectionID);
+		adverseEffectsAnnot1.setDocumentID(documentId);
+		adverseEffectsAnnot1.setDocumentSectionID(documentSectionID);
+		adverseEffectsAnnot1.setClassMention(adverseEffectsCm1);
+	
+		ClassMention adverseEffectsCm2 = new DefaultClassMention("drug_effect");
+		ComplexSlotMention hasParticipantTretinoinSlot2_2 = new DefaultComplexSlotMention(hasParticipantRelation);
+		hasParticipantTretinoinSlot2_2.addClassMention(tretinoinAnnot2.getClassMention());
+		adverseEffectsCm2.addComplexSlotMention(hasParticipantTretinoinSlot2_2);
+		List<Span> spanList2 = CollectionsUtil.createList(new Span(81,88), new Span(95,102));
+		DefaultTextAnnotation adverseEffectsAnnot2 = new DefaultTextAnnotation(spanList2);
+		adverseEffectsAnnot2.setCoveredText("adverse effects");
+		adverseEffectsAnnot2.setAnnotator(annotator);
+		adverseEffectsAnnot2.setAnnotationSets(CollectionsUtil.createSet(annotationSet));
+		adverseEffectsAnnot2.setAnnotationID(annotationId++);
+		adverseEffectsAnnot2.setDocumentCollectionID(documentCollectionID);
+		adverseEffectsAnnot2.setDocumentID(documentId);
+		adverseEffectsAnnot2.setDocumentSectionID(documentSectionID);
+		adverseEffectsAnnot2.setClassMention(adverseEffectsCm2);
+		
+		
+		// toxic effects [89,102]
+		ClassMention toxicEffectsCm1 = new DefaultClassMention("drug_toxicity");
+		ComplexSlotMention hasParticipantTretinoinSlot1_3 = new DefaultComplexSlotMention(hasParticipantRelation);
+		hasParticipantTretinoinSlot1_3.addClassMention(tretinoinAnnot1.getClassMention());
+		toxicEffectsCm1.addComplexSlotMention(hasParticipantTretinoinSlot1_3);
+		DefaultTextAnnotation toxicEffectsAnnot1 = new DefaultTextAnnotation(89, 102, text.substring(89, 102), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, toxicEffectsCm1);
+		
+		ClassMention toxicEffectsCm2 = new DefaultClassMention("drug_toxicity");
+		ComplexSlotMention hasParticipantTretinoinSlot2_3 = new DefaultComplexSlotMention(hasParticipantRelation);
+		hasParticipantTretinoinSlot2_3.addClassMention(tretinoinAnnot2.getClassMention());
+		toxicEffectsCm2.addComplexSlotMention(hasParticipantTretinoinSlot2_3);
+		DefaultTextAnnotation toxicEffectsAnnot2 = new DefaultTextAnnotation(89, 102, text.substring(89, 102), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, toxicEffectsCm2);
+		
+		
+		
+		/*
+		 * make a negative regulation annotation where the metabolism csm is
+		 * added first
+		 */
+		
+		ClassMention decreaseCm1 = new DefaultClassMention("regulation");
+		ComplexSlotMention regulatedByRitonavirSlot1 = new DefaultComplexSlotMention(regulatedByRelation);
+		regulatedByRitonavirSlot1.addClassMention(ritonavirAnnot1.getClassMention());
+		ComplexSlotMention regulatedTargetSlot1_1 = new DefaultComplexSlotMention(regulatedTargetRelation);
+		regulatedTargetSlot1_1.addClassMention(effectivenessAnnot1.getClassMention());
+		ComplexSlotMention regulatedTargetSlot1_2 = new DefaultComplexSlotMention(regulatedTargetRelation);
+		regulatedTargetSlot1_2.addClassMention(toxicEffectsAnnot1.getClassMention());
+		ComplexSlotMention regulatedTargetSlot1_3 = new DefaultComplexSlotMention(regulatedTargetRelation);
+		regulatedTargetSlot1_3.addClassMention(adverseEffectsAnnot1.getClassMention());
+		
+		decreaseCm1.addComplexSlotMention(regulatedByRitonavirSlot1);
+		decreaseCm1.addComplexSlotMention(regulatedTargetSlot1_1);
+		decreaseCm1.addComplexSlotMention(regulatedTargetSlot1_2);
+		decreaseCm1.addComplexSlotMention(regulatedTargetSlot1_3);
+		
+		// decrease [44,52]
+		DefaultTextAnnotation decreaseAnnot1 = new DefaultTextAnnotation(30, 49, text.substring(30, 49), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, decreaseCm1);
+	
+		
+		/*
+		 * make a negative_regulation annotation where the clearance csm is
+		 * added first
+		 */
+		ClassMention decreaseCm2 = new DefaultClassMention("regulation");
+		ComplexSlotMention regulatedByRitonavirSlot2 = new DefaultComplexSlotMention(regulatedByRelation);
+		regulatedByRitonavirSlot2.addClassMention(ritonavirAnnot2.getClassMention());
+		ComplexSlotMention regulatedTargetSlot2_1 = new DefaultComplexSlotMention(regulatedTargetRelation);
+		regulatedTargetSlot2_1.addClassMention(effectivenessAnnot2.getClassMention());
+		ComplexSlotMention regulatedTargetSlot2_2 = new DefaultComplexSlotMention(regulatedTargetRelation);
+		regulatedTargetSlot2_2.addClassMention(toxicEffectsAnnot2.getClassMention());
+		ComplexSlotMention regulatedTargetSlot2_3 = new DefaultComplexSlotMention(regulatedTargetRelation);
+		regulatedTargetSlot2_3.addClassMention(adverseEffectsAnnot2.getClassMention());
+		
+		decreaseCm2.addComplexSlotMention(regulatedByRitonavirSlot2);
+		decreaseCm2.addComplexSlotMention(regulatedTargetSlot2_3);
+		decreaseCm2.addComplexSlotMention(regulatedTargetSlot2_2);
+		decreaseCm2.addComplexSlotMention(regulatedTargetSlot2_1);
+//		
+		// decrease [44,52]
+		DefaultTextAnnotation decreaseAnnot2 = new DefaultTextAnnotation(30, 49, text.substring(30, 49), annotator,
+				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, decreaseCm2);
+		
+		AnnotationComparator ac = new AnnotationComparator();
+		SpanComparator sc = new StrictSpanComparator();
+		MentionComparator cmc = new IdenticalMentionComparator();
+		
+		PRFResult prf = ac.compare(CollectionsUtil.createList(decreaseAnnot1), CollectionsUtil.createList(decreaseAnnot2), sc, cmc);
+		assertEquals(1.0, prf.getPrecision(), 0.0);
+		assertEquals(1.0, prf.getRecall(), 0.0);
+		assertEquals(1.0, prf.getFmeasure(), 0.0);
+		
+	}
+	
+	
+	
+	
+	
 
 	/**
 	 * Create a protein annotation to be used for testing purposes
@@ -893,7 +1179,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Return a set of annotations that overlap the gold annotations by 1 on the right
+	 * Return a set of annotations that overlap the gold annotations by 1 on the
+	 * right
 	 */
 	private List<TextAnnotation> createOverlappingRightAnnotations() {
 		List<TextAnnotation> returnList = new ArrayList<TextAnnotation>();
@@ -978,7 +1265,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Create a set of annotations that contains a mix of overlaps, tp's, and fp's
+	 * Create a set of annotations that contains a mix of overlaps, tp's, and
+	 * fp's
 	 */
 	private List<TextAnnotation> createMixedResultAnnotations() {
 		List<TextAnnotation> returnList = new ArrayList<TextAnnotation>();
@@ -1000,8 +1288,8 @@ public class AnnotationComparatorTest {
 	}
 
 	/**
-	 * Create a set of annotations that has identical spans, but a few annotations with "gene"
-	 * annotations instead of "protein" annotations
+	 * Create a set of annotations that has identical spans, but a few
+	 * annotations with "gene" annotations instead of "protein" annotations
 	 * 
 	 * @return
 	 */
