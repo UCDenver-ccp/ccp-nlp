@@ -68,7 +68,7 @@ public class View_Util {
 	}
 
 	public static JCas getView(JCas jcas, View view) throws CASException {
-		return getView(jcas, view.name());
+		return getView(jcas, view.viewName());
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class View_Util {
 	}
 
 	public static boolean viewExists(JCas jCas, View view) throws CASException {
-		return viewExists(jCas, view.name());
+		return viewExists(jCas, view.viewName());
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class View_Util {
 	 * @throws CASException
 	 */
 	public static JCas getViewHandleDefault(JCas jCas, String viewName) throws CASException {
-		if (viewName.equalsIgnoreCase(View.DEFAULT.name())) {
+		if (viewName.equalsIgnoreCase(View.DEFAULT.viewName())) {
 			viewName = View.DEFAULT.viewName();
 		}
 
@@ -109,7 +109,7 @@ public class View_Util {
 	}
 
 	public static JCas getViewHandleDefault(JCas jCas, View view) throws CASException {
-		return getViewHandleDefault(jCas, view.name());
+		return getViewHandleDefault(jCas, view.viewName());
 	}
 
 }
