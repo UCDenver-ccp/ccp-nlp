@@ -59,7 +59,6 @@ import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.pipelines.log.ProcessingErrorLog;
 import edu.ucdenver.ccp.nlp.pipelines.log.SerializedFileLog;
 import edu.ucdenver.ccp.nlp.uima.shims.ShimDefaults;
-import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.uima.util.View_Util;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
@@ -178,13 +177,12 @@ public class DocumentTextSerializerAE extends JCasAnnotator_ImplBase {
 	public static File getOutputFile(JCas jCas, DocumentMetadataHandler documentMetaDataHandler,
 			boolean compressOutput, String outputFileSuffix, File outputDirectory, String sourceViewName)
 			throws AnalysisEngineProcessException {
-		logger.info("source-doc-path3: " + UIMA_Util.getSourceDocumentPath(jCas));
+		
 		String documentId = documentMetaDataHandler.extractDocumentId(jCas);
 		String outputFilename = documentId + outputFileSuffix;
 		if (compressOutput) {
 			outputFilename += ".gz";
 		}
-		logger.info("view name: " + sourceViewName + " output file name: " + outputFilename);
 		File outputFile = null;
 		if (outputDirectory != null) {
 			outputFile = new File(outputDirectory, outputFilename);
