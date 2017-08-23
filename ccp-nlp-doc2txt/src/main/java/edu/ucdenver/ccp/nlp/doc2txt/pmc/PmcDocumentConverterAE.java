@@ -87,7 +87,7 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 	 * The name of the CAS View containing the XML to parse
 	 */
 	public static final String PARAM_XML_VIEW_NAME = "xmlViewName";
-	@ConfigurationParameter(mandatory = false, description = "The name of the CAS View containing the XML to parse", defaultValue = "XML")
+	@ConfigurationParameter(mandatory = false, description = "The name of the CAS View containing the XML to parse", defaultValue = "xmlView")
 	private String xmlViewName;
 
 	private Logger logger;
