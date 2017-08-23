@@ -184,6 +184,7 @@ public class DocumentTextSerializerAE extends JCasAnnotator_ImplBase {
 		if (compressOutput) {
 			outputFilename += ".gz";
 		}
+		logger.info("view name: " + sourceViewName + " output file name: " + outputFilename);
 		File outputFile = null;
 		if (outputDirectory != null) {
 			outputFile = new File(outputDirectory, outputFilename);
