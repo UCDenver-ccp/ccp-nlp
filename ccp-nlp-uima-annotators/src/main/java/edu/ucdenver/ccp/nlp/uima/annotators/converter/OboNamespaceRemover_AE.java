@@ -64,7 +64,11 @@ public class OboNamespaceRemover_AE extends JCasAnnotator_ImplBase {
 			String mentionName = ccpTa.getClassMention().getMentionName();
 			if (mentionName.startsWith(OBO_NAMESPACE)) {
 				mentionName = StringUtil.removePrefix(mentionName, OBO_NAMESPACE);
-				mentionName = mentionName.replace("_", ":");
+				if (!mentionName.contains("_EXT")) {
+					mentionName = mentionName.replace("_", ":");
+				} else {
+					mentionName = mentionName.replace("#_", ":");
+				}
 				ccpTa.getClassMention().setMentionName(mentionName);
 			}
 		}
