@@ -141,7 +141,7 @@ public class ClasspathCollectionReader extends BaseTextCollectionReader {
 		if (nextDocument == null) {
 			if (documentIndex++ < documentPaths.size()) {
 				String documentPath = documentPaths.get(documentIndex - 1);
-				String documentId = documentPath.substring(documentPath.lastIndexOf(StringConstants.FORWARD_SLASH) + 1);
+				String documentId = documentPath.substring(documentPath.lastIndexOf(File.separator) + 1);
 				if (FileArchiveUtil.isZippedFile(new File(documentId)))
 					documentId = FileArchiveUtil.getUnzippedFileName(documentId);
 				String documentText = getTextFromClasspathResource(documentPath);

@@ -37,6 +37,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
@@ -57,7 +58,7 @@ import edu.ucdenver.ccp.nlp.uima.util.TypeSystemUtil;
  */
 public class ClasspathCollectionReaderTest extends DefaultTestCase {
 
-	private static final String SAMPLE_CLASSPATH_COLLECTION_PATH = "random/classpath/folder";
+	private static final String SAMPLE_CLASSPATH_COLLECTION_PATH = "random" + File.separator +"classpath" + File.separator +"folder";
 
 	private static final String DOC1_TEXT = "This is sample document 1.";
 	private static final String DOC2_TEXT = "This is sample document 2.";
