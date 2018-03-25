@@ -113,5 +113,18 @@ public interface DocumentMetadataHandler {
 	 *         CAS.
 	 */
 	public File extractSourceDocumentPath(JCas jCas);
+	
+	
+	public int getYearPublished(JCas jCas);
+	
+	public void setYearPublished(JCas jCas, int year);
+	
+	public int getMonthPublished(JCas jCas);
+	
+	public void setMonthPublished(JCas jCas, int month);
+	
+	public File getDocumentMetadataPath(JCas jCas);
+	
+	public void setDocumentMetadataPath(JCas jCas, File documentMetadataFile);
 
 }

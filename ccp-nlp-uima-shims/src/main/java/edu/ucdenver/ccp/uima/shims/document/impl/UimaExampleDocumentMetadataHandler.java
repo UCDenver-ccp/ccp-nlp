@@ -145,4 +145,40 @@ public class UimaExampleDocumentMetadataHandler implements DocumentMetadataHandl
 				+ "since we are using the URI field to store the document ID.");
 	}
 
+	@Override
+	public int getYearPublished(JCas jCas) {
+		throw new UnsupportedOperationException(
+				"The SourceDocumentInformation class does not store the year published."); 
+	}
+
+	@Override
+	public void setYearPublished(JCas jCas, int year) {
+		throw new UnsupportedOperationException(
+				"The SourceDocumentInformation class does not store the year published.");
+	}
+
+	@Override
+	public int getMonthPublished(JCas jCas) {
+		throw new UnsupportedOperationException(
+				"The SourceDocumentInformation class does not store the month published.");
+	}
+
+	@Override
+	public void setMonthPublished(JCas jCas, int month) {
+		throw new UnsupportedOperationException(
+				"The SourceDocumentInformation class does not store the month published.");		
+	}
+
+	@Override
+	public File getDocumentMetadataPath(JCas jCas) {
+		throw new UnsupportedOperationException(
+				"The SourceDocumentInformation class does not store the path to the document metadata file.");
+	}
+
+	@Override
+	public void setDocumentMetadataPath(JCas jCas, File documentMetadataFile) {
+		throw new UnsupportedOperationException(
+				"The SourceDocumentInformation class does not store the path to the document metadata file.");		
+	}
+
 }

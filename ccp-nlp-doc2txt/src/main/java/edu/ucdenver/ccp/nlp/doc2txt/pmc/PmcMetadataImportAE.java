@@ -4,7 +4,7 @@ package edu.ucdenver.ccp.nlp.doc2txt.pmc;
  * #%L
  * Colorado Computational Pharmacology's nlp module
  * %%
- * Copyright (C) 2012 - 2017 Regents of the University of Colorado
+ * Copyright (C) 2012 - 2018 Regents of the University of Colorado
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -34,12 +34,16 @@ package edu.ucdenver.ccp.nlp.doc2txt.pmc;
  */
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.StringReader;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
@@ -53,26 +57,20 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.Level;
 import org.apache.uima.util.Logger;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
-import edu.ucdenver.ccp.nlp.core.annotation.Annotator;
-import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
-import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser;
-import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser.Annotation;
-import edu.ucdenver.ccp.nlp.doc2txt.XslUtil;
 import edu.ucdenver.ccp.nlp.pipelines.log.ProcessingErrorLog;
-import edu.ucdenver.ccp.nlp.uima.util.UIMA_Annotation_Util;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.uima.util.View_Util;
 
 /**
- * Looks for PubMed Central NXML in the XML view and populates the default UIMA
- * view with a plain text extracted from the nxml. Annotations for documents
- * sections, etc. are also added to the CAS.
+ * populates the CAS with document metadata extracted from the PMC XML
  *
  */
-public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
+public class PmcMetadataImportAE extends JCasAnnotator_ImplBase {
 
 	/* ==== XML encoding configuration ==== */
 	/**
@@ -104,34 +102,45 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 			if (View_Util.viewExists(jCas, xmlViewName)) {
 				JCas xmlView = View_Util.getView(jCas, xmlViewName);
 				String documentId = UIMA_Util.getDocumentID(xmlView);
-				InputStream xmlStream = IOUtils.toInputStream(xmlView.getDocumentText(), xmlEncoding);
-				String ccpXml = XslUtil.applyPmcXslt(xmlStream);
 
-				/*
-				 * convert CCP XML to plain text and add annotations for
-				 * document sections, etc.
-				 */
-				CcpXmlParser parser = new CcpXmlParser();
-				String plainText = parser.parse(ccpXml);
-				logger.log(Level.INFO,"+++++++++++++++++++++ main cas doc text is null? " + (jCas.getDocumentText() == null));
-				jCas.setDocumentText(plainText);
+				/* extract metadata elements from the PMC XML here */
+				InputSource source = new InputSource(new StringReader(xmlView.getDocumentText()));
+				DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+				builderFactory.setValidating(false);
+				builderFactory.setNamespaceAware(true);
+				builderFactory.setFeature("http://xml.org/sax/features/namespaces", false);
+				builderFactory.setFeature("http://xml.org/sax/features/validation", false);
+				builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+				builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+				DocumentBuilder builder = builderFactory.newDocumentBuilder();
+				Document xmlDocument = builder.parse(source);
+				XPath xPath = XPathFactory.newInstance().newXPath();
+				String yearPublishedExpression = "/article/front/article-meta/pub-date/year";
+				String monthPublishedExpression = "/article/front/article-meta/pub-date/month";
+				int year = Integer.parseInt(
+						xPath.compile(yearPublishedExpression).evaluate(xmlDocument, XPathConstants.STRING).toString());
+				int month = Integer.parseInt(xPath.compile(monthPublishedExpression)
+						.evaluate(xmlDocument, XPathConstants.STRING).toString());
+
+				UIMA_Util.setYearPublished(jCas, year);
+				UIMA_Util.setMonthPublished(jCas, month);
+
+				logger.log(Level.INFO, "$$$$$$$$$$$$$$$$$$$$$$$$ DOCUMENT MONTH/YEAR = " + month + "/" + year);
+				
 				UIMA_Util.setDocumentID(jCas, documentId);
-
-				for (CcpXmlParser.Annotation annot : parser.getAnnotations()) {
-					importAnnotationIntoCas(annot, jCas);
-				}
 
 			} else {
 				String errorMessage = "XML View does not exist in CAS for document: " + UIMA_Util.getDocumentID(jCas)
-						+ ". Cannot populate the default "
-						+ "view with plain text because expected XML is not present in the CAS.";
+						+ ". Cannot populate the document metadata "
+						+ " because expected XML is not present in the CAS.";
 				ProcessingErrorLog errorLog = new ProcessingErrorLog(jCas);
 				errorLog.setErrorMessage(errorMessage);
 				errorLog.setComponentAtFault(this.getClass().getName());
 				errorLog.addToIndexes();
 				logger.log(Level.WARNING, errorMessage);
 			}
-		} catch (CASException | IOException | SAXException | ParserConfigurationException | TransformerException e) {
+		} catch (CASException | IOException | SAXException | ParserConfigurationException | NumberFormatException
+				| XPathExpressionException e) {
 			/*
 			 * an error has occurred during the XML processing, so we log the
 			 * error in the CAS so that downstream AEs can handle the document
@@ -142,27 +151,16 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 			errorLog.setStackTrace(ExceptionUtils.getStackTrace(e));
 			errorLog.setComponentAtFault(this.getClass().getName());
 			errorLog.addToIndexes();
-			logger.log(Level.WARNING, "Error during XML processing for document: " + UIMA_Util.getDocumentID(jCas)
-					+ " -- " + e.getMessage());
+			logger.log(Level.WARNING, "Error during XML metadata extraction for document: "
+					+ UIMA_Util.getDocumentID(jCas) + " -- " + e.getMessage());
 		}
+
 	}
 
-	private void importAnnotationIntoCas(Annotation annot, JCas jCas) {
-		CCPTextAnnotation ccpTa = UIMA_Annotation_Util.createCCPTextAnnotation(annot.getType().name(), annot.getStart(),
-				annot.getEnd(), jCas);
-		Annotator annotator = new Annotator(-1, "PMC XML", "", "");
-		UIMA_Annotation_Util.setAnnotator(ccpTa, annotator, jCas);
-	}
-
-	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd)
-			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createEngineDescription(PmcDocumentConverterAE.class, tsd);
-	}
-
-	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd, CharacterEncoding xmlEncoding,
-			String xmlViewName) throws ResourceInitializationException {
-		return AnalysisEngineFactory.createEngineDescription(PmcDocumentConverterAE.class, tsd, PARAM_XML_ENCODING,
-				xmlEncoding.getCharacterSetName(), PARAM_XML_VIEW_NAME, xmlViewName);
+	public static AnalysisEngineDescription getDescription(TypeSystemDescription pipelineTypeSystem,
+			CharacterEncoding xmlEncoding, String viewName) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createEngineDescription(PmcMetadataImportAE.class, pipelineTypeSystem,
+				PARAM_XML_ENCODING, xmlEncoding.getCharacterSetName(), PARAM_XML_VIEW_NAME, viewName);
 	}
 
 }

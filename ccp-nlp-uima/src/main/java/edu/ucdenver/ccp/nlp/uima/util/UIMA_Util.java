@@ -260,6 +260,40 @@ public class UIMA_Util {
 		return null;
 	}
 
+	public static void setYearPublished(JCas jcas, int year) {
+		CCPDocumentInformation docInfo = getCcpDocumentInformation(jcas);
+		docInfo.setYearPublished(year);
+	}
+
+	public static int getYearPublished(JCas jcas) {
+		CCPDocumentInformation docInfo = getCcpDocumentInformation(jcas);
+		return docInfo.getYearPublished();
+	}
+
+	public static void setMonthPublished(JCas jcas, int month) {
+		CCPDocumentInformation docInfo = getCcpDocumentInformation(jcas);
+		docInfo.setMonthPublished(month);
+	}
+
+	public static int getMonthPublished(JCas jcas) {
+		CCPDocumentInformation docInfo = getCcpDocumentInformation(jcas);
+		return docInfo.getMonthPublished();
+	}
+
+	public static void setDocumentMetadataFilePath(JCas jCas, File documentMetadataFile) {
+		CCPDocumentInformation docInfo = getCcpDocumentInformation(jCas);
+		docInfo.setDocumentMetadataPath(documentMetadataFile.getAbsolutePath());
+	}
+
+	public static File getDocumentMetadataFilePath(JCas jCas) {
+		CCPDocumentInformation docInfo = getCcpDocumentInformation(jCas);
+		String documentMetadataPath = docInfo.getDocumentMetadataPath();
+		if (documentMetadataPath != null) {
+			return new File(documentMetadataPath);
+		}
+		return null;
+	}
+
 	public static CCPDocumentInformation getDocumentInfo(JCas jcas) {
 		FSIterator it = jcas.getJFSIndexRepository().getAllIndexedFS(CCPDocumentInformation.type);
 		if (it.hasNext()) { /*
@@ -418,7 +452,8 @@ public class UIMA_Util {
 		while (annotIter.hasNext()) {
 			annotationsToReturn.add(new WrappedCCPTextAnnotation(annotIter.next()));
 		}
-//		System.err.println(String.format("Returning %d annotations from the JCAS", annotationsToReturn.size()));
+		// System.err.println(String.format("Returning %d annotations from the
+		// JCAS", annotationsToReturn.size()));
 		logger.debug(String.format("Returning %d annotations from the JCAS", annotationsToReturn.size()));
 		return annotationsToReturn;
 	}
