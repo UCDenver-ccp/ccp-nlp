@@ -184,7 +184,6 @@ public class MedlineXmlFileCollectionReader extends BaseTextCollectionReader {
 		int month = -1;
 		int year = -1;
 		for (Object obj : pubDate.getYearOrMonthOrDayOrSeasonOrMedlineDate()) {
-			System.out.println("OBJ: " + obj.getClass().getName() + " -- " + obj.toString());
 			if (Year.class.isInstance(obj)) {
 				year = Integer.parseInt(((Year) obj).getvalue());
 			}
