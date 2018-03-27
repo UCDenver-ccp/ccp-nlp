@@ -57,9 +57,11 @@ import edu.ucdenver.ccp.nlp.uima.util.View;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
- * Contains base functionality required by all Collection Reader implementations.
+ * Contains base functionality required by all Collection Reader
+ * implementations.
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 @SofaCapability
@@ -109,8 +111,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 
 	/* ==== DocumentMetadataHandler configuration ==== */
 	/**
-	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
-	 * implementation to use
+	 * Parameter name used in the UIMA descriptor file for the token attribute
+	 * extractor implementation to use
 	 */
 	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = "documentMetadataHandlerClassName";
 
@@ -121,8 +123,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	private String documentMetadataHandlerClassName;
 
 	/**
-	 * this {@link DocumentMetadataHandler} will be initialized based on the class name specified by
-	 * the documentMetadataExtractorClassName parameter
+	 * this {@link DocumentMetadataHandler} will be initialized based on the
+	 * class name specified by the documentMetadataExtractorClassName parameter
 	 */
 	private DocumentMetadataHandler documentMetadataHandler;
 
@@ -143,8 +145,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 			throw new ResourceInitializationException(e);
 		}
 
-		setDocumentMetadataHandler((DocumentMetadataHandler) ConstructorUtil
-				.invokeConstructor(documentMetadataHandlerClassName));
+		setDocumentMetadataHandler(
+				(DocumentMetadataHandler) ConstructorUtil.invokeConstructor(documentMetadataHandlerClassName));
 	}
 
 	/**
@@ -156,9 +158,9 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	protected abstract void initializeImplementation(UimaContext context) throws ResourceInitializationException;
 
 	/**
-	 * Counts the number of documents in the collection that will be processed. If the
-	 * disableProgress flag is set to true then the number of documents to be processed is not
-	 * computed.
+	 * Counts the number of documents in the collection that will be processed.
+	 * If the disableProgress flag is set to true then the number of documents
+	 * to be processed is not computed.
 	 * 
 	 * @return
 	 * @throws IOException
@@ -184,7 +186,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	}
 
 	/**
-	 * @return true if the collection reader has read "numbertoProcess" documents
+	 * @return true if the collection reader has read "numbertoProcess"
+	 *         documents
 	 */
 	protected boolean reachedTargetProcessedDocumentCount() {
 		return processedDocumentCount == numberToProcess;
@@ -236,22 +239,28 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 		}
 		getDocumentMetadataHandler().setDocumentId(jcas, document.getDocumentID());
 		getDocumentMetadataHandler().setDocumentEncoding(jcas, encoding.getCharacterSetName());
-
+		if (document.getPublicationYear() != null) {
+			getDocumentMetadataHandler().setYearPublished(jcas, document.getPublicationYear());
+		}
+		if (document.getPublicationMonth() != null) {
+			getDocumentMetadataHandler().setMonthPublished(jcas, document.getPublicationMonth());
+		}
 		logger.info("Processing document " + processedDocumentCount + " of " + documentsToBeProcessedCount
 				+ ".  Loading view: " + this.viewName);
 
 	}
 
 	/**
-	 * Override to load annotations into the when it is initialized. This method is useful for
-	 * loading gold standard annotations for example.
+	 * Override to load annotations into the when it is initialized. This method
+	 * is useful for loading gold standard annotations for example.
 	 * 
 	 * @param jcas
 	 * @param document
 	 */
 	protected void loadAnnotationsIntoCas(@SuppressWarnings("unused") JCas jcas,
 			@SuppressWarnings("unused") GenericDocument document) {
-		// do nothing, to be overriden by a subclass if this functionality is desired
+		// do nothing, to be overriden by a subclass if this functionality is
+		// desired
 	}
 
 	@Override
@@ -259,7 +268,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 		if (disableProgressTracking) {
 			documentsToBeProcessedCount = processedDocumentCount + 1;
 		}
-		return new Progress[] { new ProgressImpl(processedDocumentCount, documentsToBeProcessedCount, Progress.ENTITIES) };
+		return new Progress[] {
+				new ProgressImpl(processedDocumentCount, documentsToBeProcessedCount, Progress.ENTITIES) };
 	}
 
 	/**
@@ -270,7 +280,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	}
 
 	/**
-	 * @param documentMetadataHandler the documentMetadataHandler to set
+	 * @param documentMetadataHandler
+	 *            the documentMetadataHandler to set
 	 */
 	private void setDocumentMetadataHandler(DocumentMetadataHandler documentMetadataHandler) {
 		this.documentMetadataHandler = documentMetadataHandler;

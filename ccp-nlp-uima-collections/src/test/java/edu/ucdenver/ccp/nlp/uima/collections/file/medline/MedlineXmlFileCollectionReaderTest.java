@@ -49,45 +49,82 @@ import org.junit.Test;
 
 import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
-import edu.ucdenver.ccp.medline.parser.MedlineXmlDeserializerTest;
 import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
 import edu.ucdenver.ccp.nlp.uima.util.TypeSystemUtil;
+import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class MedlineXmlFileCollectionReaderTest extends DefaultTestCase {
 
-	private static final String SAMPLE_MEDLINE_XML_FILE_NAME = "medsamp2011.xml";
+	private static final String SAMPLE_MEDLINE_XML_FILE_NAME = "pubmed_sample_2018.xml.gz";
 	private File sampleMedlineXmlFile;
 
 	@Before
 	public void setUp() throws IOException {
-		sampleMedlineXmlFile = ClassPathUtil.copyClasspathResourceToDirectory(MedlineXmlDeserializerTest.class,
+		sampleMedlineXmlFile = ClassPathUtil.copyClasspathResourceToDirectory(this.getClass(),
 				SAMPLE_MEDLINE_XML_FILE_NAME, folder.getRoot());
 	}
+
+	private static final String PMID_1 = "973217";
+	private static final String TITLE_1 = "Hospital debt management and cost reimbursement.";
+	private static final String ABSTRACT_1 = null;
+	private static final int PUB_MONTH_1 = 10;
+	private static final int PUB_YEAR_1 = 1976;
+
+	private static final String PMID_2 = "1669026";
+	private static final String TITLE_2 = "[150th Anniversary Celebration of the Royal Academy of Medicine of Belgium. Part 1. Bruxelles, 26-28 September 1991].";
+	private static final String ABSTRACT_2 = null;
+	private static final int PUB_MONTH_2 = 1;
+	private static final int PUB_YEAR_2 = 1991;
+
+	private static final String PMID_3 = "1875346";
+	private static final String TITLE_3 = "3-Hydroxy-3-methylglutaryl-coenzyme a reductase inhibitors. 7. Modification of the hexahydronaphthalene moiety of simvastatin: 5-oxygenated and 5-oxa derivatives.";
+	private static final String ABSTRACT_3 = "Modification of the hexahydronaphthalene ring 5-position in simvastatin 2a via oxygenation and oxa replacement afforded two series of derivatives which were evaluated in vitro for inhibition of 3-hydroxy-3-methylglutaryl-coenzyme A reductase and acutely in vivo for oral effectiveness as inhibitors of cholesterogenesis in the rat. Of the compounds selected for further biological evaluation, the 6 beta-methyl-5-oxa 10 and 5 alpha-hydroxy 16 derivatives of 3,4,4a,5-tetrahydro 2a, as well as, the 6 beta-epimer 14 of 16 proved orally active as hypocholesterolemic agents in cholestyramine-primed dogs. Subsequent acute oral metabolism studies in dogs demonstrated that compounds 14 and 16 evoke lower peak plasma drug activity and area-under-the-curve values than does compound 10 and led to the selection of 14 and 16 for toxicological evaluation.";
+	private static final int PUB_MONTH_3 = 8;
+	private static final int PUB_YEAR_3 = 1991;
 
 	@Test
 	public void testMedlineXmlCollectionReader() throws UIMAException, IOException {
 		int numToSkip = 0;
 		int numToProcess = -1; // process all
-		CollectionReaderDescription cr = MedlineXmlFileCollectionReader.createCollectionReaderDescription(TypeSystemUtil.getCcpTypeSystem(),
-				sampleMedlineXmlFile, numToSkip, numToProcess, CcpDocumentMetadataHandler.class);
+		CollectionReaderDescription cr = MedlineXmlFileCollectionReader.createCollectionReaderDescription(
+				TypeSystemUtil.getCcpTypeSystem(), sampleMedlineXmlFile, numToSkip, numToProcess,
+				CcpDocumentMetadataHandler.class);
 
 		JCasIterator jCasIterable = new JCasIterable(cr).iterator();
+		DocumentMetadataHandler documentMetadataHandler = new CcpDocumentMetadataHandler();
 
-		int count = 1;
-		while (jCasIterable.hasNext() && count < 11) {
-			String documentText = String.format("Title %d\nAbstract %d", count, count);
-			if (count == 8)
-				documentText = "Title 8\nAbstract 8a\nAbstract 8b\nAbstract 8c\nAbstract 8d\nAbstract 8e\nAbstract 8f\nAbstract 8g";
+		if (jCasIterable.hasNext()) {
 			JCas jCas = jCasIterable.next();
+			String documentText = TITLE_1;
 			assertEquals(documentText, jCas.getDocumentText());
-			count++;
+			assertEquals(PMID_1, documentMetadataHandler.extractDocumentId(jCas));
+			assertEquals(PUB_YEAR_1, documentMetadataHandler.getYearPublished(jCas));
+			assertEquals(PUB_MONTH_1, documentMetadataHandler.getMonthPublished(jCas));
+		}
+		if (jCasIterable.hasNext()) {
+			JCas jCas = jCasIterable.next();
+			String documentText = TITLE_2;
+			assertEquals(documentText, jCas.getDocumentText());
+			assertEquals(PMID_2, documentMetadataHandler.extractDocumentId(jCas));
+			assertEquals(PUB_YEAR_2, documentMetadataHandler.getYearPublished(jCas));
+			assertEquals(PUB_MONTH_2, documentMetadataHandler.getMonthPublished(jCas));
+		}
+		if (jCasIterable.hasNext()) {
+			JCas jCas = jCasIterable.next();
+			String documentText = TITLE_3 + "\n" + ABSTRACT_3;
+			assertEquals(documentText, jCas.getDocumentText());
+			assertEquals(PMID_3, documentMetadataHandler.extractDocumentId(jCas));
+			assertEquals(PUB_YEAR_3, documentMetadataHandler.getYearPublished(jCas));
+			assertEquals(PUB_MONTH_3, documentMetadataHandler.getMonthPublished(jCas));
 		}
 
 		assertFalse(jCasIterable.hasNext());
+
 	}
 
 }

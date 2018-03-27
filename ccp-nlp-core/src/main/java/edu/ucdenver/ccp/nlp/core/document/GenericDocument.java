@@ -42,6 +42,8 @@ import java.util.List;
 import java.util.Map;
 
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * This class provides a means to represent a document. Its original intent was to be used as a
@@ -60,7 +62,7 @@ public class GenericDocument {
 	private String documentID;
 
 	private int documentCollectionID;
-
+	
 	private List<String> secondaryDocumentIDs;
 
 	/*
@@ -79,6 +81,14 @@ public class GenericDocument {
 	 * Local path to the file containing this document text
 	 */
 	private File sourceFile;
+	
+	@Getter
+	@Setter
+	private Integer publicationYear;
+	
+	@Getter
+	@Setter
+	private Integer publicationMonth;
 
 	public GenericDocument(String documentID) {
 		otherDocumentIDs = new HashMap<String, String>();
