@@ -1,10 +1,15 @@
-package edu.ucdenver.ccp.nlp.core.interfaces;
+/**
+ * 
+ */
+package edu.ucdenver.ccp.nlp.uima.annotators.pos_tagger;
+
+import org.apache.uima.cas.CASException;
 
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
  * %%
- * Copyright (C) 2012 - 2014 Regents of the University of Colorado
+ * Copyright (C) 2012 - 2017 Regents of the University of Colorado
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -33,29 +38,25 @@ package edu.ucdenver.ccp.nlp.core.interfaces;
  * #L%
  */
 
-import java.util.List;
-
-import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
+import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 
 /**
- * Interface for a lexical tagger. The lexical tagger interface extends the tokenizer interface.
- * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Center for Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
-public interface IPOSTagger extends ITokenizer {
-	public final String POS_TAGSET_PENN_TREE_BANK = "PennTreebank";
-	public final String POS_TAGSET_BROWN_CORPUS = "BrownCorpus";
-	public final String POS_TAGSET_MEDPOST_CORPUS = "MedPostCorpus";
+public interface TokenCasInserter {
 
 	/**
-	 * Given some input text and a document ID, return a list of TextAnnotations, one per token of
-	 * the input text. Each TextAnnotation will have a part-of-speech slot filled with at least one
-	 * part-of-speech tag.
+	 * Inserts a sentence annotation into the CAS
 	 * 
-	 * @param inputText
-	 * @param documentID
-	 * @return
+	 * @param spanStart
+	 * @param spanEnd
+	 * @param jCas
+	 * @return the sentence annotation that was inserted
 	 */
-	public List<TextAnnotation> getTokensWithPOSTagsFromSentence(int characterOffset, String sentenceText);
+	public Annotation insertToken(int spanStart, int spanEnd, String annotatorName, JCas jCas) throws CASException;
+	
+	public Annotation insertToken(int spanStart, int spanEnd, String annotatorName, String pos, JCas jCas) throws CASException;
+
 }

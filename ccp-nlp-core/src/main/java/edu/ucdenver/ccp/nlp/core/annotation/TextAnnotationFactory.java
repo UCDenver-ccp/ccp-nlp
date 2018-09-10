@@ -48,14 +48,16 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultPrimitiveSlotMentionFactory
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
 
 /**
- * builds TextAnnotations from TextAnnotation.toString() output. First version geared towards
- * requirements from OBA annotations, makes a few assumptions: - Lists are assumed for values that
- * are comma seperated. In the future, this may require re-consideration, meta-data, or a flag in
- * the constructor. - slots with no values are not created rather than having a slot with a null
- * value or empty string. TODO: Complex Slots, will require a break from the format output from
- * TextAnnotation.toString() TODO: better error handling.
+ * builds TextAnnotations from TextAnnotation.toString() output. First version
+ * geared towards requirements from OBA annotations, makes a few assumptions: -
+ * Lists are assumed for values that are comma seperated. In the future, this
+ * may require re-consideration, meta-data, or a flag in the constructor. -
+ * slots with no values are not created rather than having a slot with a null
+ * value or empty string. TODO: Complex Slots, will require a break from the
+ * format output from TextAnnotation.toString() TODO: better error handling.
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  */
 public class TextAnnotationFactory {
 
@@ -91,7 +93,7 @@ public class TextAnnotationFactory {
 	public static TextAnnotationFactory createFactoryWithDefaults() {
 		return createFactoryWithDefaults("");
 	}
-	
+
 	public static TextAnnotationFactory createFactoryWithDefaults(String documentId) {
 		Annotator annotator = new Annotator(1, "Factory", "Test", "CCP");
 		AnnotationSet set = new AnnotationSet(1, "set", "test set");
@@ -112,6 +114,16 @@ public class TextAnnotationFactory {
 	public TextAnnotation createAnnotation(int start, int end, String covered, ClassMention cm) {
 		return new DefaultTextAnnotation(start, end, covered, annotator, annotationSet, annotatorID, -1, documentID, 1,
 				cm);
+	}
+
+	public TextAnnotation createAnnotation(int start, int end, String covered, String type) {
+		return new DefaultTextAnnotation(start, end, covered, annotator, annotationSet, annotatorID, -1, documentID, 1,
+				new DefaultClassMention(type));
+	}
+
+	public TextAnnotation createAnnotation(int start, int end, String covered, String type, String annotatorName) {
+		return new DefaultTextAnnotation(start, end, covered, new Annotator(1, annotatorName, "Test", "CCP"),
+				annotationSet, annotatorID, -1, documentID, 1, new DefaultClassMention(type));
 	}
 
 	public TextAnnotation createFromString(String s) {
@@ -182,8 +194,10 @@ public class TextAnnotationFactory {
 
 		if (matcher.find()) {
 			mentionName = matcher.group(1);
-			mentionName = mentionName.trim(); // the regex above it a little too loose.
-			// it was too tight and couldn't deal with slot names that have spaces in them.
+			mentionName = mentionName.trim(); // the regex above it a little too
+												// loose.
+			// it was too tight and couldn't deal with slot names that have
+			// spaces in them.
 			value = matcher.group(2);
 			logger.debug("READING SLOT: " + mentionName + "   value: \"" + value + "\"");
 			PrimitiveSlotMention sm = null;
@@ -192,7 +206,8 @@ public class TextAnnotationFactory {
 			Matcher intMatcher = intPattern.matcher(value);
 			Matcher doubleMatcher = doublePattern.matcher(value);
 
-			// Q: does the order matter? ...put the most restrictive pattern first
+			// Q: does the order matter? ...put the most restrictive pattern
+			// first
 			if (intMatcher.find()) {
 				String intString = intMatcher.group(0);
 				// No conversion for now...value is of type String, not Integer

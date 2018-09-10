@@ -318,6 +318,14 @@ public class TextAnnotationUtil {
 			sm.addSlotValue(slotValue);
 		}
 	}
+	
+	public static Collection getSlotValues(TextAnnotation ta, String slotName) {
+		PrimitiveSlotMention sm = ta.getClassMention().getPrimitiveSlotMentionByName(slotName);
+		if (sm == null) {
+			return null;
+		}
+		return sm.getSlotValues();
+	}
 
 	public static void addSlotValue(TextAnnotation ta, String slotName, Integer slotValue) {
 		PrimitiveSlotMention sm = ta.getClassMention().getPrimitiveSlotMentionByName(slotName);

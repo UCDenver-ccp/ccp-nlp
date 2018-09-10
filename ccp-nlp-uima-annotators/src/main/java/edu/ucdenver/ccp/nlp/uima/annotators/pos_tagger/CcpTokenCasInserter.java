@@ -1,10 +1,15 @@
-package edu.ucdenver.ccp.nlp.core.interfaces;
+/**
+ * 
+ */
+package edu.ucdenver.ccp.nlp.uima.annotators.pos_tagger;
+
+import org.apache.uima.cas.CASException;
 
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
  * %%
- * Copyright (C) 2012 - 2014 Regents of the University of Colorado
+ * Copyright (C) 2012 - 2017 Regents of the University of Colorado
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -33,29 +38,38 @@ package edu.ucdenver.ccp.nlp.core.interfaces;
  * #L%
  */
 
-import java.util.List;
+import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 
-import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
+import edu.ucdenver.ccp.nlp.core.mention.SlotMentionType;
+import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
+import edu.ucdenver.ccp.nlp.core.uima.mention.CCPPrimitiveSlotMention;
+import edu.ucdenver.ccp.nlp.uima.util.UIMA_Annotation_Util;
+import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 
 /**
- * Interface for a lexical tagger. The lexical tagger interface extends the tokenizer interface.
- * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
- * 
+ * @author Center for Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
+ *
  */
-public interface IPOSTagger extends ITokenizer {
-	public final String POS_TAGSET_PENN_TREE_BANK = "PennTreebank";
-	public final String POS_TAGSET_BROWN_CORPUS = "BrownCorpus";
-	public final String POS_TAGSET_MEDPOST_CORPUS = "MedPostCorpus";
+public class CcpTokenCasInserter implements TokenCasInserter {
 
-	/**
-	 * Given some input text and a document ID, return a list of TextAnnotations, one per token of
-	 * the input text. Each TextAnnotation will have a part-of-speech slot filled with at least one
-	 * part-of-speech tag.
-	 * 
-	 * @param inputText
-	 * @param documentID
-	 * @return
-	 */
-	public List<TextAnnotation> getTokensWithPOSTagsFromSentence(int characterOffset, String sentenceText);
+	@Override
+	public Annotation insertToken(int spanStart, int spanEnd, String annotatorName, JCas jCas) throws CASException {
+		return UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.TOKEN.typeName(), spanStart, spanEnd,
+				annotatorName, jCas);
+	}
+
+	@Override
+	public Annotation insertToken(int spanStart, int spanEnd, String annotatorName, String pos, JCas jCas)
+			throws CASException {
+		CCPTextAnnotation ccpTa = UIMA_Annotation_Util.createCCPTextAnnotation(ClassMentionType.TOKEN.typeName(),
+				spanStart, spanEnd, annotatorName, jCas);
+		CCPPrimitiveSlotMention posSlot = new CCPPrimitiveSlotMention(jCas);
+		posSlot.setMentionName(SlotMentionType.TOKEN_PARTOFSPEECH.name());
+		UIMA_Util.addSlotValue(ccpTa.getClassMention(), SlotMentionType.TOKEN_PARTOFSPEECH.name(), pos);
+		return ccpTa;
+	}
+
 }
