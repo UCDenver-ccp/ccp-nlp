@@ -58,6 +58,8 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.Level;
 import org.apache.uima.util.Logger;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -115,17 +117,41 @@ public class PmcMetadataImportAE extends JCasAnnotator_ImplBase {
 				DocumentBuilder builder = builderFactory.newDocumentBuilder();
 				Document xmlDocument = builder.parse(source);
 				XPath xPath = XPathFactory.newInstance().newXPath();
-				String yearPublishedExpression = "/article/front/article-meta/pub-date/year";
-				String monthPublishedExpression = "/article/front/article-meta/pub-date/month";
-				int year = Integer.parseInt(
-						xPath.compile(yearPublishedExpression).evaluate(xmlDocument, XPathConstants.STRING).toString());
-				int month = Integer.parseInt(xPath.compile(monthPublishedExpression)
-						.evaluate(xmlDocument, XPathConstants.STRING).toString());
+//				String yearPublishedExpression = "/article/front/article-meta/pub-date/year";
+//				String monthPublishedExpression = "/article/front/article-meta/pub-date/month";
+//				int year = Integer.parseInt(
+//						xPath.compile(yearPublishedExpression).evaluate(xmlDocument, XPathConstants.STRING).toString());
+//				int month = Integer.parseInt(xPath.compile(monthPublishedExpression)
+//						.evaluate(xmlDocument, XPathConstants.STRING).toString());
 
+				/* if multiple years are present, find the earliest publication year */
+				int year = 9999;
+				int month = 12;
+				NodeList years = (NodeList) xPath.evaluate("/article/front/article-meta/pub-date",xmlDocument, XPathConstants.NODESET);
+				for (int i = 0; i < years.getLength();i++) {
+					Node pubDateNode = years.item(i);
+					String yearStr = xPath.evaluate("year", pubDateNode);
+					String monthStr = xPath.evaluate("month", pubDateNode);
+					
+					int y = Integer.parseInt(yearStr);
+					if (y <= year) {
+						year = y;
+						if (monthStr != null && !monthStr.trim().isEmpty()) {
+							int m = Integer.parseInt(monthStr);
+							if (m < month) {
+								month = m;
+							}
+						} else {
+							month = 0;
+						}
+					}
+				}
+				
+				
 				UIMA_Util.setYearPublished(jCas, year);
 				UIMA_Util.setMonthPublished(jCas, month);
 
-				logger.log(Level.INFO, "$$$$$$$$$$$$$$$$$$$$$$$$ DOCUMENT MONTH/YEAR = " + month + "/" + year);
+//				logger.log(Level.INFO, "$$$$$$$$$$$$$$$$$$$$$$$$ DOCUMENT MONTH/YEAR = " + month + "/" + year);
 				
 				UIMA_Util.setDocumentID(jCas, documentId);
 

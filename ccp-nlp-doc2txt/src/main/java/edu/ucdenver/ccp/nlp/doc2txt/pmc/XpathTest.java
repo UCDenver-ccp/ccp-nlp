@@ -46,13 +46,16 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.net.util.SSLSocketUtils;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class XpathTest {
 	public static void main(String[] args) {
 		try {
-			FileInputStream fileIS = new FileInputStream(new File("/Users/bill/Downloads/PMC5291574.nxml"));
+			FileInputStream fileIS = new FileInputStream(new File("/Users/bill/Downloads/PMC1913286.xml"));
 
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 			builderFactory.setValidating(false);
@@ -64,12 +67,30 @@ public class XpathTest {
 			DocumentBuilder builder = builderFactory.newDocumentBuilder();
 			Document xmlDocument = builder.parse(fileIS);
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			String yearPublishedExpression = "/article/front/article-meta/pub-date/year";
-			String monthPublishedExpression = "/article/front/article-meta/pub-date/month";
-			int year = Integer.parseInt(
-					xPath.compile(yearPublishedExpression).evaluate(xmlDocument, XPathConstants.STRING).toString());
-			int month = Integer.parseInt(
-					xPath.compile(monthPublishedExpression).evaluate(xmlDocument, XPathConstants.STRING).toString());
+//			String yearPublishedExpression = "/article/front/article-meta/pub-date/year";
+//			String monthPublishedExpression = "/article/front/article-meta/pub-date/month";
+//			int year = Integer.parseInt(
+//					xPath.compile(yearPublishedExpression).evaluate(xmlDocument, XPathConstants.STRING).toString());
+//			int month = Integer.parseInt(
+//					xPath.compile(monthPublishedExpression).evaluate(xmlDocument, XPathConstants.STRING).toString());
+			
+			
+			int year = 9999;
+			int month = 1;
+			NodeList years = (NodeList) xPath.evaluate("/article/front/article-meta/pub-date",xmlDocument, XPathConstants.NODESET);
+			for (int i = 0; i < years.getLength();i++) {
+				Node pubDateNode = years.item(i);
+				String yearStr = xPath.evaluate("year", pubDateNode);
+				String monthStr = xPath.evaluate("month", pubDateNode);
+				
+				int y = Integer.parseInt(yearStr);
+				if (y < year) {
+					year = y;
+					if (monthStr != null && !monthStr.trim().isEmpty()) {
+						month = Integer.parseInt(monthStr);
+					}
+				}
+			}
 
 			System.out.println("year = " + year);
 			System.out.println("month = " + month);
