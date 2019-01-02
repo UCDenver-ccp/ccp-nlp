@@ -5,7 +5,7 @@
 	<groupId>edu.ucdenver.ccp</groupId>
 	<artifactId>ccp-nlp</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.3.3-SNAPSHOT</version>
+	<version>3.4</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -47,12 +47,12 @@
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>datasource-fileparsers</artifactId>
-				<version>0.6.3-SNAPSHOT</version>
+				<version>0.7</version>
 			</dependency>
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>datasource-rdfizer</artifactId>
-				<version>0.6.3-SNAPSHOT</version>
+				<version>0.7</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
