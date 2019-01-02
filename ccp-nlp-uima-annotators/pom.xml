@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.4</version>
+		<version>3.4.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>ccp-nlp-uima-annotators</artifactId>
 

@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>ccp-nlp-doc2txt</artifactId>
-			<version>3.4</version>
+			<version>3.4.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
