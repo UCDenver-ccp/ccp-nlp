@@ -40,15 +40,14 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.collection.CollectionException;
+import org.apache.uima.fit.component.JCasCollectionReader_ImplBase;
+import org.apache.uima.fit.component.ViewCreatorAnnotator;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.descriptor.SofaCapability;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 import org.apache.uima.util.ProgressImpl;
-import org.uimafit.component.JCasCollectionReader_ImplBase;
-import org.uimafit.component.ViewCreatorAnnotator;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.descriptor.SofaCapability;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
@@ -58,9 +57,11 @@ import edu.ucdenver.ccp.nlp.uima.util.View;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
- * Contains base functionality required by all Collection Reader implementations.
+ * Contains base functionality required by all Collection Reader
+ * implementations.
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 @SofaCapability
@@ -69,22 +70,19 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 
 	private static final String DESCRIPTION_ENCODING = "The encoding parameter should be set to the character encoding of the input "
 			+ "collection, e.g. UTF-8.";
-	public static final String PARAM_ENCODING = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "encoding");
+	public static final String PARAM_ENCODING = "encoding";
 	@ConfigurationParameter(description = DESCRIPTION_ENCODING)
 	protected CharacterEncoding encoding;
 
 	private static final String DESCRIPTION_LANGUAGE = "The encoding parameter should be set to the language of the input collection, "
 			+ "e.g. English.";
-	public static final String PARAM_LANGUAGE = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "language");
+	public static final String PARAM_LANGUAGE = "language";
 	@ConfigurationParameter(defaultValue = "English", description = DESCRIPTION_LANGUAGE)
 	protected String language;
 
 	private static final String DESCRIPTION_NUM2SKIP = "The number to skip parameter enables the user to provide a number of documents "
 			+ "to skip before processing begins. This can be useful for testing purposes.";
-	public static final String PARAM_NUM2SKIP = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "numberToSkip");
+	public static final String PARAM_NUM2SKIP = "numberToSkip";
 	@ConfigurationParameter(defaultValue = "0", description = DESCRIPTION_NUM2SKIP)
 	protected int numberToSkip;
 
@@ -92,15 +90,13 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 			+ "documents that will be processed. This can be useful for testing purposes. Any number < 0 will result in the entire "
 			+ "collection being processed. If the number to skip parameter is set, then that number of documents will be skipped before "
 			+ "the number of documents to be processed are processed.";
-	public static final String PARAM_NUM2PROCESS = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "numberToProcess");
+	public static final String PARAM_NUM2PROCESS = "numberToProcess";
 	@ConfigurationParameter(defaultValue = "-1", description = DESCRIPTION_NUM2PROCESS)
 	protected int numberToProcess;
 
 	private static final String DESCRIPTION_VIEWNAME = "This parameter enables the user to place the contents of each document into a "
 			+ "user-specified view.";
-	public static final String PARAM_VIEWNAME = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "viewName");
+	public static final String PARAM_VIEWNAME = "viewName";
 	@ConfigurationParameter(defaultValue = CAS.NAME_DEFAULT_SOFA, description = DESCRIPTION_VIEWNAME)
 	protected String viewName;
 
@@ -109,18 +105,16 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 			+ "collections, simply counting the number of documents can take an inordinate amount of time. If this flag is set to true, then "
 			+ "the number of documents in the collection is not computed and the data returned by getProgress() refects simply the number "
 			+ "of documents processed.";
-	public static final String PARAM_DISABLE_PROGRESS = ConfigurationParameterFactory.createConfigurationParameterName(
-			BaseTextCollectionReader.class, "disableProgressTracking");
+	public static final String PARAM_DISABLE_PROGRESS = "disableProgressTracking";
 	@ConfigurationParameter(defaultValue = "false", description = DESCRIPTION_DISABLE_PROGRESS)
 	protected boolean disableProgressTracking;
 
 	/* ==== DocumentMetadataHandler configuration ==== */
 	/**
-	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
-	 * implementation to use
+	 * Parameter name used in the UIMA descriptor file for the token attribute
+	 * extractor implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(BaseTextCollectionReader.class, "documentMetadataHandlerClassName");
+	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = "documentMetadataHandlerClassName";
 
 	/**
 	 * The name of the {@link DocumentMetadataHandler} implementation to use
@@ -129,8 +123,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	private String documentMetadataHandlerClassName;
 
 	/**
-	 * this {@link DocumentMetadataHandler} will be initialized based on the class name specified by
-	 * the documentMetadataExtractorClassName parameter
+	 * this {@link DocumentMetadataHandler} will be initialized based on the
+	 * class name specified by the documentMetadataExtractorClassName parameter
 	 */
 	private DocumentMetadataHandler documentMetadataHandler;
 
@@ -151,8 +145,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 			throw new ResourceInitializationException(e);
 		}
 
-		setDocumentMetadataHandler((DocumentMetadataHandler) ConstructorUtil
-				.invokeConstructor(documentMetadataHandlerClassName));
+		setDocumentMetadataHandler(
+				(DocumentMetadataHandler) ConstructorUtil.invokeConstructor(documentMetadataHandlerClassName));
 	}
 
 	/**
@@ -164,9 +158,9 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	protected abstract void initializeImplementation(UimaContext context) throws ResourceInitializationException;
 
 	/**
-	 * Counts the number of documents in the collection that will be processed. If the
-	 * disableProgress flag is set to true then the number of documents to be processed is not
-	 * computed.
+	 * Counts the number of documents in the collection that will be processed.
+	 * If the disableProgress flag is set to true then the number of documents
+	 * to be processed is not computed.
 	 * 
 	 * @return
 	 * @throws IOException
@@ -192,7 +186,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	}
 
 	/**
-	 * @return true if the collection reader has read "numbertoProcess" documents
+	 * @return true if the collection reader has read "numbertoProcess"
+	 *         documents
 	 */
 	protected boolean reachedTargetProcessedDocumentCount() {
 		return processedDocumentCount == numberToProcess;
@@ -227,6 +222,9 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 				jcas.setDocumentLanguage(this.language);
 			}
 			loadAnnotationsIntoCas(jcas, document);
+			if (document.getSourceFile() != null) {
+				getDocumentMetadataHandler().setSourceDocumentPath(jcas, document.getSourceFile());
+			}
 		} else {
 			JCas view = ViewCreatorAnnotator.createViewSafely(jcas, this.viewName);
 			view.setSofaDataString(document.getDocumentText(), "text/plain");
@@ -234,25 +232,35 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 				view.setDocumentLanguage(this.language);
 			}
 			loadAnnotationsIntoCas(view, document);
+			getDocumentMetadataHandler().setDocumentId(view, document.getDocumentID());
+			if (document.getSourceFile() != null) {
+				getDocumentMetadataHandler().setSourceDocumentPath(view, document.getSourceFile());
+			}
 		}
 		getDocumentMetadataHandler().setDocumentId(jcas, document.getDocumentID());
 		getDocumentMetadataHandler().setDocumentEncoding(jcas, encoding.getCharacterSetName());
-
+		if (document.getPublicationYear() != null) {
+			getDocumentMetadataHandler().setYearPublished(jcas, document.getPublicationYear());
+		}
+		if (document.getPublicationMonth() != null) {
+			getDocumentMetadataHandler().setMonthPublished(jcas, document.getPublicationMonth());
+		}
 		logger.info("Processing document " + processedDocumentCount + " of " + documentsToBeProcessedCount
 				+ ".  Loading view: " + this.viewName);
 
 	}
 
 	/**
-	 * Override to load annotations into the when it is initialized. This method is useful for
-	 * loading gold standard annotations for example.
+	 * Override to load annotations into the when it is initialized. This method
+	 * is useful for loading gold standard annotations for example.
 	 * 
 	 * @param jcas
 	 * @param document
 	 */
 	protected void loadAnnotationsIntoCas(@SuppressWarnings("unused") JCas jcas,
 			@SuppressWarnings("unused") GenericDocument document) {
-		// do nothing, to be overriden by a subclass if this functionality is desired
+		// do nothing, to be overriden by a subclass if this functionality is
+		// desired
 	}
 
 	@Override
@@ -260,7 +268,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 		if (disableProgressTracking) {
 			documentsToBeProcessedCount = processedDocumentCount + 1;
 		}
-		return new Progress[] { new ProgressImpl(processedDocumentCount, documentsToBeProcessedCount, Progress.ENTITIES) };
+		return new Progress[] {
+				new ProgressImpl(processedDocumentCount, documentsToBeProcessedCount, Progress.ENTITIES) };
 	}
 
 	/**
@@ -271,7 +280,8 @@ public abstract class BaseTextCollectionReader extends JCasCollectionReader_Impl
 	}
 
 	/**
-	 * @param documentMetadataHandler the documentMetadataHandler to set
+	 * @param documentMetadataHandler
+	 *            the documentMetadataHandler to set
 	 */
 	private void setDocumentMetadataHandler(DocumentMetadataHandler documentMetadataHandler) {
 		this.documentMetadataHandler = documentMetadataHandler;

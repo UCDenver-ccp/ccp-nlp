@@ -39,14 +39,13 @@ import java.util.List;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Level;
 import org.apache.uima.util.Logger;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
@@ -65,8 +64,7 @@ public abstract class SentenceAnnotationProcessor extends JCasAnnotator_ImplBase
 	 * Parameter name used in the UIMA descriptor file for the annotation data extractor
 	 * implementation to use
 	 */
-	public static final String PARAM_ANNOTATION_DATA_EXTRACTOR_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(SentenceAnnotationProcessor.class, "annotationDataExtractorClassName");
+	public static final String PARAM_ANNOTATION_DATA_EXTRACTOR_CLASS = "annotationDataExtractorClassName";
 
 	@ConfigurationParameter(mandatory = true, description = "name of the AnnotationDataExtractor implementation to use", defaultValue = ShimDefaults.DEFAULT_ANNOTATION_DATA_EXTRACTOR_CLASS_NAME)
 	private String annotationDataExtractorClassName;
@@ -81,8 +79,7 @@ public abstract class SentenceAnnotationProcessor extends JCasAnnotator_ImplBase
 	 * Parameter name used in the UIMA descriptor file for the annotation data extractor
 	 * implementation to use
 	 */
-	public static final String PARAM_SENTENCE_ANNOTATION_NAME = ConfigurationParameterFactory
-			.createConfigurationParameterName(SentenceAnnotationProcessor.class, "sentenceAnnotationName");
+	public static final String PARAM_SENTENCE_ANNOTATION_NAME = "sentenceAnnotationName";
 
 	@ConfigurationParameter(description = "name of the sentence annotation type to process", defaultValue = "sentence")
 	private String sentenceAnnotationName;

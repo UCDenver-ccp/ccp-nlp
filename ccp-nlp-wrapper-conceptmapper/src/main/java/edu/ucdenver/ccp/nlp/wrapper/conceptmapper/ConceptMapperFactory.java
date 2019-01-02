@@ -39,44 +39,38 @@ package edu.ucdenver.ccp.nlp.wrapper.conceptmapper;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.analysis_engine.metadata.AnalysisEngineMetaData;
 import org.apache.uima.conceptMapper.ConceptMapper;
 import org.apache.uima.conceptMapper.support.dictionaryResource.DictionaryResource_impl;
 import org.apache.uima.conceptMapper.support.stemmer.Stemmer;
 import org.apache.uima.conceptMapper.support.tokens.TokenFilter;
 import org.apache.uima.conceptMapper.support.tokens.TokenNormalizer;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
+import org.apache.uima.fit.factory.ExternalResourceFactory;
+import org.apache.uima.fit.factory.TypeSystemDescriptionFactory;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.pear.util.FileUtil;
-import org.apache.uima.resource.ExternalResourceDescription;
-import org.apache.uima.resource.metadata.TypeDescription;
-import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.apache.uima.resource.metadata.ExternalResourceBinding;
-import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
-import org.apache.uima.resource.metadata.NameValuePair;
 import org.apache.uima.resource.ExternalResourceDependency;
 import org.apache.uima.resource.ExternalResourceDescription;
+import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
 import org.apache.uima.resource.metadata.ExternalResourceBinding;
-import org.apache.uima.analysis_engine.metadata.AnalysisEngineMetaData;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
-import org.uimafit.factory.ExternalResourceFactory;
+import org.apache.uima.resource.metadata.NameValuePair;
+import org.apache.uima.resource.metadata.TypeDescription;
+import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.xml.sax.SAXException;
 
-import org.apache.uima.resource.metadata.OperationalProperties;
-
-import uima.tt.TokenAnnotation;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
-import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.TokenNormalizerConfigParam.CaseMatchParamValue;
+import uima.tt.TokenAnnotation;
 
 /* (non javadoc) 
 
@@ -560,7 +554,6 @@ public class ConceptMapperFactory {
 		boolean printDictionary = false;
 
 		File tokenizerDescriptorPath = FileUtil.createTempFile("tokenizer-desc", "xml");
-		System.out.println(tokenizerDescription.toString());
 
 		BufferedWriter writer = FileWriterUtil.initBufferedWriter(tokenizerDescriptorPath, CharacterEncoding.UTF_8,
 				WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
@@ -570,9 +563,6 @@ public class ConceptMapperFactory {
 			throw new RuntimeException(e);
 		}
 		writer.close();
-
-		// UIMA_Util.outputDescriptorToFile(tokenizerDescription, tokenizerDescriptorPath);
-		System.out.println("tokenizer desc: " + tokenizerDescriptorPath.getAbsolutePath());
 
 		Object[] configurationData = ConceptMapperFactory.buildConfigurationData(attributeList, dictionaryFile,
 				featureList, findAllMatches, matchedTokensFeatureName, orderIndependentLookup,

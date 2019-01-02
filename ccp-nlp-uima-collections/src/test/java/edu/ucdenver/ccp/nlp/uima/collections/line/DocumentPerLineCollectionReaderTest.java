@@ -42,10 +42,11 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.fit.pipeline.JCasIterable;
+import org.apache.uima.fit.pipeline.JCasIterator;
 import org.apache.uima.jcas.JCas;
 import org.junit.Test;
-import org.uimafit.pipeline.JCasIterable;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
@@ -70,10 +71,10 @@ public class DocumentPerLineCollectionReaderTest extends DefaultTestCase {
 		File collectionFile = createSampleCollectionFile();
 		int numToSkip = 0;
 		int numToProcess = -1; // process all
-		CollectionReader cr = DocumentPerLineCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
+		CollectionReaderDescription cr = DocumentPerLineCollectionReader.createCollectionReaderDescription(TypeSystemUtil.getCcpTypeSystem(),
 				collectionFile, numToSkip, numToProcess, TabDocumentExtractor.class, CcpDocumentMetadataHandler.class);
 
-		JCasIterable jCasIterable = new JCasIterable(cr);
+		JCasIterator jCasIterable = new JCasIterable(cr).iterator();
 
 		assertTrue(jCasIterable.hasNext());
 		JCas jCas = jCasIterable.next();
@@ -95,10 +96,10 @@ public class DocumentPerLineCollectionReaderTest extends DefaultTestCase {
 		File collectionFile = createSampleCollectionFile();
 		int numToSkip = 0;
 		int numToProcess = 1; // process one
-		CollectionReader cr = DocumentPerLineCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
+		CollectionReaderDescription cr = DocumentPerLineCollectionReader.createCollectionReaderDescription(TypeSystemUtil.getCcpTypeSystem(),
 				collectionFile, numToSkip, numToProcess, TabDocumentExtractor.class, CcpDocumentMetadataHandler.class);
 
-		JCasIterable jCasIterable = new JCasIterable(cr);
+		JCasIterator jCasIterable = new JCasIterable(cr).iterator();
 
 		assertTrue(jCasIterable.hasNext());
 		JCas jCas = jCasIterable.next();
@@ -112,10 +113,10 @@ public class DocumentPerLineCollectionReaderTest extends DefaultTestCase {
 		File collectionFile = createSampleCollectionFile();
 		int numToSkip = 1;
 		int numToProcess = 1; // process one
-		CollectionReader cr = DocumentPerLineCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
+		CollectionReaderDescription cr = DocumentPerLineCollectionReader.createCollectionReaderDescription(TypeSystemUtil.getCcpTypeSystem(),
 				collectionFile, numToSkip, numToProcess, TabDocumentExtractor.class, CcpDocumentMetadataHandler.class);
 
-		JCasIterable jCasIterable = new JCasIterable(cr);
+		JCasIterator jCasIterable = new JCasIterable(cr).iterator();
 
 		assertTrue(jCasIterable.hasNext());
 		JCas jCas = jCasIterable.next();
@@ -129,10 +130,10 @@ public class DocumentPerLineCollectionReaderTest extends DefaultTestCase {
 		File collectionFile = createSampleCollectionFile();
 		int numToSkip = 3;
 		int numToProcess = 1; // process one
-		CollectionReader cr = DocumentPerLineCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
+		CollectionReaderDescription cr = DocumentPerLineCollectionReader.createCollectionReaderDescription(TypeSystemUtil.getCcpTypeSystem(),
 				collectionFile, numToSkip, numToProcess, TabDocumentExtractor.class, CcpDocumentMetadataHandler.class);
 
-		JCasIterable jCasIterable = new JCasIterable(cr);
+		JCasIterator jCasIterable = new JCasIterable(cr).iterator();
 		assertFalse(jCasIterable.hasNext());
 	}
 

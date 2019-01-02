@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http//www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http//www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jcasgen.typesystem>edu/ucdenver/ccp/nlp/core/uima/TypeSystem.xml</jcasgen.typesystem>
+		<ver.uima>2.9.0</ver.uima>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -12,7 +14,7 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.3.2</version>
+		<version>3.3.3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -24,12 +26,27 @@
 		<dependency>
 			<groupId>org.apache.uima</groupId>
 			<artifactId>uimaj-core</artifactId>
-			<version>2.4.0</version>
+			<version>${ver.uima}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.uimafit</groupId>
-			<artifactId>uimafit</artifactId>
-			<version>1.4.0</version>
+			<groupId>org.apache.uima</groupId>
+			<artifactId>uimaj-as-core</artifactId>
+			<version>${ver.uima}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.uima</groupId>
+			<artifactId>uimaj-as-jms</artifactId>
+			<version>${ver.uima}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.uima</groupId>
+			<artifactId>uimaj-as-activemq</artifactId>
+			<version>${ver.uima}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.uima</groupId>
+			<artifactId>uimafit-core</artifactId>
+			<version>2.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -55,20 +72,22 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
 			</plugin>
-            <plugin>
-                <groupId>org.cleartk</groupId>
-                <artifactId>jcasgen-maven-plugin</artifactId>
-                <version>0.9.3</version>
-                <configuration>
-                    <typeSystem>src/main/resources/edu/ucdenver/ccp/nlp/core/uima/TypeSystem.xml</typeSystem>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>process-resources</phase>
-                        <goals> <goal>generate</goal> </goals>
-                    </execution>
-                </executions>
-            </plugin>
+			<plugin>
+				<groupId>org.cleartk</groupId>
+				<artifactId>jcasgen-maven-plugin</artifactId>
+				<version>0.9.3</version>
+				<configuration>
+					<typeSystem>src/main/resources/edu/ucdenver/ccp/nlp/core/uima/TypeSystem.xml</typeSystem>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -90,7 +109,7 @@
 					</execution>
 				</executions>
 			</plugin>
-				<!-- create a source jar file -->
+			<!-- create a source jar file -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>

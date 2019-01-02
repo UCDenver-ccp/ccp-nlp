@@ -41,14 +41,15 @@ import org.apache.uima.jcas.JCas;
 /**
  * Utility class for working with UIMA views
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class View_Util {
 
 	/**
-	 * Helper method that will retrieve a view with a given name. If the view does not exist, then
-	 * it is created.
+	 * Helper method that will retrieve a view with a given name. If the view
+	 * does not exist, then it is created.
 	 * 
 	 * @param jcas
 	 * @param viewName
@@ -58,26 +59,57 @@ public class View_Util {
 	public static JCas getView(JCas jcas, String viewName) throws CASException {
 		for (Iterator<JCas> viewIter = jcas.getViewIterator(); viewIter.hasNext();) {
 			JCas view = viewIter.next();
-			if (view.getViewName().equals(viewName))
+			if (view.getViewName().equals(viewName)) {
 				return view;
+			}
 		}
 		/* View does not already exist so create it */
 		return jcas.createView(viewName);
 	}
 
+	public static JCas getView(JCas jcas, View view) throws CASException {
+		return getView(jcas, view.viewName());
+	}
+
 	/**
-	 * This method returns the proper view in the case of defaults. If the view name is "default"
-	 * then the main jcas itself is returned. If the view name is something other than "default"
-	 * then the correct view is returned, or created then returned if it doesn't already exist.
+	 * @param jCas
+	 * @param viewName
+	 * @return true if the specified View exists
+	 * @throws CASException
+	 */
+	public static boolean viewExists(JCas jCas, String viewName) throws CASException {
+		for (Iterator<JCas> viewIter = jCas.getViewIterator(); viewIter.hasNext();) {
+			JCas view = viewIter.next();
+			if (view.getViewName().equals(viewName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean viewExists(JCas jCas, View view) throws CASException {
+		return viewExists(jCas, view.viewName());
+	}
+
+	/**
+	 * This method returns the proper view in the case of defaults. If the view
+	 * name is "default" then the main jcas itself is returned. If the view name
+	 * is something other than "default" then the correct view is returned, or
+	 * created then returned if it doesn't already exist.
 	 * 
 	 * @return
 	 * @throws CASException
 	 */
-	public static JCas getViewHandleDefault(JCas jcas, String viewName) throws CASException {
-		if (viewName.equalsIgnoreCase(View.DEFAULT.name()))
+	public static JCas getViewHandleDefault(JCas jCas, String viewName) throws CASException {
+		if (viewName.equalsIgnoreCase(View.DEFAULT.viewName())) {
 			viewName = View.DEFAULT.viewName();
+		}
 
-		return View_Util.getView(jcas, viewName);
+		return View_Util.getView(jCas, viewName);
+	}
+
+	public static JCas getViewHandleDefault(JCas jCas, View view) throws CASException {
+		return getViewHandleDefault(jCas, view.viewName());
 	}
 
 }

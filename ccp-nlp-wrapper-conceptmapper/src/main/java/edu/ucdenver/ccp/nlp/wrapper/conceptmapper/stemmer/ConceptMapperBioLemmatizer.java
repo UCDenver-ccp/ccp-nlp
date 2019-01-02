@@ -57,8 +57,12 @@ import edu.ucdenver.ccp.nlp.biolemmatizer.LemmataEntry.Lemma;
  */
 public class ConceptMapperBioLemmatizer implements Stemmer {
 
-	private static BioLemmatizer bioLemmatizer = new BioLemmatizer();
+	private BioLemmatizer bioLemmatizer;
 
+	public ConceptMapperBioLemmatizer() {
+		bioLemmatizer = new BioLemmatizer();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

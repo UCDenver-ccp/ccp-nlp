@@ -44,17 +44,16 @@ import java.util.Iterator;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
-import org.uimafit.util.JCasUtil;
 
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil;
@@ -71,13 +70,20 @@ import edu.ucdenver.ccp.uima.shims.annotation.AnnotationDataExtractor;
  */
 public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 
+	/**
+	 * If set, the namespace will be appended to the front of the ontology
+	 * concept prior to looking it up in the ontology util
+	 */
+	public static final String PARAM_ONT_NAMESPACE = "ontologyNamespace";
+	@ConfigurationParameter(mandatory = true, description = "namespace", defaultValue = "")
+	private String ontologyNamespace;
+
 	/* ==== AnnotationDataExtractor configuration ==== */
 	/**
 	 * Parameter name used in the UIMA descriptor file for the annotation data
 	 * extractor implementation to use
 	 */
-	public static final String PARAM_ANNOTATION_DATA_EXTRACTOR_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(OntologyClassRemovalFilter_AE.class, "annotationDataExtractorClassName");
+	public static final String PARAM_ANNOTATION_DATA_EXTRACTOR_CLASS = "annotationDataExtractorClassName";
 
 	/**
 	 * The name of the {@link AnnotationDataExtractor} implementation to use
@@ -95,8 +101,7 @@ public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 	/**
 	 * The file containing the ontology
 	 */
-	public static final String PARAM_OBO_FILE = ConfigurationParameterFactory.createConfigurationParameterName(
-			OntologyClassRemovalFilter_AE.class, "ontologyFile");
+	public static final String PARAM_OBO_FILE = "ontologyFile";
 
 	@ConfigurationParameter(mandatory = true, description = "path to the file containing the ontology")
 	private File ontologyFile;
@@ -105,8 +110,7 @@ public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 	/**
 	 * The ontology ID to remove (including all of its subclasses)
 	 */
-	public static final String PARAM_ANNOTATION_TYPE_OF_INTEREST = ConfigurationParameterFactory
-			.createConfigurationParameterName(OntologyClassRemovalFilter_AE.class, "termIdToRemove");
+	public static final String PARAM_ANNOTATION_TYPE_OF_INTEREST = "termIdToRemove";
 
 	@ConfigurationParameter(mandatory = true, description = "identifer for the term to remove from the CAS. All subclasses of this term will also be removed.")
 	private String termIdToRemove;
@@ -150,9 +154,13 @@ public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 			String annotationType = annotationDataExtractor.getAnnotationType(annotation);
 			if (annotationType != null) {
 				if (annotationType.equals(termIdToRemove)
-						|| ontUtil.isDescendent(ontUtil.getOWLClassFromId(annotationType),
-								ontUtil.getOWLClassFromId(termIdToRemove))
-						|| ontUtil.isObsolete(ontUtil.getOWLClassFromId(annotationType))) {
+						/* if the concept isn't in the ontology, e.g. independent_continuant, then remove the annotation */
+						|| ontUtil.getOWLClassFromId(ontologyNamespace + annotationType.replace(":", "_")) == null
+						|| ontUtil.isDescendent(
+								ontUtil.getOWLClassFromId(ontologyNamespace + annotationType.replace(":", "_")),
+								ontUtil.getOWLClassFromId(ontologyNamespace + termIdToRemove.replace(":", "_")))
+						|| ontUtil.isObsolete(
+								ontUtil.getOWLClassFromId(ontologyNamespace + annotationType.replace(":", "_")))) {
 					annotationsToRemove.add(annotation);
 				}
 			}
@@ -164,11 +172,12 @@ public class OntologyClassRemovalFilter_AE extends JCasAnnotator_ImplBase {
 	}
 
 	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd,
-			Class<? extends AnnotationDataExtractor> annotationDataExtractorClass, String idToRemove, File oboFile)
-			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitiveDescription(OntologyClassRemovalFilter_AE.class, tsd,
+			Class<? extends AnnotationDataExtractor> annotationDataExtractorClass, String idToRemove, File oboFile,
+			String ontologyNamespace) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createEngineDescription(OntologyClassRemovalFilter_AE.class, tsd,
 				PARAM_ANNOTATION_DATA_EXTRACTOR_CLASS, annotationDataExtractorClass.getName(),
-				PARAM_ANNOTATION_TYPE_OF_INTEREST, idToRemove, PARAM_OBO_FILE, oboFile.getAbsolutePath());
+				PARAM_ANNOTATION_TYPE_OF_INTEREST, idToRemove, PARAM_OBO_FILE, oboFile.getAbsolutePath(),
+				PARAM_ONT_NAMESPACE, ontologyNamespace);
 	}
 
 }

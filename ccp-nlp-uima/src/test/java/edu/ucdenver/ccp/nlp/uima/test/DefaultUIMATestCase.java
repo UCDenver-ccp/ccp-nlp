@@ -37,12 +37,12 @@ import java.io.IOException;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.cas.CASException;
+import org.apache.uima.fit.factory.JCasFactory;
+import org.apache.uima.fit.factory.TypeSystemDescriptionFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.After;
 import org.junit.Before;
-import org.uimafit.factory.JCasFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
 
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;

@@ -236,5 +236,15 @@ public class SpanTest {
 		assertEquals(String.format("Expected a listing of individual spans delimited by underscores."),
 				expectedSpanListStr, spanListStr);
 	}
+	
+	@Test
+	public void testFromString() {
+		Span s1 = new Span(34,56);
+		String spanStr = s1.toString();
+		
+		Span s2 = Span.fromString(spanStr);
+		
+		assertEquals(s1, s2);
+	}
 
 }

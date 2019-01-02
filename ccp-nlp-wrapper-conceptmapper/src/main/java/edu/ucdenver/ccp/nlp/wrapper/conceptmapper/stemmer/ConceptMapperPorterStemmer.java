@@ -42,17 +42,24 @@ import java.text.ParseException;
 import org.apache.uima.conceptMapper.support.stemmer.Stemmer;
 
 /**
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class ConceptMapperPorterStemmer implements Stemmer {
 
-	private static org.tartarus.martin.Stemmer stemmer = new org.tartarus.martin.Stemmer();
+	private final org.tartarus.martin.Stemmer stemmer;
+
+	public ConceptMapperPorterStemmer() {
+		stemmer = new org.tartarus.martin.Stemmer();
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.apache.uima.conceptMapper.support.stemmer.Stemmer#stem(java.lang.String)
+	 * @see
+	 * org.apache.uima.conceptMapper.support.stemmer.Stemmer#stem(java.lang.
+	 * String)
 	 */
 	@Override
 	public String stem(String token) {
@@ -64,7 +71,9 @@ public class ConceptMapperPorterStemmer implements Stemmer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.apache.uima.conceptMapper.support.stemmer.Stemmer#initialize(java.lang.String)
+	 * @see
+	 * org.apache.uima.conceptMapper.support.stemmer.Stemmer#initialize(java.
+	 * lang.String)
 	 */
 	@Override
 	public void initialize(String dictionary) throws FileNotFoundException, ParseException {

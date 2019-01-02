@@ -60,36 +60,34 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.conceptMapper.support.tokenizer.TokenAnnotation;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.OntologyTerm;
 
 /**
- * Converts ConceptMapper OntologyTerm annotations to a corresponding CCPTextAnnotation object.
+ * Converts ConceptMapper OntologyTerm annotations to a corresponding
+ * CCPTextAnnotation object.
  * 
  * @author Bill Baumgartner
  * 
  */
 public class ConceptMapper2CCPTypeSystemConverter_AE extends JCasAnnotator_ImplBase {
 
-	public final static String  PARAM_ADD_CANON_SLOT
-        = ConfigurationParameterFactory.createConfigurationParameterName(
-            ConceptMapper2CCPTypeSystemConverter_AE.class, "addCanonSlot");
-    @ConfigurationParameter(mandatory = false, 
-                            description = "True if you want a slot with the canonical name")
-    private boolean addCanonSlot=false;
+	public final static String PARAM_ADD_CANON_SLOT = "addCanonSlot";
+	@ConfigurationParameter(mandatory = false, description = "True if you want a slot with the canonical name")
+	private boolean addCanonSlot = false;
 
 	/**
-	 * Cycle through all OntologyTerms and TokenAnnotations and converts to CCPTextAnnotations.
-	 * OntologyTerm and TokenAnnotation annotations are removed from the CAS once converted.
+	 * Cycle through all OntologyTerms and TokenAnnotations and converts to
+	 * CCPTextAnnotations. OntologyTerm and TokenAnnotation annotations are
+	 * removed from the CAS once converted.
 	 */
 	@Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {
@@ -99,7 +97,8 @@ public class ConceptMapper2CCPTypeSystemConverter_AE extends JCasAnnotator_ImplB
 		for (FSIterator<Annotation> annotIter = jcas.getJFSIndexRepository().getAnnotationIndex(OntologyTerm.type)
 				.iterator(); annotIter.hasNext();) {
 			OntologyTerm ot = (OntologyTerm) annotIter.next();
-			CCPTextAnnotation ccpTA = CCPConceptMapperTypeSystemConverter_Util.convertOntologyTerm(ot, jcas, addCanonSlot);
+			CCPTextAnnotation ccpTA = CCPConceptMapperTypeSystemConverter_Util.convertOntologyTerm(ot, jcas,
+					addCanonSlot);
 			if (ccpTA != null) {
 				annotations2add.add(ccpTA);
 				annotations2remove.add(ot);
@@ -111,8 +110,8 @@ public class ConceptMapper2CCPTypeSystemConverter_AE extends JCasAnnotator_ImplB
 		for (FSIterator<Annotation> annotIter = jcas.getJFSIndexRepository().getAnnotationIndex(TokenAnnotation.type)
 				.iterator(); annotIter.hasNext();) {
 			TokenAnnotation token = (TokenAnnotation) annotIter.next();
-			CCPTextAnnotation ccpToken = CCPConceptMapperTypeSystemConverter_Util
-					.convertToken(token, jcas, tokenNumber);
+			CCPTextAnnotation ccpToken = CCPConceptMapperTypeSystemConverter_Util.convertToken(token, jcas,
+					tokenNumber);
 			tokenNumber++;
 			if (ccpToken != null) {
 				annotations2add.add(ccpToken);
@@ -132,12 +131,12 @@ public class ConceptMapper2CCPTypeSystemConverter_AE extends JCasAnnotator_ImplB
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd)
 			throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(ConceptMapper2CCPTypeSystemConverter_AE.class, tsd,
-			PARAM_ADD_CANON_SLOT, false);
+				PARAM_ADD_CANON_SLOT, false);
 	}
 
-	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd, boolean addCanonicalSlot)
-			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitiveDescription(ConceptMapper2CCPTypeSystemConverter_AE.class, tsd, 
-			PARAM_ADD_CANON_SLOT, addCanonicalSlot);
+	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
+			boolean addCanonicalSlot) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createPrimitiveDescription(ConceptMapper2CCPTypeSystemConverter_AE.class, tsd,
+				PARAM_ADD_CANON_SLOT, addCanonicalSlot);
 	}
 }

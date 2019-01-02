@@ -285,7 +285,7 @@ public class TextAnnotationUtil {
 			if (!annotationsToKeep.contains(ta)) {
 				annotationsToKeep.add(ta);
 			} else {
-				logger.info("Duplicate Annotation Removed: " + ta.getSingleLineRepresentation());
+				logger.debug("Duplicate Annotation Removed: " + ta.getSingleLineRepresentation());
 			}
 		}
 		return annotationsToKeep;
@@ -317,6 +317,14 @@ public class TextAnnotationUtil {
 		} else {
 			sm.addSlotValue(slotValue);
 		}
+	}
+	
+	public static Collection getSlotValues(TextAnnotation ta, String slotName) {
+		PrimitiveSlotMention sm = ta.getClassMention().getPrimitiveSlotMentionByName(slotName);
+		if (sm == null) {
+			return null;
+		}
+		return sm.getSlotValues();
 	}
 
 	public static void addSlotValue(TextAnnotation ta, String slotName, Integer slotValue) {

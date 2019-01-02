@@ -11,23 +11,29 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.3.2</version>
+		<version>3.3.3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
-			<artifactId>medline-xml-parser</artifactId>
-			<version>2013</version>
+			<artifactId>medline-xml</artifactId>
+			<version>2018.0-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>edu.ucdenver.ccp</groupId>
+			<artifactId>medline-core</artifactId>
+			<version>2018.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- <dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>medline-xml-parser</artifactId>
 			<version>2013</version>
 			<type>test-jar</type>
 			<scope>test</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

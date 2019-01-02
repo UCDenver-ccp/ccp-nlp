@@ -42,8 +42,8 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.conceptMapper.support.stemmer.Stemmer;
 import org.apache.uima.conceptMapper.support.tokenizer.OffsetTokenizer;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.factory.AnalysisEngineFactory;
 
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.ConceptMapperFactory.TokenNormalizerConfigParam.CaseMatchParamValue;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.UimaConfigParam;

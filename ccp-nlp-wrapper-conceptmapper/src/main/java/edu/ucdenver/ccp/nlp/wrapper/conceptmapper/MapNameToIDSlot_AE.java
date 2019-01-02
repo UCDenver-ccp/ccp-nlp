@@ -36,31 +36,22 @@ package edu.ucdenver.ccp.nlp.wrapper.conceptmapper;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.analysis_engine.ResultSpecification;
-import org.apache.uima.analysis_engine.annotator.AnnotatorConfigurationException;
-import org.apache.uima.UimaContext;
-import org.apache.uima.util.Level;
-import org.apache.uima.analysis_engine.annotator.AnnotatorContextException;
-import org.apache.uima.analysis_engine.annotator.AnnotatorInitializationException;
-import org.apache.uima.analysis_engine.annotator.AnnotatorProcessException;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 
-
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.uima.mention.CCPClassMention;
 import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
-
-import org.apache.log4j.Logger;
 
 /**
  * Take a CCPTextAnnotation and change the ClassMentionName

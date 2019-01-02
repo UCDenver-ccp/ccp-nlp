@@ -59,14 +59,14 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
+import org.apache.uima.fit.factory.ConfigurationParameterFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPAnnotationSet;
 import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
@@ -83,23 +83,19 @@ import edu.ucdenver.ccp.nlp.core.uima.annotation.CCPTextAnnotation;
  */
 public class AnnotationSetOverrider_AE extends JCasAnnotator_ImplBase {
 
-	public static final String PARAM_SETID = ConfigurationParameterFactory.createConfigurationParameterName(
-			AnnotationSetOverrider_AE.class, "setID");
+	public static final String PARAM_SETID = "setID";
 	@ConfigurationParameter(mandatory = true)
 	private int setID = -1;
 
-	public static final String PARAM_SETNAME = ConfigurationParameterFactory.createConfigurationParameterName(
-			AnnotationSetOverrider_AE.class, "setName");
+	public static final String PARAM_SETNAME = "setName";
 	@ConfigurationParameter()
 	private String setName = null;
 
-	public static final String PARAM_SETDESCRIPTION = ConfigurationParameterFactory.createConfigurationParameterName(
-			AnnotationSetOverrider_AE.class, "setDescription");
+	public static final String PARAM_SETDESCRIPTION = "setDescription";
 	@ConfigurationParameter()
 	private String setDescription = null;
 
-	public static final String PARAM_ANNOTATION_SETS_TO_IGNORE = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationSetOverrider_AE.class, "annotationSetsToIgnore");
+	public static final String PARAM_ANNOTATION_SETS_TO_IGNORE = "annotationSetsToIgnore";
 	@ConfigurationParameter()
 	private Set<Integer> annotationSetsToIgnore;
 

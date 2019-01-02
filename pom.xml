@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>edu.ucdenver.ccp</groupId>
 	<artifactId>ccp-nlp</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.3.2</version>
+	<version>3.3.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -34,25 +35,36 @@
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>common</artifactId>
-				<version>1.5.1</version>
+				<version>1.5.6</version>
 			</dependency>
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>common</artifactId>
-				<version>1.5.1</version>
+				<version>1.5.6</version>
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>edu.ucdenver.ccp</groupId>
 				<artifactId>datasource-fileparsers</artifactId>
-				<version>0.6.1</version>
+				<version>0.6.3-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>edu.ucdenver.ccp</groupId>
+				<artifactId>datasource-rdfizer</artifactId>
+				<version>0.6.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.8.2</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.16.14</version>
+				<scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -1,5 +1,7 @@
 package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo;
 
+import java.io.BufferedReader;
+
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -36,15 +38,19 @@ package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.StringUtils;
 import org.semanticweb.owlapi.model.OWLClass;
 
+import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
@@ -52,6 +58,7 @@ import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.xml.XmlUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil.SynonymType;
+import lombok.Data;
 
 /**
  * A utility for building an XML-formatted dictionary of terms in an OBO
@@ -62,9 +69,8 @@ import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil.SynonymType;
  */
 public class OboToDictionary {
 
-	/**
-	 * 
-	 */
+	private static final Logger logger = Logger.getLogger(OboToDictionary.class);
+
 	private static final int MINIMUM_TERM_LENGTH = 3;
 
 	public static String TOKEN_TAG = "token";
@@ -77,8 +83,15 @@ public class OboToDictionary {
 	}
 
 	public static void buildDictionary(File outputFile, OntologyUtil ontUtil, Set<String> namespacesToInclude,
-			SynonymType synonymType) throws IOException {
-		buildDictionary(outputFile, ontUtil, namespacesToInclude, synonymType, null, null);
+			SynonymType synonymType, DictionaryEntryModifier dictEntryModifier) throws IOException {
+		buildDictionary(outputFile, ontUtil, namespacesToInclude, synonymType, null, null, null, dictEntryModifier);
+	}
+
+	public static void buildDictionary(File outputFile, OntologyUtil ontUtil, Set<String> namespacesToInclude,
+			SynonymType synonymType, Map<String, Set<String>> id2externalSynonymMap,
+			DictionaryEntryModifier dictEntryModifier) throws IOException {
+		buildDictionary(outputFile, ontUtil, namespacesToInclude, synonymType, null, null, id2externalSynonymMap,
+				dictEntryModifier);
 	}
 
 	/**
@@ -88,34 +101,49 @@ public class OboToDictionary {
 	 * @param synonymType
 	 *            ALL to include all synonyms,EXACT_ONLY to include only exact
 	 *            synonyms
+	 * @param dictEntryModifier
 	 * @throws IOException
 	 */
 	public static void buildDictionary(File outputFile, OntologyUtil ontUtil, Set<String> namespacesToInclude,
-			SynonymType synonymType, Set<OWLClass> subTreeRootIdsToExclude, Set<OWLClass> subTreeRootIdsToInclude)
+			SynonymType synonymType, Set<OWLClass> subTreeRootIdsToExclude, Set<OWLClass> subTreeRootIdsToInclude,
+			Map<String, Set<String>> id2externalSynonymMap, DictionaryEntryModifier dictEntryModifier)
 			throws IOException {
-		BufferedWriter writer = FileWriterUtil.initBufferedWriter(outputFile, CharacterEncoding.UTF_8,
-				WriteMode.OVERWRITE, FileSuffixEnforcement.OFF);
-		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<synonym>");
-		writer.newLine();
-		for (Iterator<OWLClass> ontClsIter = ontUtil.getClassIterator(); ontClsIter.hasNext();) {
-			OWLClass owlClass = ontClsIter.next();
-			if (owlClass != null // && !oboObj.getName().startsWith("obo:")
-					&& classNotInExcludedSubtree(owlClass, subTreeRootIdsToExclude, ontUtil)
-					&& classInIncludedSubtree(owlClass, subTreeRootIdsToInclude, ontUtil)) {
-				if (namespacesToInclude == null || namespacesToInclude.isEmpty()) {
-					writer.write(objToString(owlClass.toStringID(), owlClass, synonymType, ontUtil));
-				} else {
-					String ns = ontUtil.getNamespace(owlClass);
-					if (ns != null) {
-						if (namespacesToInclude.contains(ns)) {
-							writer.write(objToString(owlClass.toStringID(), owlClass, synonymType, ontUtil));
+		long startTime = System.currentTimeMillis();
+		try (BufferedWriter writer = Files.newBufferedWriter(
+				FileSystems.getDefault().getPath(outputFile.getAbsolutePath()), StandardCharsets.UTF_8)) {
+			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<synonym>");
+			writer.newLine();
+			logger.info("Initialized dictionary writer: " + ((System.currentTimeMillis() - startTime) / 1000) + "s");
+			int count = 0;
+			startTime = System.currentTimeMillis();
+			for (Iterator<OWLClass> ontClsIter = ontUtil.getClassIterator(); ontClsIter.hasNext();) {
+				OWLClass owlClass = ontClsIter.next();
+				if (owlClass != null // && !oboObj.getName().startsWith("obo:")
+						&& classNotInExcludedSubtree(owlClass, subTreeRootIdsToExclude, ontUtil)
+						&& classInIncludedSubtree(owlClass, subTreeRootIdsToInclude, ontUtil)) {
+					if (count++ % 1000 == 0) {
+						logger.info("Ontology processing progress: " + (count - 1) + " in "
+								+ ((System.currentTimeMillis() - startTime) / 1000) + "s");
+						startTime = System.currentTimeMillis();
+					}
+					String objToString = objToString(owlClass, synonymType, ontUtil, id2externalSynonymMap,
+							dictEntryModifier);
+					if (objToString != null) {
+						if (namespacesToInclude == null || namespacesToInclude.isEmpty()) {
+							writer.write(objToString);
+						} else {
+							String ns = ontUtil.getNamespace(owlClass);
+							if (ns != null) {
+								if (namespacesToInclude.contains(ns)) {
+									writer.write(objToString);
+								}
+							}
 						}
 					}
 				}
 			}
+			writer.write("</synonym>");
 		}
-		writer.write("</synonym>");
-		writer.close();
 	}
 
 	/**
@@ -167,8 +195,9 @@ public class OboToDictionary {
 	 * @param synonymType
 	 * @return an XML-formatted string in the ConceptMapper Dictionary format.
 	 */
-	private static String objToString(String id, OWLClass owlClass, SynonymType synonymType, OntologyUtil ontUtil) {
-		StringBuffer buf = new StringBuffer();
+	private static String objToString(OWLClass owlClass, SynonymType synonymType, OntologyUtil ontUtil,
+			Map<String, Set<String>> id2externalSynonymMap, DictionaryEntryModifier dictionaryEntryModifier) {
+		// StringBuffer buf = new StringBuffer();
 
 		String name = ontUtil.getLabel(owlClass);
 		if (name == null || name == "" || name == "<new term>") {
@@ -179,49 +208,64 @@ public class OboToDictionary {
 		if (name.endsWith("\"@en")) {
 			name = StringUtils.removeSuffix(name, "\"@en");
 		}
-		System.out.println("label: " + name);
 
-		if (filterTermsByLength && name.length() < MINIMUM_TERM_LENGTH)
+		if (filterTermsByLength && name.length() < MINIMUM_TERM_LENGTH) {
 			return "";
-
-		name = XmlUtil.convertXmlEscapeCharacters(name);
-
-		buf.append("<" + TOKEN_TAG + " id=\"" + id + "\"" + " canonical=\"" + name + "\"" + ">\n");
-
-		{
-			Pattern endsWithActivityPattern = Pattern.compile("(.*)\\sactivity");
-			Matcher m = endsWithActivityPattern.matcher(name);
-			if (m.matches()) {
-				String enzyme = m.group(1);
-				buf.append(buildSynonymLine(enzyme));
-			}
 		}
 
-		buf.append(buildSynonymLine(name));
-		Set<String> syns = ontUtil.getSynonyms(owlClass, synonymType);
-		Pattern endsWithActivityPattern = Pattern.compile("(.*)\\sactivity");
-		for (String syn : syns) {
+		// name = XmlUtil.convertXmlEscapeCharacters(name);
+		// buf.append("<" + TOKEN_TAG + " id=\"" + owlClass.getIRI().toString()
+		// + "\"" + " canonical=\"" + name + "\""
+		// + ">\n");
+
+		// Set<String> alreadyAddedSyns = new HashSet<String>();
+		// buf.append(buildSynonymLine(name, alreadyAddedSyns));
+		Set<String> syns = CollectionsUtil.createSet(name);
+		syns.addAll(ontUtil.getSynonyms(owlClass, synonymType));
+		syns.forEach(syn -> {
 			if (syn.endsWith("\"@en")) {
 				syn = StringUtils.removeSuffix(syn, "\"@en");
 			}
-			if (!syn.equals(name)) {
-				String variantStr = XmlUtil.convertXmlEscapeCharacters(syn);
-				buf.append(buildSynonymLine(variantStr));
+		});
 
-				Matcher m = endsWithActivityPattern.matcher(variantStr);
-				if (m.matches()) {
-					String enzyme = m.group(1);
-					buf.append(buildSynonymLine(enzyme));
+		for (String syn : new HashSet<String>(syns)) {
+			syns.add(syn.replace('_', ' '));
+		}
+
+		/* check for external synonyms here and add any if they exist */
+		Set<String> dynamicallyGeneratedSyns = null;
+		String idToLookUp = owlClass.getIRI().getShortForm().replace("_", ":");
+		if (id2externalSynonymMap != null && id2externalSynonymMap.containsKey(idToLookUp)) {
+			dynamicallyGeneratedSyns = id2externalSynonymMap.get(idToLookUp);
+			dynamicallyGeneratedSyns.forEach(syn -> {
+				if (syn.endsWith("\"@en")) {
+					syn = StringUtils.removeSuffix(syn, "\"@en");
 				}
+			});
+
+			for (String syn : new HashSet<String>(dynamicallyGeneratedSyns)) {
+				dynamicallyGeneratedSyns.add(syn.replace('_', ' '));
 			}
 		}
-		buf.append("</" + TOKEN_TAG + ">\n");
-		return buf.toString();
+
+		String identifier = owlClass.getIRI().toString();
+		Concept c = new Concept(identifier, name, syns, dynamicallyGeneratedSyns);
+
+		if (dictionaryEntryModifier != null) {
+			c = dictionaryEntryModifier.modifyConcept(c);
+		}
+		/*
+		 * to remove a concept entirely from the dictionary, the
+		 * DictionaryEntryModifier can return null
+		 */
+		return (c == null) ? null : c.getConceptMapperDictionaryString();
 	}
 
-	private static String buildSynonymLine(String name) {
-		if (filterTermsByLength && name.length() < MINIMUM_TERM_LENGTH)
+	private static String buildSynonymLine(String name, Set<String> alreadyAddedSyns) {
+
+		if ((filterTermsByLength && name.length() < MINIMUM_TERM_LENGTH) || alreadyAddedSyns.contains(name)) {
 			return "";
+		}
 
 		StringBuffer buf = new StringBuffer();
 		buf.append("\t<");
@@ -231,12 +275,47 @@ public class OboToDictionary {
 		buf.append("\"");
 		buf.append("/>\n");
 
-		// check for term_like_this
-		String namevar = name.replace('_', ' ');
-		if (!namevar.equals(name)) {
-			buf.append(buildSynonymLine(namevar));
-		}
+		alreadyAddedSyns.add(name);
+
+		// // check for term_like_this
+		// String namevar = name.replace('_', ' ');
+		// if (!namevar.equals(name) && !alreadyAddedSyns.contains(namevar)) {
+		// buf.append(buildSynonymLine(namevar, alreadyAddedSyns));
+		// }
 
 		return buf.toString();
+	}
+
+	@Data
+	public static class Concept {
+		private final String identifier;
+		private final String name;
+		private final Set<String> officialSynonyms;
+		private final Set<String> dynamicallyGeneratedSynonyms;
+
+		public String getConceptMapperDictionaryString() {
+			String conceptName = XmlUtil.convertXmlEscapeCharacters(name);
+
+			StringBuilder builder = new StringBuilder();
+			builder.append(
+					"<" + TOKEN_TAG + " id=\"" + identifier + "\"" + " canonical=\"" + conceptName + "\"" + ">\n");
+
+			Set<String> alreadyAddedSyns = new HashSet<String>();
+			builder.append(buildSynonymLine(conceptName, alreadyAddedSyns));
+
+			if (officialSynonyms != null) {
+				officialSynonyms.forEach(syn -> builder
+						.append(buildSynonymLine(XmlUtil.convertXmlEscapeCharacters(syn), alreadyAddedSyns)));
+			}
+
+			if (dynamicallyGeneratedSynonyms != null) {
+				dynamicallyGeneratedSynonyms.forEach(syn -> builder
+						.append(buildSynonymLine(XmlUtil.convertXmlEscapeCharacters(syn), alreadyAddedSyns)));
+			}
+
+			builder.append("</" + TOKEN_TAG + ">\n");
+			return builder.toString();
+
+		}
 	}
 }

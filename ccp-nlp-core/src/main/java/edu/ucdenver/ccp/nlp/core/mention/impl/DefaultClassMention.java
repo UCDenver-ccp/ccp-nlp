@@ -91,12 +91,12 @@ public class DefaultClassMention extends ClassMention {
 
 	@Override
 	public void addComplexSlotMention(ComplexSlotMention csm) {
+		System.out.println("Add CSM: " + csm.getMentionName() + " SIZE: " + complexSlotMentionsMap.size());
 		if (complexSlotMentionsMap.containsKey(csm.getMentionName())) {
-			try {
-				complexSlotMentionsMap.get(csm.getMentionName()).addClassMentions(csm.getClassMentions());
-			} catch (InvalidInputException e) {
-				e.printStackTrace();
-			}
+				System.out.println("Getting value for key: " + csm.getMentionName());
+				for (ClassMention cm : csm.getClassMentions()){
+					complexSlotMentionsMap.get(csm.getMentionName()).addClassMention(cm);
+				}
 		} else {
 			complexSlotMentionsMap.put(csm.getMentionName(), csm);
 		}
@@ -105,11 +105,7 @@ public class DefaultClassMention extends ClassMention {
 	@Override
 	public void addPrimitiveSlotMention(PrimitiveSlotMention sm) {
 		if (primitiveSlotMentionsMap.containsKey(sm.getMentionName())) {
-			try {
 				primitiveSlotMentionsMap.get(sm.getMentionName()).addSlotValues(sm.getSlotValues());
-			} catch (InvalidInputException e) {
-				e.printStackTrace();
-			}
 		} else {
 			primitiveSlotMentionsMap.put(sm.getMentionName(), sm);
 		}

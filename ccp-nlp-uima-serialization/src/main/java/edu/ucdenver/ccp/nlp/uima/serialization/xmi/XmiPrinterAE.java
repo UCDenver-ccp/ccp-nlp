@@ -1,5 +1,7 @@
 package edu.ucdenver.ccp.nlp.uima.serialization.xmi;
 
+import java.io.BufferedWriter;
+
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -33,70 +35,77 @@ package edu.ucdenver.ccp.nlp.uima.serialization.xmi;
  * #L%
  */
 
-
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.impl.XmiCasSerializer;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.XMLSerializer;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.xml.sax.SAXException;
 
-import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
-import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
-import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.reflection.ConstructorUtil;
+import edu.ucdenver.ccp.nlp.pipelines.log.AnnotationOutputLog;
 import edu.ucdenver.ccp.nlp.uima.shims.ShimDefaults;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
- * An {@link AnalysisEngine} implementation that outputs the CAS to an XMI file. This class is
- * loosely based on a class from the Apache UIMA examples project:
+ * An {@link AnalysisEngine} implementation that outputs the CAS to an XMI file.
+ * This class is loosely based on a class from the Apache UIMA examples project:
  * org.apache.uima.examples.xmi.XmiWriterCasConsumer
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class XmiPrinterAE extends JCasAnnotator_ImplBase {
-
-	/**
-	 * Parameter name (mainly used in descriptor files) for the output directory configuration
-	 * parameter
-	 */
-	public static final String PARAM_OUTPUT_DIRECTORY = ConfigurationParameterFactory.createConfigurationParameterName(
-			XmiPrinterAE.class, "outputDirectory");
-
 	/**
 	 * File suffix appended to the XMI output files
 	 */
 	public static final String XMI_FILE_SUFFIX = ".xmi";
 
+	public static final String PARAM_OUTPUT_FILENAME_INFIX = "outputFilenameInfix";
+	@ConfigurationParameter(mandatory = false, description = "An option string that, if not null, is appended to the output file. "
+			+ "This can be useful for identifying the type of annotations containined in an XMI file, for example.")
+	private String outputFilenameInfix;
+
+	/**
+	 * Parameter name (mainly used in descriptor files) for the output directory
+	 * configuration parameter
+	 */
+	public static final String PARAM_OUTPUT_DIRECTORY = "outputDirectory";
+
 	/**
 	 * The directory where generated XMI files will be stored
 	 */
-	@ConfigurationParameter(mandatory = true, description = "The directory where generated XMI files will be stored.")
+	@ConfigurationParameter(mandatory = false, description = "The directory where generated XMI files will be stored. "
+			+ "If not specified, the file will be stored in the same directory as the input file. "
+			+ "See the DocumentMetadataHandler class for how to find the directory of the input file.")
 	private File outputDirectory;
 
 	/* ==== DocumentMetaDataExtractor configuration ==== */
 	/**
-	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
-	 * implementation to use
+	 * Parameter name used in the UIMA descriptor file for the token attribute
+	 * extractor implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(XmiPrinterAE.class, "documentMetadataHandlerClassName");
+	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = "documentMetadataHandlerClassName";
 
 	/**
 	 * The name of the DocumentMetaDataExtractor implementation to use
@@ -105,43 +114,58 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	private String documentMetadataHandlerClassName;
 
 	/**
-	 * this {@link DocumentMetadataHandler} will be initialized based on the class name specified by
-	 * the documentMetadataExtractorClassName parameter
+	 * this {@link DocumentMetadataHandler} will be initialized based on the
+	 * class name specified by the documentMetadataExtractorClassName parameter
 	 */
 	private DocumentMetadataHandler documentMetaDataExtractor;
 
+	public static final String PARAM_COMPRESS_OUTPUT = "compressOutput";
+	@ConfigurationParameter(mandatory = false, description = "if true, the output XMI file will be compressed using gzip", defaultValue = "true")
+	private boolean compressOutput;
+
 	/**
-	 * This method returns an initialized {@link AnalysisEngine} capable of persisting a CAS as an
-	 * XMI file
+	 * This method returns an initialized {@link AnalysisEngine} capable of
+	 * persisting a CAS as an XMI file
 	 * 
 	 * @param tsd
-	 *            the type system used by this AE. Must at least include the CCPTypeSystem.
+	 *            the type system used by this AE. Must at least include the
+	 *            CCPTypeSystem.
 	 * @param outputDirectory
 	 *            the directory where the generated XMI files will be stored.
-	 * @return an initialized {@link AnalysisEngine} capable of outputing CAS contents to an XMI
-	 *         file
+	 * @return an initialized {@link AnalysisEngine} capable of outputing CAS
+	 *         contents to an XMI file
 	 * @throws ResourceInitializationException
-	 *             if an error occurs during {@link AnalysisEngine} initialization
+	 *             if an error occurs during {@link AnalysisEngine}
+	 *             initialization
 	 */
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File outputDirectory)
 			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitive(XmiPrinterAE.class, tsd, PARAM_OUTPUT_DIRECTORY,
+		return AnalysisEngineFactory.createEngine(XmiPrinterAE.class, tsd, PARAM_OUTPUT_DIRECTORY,
 				outputDirectory.getAbsolutePath());
 	}
 
 	public static AnalysisEngineDescription getDescription(TypeSystemDescription tsd,
-			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, File outputDirectory)
-			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitiveDescription(XmiPrinterAE.class, tsd,
-				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetaDataExtractorClass.getName(),
-				PARAM_OUTPUT_DIRECTORY, outputDirectory.getAbsolutePath());
+			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, File outputDirectory, String infix,
+			boolean compressOutput) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createEngineDescription(XmiPrinterAE.class, tsd,
+				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetaDataExtractorClass.getName(), PARAM_OUTPUT_DIRECTORY,
+				outputDirectory.getAbsolutePath(), PARAM_OUTPUT_FILENAME_INFIX, infix, PARAM_COMPRESS_OUTPUT,
+				compressOutput);
 	}
 
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd,
-			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, File outputDirectory)
-			throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitive(getDescription(tsd, documentMetaDataExtractorClass,
-				outputDirectory));
+			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, File outputDirectory, String infix,
+			boolean compressOutput) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createEngine(
+				getDescription(tsd, documentMetaDataExtractorClass, outputDirectory, infix, compressOutput));
+	}
+
+	public static AnalysisEngineDescription getDescription_SaveToSourceFileDirectory(TypeSystemDescription tsd,
+			Class<? extends DocumentMetadataHandler> documentMetaDataExtractorClass, String infix,
+			boolean compressOutput) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createEngineDescription(XmiPrinterAE.class, tsd,
+				PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetaDataExtractorClass.getName(), PARAM_OUTPUT_DIRECTORY,
+				null, PARAM_OUTPUT_FILENAME_INFIX, infix, PARAM_COMPRESS_OUTPUT, compressOutput);
 	}
 
 	/**
@@ -155,21 +179,50 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 		super.initialize(context);
 		documentMetaDataExtractor = (DocumentMetadataHandler) ConstructorUtil
 				.invokeConstructor(documentMetadataHandlerClassName);
-		FileUtil.mkdir(outputDirectory);
+		if (outputDirectory != null) {
+			FileUtil.mkdir(outputDirectory);
+		}
 	}
 
 	/**
-	 * Each CAS is output as XMI to a file. The output file name is the document ID + ".xmi" and is
-	 * located in the output directory specified by the configuration parameter.
+	 * Each CAS is output as XMI to a file. The output file name is the document
+	 * ID + ".xmi" and is located in the output directory specified by the
+	 * configuration parameter.
 	 * 
 	 * @see org.apache.uima.analysis_component.JCasAnnotator_ImplBase#process(org.apache.uima.jcas.JCas)
 	 */
 	@Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {
 		String documentId = documentMetaDataExtractor.extractDocumentId(jcas);
-		File xmiFile = new File(outputDirectory, getXmiFileName(documentId));
+
+		File xmiFile = null;
+		/*
+		 * if the outputDirectory variable is set, then use it as the location
+		 * for all generated XMI files
+		 */
+		if (outputDirectory != null) {
+			xmiFile = new File(outputDirectory, getXmiFileName(documentId));
+		} else {
+			/*
+			 * otherwise, look for the source file in the document metadata, and
+			 * use the source file directory as the output directory for the
+			 * generated XMI file
+			 */
+			File sourceDocumentFile = documentMetaDataExtractor.extractSourceDocumentPath(jcas);
+			if (sourceDocumentFile != null) {
+				xmiFile = new File(sourceDocumentFile.getParentFile(), getXmiFileName(documentId));
+			}
+		}
+		if (xmiFile == null) {
+			throw new AnalysisEngineProcessException(
+					"Unable to determine a location to write the XMI file for document " + documentId
+							+ ". The outputDirectory parameter is not set for this AnalysisEngine and "
+							+ "there is no reference to the source file available in the document metadata.",
+					null);
+		}
 		try {
 			serializeCasToXmi(jcas, xmiFile);
+			logSerializedFile(jcas, xmiFile);
 		} catch (IOException e) {
 			throw new AnalysisEngineProcessException(e);
 		} catch (SAXException e) {
@@ -177,15 +230,41 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 		}
 	}
 
+	public static DateTimeFormatter DATE_FORMATTER = ISODateTimeFormat.dateTime();
+
+	private void logSerializedFile(JCas jcas, File xmiFile) {
+		AnnotationOutputLog aoLog = new AnnotationOutputLog(jcas);
+		aoLog.setAnnotationCount(jcas.getAnnotationIndex().size());
+		aoLog.setLocalAnnotationFile(xmiFile.getAbsolutePath());
+		aoLog.setRunDate(DATE_FORMATTER.print(new DateTime()));
+		aoLog.setRunKey(outputFilenameInfix);
+		aoLog.addToIndexes();
+	}
+
 	/**
-	 * Given a document Id, this method returns the name of the corresponding XMI file that will be
-	 * created
+	 * Given a document Id, this method returns the name of the corresponding
+	 * XMI file that will be created
 	 * 
 	 * @param documentId
+	 * 
 	 * @return
 	 */
-	public static String getXmiFileName(String documentId) {
-		return documentId + XMI_FILE_SUFFIX;
+	public String getXmiFileName(String documentId) {
+		return getXmiFileName(documentId, outputFilenameInfix, compressOutput);
+	}
+
+	/**
+	 * @param documentId
+	 * @param infix
+	 *            optional text string to insert as part of the filename
+	 * @return
+	 */
+	public static String getXmiFileName(String documentId, String infix, boolean compressOutput) {
+		if (infix == null) {
+			return documentId + XMI_FILE_SUFFIX + ((compressOutput) ? ".gz" : "");
+		} else {
+			return documentId + "-" + infix + XMI_FILE_SUFFIX + ((compressOutput) ? ".gz" : "");
+		}
 	}
 
 	/**
@@ -201,15 +280,12 @@ public class XmiPrinterAE extends JCasAnnotator_ImplBase {
 	 *             if there's an issue serializing the CAS
 	 */
 	private void serializeCasToXmi(JCas jcas, File xmiFile) throws IOException, SAXException {
-		Writer writer = FileWriterUtil.initBufferedWriter(xmiFile, CharacterEncoding.UTF_8, WriteMode.OVERWRITE,
-				FileSuffixEnforcement.OFF);
-		try {
+		try (Writer writer = (compressOutput)
+				? new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(xmiFile))))
+				: FileWriterUtil.initBufferedWriter(xmiFile)) {
 			XmiCasSerializer serializer = new XmiCasSerializer(jcas.getTypeSystem());
 			XMLSerializer xmlSerializer = new XMLSerializer(writer, false);
 			serializer.serialize(jcas.getCas(), xmlSerializer.getContentHandler());
-		} finally {
-			if (writer != null)
-				writer.close();
 		}
 
 	}

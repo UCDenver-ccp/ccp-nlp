@@ -40,11 +40,27 @@ import java.util.List;
 
 import org.junit.Test;
 
+import edu.ucdenver.ccp.common.collections.CollectionsUtil;
+
 /**
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class SpanUtilsTests {
+
+	@Test
+	public void testGetCoveredText() {
+		               // 012345678901234567890123456789012345678901234567890123456789
+		String docText = "The quick brown fox jumped over the lazy frog.";
+		List<Span> quickBrownFox = CollectionsUtil.createList(new Span(4, 19));
+
+		assertEquals("quick brown fox", SpanUtils.getCoveredText(quickBrownFox, docText));
+
+		List<Span> quickJumpedFrog = CollectionsUtil.createList(new Span(4, 9), new Span(20, 26), new Span(41, 45));
+		assertEquals("quick .. jumped .. frog", SpanUtils.getCoveredText(quickJumpedFrog, docText));
+
+	}
 
 	@Test
 	public void testSpan0() throws Exception {

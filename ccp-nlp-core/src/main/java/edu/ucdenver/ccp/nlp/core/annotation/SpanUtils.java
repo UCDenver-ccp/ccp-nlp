@@ -1,5 +1,7 @@
 package edu.ucdenver.ccp.nlp.core.annotation;
 
+import java.util.Collections;
+
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -37,11 +39,27 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
+
 /**
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class SpanUtils {
+
+	public static String getCoveredText(List<Span> spans, String documentText) {
+		StringBuilder sb = new StringBuilder();
+
+		Collections.sort(spans, new StrictSpanComparator());
+
+		for (Span span : spans) {
+			sb.append(documentText.substring(span.getSpanStart(), span.getSpanEnd()));
+			sb.append(" .. ");
+		}
+		String coveredText = sb.toString();
+		return coveredText.substring(0, coveredText.length() - 4);
+	}
 
 	public static Span outerSpan(List<Span> spans) {
 		int minSpan = spans.get(0).getSpanStart();
@@ -114,13 +132,15 @@ public class SpanUtils {
 				keepGoing = false;
 			}
 		} while (sIter.hasNext() && keepGoing);
-		// at this point the sIter points at only intersecting or greater segments
+		// at this point the sIter points at only intersecting or greater
+		// segments
 		// as the last span did not have a start before our spans start
 		// so now just pop off wholly subsumed spans
 		while ((s.getSpanEnd() < newSpan.getSpanEnd()) && sIter.hasNext()) {
 			s = sIter.next();
 		}
-		// at this point s is equal to a span that is either intersects with our span or is greater
+		// at this point s is equal to a span that is either intersects with our
+		// span or is greater
 		// and the rest of the iterator is greater
 		LinkedList<Span> mergedSpans = new LinkedList<Span>();
 		while (sIter.hasNext()) {

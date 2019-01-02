@@ -44,6 +44,9 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -59,7 +62,7 @@ import edu.ucdenver.ccp.common.file.FileReaderUtil;
 import edu.ucdenver.ccp.common.file.FileUtil;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
 import edu.ucdenver.ccp.nlp.doc2txt.CcpXmlParser;
-import edu.ucdenver.ccp.nlp.doc2txt.XsltConverter;
+import edu.ucdenver.ccp.nlp.doc2txt.XslUtil;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver;
@@ -95,9 +98,8 @@ public class PmcDocumentConverter {
 	private List<String> fileSuffixesToProcess = CollectionsUtil.createList(".nxml", ".nxml.gz");
 
 	public static void convertPmcToPlainText(File pmcXmlFile, File outputDirectory, boolean outputAnnotations)
-			throws IOException, SAXException {
+			throws IOException, SAXException, ParserConfigurationException, TransformerException {
 		// convert PMC XML to simpler CCP XML
-		XsltConverter xslt = new XsltConverter(new PmcDtdClasspathResolver());
 		InputStream xmlStream = null;
 		if (pmcXmlFile.getName().endsWith(".gz")) {
 			xmlStream = new GZIPInputStream(new FileInputStream(pmcXmlFile));
@@ -105,31 +107,32 @@ public class PmcDocumentConverter {
 			xmlStream = new FileInputStream(pmcXmlFile);
 		}
 		try {
-			String ccpXml = xslt.convert(xmlStream, PmcXslLocator.getPmcXslStream());
+			String ccpXml = XslUtil.applyPmcXslt(xmlStream);
 
 			// convert CCP XML to plain text
 			CcpXmlParser parser = new CcpXmlParser();
 			String documentId = pmcXmlFile.getName();
-			String plainText = parser.parse(ccpXml, documentId);
+			String plainText = parser.parse(ccpXml);
 
 			String outputFilename = documentId + ".utf8.gz";
 			File outputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(), outputFilename)
 					: new File(outputDirectory, outputFilename);
-			BufferedWriter writer = FileWriterUtil.initBufferedWriter(new GZIPOutputStream(new FileOutputStream(
-					outputFile)), CharacterEncoding.UTF_8);
+			BufferedWriter writer = FileWriterUtil.initBufferedWriter(
+					new GZIPOutputStream(new FileOutputStream(outputFile)), CharacterEncoding.UTF_8);
 			writer.write(plainText);
 			writer.close();
 
 			if (outputAnnotations) {
-				List<CcpXmlParser.Annotation> annotations = parser.getAnnotations();
 				String annotationFilename = documentId + ".ann.gz";
-				File annotOutputFile = (outputDirectory == null) ? new File(pmcXmlFile.getParentFile(),
-						annotationFilename) : new File(outputDirectory, annotationFilename);
-				BufferedWriter annotWriter = FileWriterUtil.initBufferedWriter(new GZIPOutputStream(
-						new FileOutputStream(annotOutputFile)), CharacterEncoding.UTF_8);
+				File annotOutputFile = (outputDirectory == null)
+						? new File(pmcXmlFile.getParentFile(), annotationFilename)
+						: new File(outputDirectory, annotationFilename);
+				BufferedWriter annotWriter = FileWriterUtil.initBufferedWriter(
+						new GZIPOutputStream(new FileOutputStream(annotOutputFile)), CharacterEncoding.UTF_8);
 				try {
-					for (CcpXmlParser.Annotation annot : annotations) {
-						String annotLine = annot.type + "|" + annot.name + "|" + annot.start + "|" + annot.end + "\n";
+					for (CcpXmlParser.Annotation annot : parser.getAnnotations()) {
+						String annotLine = annot.getType().name() + "|" + annot.getStart() + "|" + annot.getEnd()
+								+ "\n";
 						annotWriter.write(annotLine);
 					}
 				} finally {
@@ -154,8 +157,8 @@ public class PmcDocumentConverter {
 		try {
 			parser.parseArgument(args);
 			if (inputFileOrDirectory == null) {
-				throw new CmdLineException(parser, new IllegalArgumentException(
-						"You must specify an input file or directory to process."));
+				throw new CmdLineException(parser,
+						new IllegalArgumentException("You must specify an input file or directory to process."));
 			}
 			boolean isDir = inputFileOrDirectory.isDirectory();
 			if (isDir) {
@@ -185,7 +188,8 @@ public class PmcDocumentConverter {
 			}
 
 			if (outputDirectory == null) {
-				logger.info("No output directory has been specified. Plain text files will be written in the same directory as input PMC XML file.");
+				logger.info(
+						"No output directory has been specified. Plain text files will be written in the same directory as input PMC XML file.");
 			} else {
 				logger.info("All plain text files will be written to: " + outputDirectory.getAbsolutePath());
 			}
@@ -242,8 +246,8 @@ public class PmcDocumentConverter {
 
 		List<String> relativeFileNames = null;
 		if (listOfNxmlFile.getName().endsWith(".gz")) {
-			relativeFileNames = FileReaderUtil.loadLinesFromFile(new GZIPInputStream(
-					new FileInputStream(listOfNxmlFile)), CharacterEncoding.US_ASCII);
+			relativeFileNames = FileReaderUtil.loadLinesFromFile(
+					new GZIPInputStream(new FileInputStream(listOfNxmlFile)), CharacterEncoding.US_ASCII);
 		} else {
 			relativeFileNames = FileReaderUtil.loadLinesFromFile(listOfNxmlFile, CharacterEncoding.US_ASCII);
 		}

@@ -40,10 +40,9 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.jcas.JCas;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
@@ -58,14 +57,12 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
  */
 public class BioNlpEntityFileLoader_AE extends JCasAnnotator_ImplBase {
 
-	public static final String PARAM_ENTITY_FILES_DIRECTORY = ConfigurationParameterFactory
-			.createConfigurationParameterName(BioNlpEntityFileLoader_AE.class, "entityFilesDirectory");
+	public static final String PARAM_ENTITY_FILES_DIRECTORY = "entityFilesDirectory";
 
 	@ConfigurationParameter(mandatory = true, description = "The directory where the entity files are to be found")
 	private File entityFilesDirectory;
 
-	public static final String PARAM_ENTITY_FILES_ENCODING = ConfigurationParameterFactory
-			.createConfigurationParameterName(BioNlpEntityFileLoader_AE.class, "entityFilesEncoding");
+	public static final String PARAM_ENTITY_FILES_ENCODING = "entityFilesEncoding";
 
 	@ConfigurationParameter(mandatory = true, defaultValue = "UTF_8", description = "The encoding to use when reading the entity files")
 	private CharacterEncoding entityFilesEncoding;

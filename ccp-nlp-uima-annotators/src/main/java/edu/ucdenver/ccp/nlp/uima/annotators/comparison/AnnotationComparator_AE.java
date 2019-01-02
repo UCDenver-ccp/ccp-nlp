@@ -57,6 +57,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -74,15 +75,14 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileWriterUtil;
@@ -141,18 +141,15 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 	}
 
 	/* comparator configuration file */
-	public static final String PARAM_CONFIG_FILE = ConfigurationParameterFactory.createConfigurationParameterName(
-			AnnotationComparator_AE.class, "configFile");
+	public static final String PARAM_CONFIG_FILE = "configFile";
 	@ConfigurationParameter(mandatory = true)
 	private File configFile;
 
-	public static final String PARAM_SPAN_COMPARATOR_TYPE_NAME = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "spanComparatorTypeName");
+	public static final String PARAM_SPAN_COMPARATOR_TYPE_NAME = "spanComparatorTypeName";
 	@ConfigurationParameter(defaultValue = "STRICT")
 	private String spanComparatorTypeName;
 
-	public static final String PARAM_MENTION_COMPARATOR_TYPE_NAME = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "mentionComparatorTypeName");
+	public static final String PARAM_MENTION_COMPARATOR_TYPE_NAME = "mentionComparatorTypeName";
 	@ConfigurationParameter(defaultValue = "IDENTICAL")
 	private String mentionComparatorTypeName;
 
@@ -207,20 +204,16 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 	// private boolean useIdenticalMentionComparator;
 
 	/* if filled, TP, FP, and FN annotations will be printed to file */
-	public static final String PARAM_ANNOTATION_OUTPUT_FILE = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "annotationOutputFile");
+	public static final String PARAM_ANNOTATION_OUTPUT_FILE = "annotationOutputFile";
 	@ConfigurationParameter()
 	private File annotationOutputFile;
 
-	public static final String PARAM_DO_ASSIGN_TPFPFN_META_PROPERTIES = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class,
-					"assignEvaluationResultPropertiesToAnnotations");
+	public static final String PARAM_DO_ASSIGN_TPFPFN_META_PROPERTIES =	"assignEvaluationResultPropertiesToAnnotations";
 	@ConfigurationParameter(defaultValue = "false")
 	private boolean assignEvaluationResultPropertiesToAnnotations;
 
 	
-	public static final String PARAM_MAX_COMPARISON_DEPTH = ConfigurationParameterFactory
-			.createConfigurationParameterName(AnnotationComparator_AE.class, "maxComparisonDepth");
+	public static final String PARAM_MAX_COMPARISON_DEPTH = "maxComparisonDepth";
 	@ConfigurationParameter(description="by default, comparisons are conducted to the maximum depth of the mention hierarchy (as signified by a maximum comparison depth < 0)")
 	private int maxComparisonDepth = -1;
 	
@@ -485,6 +478,17 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		int goldTpFnCount = goldResult.getTruePositiveCount() + goldResult.getFalseNegativeCount();
 		for (Entry<Integer, PRFResult> entry : comparisonGroupID2ScoreForThisCASOnly.entrySet()) {
 			PRFResult prf = entry.getValue();
+			
+			if (!entry.getKey().equals(goldStandardComparisonGroupID)) {
+				DecimalFormat decimalFormatter = new DecimalFormat("#.###");
+				logger.info(documentID + "[" + entry.getKey() + "]\tTP:" + formatInteger(prf.getTruePositiveCount())
+						+ "\tFP:" + formatInteger(prf.getFalsePositiveCount()) + "\tFN:"
+						+ formatInteger(prf.getFalseNegativeCount()) + "\tP:"
+						+ decimalFormatter.format(prf.getPrecision()) + "\tR:"
+						+ decimalFormatter.format(prf.getRecall()) + "\tF:"
+						+ decimalFormatter.format(prf.getFmeasure()));
+			}
+			
 			int tpFnCount = prf.getTruePositiveCount() + prf.getFalseNegativeCount();
 			SpanComparatorType spanComparatorType = SpanComparatorType.valueOf(spanComparatorTypeName);
 			if ((spanComparatorType.equals(SpanComparatorType.STRICT) && goldTpFnCount != tpFnCount)) {
@@ -506,6 +510,15 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		if (assignEvaluationResultPropertiesToAnnotations) {
 			assignTpFpFnMetaPropertiesToAnnotations(jcas, comparisonGroupID2ScoreForThisCASOnly);
 		}
+	}
+	
+	private String formatInteger(int i) {
+		DecimalFormat integerFormatter = new DecimalFormat("000");
+		String iStr = integerFormatter.format(i).replaceAll("\\G0", " ");
+		if (iStr.trim().isEmpty()) {
+			iStr = "  0";
+		}
+		return iStr;
 	}
 
 	/**
@@ -1003,14 +1016,14 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd, File configurationFile,
 			SpanComparatorType spanComparatorType, MentionComparatorType mentionComparatorType,
 			File evaluationResultsOutputFile) throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitive(createAnalysisEngineDescription(tsd, configurationFile,
+		return AnalysisEngineFactory.createEngine(createAnalysisEngineDescription(tsd, configurationFile,
 				spanComparatorType, mentionComparatorType, evaluationResultsOutputFile));
 	}
 
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
 			File configurationFile, SpanComparatorType spanComparatorType, MentionComparatorType mentionComparatorType,
 			File evaluationResultsOutputFile) throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitiveDescription(AnnotationComparator_AE.class, tsd, PARAM_CONFIG_FILE,
+		return AnalysisEngineFactory.createEngineDescription(AnnotationComparator_AE.class, tsd, PARAM_CONFIG_FILE,
 				configurationFile.getAbsolutePath(), PARAM_SPAN_COMPARATOR_TYPE_NAME, spanComparatorType.name(),
 				PARAM_MENTION_COMPARATOR_TYPE_NAME, mentionComparatorType.name(), PARAM_ANNOTATION_OUTPUT_FILE,
 				(evaluationResultsOutputFile != null) ? evaluationResultsOutputFile.getAbsolutePath() : null);

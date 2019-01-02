@@ -37,6 +37,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.uima.UimaContext;
@@ -45,15 +48,14 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.impl.XmiCasDeserializer;
 import org.apache.uima.cas.impl.XmiSerializationSharedData;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.Level;
 import org.apache.uima.util.Logger;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 import org.xml.sax.SAXException;
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
@@ -65,36 +67,41 @@ import edu.ucdenver.ccp.nlp.uima.shims.ShimDefaults;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
- * This {@link AnalysisEngine} implementation is capable of loading UIMA XMI files. File can be
- * loaded from the file system or classpath. Compressed (.gz) XMI files can be used.
+ * This {@link AnalysisEngine} implementation is capable of loading UIMA XMI
+ * files. File can be loaded from the file system or classpath. Compressed (.gz)
+ * XMI files can be used.
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 
 	/**
-	 * The XmiLoaderAE can load XMI files from either the classpath or the filesystem. This enum is
-	 * used to indicate the location of the XMI files to load.
+	 * The XmiLoaderAE can load XMI files from either the classpath or the
+	 * filesystem. This enum is used to indicate the location of the XMI files
+	 * to load.
 	 * 
-	 * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+	 * @author Colorado Computational Pharmacology, UC Denver;
+	 *         ccpsupport@ucdenver.edu
 	 * 
 	 */
 	public enum XmiPathType {
 		/**
-		 * Indicates the XMI files to load are on the classpath, therefore the xmiDirectoriesOrPaths
-		 * input parameter represents paths on the classpath
+		 * Indicates the XMI files to load are on the classpath, therefore the
+		 * xmiDirectoriesOrPaths input parameter represents paths on the
+		 * classpath
 		 */
 		CLASSPATH,
 		/**
 		 * Indicates the XMI files to load are on the file system, therefore the
-		 * xmiDirectoriesOrPaths input parameter represents a file system directory
+		 * xmiDirectoriesOrPaths input parameter represents a file system
+		 * directory
 		 */
 		FILESYSTEM
 	}
 
-	public static final String PARAM_XMI_PATH_TYPE = ConfigurationParameterFactory.createConfigurationParameterName(
-			XmiLoaderAE.class, "xmiPathType");
+	public static final String PARAM_XMI_PATH_TYPE = "xmiPathType";
 
 	@ConfigurationParameter(mandatory = true, description = "Indicates the path type for the values in the xmiPaths configuration parameter, CLASSPATH or FILESYSTEM")
 	private XmiPathType xmiPathType;
@@ -110,32 +117,35 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 		NONE
 	}
 
-	public static final String PARAM_XMI_FILE_COMPRESSION_TYPE = ConfigurationParameterFactory
-			.createConfigurationParameterName(XmiLoaderAE.class, "xmiFileCompressionType");
+	public static final String PARAM_XMI_FILE_COMPRESSION_TYPE = "xmiFileCompressionType";
 
 	@ConfigurationParameter(defaultValue = "NONE", description = "Indicates the compression type used to store the XMI files, GZ or NONE. This has ramifications on whether they are looked for using a .gz suffix or note, and how they are loaded.")
 	private XmiFileCompressionType xmiFileCompressionType;
 
 	/**
-	 * Parameter name (mainly used in descriptor files) for the XMI input directory configuration
-	 * parameter
+	 * Parameter name (mainly used in descriptor files) for the XMI input
+	 * directory configuration parameter
 	 */
-	public static final String PARAM_XMI_PATH_NAMES = ConfigurationParameterFactory.createConfigurationParameterName(
-			XmiLoaderAE.class, "xmiPaths");
+	public static final String PARAM_XMI_PATH_NAMES = "xmiPaths";
 
 	/**
 	 * The directory where XMI files to load are stored
 	 */
-	@ConfigurationParameter(mandatory = true, description = "The directory or classpath where the XMI files to load are stored.")
+	@ConfigurationParameter(mandatory = false, description = "The directory or classpath where the XMI files to load are stored. "
+			+ "If not set, then this AnalysisEngine will attempt to obtain the directory of the source file for this CAS. "
+			+ "See DocumentMetadataExtractor for details.")
 	private String[] xmiPaths;
+
+	public static final String PARAM_XMI_FILENAME_INFIXES = "infixes";
+	@ConfigurationParameter(mandatory = false, description = "An optional array of infixes to use when specifying which XMI files to load.")
+	private String[] infixes;
 
 	/* ==== DocumentMetaDataExtractor configuration ==== */
 	/**
-	 * Parameter name used in the UIMA descriptor file for the token attribute extractor
-	 * implementation to use
+	 * Parameter name used in the UIMA descriptor file for the token attribute
+	 * extractor implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(XmiLoaderAE.class, "documentMetadataHandlerClassName");
+	public static final String PARAM_DOCUMENT_METADATA_HANDLER_CLASS = "documentMetadataHandlerClassName";
 
 	/**
 	 * The name of the DocumentMetadataHandler implementation to use
@@ -144,16 +154,16 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	private String documentMetadataHandlerClassName;
 
 	/**
-	 * this {@link DocumentMetadataHandler} will be initialized based on the class name specified by
-	 * the documentMetadataExtractorClassName parameter
+	 * this {@link DocumentMetadataHandler} will be initialized based on the
+	 * class name specified by the documentMetadataExtractorClassName parameter
 	 */
 	private DocumentMetadataHandler documentMetaDataHandler;
 
 	private Logger logger;
 
 	/**
-	 * If true, then an exception is thrown if an unknown UIMA type is observed during the
-	 * deserialization process
+	 * If true, then an exception is thrown if an unknown UIMA type is observed
+	 * during the deserialization process
 	 */
 	boolean THROW_EXCEPTION_ON_UNKNOWN_TYPE_OBSERVATION = true;
 
@@ -161,14 +171,13 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.apache.uima.analysis_component.AnalysisComponent_ImplBase#initialize(org.apache.uima.
-	 * UimaContext)
+	 * org.apache.uima.analysis_component.AnalysisComponent_ImplBase#initialize(
+	 * org.apache.uima. UimaContext)
 	 */
 	@Override
 	public void initialize(UimaContext aContext) throws ResourceInitializationException {
 		super.initialize(aContext);
 		logger = aContext.getLogger();
-		System.out.println("DOCUMENT META DATA EXTRACTOR CLASS: " + documentMetadataHandlerClassName);
 		documentMetaDataHandler = (DocumentMetadataHandler) ConstructorUtil
 				.invokeConstructor(documentMetadataHandlerClassName);
 	}
@@ -177,23 +186,59 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.apache.uima.analysis_component.JCasAnnotator_ImplBase#process(org.apache.uima.jcas.JCas)
+	 * org.apache.uima.analysis_component.JCasAnnotator_ImplBase#process(org.
+	 * apache.uima.jcas.JCas)
 	 */
 	@Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {
 		XmiSerializationSharedData sharedData = new XmiSerializationSharedData();
 		String documentId = documentMetaDataHandler.extractDocumentId(jcas);
-		for (String xmiPathBase : xmiPaths) {
-			InputStream xmiStream = initializeXmiInputStream(documentId, xmiPathBase);
-			if (xmiStream != null) {
-				try {
-					XmiCasDeserializer.deserialize(xmiStream, jcas.getCas(),
-							!THROW_EXCEPTION_ON_UNKNOWN_TYPE_OBSERVATION, sharedData, sharedData.getMaxXmiId());
-					xmiStream.close();
-				} catch (IOException e) {
-					throw new AnalysisEngineProcessException(e);
-				} catch (SAXException e) {
-					throw new AnalysisEngineProcessException(e);
+
+		List<String> filePaths = new ArrayList<String>();
+		if (xmiPaths != null) {
+			filePaths.addAll(Arrays.asList(xmiPaths));
+		} else {
+			if (xmiPathType == XmiPathType.FILESYSTEM) {
+				/*
+				 * extract the source document path from the CAS and use that as
+				 * the directory to load from
+				 */
+				File sourceDocumentPath = documentMetaDataHandler.extractSourceDocumentPath(jcas);
+				if (sourceDocumentPath != null) {
+					filePaths.add(sourceDocumentPath.getParentFile().getAbsolutePath());
+				}
+			}
+		}
+
+		if (filePaths.isEmpty()) {
+			throw new AnalysisEngineProcessException(
+					"Unable to determine location path for XMI file loading. Parameters are: xmiPathType: "
+							+ xmiPathType.name() + " xmiPaths: "
+							+ ((xmiPaths == null) ? "null" : Arrays.toString(xmiPaths)) + " Source document path: "
+							+ documentMetaDataHandler.extractSourceDocumentPath(jcas),
+					null);
+		}
+
+		List<String> infixesToLoad = new ArrayList<String>();
+		if (infixes == null || infixes.length == 0) {
+			infixesToLoad.add(null);
+		} else {
+			infixesToLoad.addAll(Arrays.asList(infixes));
+		}
+
+		for (String xmiPathBase : filePaths) {
+			for (String infix : infixesToLoad) {
+				InputStream xmiStream = initializeXmiInputStream(documentId, xmiPathBase, infix);
+				if (xmiStream != null) {
+					try {
+						XmiCasDeserializer.deserialize(xmiStream, jcas.getCas(),
+								!THROW_EXCEPTION_ON_UNKNOWN_TYPE_OBSERVATION, sharedData, sharedData.getMaxXmiId());
+						xmiStream.close();
+					} catch (IOException e) {
+						throw new AnalysisEngineProcessException(e);
+					} catch (SAXException e) {
+						throw new AnalysisEngineProcessException(e);
+					}
 				}
 			}
 		}
@@ -205,13 +250,13 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	 * @return
 	 * @throws AnalysisEngineProcessException
 	 */
-	private InputStream initializeXmiInputStream(String documentId, String xmiPathBase)
+	private InputStream initializeXmiInputStream(String documentId, String xmiPathBase, String infix)
 			throws AnalysisEngineProcessException {
 		InputStream xmiStream = null;
 		if (xmiPathType.equals(XmiPathType.FILESYSTEM)) {
-			xmiStream = getStreamFromFile(documentId, xmiPathBase);
+			xmiStream = getStreamFromFile(documentId, xmiPathBase, infix);
 		} else {
-			xmiStream = getStreamFromClasspath(documentId, xmiPathBase);
+			xmiStream = getStreamFromClasspath(documentId, xmiPathBase, infix);
 		}
 		if (xmiFileCompressionType.equals(XmiFileCompressionType.GZ)) {
 			try {
@@ -228,12 +273,10 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	 * @param xmiPathBase
 	 * @return
 	 */
-	private InputStream getStreamFromClasspath(String documentId, String xmiPathBase) {
+	private InputStream getStreamFromClasspath(String documentId, String xmiPathBase, String infix) {
 		InputStream xmiStream = null;
-		String xmiFilePath = xmiPathBase + StringConstants.FORWARD_SLASH + XmiPrinterAE.getXmiFileName(documentId);
-		if (xmiFileCompressionType.equals(XmiFileCompressionType.GZ)) {
-			xmiFilePath = xmiFilePath + ".gz";
-		}
+		String xmiFilePath = xmiPathBase + StringConstants.FORWARD_SLASH
+				+ XmiPrinterAE.getXmiFileName(documentId, infix, xmiFileCompressionType == XmiFileCompressionType.GZ);
 		xmiStream = ClassPathUtil.getResourceStreamFromClasspath(getClass(), xmiFilePath);
 		if (xmiStream == null) {
 			logger.log(Level.WARNING, "Unable to load XMI file from classpath: " + xmiFilePath);
@@ -248,13 +291,12 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	 * @return
 	 * @throws AnalysisEngineProcessException
 	 */
-	private InputStream getStreamFromFile(String documentId, String xmiPathBase) throws AnalysisEngineProcessException {
+	private InputStream getStreamFromFile(String documentId, String xmiPathBase, String infix)
+			throws AnalysisEngineProcessException {
 		InputStream xmiStream = null;
 		File xmiDirectory = new File(xmiPathBase);
-		String xmiFileName = XmiPrinterAE.getXmiFileName(documentId);
-		if (xmiFileCompressionType.equals(XmiFileCompressionType.GZ)) {
-			xmiFileName = xmiFileName + ".gz";
-		}
+		String xmiFileName = XmiPrinterAE.getXmiFileName(documentId, infix,
+				(xmiFileCompressionType == XmiFileCompressionType.GZ));
 		File xmiFile = new File(xmiDirectory, xmiFileName);
 		if (!xmiFile.exists()) {
 			logger.log(Level.WARNING, "Expected XMI file does not exist: " + xmiFile.getAbsolutePath());
@@ -280,11 +322,22 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 	 */
 	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd,
 			Class<? extends DocumentMetadataHandler> documentMetaDataHandlerClass, XmiPathType xmiPathType,
-			XmiFileCompressionType xmiCompressionType, String... xmiPaths) throws ResourceInitializationException {
-		return AnalysisEngineFactory.createPrimitiveDescription(XmiLoaderAE.class, tsd,
+			XmiFileCompressionType xmiCompressionType, List<String> infixes, String... xmiPaths)
+			throws ResourceInitializationException {
+		return AnalysisEngineFactory.createEngineDescription(XmiLoaderAE.class, tsd,
 				XmiLoaderAE.PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetaDataHandlerClass.getName(),
 				PARAM_XMI_PATH_TYPE, xmiPathType.name(), PARAM_XMI_FILE_COMPRESSION_TYPE, xmiCompressionType.name(),
-				XmiLoaderAE.PARAM_XMI_PATH_NAMES, xmiPaths);
+				XmiLoaderAE.PARAM_XMI_PATH_NAMES, xmiPaths, XmiLoaderAE.PARAM_XMI_FILENAME_INFIXES,
+				(infixes == null) ? null : infixes.toArray(new String[infixes.size()]));
+	}
+
+	public static AnalysisEngineDescription createAnalysisEngineDescription_LoadFromSourceFileDirectory(
+			TypeSystemDescription tsd, Class<? extends DocumentMetadataHandler> documentMetaDataHandlerClass,
+			XmiFileCompressionType xmiCompressionType, String... infixes) throws ResourceInitializationException {
+		return AnalysisEngineFactory.createEngineDescription(XmiLoaderAE.class, tsd,
+				XmiLoaderAE.PARAM_DOCUMENT_METADATA_HANDLER_CLASS, documentMetaDataHandlerClass.getName(),
+				PARAM_XMI_PATH_TYPE, XmiPathType.FILESYSTEM, PARAM_XMI_FILE_COMPRESSION_TYPE, xmiCompressionType.name(),
+				XmiLoaderAE.PARAM_XMI_FILENAME_INFIXES, infixes);
 	}
 
 }

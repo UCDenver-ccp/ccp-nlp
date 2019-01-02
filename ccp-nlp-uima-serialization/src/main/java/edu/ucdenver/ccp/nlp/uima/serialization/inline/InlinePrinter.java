@@ -51,14 +51,13 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.descriptor.SofaCapability;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.descriptor.SofaCapability;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
@@ -92,8 +91,7 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	/**
 	 * Parameter name used in the UIMA descriptor file indicating which view should be processed
 	 */
-	public static final String PARAM_VIEW_NAME_TO_PROCESS = ConfigurationParameterFactory
-			.createConfigurationParameterName(InlinePrinter.class, "viewNameToProcess");
+	public static final String PARAM_VIEW_NAME_TO_PROCESS = "viewNameToProcess";
 
 	/**
 	 * the name of the view to process
@@ -104,8 +102,7 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	/**
 	 * Parameter name used in the UIMA descriptor file for the output directory
 	 */
-	public static final String PARAM_OUTPUT_DIRECTORY = ConfigurationParameterFactory.createConfigurationParameterName(
-			InlinePrinter.class, "outputDirectory");
+	public static final String PARAM_OUTPUT_DIRECTORY = "outputDirectory";
 
 	/**
 	 * the directory where the inlined-annotation files will be written
@@ -117,8 +114,7 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 * Parameter name used in the UIMA descriptor file for the document meta data extractor
 	 * implementation to use
 	 */
-	public static final String PARAM_DOCUMENT_META_DATA_HANDLER_CLASS = ConfigurationParameterFactory
-			.createConfigurationParameterName(InlinePrinter.class, "documentMetadataHandlerClassName");
+	public static final String PARAM_DOCUMENT_META_DATA_HANDLER_CLASS = "documentMetadataHandlerClassName";
 
 	/**
 	 * The name of the DocumentMetaDataExtractor implementation to use
@@ -136,8 +132,7 @@ public class InlinePrinter extends JCasAnnotator_ImplBase {
 	 * Parameter name used in the UIMA descriptor file for the inline annotation extractor
 	 * implementation(s) to use
 	 */
-	public static final String PARAM_INLINE_ANNOTATION_EXTRACTOR_CLASSES = ConfigurationParameterFactory
-			.createConfigurationParameterName(InlinePrinter.class, "inlineAnnotationExtractorClassNames");
+	public static final String PARAM_INLINE_ANNOTATION_EXTRACTOR_CLASSES = "inlineAnnotationExtractorClassNames";
 
 	/**
 	 * all {@link InlineTagExtractor} implementations

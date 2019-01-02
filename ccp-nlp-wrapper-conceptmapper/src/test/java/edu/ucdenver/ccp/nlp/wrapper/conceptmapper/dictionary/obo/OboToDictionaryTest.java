@@ -40,7 +40,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -56,6 +60,7 @@ import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil.SynonymType;
+import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo.OboToDictionary.Concept;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver;
@@ -73,7 +78,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				folder.newFolder("input"));
 		OntologyUtil ontUtil = new OntologyUtil(oboFile);
 		File outputFile = folder.newFile("dict.xml");
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT);
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, null);
 		/* @formatter:off */
 		List<String> expectedLines = CollectionsUtil.createList(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
@@ -81,7 +86,6 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				"<token id=\"http://purl.obolibrary.org/obo/SO_0000012\" canonical=\"scRNA_primary_transcript\">",
 				"<variant base=\"scRNA_primary_transcript\"/>", 
 				"<variant base=\"scRNA primary transcript\"/>", 
-				"<variant base=\"scRNA primary transcript\"/>", // this entry ends up in there twice due to underscore removal
 				"<variant base=\"scRNA transcript\"/>",
 				"<variant base=\"small cytoplasmic RNA transcript\"/>", 
 				"</token>", 
@@ -97,7 +101,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				folder.newFolder("input"));
 		OntologyUtil ontUtil = new OntologyUtil(oboFile);
 		File outputFile = folder.newFile("dict.xml");
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT);
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, null);
 		/* @formatter:off */
 		List<String> expectedLines = CollectionsUtil.createList(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
@@ -126,7 +130,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				folder.newFolder("input"));
 		OntologyUtil ontUtil = new OntologyUtil(oboFile);
 		File outputFile = folder.newFile("dict.xml");
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.ALL);
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.ALL, null);
 		/* @formatter:off */
 		List<String> expectedLines = CollectionsUtil.createList(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
@@ -139,7 +143,6 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				"<variant base=\"xylem initial\"/>", 
 				"<variant base=\"xylem mother cell\"/>", 
 				"<variant base=\"xylem mother cell activity\"/>", 
-				"<variant base=\"xylem mother cell\"/>", 
 				"</token>", 
 				"<token id=\"http://purl.obolibrary.org/obo/CL_0000041\" canonical=\"mature eosinophil\">",
 				"<variant base=\"mature eosinophil\"/>", 
@@ -153,6 +156,88 @@ public class OboToDictionaryTest extends DefaultTestCase {
 		/* @formatter:on */
 		assertTrue(FileComparisonUtil.hasExpectedLines(outputFile, CharacterEncoding.UTF_8, expectedLines, null,
 				LineOrder.ANY_ORDER, ColumnOrder.AS_IN_FILE, LineTrim.ON, ShowWhiteSpace.ON));
+	}
+
+	@Test
+	public void testIncludeAllSynonyms_CL_OBO_WithExternalSyns() throws IOException, OWLOntologyCreationException {
+		File oboFile = ClassPathUtil.copyClasspathResourceToDirectory(getClass(), SAMPLE_CL_OBO_FILE_NAME,
+				folder.newFolder("input"));
+		OntologyUtil ontUtil = new OntologyUtil(oboFile);
+		File outputFile = folder.newFile("dict.xml");
+
+		Map<String, Set<String>> id2synsMap = new HashMap<String, Set<String>>();
+		id2synsMap.put("CL:0000009", CollectionsUtil.createSet("fusi init", "fusi fusi"));
+		id2synsMap.put("CL:0000041", CollectionsUtil.createSet("mat eo", "mature eos"));
+
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.ALL, id2synsMap, null);
+		/* @formatter:off */
+	               List<String> expectedLines = CollectionsUtil.createList(
+	                               "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
+	                               "<synonym>", 
+	                               "<token id=\"http://purl.obolibrary.org/obo/CL_0000000\" canonical=\"cell\">",
+	                               "<variant base=\"cell\"/>", 
+	                               "</token>", 
+	                               "<token id=\"http://purl.obolibrary.org/obo/CL_0000009\" canonical=\"fusiform initial\">",
+	                               "<variant base=\"fusiform initial\"/>", 
+	                               "<variant base=\"xylem initial\"/>", 
+	                               "<variant base=\"xylem mother cell\"/>", 
+	                               "<variant base=\"xylem mother cell activity\"/>", 
+	                               "<variant base=\"fusi init\"/>", 
+	                               "<variant base=\"fusi fusi\"/>", 
+	                               "</token>", 
+	                               "<token id=\"http://purl.obolibrary.org/obo/CL_0000041\" canonical=\"mature eosinophil\">",
+	                               "<variant base=\"mature eosinophil\"/>", 
+	                               "<variant base=\"mature eosinocyte\"/>", 
+	                               "<variant base=\"mature eosinophil leucocyte\"/>", 
+	                               "<variant base=\"mature eosinophil leukocyte\"/>", 
+	                               "<variant base=\"polymorphonuclear leucocyte\"/>", 
+	                               "<variant base=\"polymorphonuclear leukocyte\"/>", 
+	                               "<variant base=\"mat eo\"/>", 
+	                               "<variant base=\"mature eos\"/>", 
+	                               "</token>", 
+	                               "</synonym>");
+	               /* @formatter:on */
+		assertTrue(FileComparisonUtil.hasExpectedLines(outputFile, CharacterEncoding.UTF_8, expectedLines, null,
+				LineOrder.ANY_ORDER, ColumnOrder.AS_IN_FILE, LineTrim.ON, ShowWhiteSpace.ON));
+	}
+
+	@Test
+	public void testExactSynonymOnly_SO_OBO_WithDictEntryModifier() throws IOException, OWLOntologyCreationException {
+		File oboFile = ClassPathUtil.copyClasspathResourceToDirectory(getClass(), SAMPLE_SO_OBO_FILE_NAME,
+				folder.newFolder("input"));
+		OntologyUtil ontUtil = new OntologyUtil(oboFile);
+		File outputFile = folder.newFile("dict.xml");
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, new MyDictEntryModifier());
+		/* @formatter:off */
+		List<String> expectedLines = CollectionsUtil.createList(
+				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
+				"<synonym>", 
+				"<token id=\"http://purl.obolibrary.org/obo/SO_0000012\" canonical=\"scRNA_primary_transcript\">",
+				"<variant base=\"scRNA_primary_transcript\"/>", 
+				"<variant base=\"scRNA primary transcript\"/>", 
+				"<variant base=\"scRNA transcript\"/>",
+//				"<variant base=\"small cytoplasmic RNA transcript\"/>", 
+				"</token>", 
+				"</synonym>");
+		/* @formatter:on */
+		assertTrue(FileComparisonUtil.hasExpectedLines(outputFile, CharacterEncoding.UTF_8, expectedLines, null,
+				LineOrder.ANY_ORDER, ColumnOrder.AS_IN_FILE, LineTrim.ON, ShowWhiteSpace.ON));
+	}
+
+	private static class MyDictEntryModifier implements DictionaryEntryModifier {
+
+		@Override
+		public Concept modifyConcept(Concept inputConcept) {
+			Set<String> modSyns = new HashSet<String>();
+			for (String syn : inputConcept.getOfficialSynonyms()) {
+				if (!syn.contains(" RNA ")) {
+					modSyns.add(syn);
+				}
+			}
+			return new Concept(inputConcept.getIdentifier(), inputConcept.getName(), modSyns,
+					inputConcept.getDynamicallyGeneratedSynonyms());
+		}
+
 	}
 
 }

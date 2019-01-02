@@ -53,6 +53,6 @@ public interface ITokenizer extends ITagger {
 	 * @param documentID
 	 * @return
 	 */
-	public List<TextAnnotation> getTokensFromText(String inputText);
+	public List<TextAnnotation> getTokensFromText(int characterOffset, String inputText);
 
 }

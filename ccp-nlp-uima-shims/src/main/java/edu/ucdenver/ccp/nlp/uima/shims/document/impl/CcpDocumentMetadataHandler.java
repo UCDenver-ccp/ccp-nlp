@@ -1,5 +1,7 @@
 package edu.ucdenver.ccp.nlp.uima.shims.document.impl;
 
+import java.io.File;
+
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -41,9 +43,11 @@ import edu.ucdenver.ccp.nlp.uima.util.UIMA_Util;
 import edu.ucdenver.ccp.uima.shims.document.DocumentMetadataHandler;
 
 /**
- * An implementation of {@link DocumentMetadataHandler} that is specific to the CCP type system
+ * An implementation of {@link DocumentMetadataHandler} that is specific to the
+ * CCP type system
  * 
- * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
+ * @author Colorado Computational Pharmacology, UC Denver;
+ *         ccpsupport@ucdenver.edu
  * 
  */
 public class CcpDocumentMetadataHandler implements DocumentMetadataHandler {
@@ -68,8 +72,8 @@ public class CcpDocumentMetadataHandler implements DocumentMetadataHandler {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#setDocumentId(org.
-	 * apache.uima.jcas.JCas, java.lang.String)
+	 * edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#
+	 * setDocumentId(org. apache.uima.jcas.JCas, java.lang.String)
 	 */
 	@Override
 	public void setDocumentId(JCas jCas, String documentId) {
@@ -80,8 +84,9 @@ public class CcpDocumentMetadataHandler implements DocumentMetadataHandler {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#setDocumentEncoding
-	 * (org.apache.uima.jcas.JCas, edu.ucdenver.ccp.common.file.CharacterEncoding)
+	 * edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#
+	 * setDocumentEncoding (org.apache.uima.jcas.JCas,
+	 * edu.ucdenver.ccp.common.file.CharacterEncoding)
 	 */
 	@Override
 	public void setDocumentEncoding(JCas jCas, String encoding) {
@@ -93,12 +98,54 @@ public class CcpDocumentMetadataHandler implements DocumentMetadataHandler {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#getMetaDataContainer
-	 * (org.apache.uima.jcas.JCas)
+	 * edu.ucdenver.ccp.nlp.ext.uima.shims.document.DocumentMetaDataExtractor#
+	 * getMetaDataContainer (org.apache.uima.jcas.JCas)
 	 */
 	@Override
 	public CCPDocumentInformation getMetaDataContainer(JCas jCas) {
 		return UIMA_Util.getDocumentInfo(jCas);
+	}
+
+	@Override
+	public void setSourceDocumentPath(JCas jCas, File sourceDocumentFile) {
+		UIMA_Util.setSourceDocumentPath(jCas, sourceDocumentFile);
+
+	}
+
+	@Override
+	public File extractSourceDocumentPath(JCas jCas) {
+		return UIMA_Util.getSourceDocumentPath(jCas);
+	}
+
+	@Override
+	public int getYearPublished(JCas jCas) {
+		return UIMA_Util.getYearPublished(jCas);
+	}
+
+	@Override
+	public void setYearPublished(JCas jCas, int year) {
+		UIMA_Util.setYearPublished(jCas, year);
+	}
+
+	@Override
+	public int getMonthPublished(JCas jCas) {
+		return UIMA_Util.getMonthPublished(jCas);
+	}
+
+	@Override
+	public void setMonthPublished(JCas jCas, int month) {
+		UIMA_Util.setMonthPublished(jCas, month);
+	}
+
+	@Override
+	public File getDocumentMetadataPath(JCas jCas) {
+		return UIMA_Util.getDocumentMetadataFilePath(jCas);
+	}
+
+	@Override
+	public void setDocumentMetadataPath(JCas jCas, File documentMetadataFile) {
+		UIMA_Util.setDocumentMetadataFilePath(jCas, documentMetadataFile);
+
 	}
 
 }

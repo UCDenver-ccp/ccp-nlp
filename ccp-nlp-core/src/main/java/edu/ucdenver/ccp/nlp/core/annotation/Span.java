@@ -36,6 +36,8 @@ package edu.ucdenver.ccp.nlp.core.annotation;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.SloppySpanComparator;
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.SpanComparator;
@@ -207,6 +209,17 @@ public class Span implements Comparable<Span>, Serializable {
 	@Override
 	public String toString() {
 		return "[" + this.spanStart + ".." + this.spanEnd + "]";
+	}
+	
+	public static Span fromString(String spanStr) {
+		Pattern p = Pattern.compile("\\[(\\d+)\\.\\.(\\d+)\\]");
+		Matcher m = p.matcher(spanStr);
+		if (m.find()) {
+			int start = Integer.parseInt(m.group(1));
+			int end = Integer.parseInt(m.group(2));
+			return new Span(start, end);
+		}
+		throw new IllegalArgumentException("Unable to parse span from string: " + spanStr);
 	}
 
 	/**

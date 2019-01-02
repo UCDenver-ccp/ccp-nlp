@@ -37,13 +37,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.fit.pipeline.JCasIterable;
+import org.apache.uima.fit.pipeline.JCasIterator;
 import org.apache.uima.jcas.JCas;
 import org.junit.Test;
-import org.uimafit.pipeline.JCasIterable;
 
 import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.nlp.uima.shims.document.impl.CcpDocumentMetadataHandler;
@@ -55,7 +58,7 @@ import edu.ucdenver.ccp.nlp.uima.util.TypeSystemUtil;
  */
 public class ClasspathCollectionReaderTest extends DefaultTestCase {
 
-	private static final String SAMPLE_CLASSPATH_COLLECTION_PATH = "random/classpath/folder";
+	private static final String SAMPLE_CLASSPATH_COLLECTION_PATH = "random" + File.separator +"classpath" + File.separator +"folder";
 
 	private static final String DOC1_TEXT = "This is sample document 1.";
 	private static final String DOC2_TEXT = "This is sample document 2.";
@@ -65,10 +68,10 @@ public class ClasspathCollectionReaderTest extends DefaultTestCase {
 	public void testClasspathCollectionReader() throws UIMAException, IOException {
 		int numToSkip = 0;
 		int numToProcess = -1;
-		CollectionReader cr = ClasspathCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
+		CollectionReaderDescription cr = ClasspathCollectionReader.createCollectionReaderDescription(TypeSystemUtil.getCcpTypeSystem(),
 				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetadataHandler.class);
 
-		JCasIterable jCasIterable = new JCasIterable(cr);
+		JCasIterator jCasIterable = new JCasIterable(cr).iterator();
 
 		assertTrue(jCasIterable.hasNext());
 		JCas jCas = jCasIterable.next();
@@ -89,10 +92,10 @@ public class ClasspathCollectionReaderTest extends DefaultTestCase {
 	public void testClasspathCollectionReader_SkippingOne() throws UIMAException, IOException {
 		int numToSkip = 1;
 		int numToProcess = -1;
-		CollectionReader cr = ClasspathCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
+		CollectionReaderDescription cr = ClasspathCollectionReader.createCollectionReaderDescription(TypeSystemUtil.getCcpTypeSystem(),
 				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetadataHandler.class);
 
-		JCasIterable jCasIterable = new JCasIterable(cr);
+		JCasIterator jCasIterable = new JCasIterable(cr).iterator();
 
 		assertTrue(jCasIterable.hasNext());
 		JCas jCas = jCasIterable.next();
@@ -109,10 +112,10 @@ public class ClasspathCollectionReaderTest extends DefaultTestCase {
 	public void testClasspathCollectionReader_SkippingAll() throws UIMAException, IOException {
 		int numToSkip = 4;
 		int numToProcess = -1;
-		CollectionReader cr = ClasspathCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
+		CollectionReaderDescription cr = ClasspathCollectionReader.createCollectionReaderDescription(TypeSystemUtil.getCcpTypeSystem(),
 				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetadataHandler.class);
 
-		JCasIterable jCasIterable = new JCasIterable(cr);
+		JCasIterator jCasIterable = new JCasIterable(cr).iterator();
 
 		assertFalse(jCasIterable.hasNext());
 	}
@@ -121,10 +124,10 @@ public class ClasspathCollectionReaderTest extends DefaultTestCase {
 	public void testClasspathCollectionReader_ProcessTwo() throws UIMAException, IOException {
 		int numToSkip = 0;
 		int numToProcess = 2;
-		CollectionReader cr = ClasspathCollectionReader.createCollectionReader(TypeSystemUtil.getCcpTypeSystem(),
+		CollectionReaderDescription cr = ClasspathCollectionReader.createCollectionReaderDescription(TypeSystemUtil.getCcpTypeSystem(),
 				SAMPLE_CLASSPATH_COLLECTION_PATH, numToSkip, numToProcess, CcpDocumentMetadataHandler.class);
 
-		JCasIterable jCasIterable = new JCasIterable(cr);
+		JCasIterator jCasIterable = new JCasIterable(cr).iterator();
 
 		assertTrue(jCasIterable.hasNext());
 		JCas jCas = jCasIterable.next();

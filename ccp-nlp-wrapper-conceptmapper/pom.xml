@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.3.2</version>
+		<version>3.3.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>ccp-nlp-wrapper-conceptmapper</artifactId>
 
@@ -53,6 +53,10 @@
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>biolemmatizer-core</artifactId>
 			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 		</dependency>
 	</dependencies>
 
