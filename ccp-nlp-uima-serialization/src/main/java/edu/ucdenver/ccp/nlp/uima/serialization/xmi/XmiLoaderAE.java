@@ -234,9 +234,8 @@ public class XmiLoaderAE extends JCasAnnotator_ImplBase {
 						XmiCasDeserializer.deserialize(xmiStream, jcas.getCas(),
 								!THROW_EXCEPTION_ON_UNKNOWN_TYPE_OBSERVATION, sharedData, sharedData.getMaxXmiId());
 						xmiStream.close();
-					} catch (IOException e) {
-						throw new AnalysisEngineProcessException(e);
-					} catch (SAXException e) {
+					} catch (IOException | SAXException e) {
+						logger.log(Level.SEVERE, "Error loading XMI file. Document Id: " + documentId + " xmi path: " + xmiPathBase + " infix: " + infix);
 						throw new AnalysisEngineProcessException(e);
 					}
 				}

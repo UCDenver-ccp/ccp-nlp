@@ -1,4 +1,7 @@
-/.settings/
-/.project
-
+.settings/
+.project
+.classpath
+target
 blank-settings.xml
+
+ccp-nlp-uima-collections-craft/src/main/resources/craft/release/xmi/rename.sh

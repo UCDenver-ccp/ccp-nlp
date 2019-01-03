@@ -23,6 +23,7 @@
 		<module>ccp-nlp-wrapper-conceptmapper</module>
 		<module>ccp-nlp-wrapper-banner</module>
 		<module>ccp-nlp-doc2txt</module>
+		<module>ccp-nlp-uima-collections-craft</module>
 	</modules>
 
 	<dependencyManagement>
