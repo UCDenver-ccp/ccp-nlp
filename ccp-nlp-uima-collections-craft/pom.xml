@@ -3,7 +3,7 @@
   <parent>
     <groupId>edu.ucdenver.ccp</groupId>
     <artifactId>ccp-nlp</artifactId>
-    <version>3.5</version>
+    <version>3.5.1-SNAPSHOT</version>
   </parent>
   <artifactId>ccp-nlp-uima-collections-craft</artifactId>
   
