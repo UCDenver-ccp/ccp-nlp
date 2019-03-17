@@ -52,7 +52,7 @@ public class BioNlpThemeFactory {
 
 	public static final String THEME_ID_SLOT_NAME = "entity ID";
 	
-	private static final Annotator ANNOTATOR = new Annotator(291514121, "BioNLP", "T-line Input", "Unknown");
+	private static final Annotator ANNOTATOR = new Annotator("291514121", "BioNLP", "Unknown");
 	
 	/**
 	 * Parses a BioNLP entity line and returns a {@link TextAnnotation} for the represented entity
@@ -72,7 +72,7 @@ public class BioNlpThemeFactory {
 
 		ClassMention cm = new DefaultClassMention(entityTypeStr);
 		TextAnnotation ta = new DefaultTextAnnotation(entitySpanStart, entitySpanEnd, "", ANNOTATOR,
-				new AnnotationSet(), -1, -1, "", -1, cm);
+				new AnnotationSet(), "-1", -1, "", -1, cm);
 		
 		try {
 			TextAnnotationUtil.addSlotValue(ta, THEME_ID_SLOT_NAME, entityIdStr);

@@ -58,7 +58,7 @@ public class AnnotationComparatorOverlapTest {
 	/* 01234567890123456789012345678901234567890123456789 */
 	private static final String DOCUMENT_TEXT = "We used Fekete's acid-alcohol-formalin.";
 
-	private Annotator annotator = new Annotator(new Integer(-1), "Test", "Annotator", "UCHSC");
+	private Annotator annotator = new Annotator("-1", "Annotator", "UCHSC");
 	private AnnotationSet annotationSet = new AnnotationSet(new Integer(-1), "Test Annotation Set",
 			"This is a test annotation set.");
 	private int documentCollectionID = -1;
@@ -72,9 +72,9 @@ public class AnnotationComparatorOverlapTest {
 	@Test
 	public void testHandlingOfOverlappingGoldStandardAnnotations() {
 
-		TextAnnotation goldAnnotation1 = createChemicalAnnotation(1, 17, 21, "1", DOCUMENT_TEXT); // acid
-		TextAnnotation goldAnnotation2 = createChemicalAnnotation(2, 22, 29, "1", DOCUMENT_TEXT); // alcohol
-		TextAnnotation evalAnnotation = createChemicalAnnotation(3, 8, 38, "1", DOCUMENT_TEXT); // Fekete's
+		TextAnnotation goldAnnotation1 = createChemicalAnnotation("1", 17, 21, "1", DOCUMENT_TEXT); // acid
+		TextAnnotation goldAnnotation2 = createChemicalAnnotation("2", 22, 29, "1", DOCUMENT_TEXT); // alcohol
+		TextAnnotation evalAnnotation = createChemicalAnnotation("3", 8, 38, "1", DOCUMENT_TEXT); // Fekete's
 																								// acid-alcohol-formalin
 
 		AnnotationComparator ac = new AnnotationComparator();
@@ -92,7 +92,7 @@ public class AnnotationComparatorOverlapTest {
 	/**
 	 * Create a protein annotation to be used for testing purposes
 	 */
-	private DefaultTextAnnotation createChemicalAnnotation(int annotationID, int spanStart, int spanEnd,
+	private DefaultTextAnnotation createChemicalAnnotation(String annotationID, int spanStart, int spanEnd,
 			String documentID, String documentText) {
 
 		String coveredText = documentText.substring(spanStart, spanEnd);

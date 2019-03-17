@@ -88,9 +88,9 @@ public class ComplexSlotMentionTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		Map<Integer, DefaultTextAnnotation> id2annotationMap = TestTextAnnotationCreatorTest.getID2TextAnnotationMap();
+		Map<String, DefaultTextAnnotation> id2annotationMap = TestTextAnnotationCreatorTest.getID2TextAnnotationMap();
 
-		TextAnnotation annotation_10 = id2annotationMap.get(-10);
+		TextAnnotation annotation_10 = id2annotationMap.get("-10");
 		complexSlotMention = annotation_10.getClassMention().getComplexSlotMentionByName("transport participants");
 		complexSlotMention2 = annotation_10.getClassMention().getComplexSlotMentionByName("transport location");
 	}
@@ -162,12 +162,12 @@ public class ComplexSlotMentionTest {
 		DefaultClassMention nucleusMention = new DefaultClassMention("nucleus");
 
 		/* create the nucleus annotation */
-		Annotator annotator1 = new Annotator(new Integer(-30), "Test Annotator", "#1", "CCP");
+		Annotator annotator1 = new Annotator("-30", "Test Annotator", "CCP");
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
 				"This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
-		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, -11,
+		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, "-11",
 				-1, "1234", 0, nucleusMention);
 
 		DefaultComplexSlotMention csm = new DefaultComplexSlotMention("transport location");

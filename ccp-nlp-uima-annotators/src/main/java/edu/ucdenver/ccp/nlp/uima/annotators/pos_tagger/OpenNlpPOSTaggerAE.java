@@ -63,7 +63,7 @@ import opennlp.tools.util.Span;
 
 public class OpenNlpPOSTaggerAE extends POSTagger_AE {
 
-	private static final Annotator annotator = new Annotator(77777, "OpenNLP", "OpenNLP", "OpenNLP");
+	private static final Annotator annotator = new Annotator("77777", "OpenNLP", "OpenNLP");
 
 	@Override
 	protected IPOSTagger initPosTagger() throws IOException {

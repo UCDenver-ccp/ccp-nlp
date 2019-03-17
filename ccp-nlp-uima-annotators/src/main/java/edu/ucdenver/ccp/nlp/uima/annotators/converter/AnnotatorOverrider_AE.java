@@ -84,15 +84,11 @@ public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 
 	public static final String PARAM_ANNOTATOR_ID = "annotatorID";
 	@ConfigurationParameter(mandatory = true)
-	private int annotatorID = -1;
+	private String annotatorID = "-1";
 
-	public static final String PARAM_FIRST_NAME = "firstName";
+	public static final String PARAM_FIRST_NAME = "annotatorName";
 	@ConfigurationParameter()
-	private String firstName = null;
-
-	public static final String PARAM_LAST_NAME = "lastName";
-	@ConfigurationParameter()
-	private String lastName = null;
+	private String annotatorName = null;
 
 	public static final String PARAM_AFFILIATION = "affiliation";
 	@ConfigurationParameter()
@@ -110,13 +106,13 @@ public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 	 * Constant that can be used as the identifier for the gold standard
 	 * annotator during annotation comparisons
 	 */
-	public static final int GOLD_ANNOTATOR_ID = 99099099;
+	public static final String GOLD_ANNOTATOR_ID = "99099099";
 
 	/**
 	 * Constant that can be used as the identifier for the evaluation set (test
 	 * set) annotator during annotation comparisons
 	 */
-	public static final int EVAL_ANNOTATOR_ID = 11011011;
+	public static final String EVAL_ANNOTATOR_ID = "11011011";
 
 	/**
 	 * cycle through all annotations and set the annotation set
@@ -128,8 +124,7 @@ public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 		CCPAnnotator ccpAnnotator = new CCPAnnotator(jcas);
 		ccpAnnotator.setAnnotatorID(annotatorID);
 		ccpAnnotator.setAffiliation(affiliation);
-		ccpAnnotator.setFirstName(firstName);
-		ccpAnnotator.setLastName(lastName);
+		ccpAnnotator.setName(annotatorName);
 
 		FSIterator<Annotation> annotIter = jcas.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type)
 				.iterator();
@@ -172,11 +167,11 @@ public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 		return false;
 	}
 
-	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd, int annotatorId,
-			String firstName, String lastName, String affiliation, int[] ignoreAnnotatorIds)
+	public static AnalysisEngineDescription createAnalysisEngineDescription(TypeSystemDescription tsd, String annotatorId,
+			String annotatorName, String affiliation, int[] ignoreAnnotatorIds)
 			throws ResourceInitializationException {
 		return AnalysisEngineFactory.createPrimitiveDescription(AnnotatorOverrider_AE.class, tsd, PARAM_ANNOTATOR_ID,
-				annotatorId, PARAM_FIRST_NAME, firstName, PARAM_LAST_NAME, lastName, PARAM_AFFILIATION, affiliation,
+				annotatorId, PARAM_FIRST_NAME, annotatorName, PARAM_AFFILIATION, affiliation,
 				PARAM_ANNOTATOR_IDS_TO_IGNORE, ignoreAnnotatorIds);
 	}
 
@@ -198,7 +193,7 @@ public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 		String goldAnnotatorName = "gold annotator";
 		String goldAnnotatorAffiliation = "gold";
 		return AnalysisEngineFactory.createPrimitiveDescription(AnnotatorOverrider_AE.class, tsd, PARAM_ANNOTATOR_ID,
-				GOLD_ANNOTATOR_ID, PARAM_FIRST_NAME, goldAnnotatorName, PARAM_LAST_NAME, goldAnnotatorName,
+				GOLD_ANNOTATOR_ID, PARAM_FIRST_NAME, goldAnnotatorName, 
 				PARAM_AFFILIATION, goldAnnotatorAffiliation, PARAM_ANNOTATOR_IDS_TO_IGNORE, ignoreIds);
 	}
 
@@ -223,9 +218,9 @@ public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 		String evalAnnotatorName = "eval annotator";
 		String evalAnnotatorAffiliation = "eval";
 		return AnalysisEngineFactory.createPrimitiveDescription(AnnotatorOverrider_AE.class, tsd, PARAM_ANNOTATOR_ID,
-				EVAL_ANNOTATOR_ID, PARAM_FIRST_NAME, evalAnnotatorName, PARAM_LAST_NAME, evalAnnotatorName,
+				EVAL_ANNOTATOR_ID, PARAM_FIRST_NAME, evalAnnotatorName, 
 				PARAM_AFFILIATION, evalAnnotatorAffiliation, PARAM_ANNOTATOR_IDS_TO_IGNORE,
-				new int[] { GOLD_ANNOTATOR_ID });
+				new String[] { GOLD_ANNOTATOR_ID });
 	}
 
 	/**
@@ -241,7 +236,7 @@ public class AnnotatorOverrider_AE extends JCasAnnotator_ImplBase {
 		String evalAnnotatorName = "eval annotator";
 		String evalAnnotatorAffiliation = "eval";
 		return AnalysisEngineFactory.createPrimitiveDescription(AnnotatorOverrider_AE.class, tsd, PARAM_ANNOTATOR_ID,
-				EVAL_ANNOTATOR_ID, PARAM_FIRST_NAME, evalAnnotatorName, PARAM_LAST_NAME, evalAnnotatorName,
+				EVAL_ANNOTATOR_ID, PARAM_FIRST_NAME, evalAnnotatorName,
 				PARAM_AFFILIATION, evalAnnotatorAffiliation, PARAM_ANNOTATION_SET_IDS_TO_IGNORE,
 				new int[] { AnnotationSetOverrider_AE.GOLD_ANNOTATION_SET_ID });
 	}

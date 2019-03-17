@@ -110,9 +110,8 @@ public class UIMA_Annotation_Util {
 		/* set annotator and annotation set */
 		CCPAnnotator ccpAnnotator = new CCPAnnotator(jcas);
 		ccpAnnotator.setAffiliation("N/A");
-		ccpAnnotator.setFirstName("Default Annotator");
-		ccpAnnotator.setAnnotatorID(-1);
-		ccpAnnotator.setLastName("Default Annotator");
+		ccpAnnotator.setName("Default Annotator");
+		ccpAnnotator.setAnnotatorID("-1");
 		CCPAnnotationSet ccpAnnotationSet = new CCPAnnotationSet(jcas);
 		ccpAnnotationSet.setAnnotationSetID(-1);
 		ccpAnnotationSet.setAnnotationSetName("Default Set");
@@ -143,8 +142,7 @@ public class UIMA_Annotation_Util {
 		span[0] = start;
 		span[1] = end;
 		CCPAnnotator annotator = new CCPAnnotator(jcas);
-		annotator.setFirstName(annotatorName);
-		annotator.setLastName("");
+		annotator.setName(annotatorName);
 		annotator.setAffiliation("");
 		CCPTextAnnotation ccpTA = createCCPTextAnnotation(mentionType, span, jcas, annotator, null);
 		return ccpTA;
@@ -937,7 +935,7 @@ public class UIMA_Annotation_Util {
 	 * @return
 	 */
 	public static Annotator getAnnotator(CCPTextAnnotation ccpTA) {
-		Annotator annotator = new Annotator(1, "", "", "");
+		Annotator annotator = new Annotator("1", "", "");
 		UIMA_Util.swapAnnotatorInfo(ccpTA.getAnnotator(), annotator);
 		return annotator;
 	}
@@ -1087,9 +1085,8 @@ public class UIMA_Annotation_Util {
 		/* set annotator and annotation set */
 		CCPAnnotator ccpAnnotator = new CCPAnnotator(jcas);
 		ccpAnnotator.setAffiliation("N/A");
-		ccpAnnotator.setFirstName("Default Annotator");
-		ccpAnnotator.setAnnotatorID(-1);
-		ccpAnnotator.setLastName("Default Annotator");
+		ccpAnnotator.setName("Default Annotator");
+		ccpAnnotator.setAnnotatorID("-1");
 		CCPAnnotationSet ccpAnnotationSet = new CCPAnnotationSet(jcas);
 		ccpAnnotationSet.setAnnotationSetID(-1);
 		ccpAnnotationSet.setAnnotationSetName("Default Set");

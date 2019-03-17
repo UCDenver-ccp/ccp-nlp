@@ -112,9 +112,8 @@
 				<featureDescription>
 					<name>annotationID</name>
 					<description>The annotation ID provides a means for identifying a
-						particular annotation. Setting this ID is optional. The default
-						value should be -1.</description>
-					<rangeTypeName>uima.cas.Integer</rangeTypeName>
+						particular annotation. Setting this ID is optional.</description>
+					<rangeTypeName>uima.cas.String</rangeTypeName>
 				</featureDescription>
 				<featureDescription>
 					<name>annotator</name>
@@ -276,20 +275,13 @@
 			<features>
 				<featureDescription>
 					<name>annotatorID</name>
-					<description>This Integer should be a unique ID for a particular
+					<description>This String should be a unique ID for a particular
 						annotator.</description>
-					<rangeTypeName>uima.cas.Integer</rangeTypeName>
-				</featureDescription>
-				<featureDescription>
-					<name>firstName</name>
-					<description>The first name of the annotator. Use of this field is
-						optional as the annotator ID is primarily used for determining the
-						source of an annotation.</description>
 					<rangeTypeName>uima.cas.String</rangeTypeName>
 				</featureDescription>
 				<featureDescription>
-					<name>lastName</name>
-					<description>The last name of the annotator. Use of this field is
+					<name>name</name>
+					<description>The name of the annotator. Use of this field is
 						optional as the annotator ID is primarily used for determining the
 						source of an annotation.</description>
 					<rangeTypeName>uima.cas.String</rangeTypeName>

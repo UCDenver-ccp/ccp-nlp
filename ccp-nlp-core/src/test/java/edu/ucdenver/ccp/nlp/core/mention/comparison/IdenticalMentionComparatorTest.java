@@ -57,7 +57,7 @@ import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
  */
 public class IdenticalMentionComparatorTest {
 
-	Map<Integer, DefaultTextAnnotation> id2annotationMap;
+	Map<String, DefaultTextAnnotation> id2annotationMap;
 
 	IdenticalMentionComparator icmc;
 
@@ -77,13 +77,13 @@ public class IdenticalMentionComparatorTest {
 	public void testSpecificCompare() throws Exception {
 		SpanComparator spanComparator = new StrictSpanComparator();
 
-		ClassMention nucleusMention = id2annotationMap.get(-11).getClassMention();
+		ClassMention nucleusMention = id2annotationMap.get("-11").getClassMention();
 		/* the nucleus mention should equal itself on all levels */
 		assertEquals(0, icmc.compare(nucleusMention, nucleusMention, spanComparator, 0));
 		assertEquals(0, icmc.compare(nucleusMention, nucleusMention, spanComparator, -1));
 		assertEquals(0, icmc.compare(nucleusMention, nucleusMention, spanComparator, 5));
 
-		ClassMention proteinMention = id2annotationMap.get(-12).getClassMention();
+		ClassMention proteinMention = id2annotationMap.get("-12").getClassMention();
 		assertFalse(icmc.compare(nucleusMention, proteinMention, spanComparator, 0) == 0);
 		assertFalse(icmc.compare(nucleusMention, proteinMention, spanComparator, -1) == 0);
 		assertFalse(icmc.compare(nucleusMention, proteinMention, spanComparator, 5) == 0);
@@ -132,7 +132,7 @@ public class IdenticalMentionComparatorTest {
 	@Test
 	public void testCompareAnnotationsThatDifferOnLevels() throws Exception {
 
-		ClassMention regOfActOfTransportMention = id2annotationMap.get(-18).getClassMention();
+		ClassMention regOfActOfTransportMention = id2annotationMap.get("-18").getClassMention();
 		SpanComparator spanComparator = new StrictSpanComparator();
 
 		ClassMention exactMatch = TestTextAnnotationCreatorTest.getAnnotationToMatch18Exactly().getClassMention();
@@ -191,7 +191,7 @@ public class IdenticalMentionComparatorTest {
 	 */
 	@Test
 	public void testCompareAnnotationsThatDifferInSpans() throws Exception {
-		ClassMention regOfActOfTransportMention = id2annotationMap.get(-18).getClassMention();
+		ClassMention regOfActOfTransportMention = id2annotationMap.get("-18").getClassMention();
 		SpanComparator spanComparator = new StrictSpanComparator();
 
 		ClassMention exactMentionMatchButOverlappingSpans = TestTextAnnotationCreatorTest

@@ -93,10 +93,10 @@ public class AnnotationToFileOutputTest extends DefaultTestCase {
 	 * @throws Exception
 	 */
 	private static DefaultTextAnnotation createProteinAnnotation(int spanStart, int spanEnd, String coveredText,
-			int annotatorID, String documentID, Integer... entrezGeneIDSlotFillers) throws Exception {
+			String annotatorID, String documentID, Integer... entrezGeneIDSlotFillers) throws Exception {
 		DefaultClassMention proteinCM = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, new Annotator(
-				annotatorID, "firstname", "lastname", "affiliation"), new AnnotationSet(), 0, 1, documentID, -1,
+				annotatorID, "lastname", "affiliation"), new AnnotationSet(), "0", 1, documentID, -1,
 				proteinCM);
 
 		addEntrezGeneSlotFillersToProteinTextAnnotation(entrezGeneIDSlotFillers, ta);
@@ -131,9 +131,9 @@ public class AnnotationToFileOutputTest extends DefaultTestCase {
 	public static GenericDocument createTestGenericDocument_NoSlots() throws Exception {
 		GenericDocument gd = new GenericDocument("documentID=4");
 
-		gd.addAnnotation(createProteinAnnotation(0, 5, "abc-1", 99, "documentID=4", (Integer[]) null));
+		gd.addAnnotation(createProteinAnnotation(0, 5, "abc-1", "99", "documentID=4", (Integer[]) null));
 
-		DefaultTextAnnotation ta2 = createProteinAnnotation(10, 15, "def-2", 33, "documentID=4", (Integer[]) null);
+		DefaultTextAnnotation ta2 = createProteinAnnotation(10, 15, "def-2", "33", "documentID=4", (Integer[]) null);
 		ta2.addSpan(new Span(25, 30));
 		gd.addAnnotation(ta2);
 
@@ -168,9 +168,9 @@ public class AnnotationToFileOutputTest extends DefaultTestCase {
 	public static GenericDocument createTestGenericDocument_WithSlots() throws Exception {
 		GenericDocument gd = new GenericDocument("documentID=5");
 
-		gd.addAnnotation(createProteinAnnotation(0, 5, "abc-1", 99, "documentID=5", 123));
-		gd.addAnnotation(createProteinAnnotation(5, 10, "def-2", 33, "documentID=5", 456, 789));
-		DefaultTextAnnotation ta = createProteinAnnotation(15, 20, "ghi-2", 33, "documentID=5", 157, 987);
+		gd.addAnnotation(createProteinAnnotation(0, 5, "abc-1", "99", "documentID=5", 123));
+		gd.addAnnotation(createProteinAnnotation(5, 10, "def-2", "33", "documentID=5", 456, 789));
+		DefaultTextAnnotation ta = createProteinAnnotation(15, 20, "ghi-2", "33", "documentID=5", 157, 987);
 		StringSlotMention sm = new DefaultStringSlotMention("anotherSlot");
 		sm.addSlotValue("value1");
 		sm.addSlotValue("value2");
@@ -191,9 +191,9 @@ public class AnnotationToFileOutputTest extends DefaultTestCase {
 	public static GenericDocument createTestGenericDocument_WithSlotsWithPipes() throws Exception {
 		GenericDocument gd = new GenericDocument("documentID=5");
 
-		gd.addAnnotation(createProteinAnnotation(0, 5, "abc-1", 99, "documentID=5", 123));
-		gd.addAnnotation(createProteinAnnotation(5, 10, "def-2", 33, "documentID=5", 456, 789));
-		DefaultTextAnnotation ta = createProteinAnnotation(15, 20, "ghi-2|||", 33, "documentID=5", 157, 987);
+		gd.addAnnotation(createProteinAnnotation(0, 5, "abc-1", "99", "documentID=5", 123));
+		gd.addAnnotation(createProteinAnnotation(5, 10, "def-2", "33", "documentID=5", 456, 789));
+		DefaultTextAnnotation ta = createProteinAnnotation(15, 20, "ghi-2|||", "33", "documentID=5", 157, 987);
 		StringSlotMention sm = new DefaultStringSlotMention("another|Slot");
 		sm.addSlotValue("value1");
 		sm.addSlotValue("value2|");

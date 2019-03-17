@@ -131,7 +131,7 @@ public class AnnotationGroup {
 	 */
 	public boolean hasMemberAnnotation(TextAnnotation ta) {
 
-		Integer annotatorID = ta.getAnnotator().getAnnotatorID();
+		String annotatorID = ta.getAnnotator().getAnnotatorID();
 		Set<Integer> annotationSetIDs = ta.getAnnotationSetIDs();
 		String classMentionType = ta.getClassMention().getMentionName();
 

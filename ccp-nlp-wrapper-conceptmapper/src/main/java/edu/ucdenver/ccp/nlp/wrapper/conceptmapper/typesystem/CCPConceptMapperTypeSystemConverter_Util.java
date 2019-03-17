@@ -81,9 +81,8 @@ public class CCPConceptMapperTypeSystemConverter_Util {
 
 		CCPAnnotator annotator = new CCPAnnotator(jcas);
 		annotator.setAffiliation("UIMA Sandbox");
-		annotator.setFirstName("ConceptMapper");
-		annotator.setLastName("ConceptMapper");
-		annotator.setAnnotatorID(999);
+		annotator.setName("ConceptMapper");
+		annotator.setAnnotatorID("999");
 		ccpTA.setAnnotator(annotator);
 
 		/* Add a slot for the type */
@@ -151,9 +150,8 @@ public class CCPConceptMapperTypeSystemConverter_Util {
 
 		CCPAnnotator annotator = new CCPAnnotator(jcas);
 		annotator.setAffiliation("UIMA Sandbox");
-		annotator.setFirstName("ConceptMapper");
-		annotator.setLastName("Tokenizer");
-		annotator.setAnnotatorID(990);
+		annotator.setName("ConceptMapper-Tokenizer");
+		annotator.setAnnotatorID("990");
 		ccpTA.setAnnotator(annotator);
 
 		return ccpTA;

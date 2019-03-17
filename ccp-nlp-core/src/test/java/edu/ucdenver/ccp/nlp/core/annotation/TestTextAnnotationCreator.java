@@ -207,8 +207,8 @@ public class TestTextAnnotationCreator {
 	 */
 
 	public static List<Annotator> getTestAnnotators() {
-		Annotator annotator1 = new Annotator(new Integer(-30), "Test Annotator", "#1", "CCP");
-		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		Annotator annotator1 = new Annotator("-30", "Test Annotator", "CCP");
+		Annotator annotator2 = new Annotator("-31", "Test Annotator", "CCP");
 
 		List<Annotator> testAnnotators = new ArrayList<Annotator>();
 		testAnnotators.add(annotator1);
@@ -234,8 +234,8 @@ public class TestTextAnnotationCreator {
 		List<TextAnnotation> returnArray = new ArrayList<TextAnnotation>();
 
 		/* Initialize test annotators */
-		Annotator annotator1 = new Annotator(new Integer(-30), "Test Annotator", "#1", "CCP");
-		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		Annotator annotator1 = new Annotator("-30", "Test Annotator", "CCP");
+		Annotator annotator2 = new Annotator("-31", "Test Annotator", "CCP");
 
 		/* Initialize test annotation sets */
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
@@ -260,7 +260,7 @@ public class TestTextAnnotationCreator {
 		TextAnnotation ta = new DefaultTextAnnotation(spanList);
 
 		/* annotationID = -10 */
-		ta.setAnnotationID(-10);
+		ta.setAnnotationID("-10");
 
 		/* coverted text = gated (45-49), transport (53-61) */
 		ta.setCoveredText("gated..transport");
@@ -298,7 +298,7 @@ public class TestTextAnnotationCreator {
 		ClassMention nucleusMention = new DefaultClassMention("nucleus");
 
 		/* create the nucleus annotation */
-		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, -11,
+		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, "-11",
 				-1, "1234", 0, nucleusMention);
 
 		/* add the nucleus mention as the slot filler for the transport origin */
@@ -328,7 +328,7 @@ public class TestTextAnnotationCreator {
 		e2f4ProteinMention.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, -12, -1,
+		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, "-12", -1,
 				"1234", 0, e2f4ProteinMention);
 
 		/* fill the transport participants slot with the e2f4 protein mention */
@@ -369,11 +369,11 @@ public class TestTextAnnotationCreator {
 		activatingEntity.addClassMention(activatingProteinMention);
 		activationMention.addComplexSlotMention(activatingEntity);
 		TextAnnotation activatingProteinAnnotation = new DefaultTextAnnotation(111, 120, "HER-23", annotator1,
-				annotationSet1, -17, -1, "1234", 0, activatingProteinMention);
+				annotationSet1, "-17", -1, "1234", 0, activatingProteinMention);
 		returnArray.add(activatingProteinAnnotation);
 
 		TextAnnotation activationOfTransport = new DefaultTextAnnotation(0, 10, "activation", annotator1,
-				annotationSet1, -16, -1, "1234", 0, activationMention);
+				annotationSet1, "-16", -1, "1234", 0, activationMention);
 		returnArray.add(activationOfTransport);
 
 		/* create a regulation of activation of transport annotation */
@@ -382,7 +382,7 @@ public class TestTextAnnotationCreator {
 		regulatedProcess.addClassMention(activationMention);
 		regulationOfActivationMention.addComplexSlotMention(regulatedProcess);
 		TextAnnotation regulatedActivationOfTransport = new DefaultTextAnnotation(0, 10, "activation", annotator1,
-				annotationSet1, -18, -1, "1234", 0, regulationOfActivationMention);
+				annotationSet1, "-18", -1, "1234", 0, regulationOfActivationMention);
 
 		/* create a protein responsible for the regulation */
 		ClassMention regulatingProteinMention = new DefaultClassMention("protein");
@@ -393,7 +393,7 @@ public class TestTextAnnotationCreator {
 		regulatingEntity.addClassMention(regulatingProteinMention);
 		regulationOfActivationMention.addComplexSlotMention(regulatingEntity);
 		TextAnnotation regulatingProteinAnnotation = new DefaultTextAnnotation(134, 156, "protein kinase C",
-				annotator1, annotationSet1, -19, -1, "1234", 0, regulatingProteinMention);
+				annotator1, annotationSet1, "-19", -1, "1234", 0, regulatingProteinMention);
 		returnArray.add(regulatingProteinAnnotation);
 
 		returnArray.add(regulatedActivationOfTransport);
@@ -410,7 +410,7 @@ public class TestTextAnnotationCreator {
 		}
 
 		ta = new DefaultTextAnnotation(spanList);
-		ta.setAnnotationID(-13);
+		ta.setAnnotationID("-13");
 		ta.setCoveredText("EBV LMP1");
 
 		annotationSetList = new HashSet<AnnotationSet>();
@@ -443,7 +443,7 @@ public class TestTextAnnotationCreator {
 			e.printStackTrace();
 		}
 		ta = new DefaultTextAnnotation(spanList);
-		ta.setAnnotationID(-14);
+		ta.setAnnotationID("-14");
 
 		ta.setCoveredText("p16INK4");
 
@@ -481,7 +481,7 @@ public class TestTextAnnotationCreator {
 			e.printStackTrace();
 		}
 		ta = new DefaultTextAnnotation(spanList);
-		ta.setAnnotationID(-15);
+		ta.setAnnotationID("-15");
 
 		ta.setCoveredText("E2f-4");
 
@@ -552,8 +552,9 @@ public class TestTextAnnotationCreator {
 	 */
 	public static TextAnnotation getAnnotationToMatch18Exactly() throws Exception {
 		/* Initialize test annotators */
-		Annotator annotator1 = new Annotator(new Integer(-30), "Test Annotator", "#1", "CCP");
-		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		Annotator annotator1 = new Annotator("-30", "Test Annotator", "CCP");
+		Annotator annotator2 = new Annotator("-31", "Test Annotator", "CCP");
+
 
 		/* Initialize test annotation sets */
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
@@ -577,7 +578,7 @@ public class TestTextAnnotationCreator {
 		TextAnnotation ta = new DefaultTextAnnotation(spanList);
 
 		/* annotationID = -10 */
-		ta.setAnnotationID(-10);
+		ta.setAnnotationID("-10");
 
 		/* coverted text = gated (45-49), transport (53-61) */
 		ta.setCoveredText("gated..transport");
@@ -615,7 +616,7 @@ public class TestTextAnnotationCreator {
 		ClassMention nucleusMention = new DefaultClassMention("nucleus");
 
 		/* create the nucleus annotation */
-		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, -11,
+		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, "-11",
 				-1, "1234", 0, nucleusMention);
 
 		/* add the nucleus mention as the slot filler for the transport origin */
@@ -645,7 +646,7 @@ public class TestTextAnnotationCreator {
 		e2f4ProteinMention.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, -12, -1,
+		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, "-12", -1,
 				"1234", 0, e2f4ProteinMention);
 
 		/* fill the transport participants slot with the e2f4 protein mention */
@@ -678,10 +679,10 @@ public class TestTextAnnotationCreator {
 		activatingEntity.addClassMention(activatingProteinMention);
 		activationMention.addComplexSlotMention(activatingEntity);
 		TextAnnotation activatingProteinAnnotation = new DefaultTextAnnotation(111, 120, "HER-23", annotator1,
-				annotationSet1, -17, -1, "1234", 0, activatingProteinMention);
+				annotationSet1, "-17", -1, "1234", 0, activatingProteinMention);
 
 		TextAnnotation activationOfTransport = new DefaultTextAnnotation(0, 10, "activation", annotator1,
-				annotationSet1, -16, -1, "1234", 0, activationMention);
+				annotationSet1, "-16", -1, "1234", 0, activationMention);
 
 		/* create a regulation of activation of transport annotation */
 		ClassMention regulationOfActivationMention = new DefaultClassMention("regulation");
@@ -689,7 +690,7 @@ public class TestTextAnnotationCreator {
 		regulatedProcess.addClassMention(activationMention);
 		regulationOfActivationMention.addComplexSlotMention(regulatedProcess);
 		TextAnnotation regulatedActivationOfTransport = new DefaultTextAnnotation(0, 10, "activation", annotator1,
-				annotationSet1, -18, -1, "1234", 0, regulationOfActivationMention);
+				annotationSet1, "-18", -1, "1234", 0, regulationOfActivationMention);
 
 		/* create a protein responsible for the regulation */
 		ClassMention regulatingProteinMention = new DefaultClassMention("protein");
@@ -700,7 +701,7 @@ public class TestTextAnnotationCreator {
 		regulatingEntity.addClassMention(regulatingProteinMention);
 		regulationOfActivationMention.addComplexSlotMention(regulatingEntity);
 		TextAnnotation regulatingProteinAnnotation = new DefaultTextAnnotation(134, 156, "protein kinase C",
-				annotator1, annotationSet1, -19, -1, "1234", 0, regulatingProteinMention);
+				annotator1, annotationSet1, "-19", -1, "1234", 0, regulatingProteinMention);
 
 		return regulatedActivationOfTransport;
 	}
@@ -747,8 +748,8 @@ public class TestTextAnnotationCreator {
 	 */
 	public static TextAnnotation getAnnotationToMatch18ThruLevel3() throws Exception {
 		/* Initialize test annotators */
-		Annotator annotator1 = new Annotator(new Integer(-30), "Test Annotator", "#1", "CCP");
-		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		Annotator annotator1 = new Annotator("-30", "Test Annotator", "CCP");
+		Annotator annotator2 = new Annotator("-31", "Test Annotator", "CCP");
 
 		/* Initialize test annotation sets */
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
@@ -772,7 +773,7 @@ public class TestTextAnnotationCreator {
 		TextAnnotation ta = new DefaultTextAnnotation(spanList);
 
 		/* annotationID = -10 */
-		ta.setAnnotationID(-10);
+		ta.setAnnotationID("-10");
 
 		/* coverted text = gated (45-49), transport (53-61) */
 		ta.setCoveredText("gated..transport");
@@ -810,7 +811,7 @@ public class TestTextAnnotationCreator {
 		ClassMention nucleusMention = new DefaultClassMention("nucleus");
 
 		/* create the nucleus annotation */
-		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, -11,
+		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, "-11",
 				-1, "1234", 0, nucleusMention);
 
 		/* add the nucleus mention as the slot filler for the transport origin */
@@ -840,7 +841,7 @@ public class TestTextAnnotationCreator {
 		e2f4ProteinMention.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, -12, -1,
+		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, "-12", -1,
 				"1234", 0, e2f4ProteinMention);
 
 		/* fill the transport participants slot with the e2f4 protein mention */
@@ -873,10 +874,10 @@ public class TestTextAnnotationCreator {
 		activatingEntity.addClassMention(activatingProteinMention);
 		activationMention.addComplexSlotMention(activatingEntity);
 		TextAnnotation activatingProteinAnnotation = new DefaultTextAnnotation(111, 120, "HER-23", annotator1,
-				annotationSet1, -17, -1, "1234", 0, activatingProteinMention);
+				annotationSet1, "-17", -1, "1234", 0, activatingProteinMention);
 
 		TextAnnotation activationOfTransport = new DefaultTextAnnotation(0, 10, "activation", annotator1,
-				annotationSet1, -16, -1, "1234", 0, activationMention);
+				annotationSet1, "-16", -1, "1234", 0, activationMention);
 
 		/* create a regulation of activation of transport annotation */
 		ClassMention regulationOfActivationMention = new DefaultClassMention("regulation");
@@ -884,7 +885,7 @@ public class TestTextAnnotationCreator {
 		regulatedProcess.addClassMention(activationMention);
 		regulationOfActivationMention.addComplexSlotMention(regulatedProcess);
 		TextAnnotation regulatedActivationOfTransport = new DefaultTextAnnotation(0, 10, "activation", annotator1,
-				annotationSet1, -18, -1, "1234", 0, regulationOfActivationMention);
+				annotationSet1, "-18", -1, "1234", 0, regulationOfActivationMention);
 
 		/* create a protein responsible for the regulation */
 		ClassMention regulatingProteinMention = new DefaultClassMention("protein");
@@ -895,7 +896,7 @@ public class TestTextAnnotationCreator {
 		regulatingEntity.addClassMention(regulatingProteinMention);
 		regulationOfActivationMention.addComplexSlotMention(regulatingEntity);
 		TextAnnotation regulatingProteinAnnotation = new DefaultTextAnnotation(134, 156, "protein kinase C",
-				annotator1, annotationSet1, -19, -1, "1234", 0, regulatingProteinMention);
+				annotator1, annotationSet1, "-19", -1, "1234", 0, regulatingProteinMention);
 
 		return regulatedActivationOfTransport;
 	}
@@ -914,8 +915,9 @@ public class TestTextAnnotationCreator {
 	 */
 	public static TextAnnotation getAnnotationToMatch18ExactlyButHasOverlappingSpans() throws Exception {
 		/* Initialize test annotators */
-		Annotator annotator1 = new Annotator(new Integer(-30), "Test Annotator", "#1", "CCP");
-		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		Annotator annotator1 = new Annotator("-30", "Test Annotator", "CCP");
+		Annotator annotator2 = new Annotator("-31", "Test Annotator", "CCP");
+
 
 		/* Initialize test annotation sets */
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
@@ -939,7 +941,7 @@ public class TestTextAnnotationCreator {
 		TextAnnotation ta = new DefaultTextAnnotation(spanList);
 
 		/* annotationID = -10 */
-		ta.setAnnotationID(-10);
+		ta.setAnnotationID("-10");
 
 		/* coverted text = gated (45-49), transport (53-61) */
 		ta.setCoveredText("gated..transport");
@@ -977,7 +979,7 @@ public class TestTextAnnotationCreator {
 		ClassMention nucleusMention = new DefaultClassMention("nucleus");
 
 		/* create the nucleus annotation */
-		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 56, "nucl", annotator1, annotationSet1, -11,
+		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 56, "nucl", annotator1, annotationSet1, "-11",
 				-1, "1234", 0, nucleusMention);
 
 		/* add the nucleus mention as the slot filler for the transport origin */
@@ -1007,7 +1009,7 @@ public class TestTextAnnotationCreator {
 		e2f4ProteinMention.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, -12, -1,
+		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, "-12", -1,
 				"1234", 0, e2f4ProteinMention);
 
 		/* fill the transport participants slot with the e2f4 protein mention */
@@ -1040,10 +1042,10 @@ public class TestTextAnnotationCreator {
 		activatingEntity.addClassMention(activatingProteinMention);
 		activationMention.addComplexSlotMention(activatingEntity);
 		TextAnnotation activatingProteinAnnotation = new DefaultTextAnnotation(109, 120, "HER-23", annotator1,
-				annotationSet1, -17, -1, "1234", 0, activatingProteinMention);
+				annotationSet1, "-17", -1, "1234", 0, activatingProteinMention);
 
 		TextAnnotation activationOfTransport = new DefaultTextAnnotation(0, 10, "activation", annotator1,
-				annotationSet1, -16, -1, "1234", 0, activationMention);
+				annotationSet1, "-16", -1, "1234", 0, activationMention);
 
 		/* create a regulation of activation of transport annotation */
 		ClassMention regulationOfActivationMention = new DefaultClassMention("regulation");
@@ -1051,7 +1053,7 @@ public class TestTextAnnotationCreator {
 		regulatedProcess.addClassMention(activationMention);
 		regulationOfActivationMention.addComplexSlotMention(regulatedProcess);
 		TextAnnotation regulatedActivationOfTransport = new DefaultTextAnnotation(0, 10, "activation", annotator1,
-				annotationSet1, -18, -1, "1234", 0, regulationOfActivationMention);
+				annotationSet1, "-18", -1, "1234", 0, regulationOfActivationMention);
 
 		/* create a protein responsible for the regulation */
 		ClassMention regulatingProteinMention = new DefaultClassMention("protein");
@@ -1062,7 +1064,7 @@ public class TestTextAnnotationCreator {
 		regulatingEntity.addClassMention(regulatingProteinMention);
 		regulationOfActivationMention.addComplexSlotMention(regulatingEntity);
 		TextAnnotation regulatingProteinAnnotation = new DefaultTextAnnotation(134, 156, "protein kinase C",
-				annotator1, annotationSet1, -19, -1, "1234", 0, regulatingProteinMention);
+				annotator1, annotationSet1, "-19", -1, "1234", 0, regulatingProteinMention);
 
 		return regulatedActivationOfTransport;
 	}
@@ -1093,7 +1095,7 @@ public class TestTextAnnotationCreator {
 	 */
 	public static TextAnnotation getAnnotationToMatch18ThruLevel1Only() throws Exception {
 		/* Initialize test annotators */
-		Annotator annotator1 = new Annotator(new Integer(-30), "Test Annotator", "#1", "CCP");
+		Annotator annotator1 = new Annotator("-30", "Test Annotator", "CCP");
 
 		/* Initialize test annotation sets */
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
@@ -1105,7 +1107,7 @@ public class TestTextAnnotationCreator {
 		/* create a activation of transport annotation */
 		ClassMention activationMention = new DefaultClassMention("activation");
 		TextAnnotation activationOfTransport = new DefaultTextAnnotation(0, 10, "activation", annotator1,
-				annotationSet1, -16, -1, "1234", 0, activationMention);
+				annotationSet1, "-16", -1, "1234", 0, activationMention);
 
 		/* create a regulation of activation of transport annotation */
 		ClassMention regulationOfActivationMention = new DefaultClassMention("regulation");
@@ -1113,7 +1115,7 @@ public class TestTextAnnotationCreator {
 		regulatedProcess.addClassMention(activationMention);
 		regulationOfActivationMention.addComplexSlotMention(regulatedProcess);
 		TextAnnotation regulatedActivationOfTransport = new DefaultTextAnnotation(0, 10, "activation", annotator1,
-				annotationSet1, -18, -1, "1234", 0, regulationOfActivationMention);
+				annotationSet1, "-18", -1, "1234", 0, regulationOfActivationMention);
 
 		/* create a protein responsible for the regulation */
 		ClassMention regulatingProteinMention = new DefaultClassMention("protein");
@@ -1124,7 +1126,7 @@ public class TestTextAnnotationCreator {
 		regulatingEntity.addClassMention(regulatingProteinMention);
 		regulationOfActivationMention.addComplexSlotMention(regulatingEntity);
 		TextAnnotation regulatingProteinAnnotation = new DefaultTextAnnotation(134, 156, "protein kinase C",
-				annotator1, annotationSet1, -19, -1, "1234", 0, regulatingProteinMention);
+				annotator1, annotationSet1, "-19", -1, "1234", 0, regulatingProteinMention);
 
 		return regulatedActivationOfTransport;
 	}
@@ -1157,8 +1159,9 @@ public class TestTextAnnotationCreator {
 	 */
 	public static TextAnnotation getAnnotationToMatch10ButMissingASlot() throws Exception {
 		/* Initialize test annotators */
-		Annotator annotator1 = new Annotator(new Integer(-30), "Test Annotator", "#1", "CCP");
-		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		Annotator annotator1 = new Annotator("-30", "Test Annotator", "CCP");
+		Annotator annotator2 = new Annotator("-31", "Test Annotator", "CCP");
+
 
 		/* Initialize test annotation sets */
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
@@ -1182,7 +1185,7 @@ public class TestTextAnnotationCreator {
 		TextAnnotation ta = new DefaultTextAnnotation(spanList);
 
 		/* annotationID = -10 */
-		ta.setAnnotationID(-10);
+		ta.setAnnotationID("-10");
 
 		/* coverted text = gated (45-49), transport (53-61) */
 		ta.setCoveredText("gated..transport");
@@ -1220,7 +1223,7 @@ public class TestTextAnnotationCreator {
 		ClassMention nucleusMention = new DefaultClassMention("nucleus");
 
 		/* create the nucleus annotation */
-		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, -11,
+		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(50, 53, "nucl", annotator1, annotationSet1, "-11",
 				-1, "1234", 0, nucleusMention);
 
 		/* add the nucleus mention as the slot filler for the transport origin */
@@ -1250,7 +1253,7 @@ public class TestTextAnnotationCreator {
 		e2f4ProteinMention.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, -12, -1,
+		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, "-12", -1,
 				"1234", 0, e2f4ProteinMention);
 
 		/* fill the transport participants slot with the e2f4 protein mention */
@@ -1275,7 +1278,8 @@ public class TestTextAnnotationCreator {
 	 */
 	public static TextAnnotation getAnnotationToMatch11WithOverlappingSpan() {
 		/* Initialize test annotators */
-		Annotator annotator1 = new Annotator(new Integer(-30), "Test Annotator", "#1", "CCP");
+		Annotator annotator1 = new Annotator("-30", "Test Annotator", "CCP");
+
 
 		/* Initialize test annotation sets */
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
@@ -1283,7 +1287,7 @@ public class TestTextAnnotationCreator {
 		ClassMention nucleusMention = new DefaultClassMention("nucleus");
 
 		/* create the nucleus annotation */
-		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(45, 53, "nucl", annotator1, annotationSet1, -11,
+		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(45, 53, "nucl", annotator1, annotationSet1, "-11",
 				-1, "1234", 0, nucleusMention);
 
 		return nucleusAnnotation;
@@ -1295,9 +1299,9 @@ public class TestTextAnnotationCreator {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Map<Integer, TextAnnotation> getID2TextAnnotationMap() throws Exception {
+	public static Map<String, TextAnnotation> getID2TextAnnotationMap() throws Exception {
 		List<TextAnnotation> taList = TestTextAnnotationCreator.getTestTextAnnotations();
-		Map<Integer, TextAnnotation> id2annotationMap = new HashMap<Integer, TextAnnotation>();
+		Map<String, TextAnnotation> id2annotationMap = new HashMap<String, TextAnnotation>();
 		for (TextAnnotation ta : taList) {
 			id2annotationMap.put(ta.getAnnotationID(), ta);
 		}

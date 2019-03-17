@@ -96,10 +96,10 @@ public abstract class POSTagger_AE extends SentenceProcessor_AE {
 			// should be a single slot value, if one exists at all
 			if (slotValues != null && !slotValues.isEmpty()) {
 				tokenCasInserter.insertToken(tokenAnnot.getAnnotationSpanStart(), tokenAnnot.getAnnotationSpanEnd(),
-						tokenAnnot.getAnnotator().getFirstName(), slotValues.iterator().next().toString(), jCas);
+						tokenAnnot.getAnnotator().getName(), slotValues.iterator().next().toString(), jCas);
 			} else {
 				tokenCasInserter.insertToken(tokenAnnot.getAnnotationSpanStart(), tokenAnnot.getAnnotationSpanEnd(),
-						tokenAnnot.getAnnotator().getFirstName(), jCas);
+						tokenAnnot.getAnnotator().getName(), jCas);
 			}
 		}
 

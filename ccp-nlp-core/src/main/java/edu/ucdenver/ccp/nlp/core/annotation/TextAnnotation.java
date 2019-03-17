@@ -80,7 +80,7 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 	 * 
 	 * @return annotator ID
 	 */
-	public int getAnnotatorID() {
+	public String getAnnotatorID() {
 		return getAnnotator().getAnnotatorID();
 	}
 
@@ -162,14 +162,14 @@ public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 	 * 
 	 * @return
 	 */
-	public abstract int getAnnotationID();
+	public abstract String getAnnotationID();
 
 	/**
 	 * Set the annotation ID
 	 * 
 	 * @param annotationID
 	 */
-	public abstract void setAnnotationID(int annotationID);
+	public abstract void setAnnotationID(String annotationID);
 
 	/**
 	 * Get the document collection ID

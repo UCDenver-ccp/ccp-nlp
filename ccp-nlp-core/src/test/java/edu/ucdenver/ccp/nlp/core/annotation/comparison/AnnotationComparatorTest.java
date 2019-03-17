@@ -87,7 +87,7 @@ public class AnnotationComparatorTest {
 	@Before
 	public void setUp() throws Exception {
 
-		annotator = new Annotator(new Integer(-1), "Test", "Annotator", "UCHSC");
+		annotator = new Annotator("-1", "Annotator", "UCHSC");
 		annotationSet = new AnnotationSet(new Integer(-1), "Test Annotation Set", "This is a test annotation set.");
 		documentCollectionID = -1;
 		documentSectionID = -1;
@@ -757,12 +757,12 @@ public class AnnotationComparatorTest {
 
 		// Ritonavir [29,38]
 		DefaultTextAnnotation ritonavirAnnot = new DefaultTextAnnotation(29, 38, text.substring(29, 38), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				annotationSet, Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID,
 				new DefaultClassMention("CHEBI_45409"));
 
 		// Tretinoin [90,99]
 		DefaultTextAnnotation tretinoinAnnot = new DefaultTextAnnotation(90, 99, text.substring(90, 99), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID,
 				new DefaultClassMention("CHEBI_15367"));
 
 		// metabolism [57,67]
@@ -771,7 +771,7 @@ public class AnnotationComparatorTest {
 		hasParticipantTretinoinSlot1.addClassMention(tretinoinAnnot.getClassMention());
 		metabolismCm.addComplexSlotMention(hasParticipantTretinoinSlot1);
 		DefaultTextAnnotation metabolismAnnot = new DefaultTextAnnotation(57, 67, text.substring(57, 67), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, metabolismCm);
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID, metabolismCm);
 
 		// clearance [72,81]
 		ClassMention clearanceCm = new DefaultClassMention("drug_clearance");
@@ -779,7 +779,7 @@ public class AnnotationComparatorTest {
 		hasParticipantTretinoinSlot2.addClassMention(tretinoinAnnot.getClassMention());
 		clearanceCm.addComplexSlotMention(hasParticipantTretinoinSlot2);
 		DefaultTextAnnotation clearanceAnnot = new DefaultTextAnnotation(72, 81, text.substring(72, 81), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, clearanceCm);
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID, clearanceCm);
 
 		/*
 		 * make a negative regulation annotation where the metabolism csm is
@@ -799,7 +799,7 @@ public class AnnotationComparatorTest {
 
 		// decrease [44,52]
 		DefaultTextAnnotation decreaseAnnot1 = new DefaultTextAnnotation(44, 52, text.substring(44, 52), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, decreaseCm1);
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID, decreaseCm1);
 
 		/*
 		 * make a negative_regulation annotation where the clearance csm is
@@ -819,7 +819,7 @@ public class AnnotationComparatorTest {
 		
 		// decrease [44,52]
 		DefaultTextAnnotation decreaseAnnot2 = new DefaultTextAnnotation(44, 52, text.substring(44, 52), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, decreaseCm2);
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID, decreaseCm2);
 
 		AnnotationComparator ac = new AnnotationComparator();
 		SpanComparator sc = new StrictSpanComparator();
@@ -851,20 +851,20 @@ public class AnnotationComparatorTest {
 		
 		// Ritonavir [106,115]
 		DefaultTextAnnotation ritonavirAnnot1 = new DefaultTextAnnotation(106,115, text.substring(106, 115), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID,
 				new DefaultClassMention("CHEBI_45409"));
 		
 		DefaultTextAnnotation ritonavirAnnot2 = new DefaultTextAnnotation(106,115, text.substring(106, 115), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID,
 				new DefaultClassMention("CHEBI_45409"));
 		
 		// Tretinoin [53,62]
 		DefaultTextAnnotation tretinoinAnnot1 = new DefaultTextAnnotation(53, 62, text.substring(53, 62), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID,
 				new DefaultClassMention("CHEBI_15367"));
 		
 		DefaultTextAnnotation tretinoinAnnot2 = new DefaultTextAnnotation(53, 62, text.substring(53, 62), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID,
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID,
 				new DefaultClassMention("CHEBI_15367"));
 		
 		// effectiveness [63,76]
@@ -873,14 +873,14 @@ public class AnnotationComparatorTest {
 		hasParticipantTretinoinSlot1_1.addClassMention(tretinoinAnnot1.getClassMention());
 		effectivenessCm1.addComplexSlotMention(hasParticipantTretinoinSlot1_1);
 		DefaultTextAnnotation effectivenessAnnot1 = new DefaultTextAnnotation(63, 76, text.substring(63, 76), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, effectivenessCm1);
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID, effectivenessCm1);
 		
 		ClassMention effectivenessCm2 = new DefaultClassMention("drug_effect");
 		ComplexSlotMention hasParticipantTretinoinSlot2_1 = new DefaultComplexSlotMention(hasParticipantRelation);
 		hasParticipantTretinoinSlot2_1.addClassMention(tretinoinAnnot2.getClassMention());
 		effectivenessCm2.addComplexSlotMention(hasParticipantTretinoinSlot2_1);
 		DefaultTextAnnotation effectivenessAnnot2 = new DefaultTextAnnotation(63, 76, text.substring(63, 76), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, effectivenessCm2);
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID, effectivenessCm2);
 		
 		// adverse effects [81..88,95..102]
 		ClassMention adverseEffectsCm1 = new DefaultClassMention("drug_effect");
@@ -892,7 +892,7 @@ public class AnnotationComparatorTest {
 		adverseEffectsAnnot1.setCoveredText("adverse effects");
 		adverseEffectsAnnot1.setAnnotator(annotator);
 		adverseEffectsAnnot1.setAnnotationSets(CollectionsUtil.createSet(annotationSet));
-		adverseEffectsAnnot1.setAnnotationID(annotationId++);
+		adverseEffectsAnnot1.setAnnotationID( Integer.toString(annotationId++));
 		adverseEffectsAnnot1.setDocumentCollectionID(documentCollectionID);
 		adverseEffectsAnnot1.setDocumentID(documentId);
 		adverseEffectsAnnot1.setDocumentSectionID(documentSectionID);
@@ -907,7 +907,7 @@ public class AnnotationComparatorTest {
 		adverseEffectsAnnot2.setCoveredText("adverse effects");
 		adverseEffectsAnnot2.setAnnotator(annotator);
 		adverseEffectsAnnot2.setAnnotationSets(CollectionsUtil.createSet(annotationSet));
-		adverseEffectsAnnot2.setAnnotationID(annotationId++);
+		adverseEffectsAnnot2.setAnnotationID( Integer.toString(annotationId++));
 		adverseEffectsAnnot2.setDocumentCollectionID(documentCollectionID);
 		adverseEffectsAnnot2.setDocumentID(documentId);
 		adverseEffectsAnnot2.setDocumentSectionID(documentSectionID);
@@ -920,14 +920,14 @@ public class AnnotationComparatorTest {
 		hasParticipantTretinoinSlot1_3.addClassMention(tretinoinAnnot1.getClassMention());
 		toxicEffectsCm1.addComplexSlotMention(hasParticipantTretinoinSlot1_3);
 		DefaultTextAnnotation toxicEffectsAnnot1 = new DefaultTextAnnotation(89, 102, text.substring(89, 102), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, toxicEffectsCm1);
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID, toxicEffectsCm1);
 		
 		ClassMention toxicEffectsCm2 = new DefaultClassMention("drug_toxicity");
 		ComplexSlotMention hasParticipantTretinoinSlot2_3 = new DefaultComplexSlotMention(hasParticipantRelation);
 		hasParticipantTretinoinSlot2_3.addClassMention(tretinoinAnnot2.getClassMention());
 		toxicEffectsCm2.addComplexSlotMention(hasParticipantTretinoinSlot2_3);
 		DefaultTextAnnotation toxicEffectsAnnot2 = new DefaultTextAnnotation(89, 102, text.substring(89, 102), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, toxicEffectsCm2);
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID, toxicEffectsCm2);
 		
 		
 		
@@ -953,7 +953,7 @@ public class AnnotationComparatorTest {
 		
 		// decrease [44,52]
 		DefaultTextAnnotation decreaseAnnot1 = new DefaultTextAnnotation(30, 49, text.substring(30, 49), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, decreaseCm1);
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID, decreaseCm1);
 	
 		
 		/*
@@ -977,7 +977,7 @@ public class AnnotationComparatorTest {
 //		
 		// decrease [44,52]
 		DefaultTextAnnotation decreaseAnnot2 = new DefaultTextAnnotation(30, 49, text.substring(30, 49), annotator,
-				annotationSet, annotationId++, documentCollectionID, documentId, documentSectionID, decreaseCm2);
+				annotationSet,  Integer.toString(annotationId++), documentCollectionID, documentId, documentSectionID, decreaseCm2);
 		
 		AnnotationComparator ac = new AnnotationComparator();
 		SpanComparator sc = new StrictSpanComparator();
@@ -1006,7 +1006,7 @@ public class AnnotationComparatorTest {
 		DefaultClassMention cm = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 
 		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, annotator, annotationSet,
-				annotationID, documentCollectionID, documentID, documentSectionID, cm);
+				Integer.toString(annotationID), documentCollectionID, documentID, documentSectionID, cm);
 
 		return ta;
 	}
@@ -1022,7 +1022,7 @@ public class AnnotationComparatorTest {
 		DefaultClassMention cm = new DefaultClassMention(ClassMentionType.GENE.typeName());
 
 		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, annotator, annotationSet,
-				annotationID, documentCollectionID, documentID, documentSectionID, cm);
+				Integer.toString(annotationID), documentCollectionID, documentID, documentSectionID, cm);
 
 		return ta;
 	}

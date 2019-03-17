@@ -239,9 +239,9 @@ public class TermVariantFileParser {
 	 */
 	protected static TextAnnotation createAnnotation(String classMentionName, String coveredText, Span span,
 			int documentCollectionID, String documentID) {
-		Annotator annotator = new Annotator(1212, "TermVariantAnnotator", "TermVariantAnnotator", "CCP");
+		Annotator annotator = new Annotator("1212", "TermVariantAnnotator", "CCP");
 		return new DefaultTextAnnotation(span.getSpanStart(), span.getSpanEnd(), coveredText, annotator,
-				new AnnotationSet(), -1, documentCollectionID, documentID, -1,
+				new AnnotationSet(), "-1", documentCollectionID, documentID, -1,
 				new DefaultClassMention(classMentionName));
 	}
 

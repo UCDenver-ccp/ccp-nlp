@@ -133,7 +133,7 @@ public class TextAnnotationUtil {
 		String[] toks = line.split("\\|");
 		if (toks.length > 4) {
 			String documentID = toks[0];
-			int annotatorID = Integer.parseInt(toks[1]);
+			String annotatorID = toks[1];
 			String annotationType = toks[3];
 
 			String[] spanToks = toks[2].split(" ");
@@ -151,7 +151,7 @@ public class TextAnnotationUtil {
 			DefaultClassMention cm = new DefaultClassMention(annotationType);
 			ta.setClassMention(cm);
 
-			Annotator annotator = new Annotator(annotatorID, "", "", "");
+			Annotator annotator = new Annotator(annotatorID, "", "");
 			ta.setAnnotator(annotator);
 
 			AnnotationSet tntAnnotationSet = new AnnotationSet(new Integer(-1), "Default", "Default");

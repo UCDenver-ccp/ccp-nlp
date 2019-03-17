@@ -99,21 +99,19 @@ public class MentionTest {
 		proteinXyzGeneIdSM.addSlotValue("xyzID=12345");
 		proteinXyzCM.addPrimitiveSlotMention(proteinXyzGeneIdSM);
 		@SuppressWarnings("unused")
-		TextAnnotation proteinXyzTA = new DefaultTextAnnotation(0, 5, "XYZ-2", new Annotator(1, "Bob", "The Annotator",
-				"The U"), new AnnotationSet(), 1, -1, "1234", -1, proteinXyzCM);
+		TextAnnotation proteinXyzTA = new DefaultTextAnnotation(0, 5, "XYZ-2", new Annotator("1", "The Annotator",
+				"The U"), new AnnotationSet(), "1", -1, "1234", -1, proteinXyzCM);
 
 		proteinAbcCM = new DefaultClassMention(FRAME_PROTEIN);
 		StringSlotMention proteinAbcGeneIdSM = new DefaultStringSlotMention(SLOT_GENE_ID);
 		proteinAbcGeneIdSM.addSlotValue("AbcID=98765");
 		proteinAbcCM.addPrimitiveSlotMention(proteinAbcGeneIdSM);
 		@SuppressWarnings("unused")
-		TextAnnotation proteinAbcTA = new DefaultTextAnnotation(40, 45, "ABC-1", new Annotator(1, "Bob",
-				"The Annotator", "The U"), new AnnotationSet(), 1, -1, "1234", -1, proteinAbcCM);
+		TextAnnotation proteinAbcTA = new DefaultTextAnnotation(40, 45, "ABC-1", new Annotator("1", "The Annotator", "The U"), new AnnotationSet(), "1", -1, "1234", -1, proteinAbcCM);
 
 		nucleusCM = new DefaultClassMention(FRAME_NUCLEUS);
 		@SuppressWarnings("unused")
-		TextAnnotation nucleusTA = new DefaultTextAnnotation(63, 70, "nucleus", new Annotator(1, "Bob",
-				"The Annotator", "The U"), new AnnotationSet(), 1, -1, "1234", -1, nucleusCM);
+		TextAnnotation nucleusTA = new DefaultTextAnnotation(63, 70, "nucleus", new Annotator("1", "The Annotator", "The U"), new AnnotationSet(), "1", -1, "1234", -1, nucleusCM);
 
 		transportCM = new DefaultClassMention(FRAME_PROTEIN_TRANSPORT);
 		transportCargoCSM = new DefaultComplexSlotMention(SLOT_CARGO);
@@ -123,16 +121,14 @@ public class MentionTest {
 		transportDestinationCSM.addClassMention(nucleusCM);
 		transportCM.addComplexSlotMention(transportDestinationCSM);
 		@SuppressWarnings("unused")
-		TextAnnotation transportTA = new DefaultTextAnnotation(46, 55, "transport", new Annotator(1, "Bob",
-				"The Annotator", "The U"), new AnnotationSet(), 1, -1, "1234", -1, transportCM);
+		TextAnnotation transportTA = new DefaultTextAnnotation(46, 55, "transport", new Annotator("1", "The Annotator", "The U"), new AnnotationSet(), "1", -1, "1234", -1, transportCM);
 
 		regulationCM = new DefaultClassMention(FRAME_REGULATION_OF_PROCESS);
 		DefaultComplexSlotMention regulatedProcessCSM = new DefaultComplexSlotMention(SLOT_REGULATED_PROCESS);
 		regulatedProcessCSM.addClassMention(transportCM);
 		regulationCM.addComplexSlotMention(regulatedProcessCSM);
 		@SuppressWarnings("unused")
-		TextAnnotation regultionTA = new DefaultTextAnnotation(26, 36, "regulation", new Annotator(1, "Bob",
-				"The Annotator", "The U"), new AnnotationSet(), 1, -1, "1234", -1, regulationCM);
+		TextAnnotation regultionTA = new DefaultTextAnnotation(26, 36, "regulation", new Annotator("1", "The Annotator", "The U"), new AnnotationSet(), "1", -1, "1234", -1, regulationCM);
 
 		playsARoleInProcessCM = new DefaultClassMention(FRAME_PLAYS_A_ROLE_IN_PROCESS);
 		playerCSM = new DefaultComplexSlotMention(SLOT_PLAYER);
@@ -142,8 +138,7 @@ public class MentionTest {
 		processCSM.addClassMention(regulationCM);
 		playsARoleInProcessCM.addComplexSlotMention(processCSM);
 		@SuppressWarnings("unused")
-		TextAnnotation playsARoleInProcessTA = new DefaultTextAnnotation(6, 21, "plays a role in", new Annotator(1,
-				"Bob", "The Annotator", "The U"), new AnnotationSet(), 1, -1, "1234", -1, playsARoleInProcessCM);
+		TextAnnotation playsARoleInProcessTA = new DefaultTextAnnotation(6, 21, "plays a role in", new Annotator("1", "The Annotator", "The U"), new AnnotationSet(), "1", -1, "1234", -1, playsARoleInProcessCM);
 
 	}
 

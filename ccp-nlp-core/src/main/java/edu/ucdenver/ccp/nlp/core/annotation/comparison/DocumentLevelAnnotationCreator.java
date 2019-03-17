@@ -191,7 +191,7 @@ public class DocumentLevelAnnotationCreator {
 			documentLevelCM.addComplexSlotMention(csm);
 		}
 		/* create the document-level annotation */
-		TextAnnotation documentLevelAnnot = new DefaultTextAnnotation(0, 1, "", ta.getAnnotator(), null, -1,
+		TextAnnotation documentLevelAnnot = new DefaultTextAnnotation(0, 1, "", ta.getAnnotator(), null, "",
 				ta.getDocumentCollectionID(), ta.getDocumentID(), ta.getDocumentSectionID(), documentLevelCM);
 		documentLevelAnnot.setAnnotationSets(ta.getAnnotationSets());
 		documentLevelAnnot.addAnnotationSet(annotationSet);

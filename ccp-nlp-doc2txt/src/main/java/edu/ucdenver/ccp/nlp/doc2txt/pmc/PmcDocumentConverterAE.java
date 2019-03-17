@@ -150,7 +150,7 @@ public class PmcDocumentConverterAE extends JCasAnnotator_ImplBase {
 	private void importAnnotationIntoCas(Annotation annot, JCas jCas) {
 		CCPTextAnnotation ccpTa = UIMA_Annotation_Util.createCCPTextAnnotation(annot.getType().name(), annot.getStart(),
 				annot.getEnd(), jCas);
-		Annotator annotator = new Annotator(-1, "PMC XML", "", "");
+		Annotator annotator = new Annotator("-1", "PMC XML", "");
 		UIMA_Annotation_Util.setAnnotator(ccpTa, annotator, jCas);
 	}
 

@@ -115,12 +115,12 @@ public class WrappedCCPTextAnnotation extends TextAnnotation {
 	}
 
 	@Override
-	public int getAnnotationID() {
+	public String getAnnotationID() {
 		return wrappedCCPTextAnnotation.getAnnotationID();
 	}
 
 	@Override
-	public void setAnnotationID(int annotationID) {
+	public void setAnnotationID(String annotationID) {
 		wrappedCCPTextAnnotation.setAnnotationID(annotationID);
 	}
 

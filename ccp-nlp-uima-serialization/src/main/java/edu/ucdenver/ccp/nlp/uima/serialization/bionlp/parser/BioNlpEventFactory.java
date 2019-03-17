@@ -56,7 +56,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
  */
 public class BioNlpEventFactory {
 
-	private static final Annotator ANNOTATOR = new Annotator(291514121, "BioNLP", "E-line Input", "Unknown");
+	private static final Annotator ANNOTATOR = new Annotator("291514121", "BioNLP", "Unknown");
 	public static final String THEME_SLOT_NAME = "has theme";
 	public static final String EVENT_ID_SLOT_NAME = "event ID";
 	public static final String CAUSE_SLOT_NAME = "has cause";
@@ -90,7 +90,7 @@ public class BioNlpEventFactory {
 			throw new IllegalArgumentException(String.format(
 					"Expected trigger annotation (%s) missing from input IdToAnnotation map.", triggerId));
 		TextAnnotation ta = new DefaultTextAnnotation(triggerAnnot.getAnnotationSpanStart(),
-				triggerAnnot.getAnnotationSpanEnd(), "", ANNOTATOR, new AnnotationSet(), -1, -1, "", -1, cm);
+				triggerAnnot.getAnnotationSpanEnd(), "", ANNOTATOR, new AnnotationSet(), "-1", -1, "", -1, cm);
 
 		addThemeSlotFillers(ta, themeIds, bionlpIdToAnnotationMap);
 		addCauseSlotFiller(ta, causeId, bionlpIdToAnnotationMap);

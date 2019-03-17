@@ -66,7 +66,7 @@ public class DefaultTextAnnotation extends TextAnnotation {
 
 	protected String coveredText; // text covered by the span
 
-	protected int annotationID; // annotation ID
+	protected String annotationID; // annotation ID
 
 	protected String documentID; // document ID
 
@@ -92,7 +92,7 @@ public class DefaultTextAnnotation extends TextAnnotation {
 	 * @param classMention
 	 */
 	public DefaultTextAnnotation(int beginIndex, int endIndex, String coveredText, Annotator annotator,
-			AnnotationSet annotationSet, int annotationID, int documentCollectionID, String documentID,
+			AnnotationSet annotationSet, String annotationID, int documentCollectionID, String documentID,
 			int documentSectionID, ClassMention classMention) {
 		super((Object[]) null);
 
@@ -150,9 +150,9 @@ public class DefaultTextAnnotation extends TextAnnotation {
 			e.printStackTrace();
 		}
 		this.coveredText = "";
-		this.annotator = new Annotator(new Integer(-1), "", "", "");
+		this.annotator = new Annotator("-1", "", "");
 		this.annotationSets = new HashSet<AnnotationSet>();
-		this.annotationID = -1;
+		this.annotationID = "-1";
 		this.documentCollectionID = -1;
 		this.documentID = "-1";
 		this.documentSectionID = -1;
@@ -164,9 +164,9 @@ public class DefaultTextAnnotation extends TextAnnotation {
 		super((Object[]) null);
 		this.spanList = new ArrayList<Span>(spanList);
 		this.coveredText = "";
-		this.annotator = new Annotator(new Integer(-1), "", "", "");
+		this.annotator = new Annotator("", "", "");
 		this.annotationSets = new HashSet<AnnotationSet>();
-		this.annotationID = -1;
+		this.annotationID = "";
 		this.documentCollectionID = -1;
 		this.documentID = "-1";
 		this.documentSectionID = -1;
@@ -243,7 +243,7 @@ public class DefaultTextAnnotation extends TextAnnotation {
 	 * @return
 	 */
 	@Override
-	public int getAnnotationID() {
+	public String getAnnotationID() {
 		return annotationID;
 	}
 
@@ -253,7 +253,7 @@ public class DefaultTextAnnotation extends TextAnnotation {
 	 * @param annotationID
 	 */
 	@Override
-	public void setAnnotationID(int annotationID) {
+	public void setAnnotationID(String annotationID) {
 		this.annotationID = annotationID;
 	}
 

@@ -91,9 +91,7 @@ public class DefaultClassMention extends ClassMention {
 
 	@Override
 	public void addComplexSlotMention(ComplexSlotMention csm) {
-		System.out.println("Add CSM: " + csm.getMentionName() + " SIZE: " + complexSlotMentionsMap.size());
 		if (complexSlotMentionsMap.containsKey(csm.getMentionName())) {
-				System.out.println("Getting value for key: " + csm.getMentionName());
 				for (ClassMention cm : csm.getClassMentions()){
 					complexSlotMentionsMap.get(csm.getMentionName()).addClassMention(cm);
 				}

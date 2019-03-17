@@ -69,11 +69,11 @@ public class TextAnnotationTest {
 		 * Span: 4-7 AnnotatorID: 5 AnnotationSetID: 6 AnnotationID: 12 DocumentID: 9
 		 * DocumentCollectionID: 8 DocumentSectionID: 10
 		 */
-		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName",
+		Annotator annotator = new Annotator("5", "TestAnnotatorLastName",
 				"TestAnnotatorAffiliation");
 		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName",
 				"TestAnnotationSetDescription");
-		ta = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10, cm);
+		ta = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, "12", 8, "9", 10, cm);
 
 	}
 
@@ -91,8 +91,8 @@ public class TextAnnotationTest {
 		ta = new DefaultTextAnnotation(0, 0);
 
 		// assertEquals(TextAnnotationTypes.SEMANTIC, ta.getAnnotationType());
-		assertEquals(-1, ta.getAnnotationID());
-		assertEquals(-1, ta.getAnnotatorID());
+		assertEquals("-1", ta.getAnnotationID());
+		assertEquals("-1", ta.getAnnotatorID());
 		Set<AnnotationSet> annotationSets = ta.getAnnotationSets();
 		assertEquals(0, annotationSets.size());
 		assertEquals("-1", ta.getDocumentID());
@@ -114,8 +114,8 @@ public class TextAnnotationTest {
 	@Test
 	public void testConstructor() throws Exception {
 		// assertEquals(TextAnnotationTypes.SYNTACTIC, ta.getAnnotationType());
-		assertEquals(12, ta.getAnnotationID());
-		assertEquals(5, ta.getAnnotatorID());
+		assertEquals("12", ta.getAnnotationID());
+		assertEquals("5", ta.getAnnotatorID());
 		Set<AnnotationSet> annotationSets = ta.getAnnotationSets();
 		assertEquals(1, annotationSets.size());
 		assertEquals(new Integer(6), Collections.list(Collections.enumeration(annotationSets)).get(0)
@@ -222,34 +222,34 @@ public class TextAnnotationTest {
 	@Test
 	public void testEquals() {
 		DefaultClassMention cm = new DefaultClassMention("classMention");
-		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName",
+		Annotator annotator = new Annotator("5", "TestAnnotatorLastName",
 				"TestAnnotatorAffiliation");
 		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName",
 				"TestAnnotationSetDescription");
 
 		/* annotation to test against */
-		TextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+		TextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, "12", 8, "9", 10,
 				cm);
 
 		/* identical annotation */
-		TextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+		TextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, "12", 8, "9", 10,
 				cm);
 
 		/* different span */
-		TextAnnotation ta2 = new DefaultTextAnnotation(4, 8, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+		TextAnnotation ta2 = new DefaultTextAnnotation(4, 8, "coveredText", annotator, annotationSet, "12", 8, "9", 10,
 				cm);
 
 		/* different doc id */
-		TextAnnotation ta3 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "7", 10,
+		TextAnnotation ta3 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, "12", 8, "7", 10,
 				cm);
 
 		/* different doc col id */
-		TextAnnotation ta4 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 7, "9", 10,
+		TextAnnotation ta4 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, "12", 7, "9", 10,
 				cm);
 
 		/* different class mention */
 		DefaultClassMention cm2 = new DefaultClassMention("classMention2");
-		TextAnnotation ta5 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+		TextAnnotation ta5 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, "12", 8, "9", 10,
 				cm2);
 
 		assertTrue(ta0.equals(ta1));
@@ -266,25 +266,25 @@ public class TextAnnotationTest {
 	@Test
 	public void testOverlaps() {
 		DefaultClassMention cm = new DefaultClassMention("classMention");
-		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName",
+		Annotator annotator = new Annotator("5", "TestAnnotatorLastName",
 				"TestAnnotatorAffiliation");
 		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName",
 				"TestAnnotationSetDescription");
 
 		/* annotation to test against */
-		TextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+		TextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, "12", 8, "9", 10,
 				cm);
 
 		/* identical annotation */
-		TextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+		TextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, "12", 8, "9", 10,
 				cm);
 
 		/* overlapping span */
-		TextAnnotation ta2 = new DefaultTextAnnotation(5, 9, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+		TextAnnotation ta2 = new DefaultTextAnnotation(5, 9, "coveredText", annotator, annotationSet, "12", 8, "9", 10,
 				cm);
 
 		/* nonoverlapping span */
-		TextAnnotation ta3 = new DefaultTextAnnotation(17, 19, "coveredText", annotator, annotationSet, 12, 8, "9", 10,
+		TextAnnotation ta3 = new DefaultTextAnnotation(17, 19, "coveredText", annotator, annotationSet, "12", 8, "9", 10,
 				cm);
 
 		assertTrue(ta0.overlaps(ta1));
@@ -355,25 +355,25 @@ public class TextAnnotationTest {
 	@Test
 	public void testCompareTo() throws Exception {
 		DefaultClassMention cm = new DefaultClassMention("classMention");
-		Annotator annotator = new Annotator(new Integer(5), "TestAnnotatorFirstName", "TestAnnotatorLastName",
+		Annotator annotator = new Annotator("5", "TestAnnotatorLastName",
 				"TestAnnotatorAffiliation");
 		AnnotationSet annotationSet = new AnnotationSet(new Integer(6), "TestAnnotationSetName",
 				"TestAnnotationSetDescription");
 
 		/* annotation to test against */
-		DefaultTextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8,
+		DefaultTextAnnotation ta0 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, "12", 8,
 				"9", 10, cm);
 
 		/* identical annotation */
-		DefaultTextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, 12, 8,
+		DefaultTextAnnotation ta1 = new DefaultTextAnnotation(4, 7, "coveredText", annotator, annotationSet, "12", 8,
 				"9", 10, cm);
 
 		/* overlapping span, but starts before ta0 */
-		DefaultTextAnnotation ta2 = new DefaultTextAnnotation(2, 9, "coveredText", annotator, annotationSet, 12, 8,
+		DefaultTextAnnotation ta2 = new DefaultTextAnnotation(2, 9, "coveredText", annotator, annotationSet, "12", 8,
 				"9", 10, cm);
 
 		/* nonoverlapping span, and starts after ta0 */
-		DefaultTextAnnotation ta3 = new DefaultTextAnnotation(17, 19, "coveredText", annotator, annotationSet, 12, 8,
+		DefaultTextAnnotation ta3 = new DefaultTextAnnotation(17, 19, "coveredText", annotator, annotationSet, "12", 8,
 				"9", 10, cm);
 
 		assertEquals(0, ta0.compareTo(ta1));
@@ -492,7 +492,7 @@ public class TextAnnotationTest {
 	@Test
 	public void testToString() {
 		String expectedStr = "======================= Annotation: 12 =======================\n"
-				+ "Annotator: 5|TestAnnotatorFirstName|TestAnnotatorLastName|TestAnnotatorAffiliation\n"
+				+ "Annotator: 5|TestAnnotatorLastName|TestAnnotatorAffiliation\n"
 				+ "--- AnnotationSets: 6|TestAnnotationSetName|TestAnnotationSetDescription\n" + "--- Comment: \n\n"
 				+ "--- Span: 4 - 7  \n" + "--- DocCollection: 8  DocID: 9  DocumentSection: 10\n"
 				+ "--- Covered Text: coveredText\n" + "-CLASS MENTION: classMention \"coveredText\"	[4..7]\n\n"

@@ -57,7 +57,7 @@ import opennlp.tools.util.Span;
 
 public class OpenNlpSentenceDetectorAE extends SentenceDetector_AE {
 
-	private static final Annotator annotator = new Annotator(77777, "OpenNLP", "OpenNLP", "OpenNLP");
+	private static final Annotator annotator = new Annotator("77777", "OpenNLP", "OpenNLP");
 
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {

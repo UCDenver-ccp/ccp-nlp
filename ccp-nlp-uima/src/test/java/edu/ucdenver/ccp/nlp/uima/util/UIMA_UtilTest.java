@@ -209,15 +209,14 @@ public class UIMA_UtilTest {
 
 		// Annotator: ID = 3, FirstName = "TestAnnotatorFirst", LastName =
 		// "TestAnnotatorLast", Affiliation = "TestAnnotatorAffiliation"
-		testAnnotator = new Annotator(new Integer(3), "TestAnnotatorFirst", "TestAnnotatorLast",
+		testAnnotator = new Annotator("3", "TestAnnotatorLast",
 				"TestAnnotatorAffiliation");
 
 		// CCPAnnotator: ID = 5, FirstName = "TestCCPFirst", LastName =
 		// "TestCCPLast", Affiliation = "TestCCPAffiliation"
 		testCCPAnnotator = new CCPAnnotator(jcas);
-		testCCPAnnotator.setAnnotatorID(5);
-		testCCPAnnotator.setFirstName("TestCCPFirst");
-		testCCPAnnotator.setLastName("TestCCPLast");
+		testCCPAnnotator.setAnnotatorID("5");
+		testCCPAnnotator.setName("TestCCPLast");
 		testCCPAnnotator.setAffiliation("TestCCPAffiliation");
 
 		// CCPClassMention: mentionName = "testCCPClassMention"
@@ -251,7 +250,7 @@ public class UIMA_UtilTest {
 		ccpClassMention.setSlotMentions(slotMentions);
 
 		testCCPTextAnnotation1 = new CCPTextAnnotation(jcas);
-		testCCPTextAnnotation1.setAnnotationID(4567);
+		testCCPTextAnnotation1.setAnnotationID("4567");
 		testCCPTextAnnotation1.setAnnotationSets(ccpAnnotationSets);
 		testCCPTextAnnotation1.setAnnotator(testCCPAnnotator);
 		testCCPTextAnnotation1.setBegin(11);
@@ -262,7 +261,7 @@ public class UIMA_UtilTest {
 		testCCPTextAnnotation1.setClassMention(ccpClassMention);
 
 		testCCPTextAnnotation2 = new CCPTextAnnotation(jcas);
-		testCCPTextAnnotation2.setAnnotationID(45678);
+		testCCPTextAnnotation2.setAnnotationID("45678");
 		testCCPTextAnnotation2.setAnnotationSets(ccpAnnotationSets);
 		testCCPTextAnnotation2.setAnnotator(testCCPAnnotator);
 		testCCPTextAnnotation2.setBegin(13);
@@ -277,7 +276,7 @@ public class UIMA_UtilTest {
 
 
 		testCCPTextAnnotation3 = new CCPTextAnnotation(jcas);
-		testCCPTextAnnotation3.setAnnotationID(4567);
+		testCCPTextAnnotation3.setAnnotationID("4567");
 		testCCPTextAnnotation3.setAnnotationSets(ccpAnnotationSets);
 		testCCPTextAnnotation3.setAnnotator(testCCPAnnotator);
 		testCCPTextAnnotation3.setBegin(5011);
@@ -288,7 +287,7 @@ public class UIMA_UtilTest {
 		testCCPTextAnnotation3.setClassMention(ccpClassMention);
 
 		testCCPTextAnnotation4 = new CCPTextAnnotation(jcas);
-		testCCPTextAnnotation4.setAnnotationID(45678);
+		testCCPTextAnnotation4.setAnnotationID("45678");
 		testCCPTextAnnotation4.setAnnotationSets(ccpAnnotationSets);
 		testCCPTextAnnotation4.setAnnotator(testCCPAnnotator);
 		testCCPTextAnnotation4.setBegin(5013);
@@ -298,7 +297,7 @@ public class UIMA_UtilTest {
 		testCCPTextAnnotation4.setNumberOfSpans(02);
 
 		testCCPTextAnnotationX = new CCPTextAnnotation(jcas);
-		testCCPTextAnnotationX.setAnnotationID(45678);
+		testCCPTextAnnotationX.setAnnotationID("45678");
 		testCCPTextAnnotationX.setAnnotationSets(ccpAnnotationSets);
 		testCCPTextAnnotationX.setAnnotator(testCCPAnnotator);
 		///testCCPTextAnnotationX.setBegin(5013);
@@ -325,7 +324,7 @@ public class UIMA_UtilTest {
 		transportOriginMention.addClassMention(nucleusMention);
 		@SuppressWarnings("unused")
 		TextAnnotation nucleusAnnotation = new DefaultTextAnnotation(45, 52, "nuclear", testAnnotator,
-				testAnnotationSet, -1, 2, "14635", 0, nucleusMention);
+				testAnnotationSet, "-1", 2, "14635", 0, nucleusMention);
 		transportMention.addComplexSlotMention(transportOriginMention);
 
 		/* --- Complex Slot Mention: transport location ------- nucleus */
@@ -344,7 +343,7 @@ public class UIMA_UtilTest {
 		transportParticipantsMention.addClassMention(e2f4ProteinMention);
 		@SuppressWarnings("unused")
 		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(63, 68, "E2F-4", testAnnotator, testAnnotationSet,
-				-1, 2, "14635", 0, e2f4ProteinMention);
+				"-1", 2, "14635", 0, e2f4ProteinMention);
 		transportMention.addComplexSlotMention(transportParticipantsMention);
 
 		/* --- Complex Slot Mention: transported entities ------- e2f4 protein */
@@ -355,7 +354,7 @@ public class UIMA_UtilTest {
 
 
 		/* ===== testTextAnnotation1 ===== */
-		testTextAnnotation1 = new DefaultTextAnnotation(15, 37, "coveredText1", testAnnotator, testAnnotationSet, 1010,
+		testTextAnnotation1 = new DefaultTextAnnotation(15, 37, "coveredText1", testAnnotator, testAnnotationSet, "1010",
 				2, "33", 1, transportMention);
 
 		/* ===== testTextAnnotation2 ===== */
@@ -364,7 +363,7 @@ public class UIMA_UtilTest {
 		entrezIDSlotMention = new DefaultIntegerSlotMention("entrez_gene_id");
 		entrezIDSlotMention.addSlotValue(888888);
 		proteinMention.addPrimitiveSlotMention(entrezIDSlotMention);
-		testTextAnnotation2 = new DefaultTextAnnotation(0, 8, "EBV LMP1", testAnnotator, testAnnotationSet, 1011, 2,
+		testTextAnnotation2 = new DefaultTextAnnotation(0, 8, "EBV LMP1", testAnnotator, testAnnotationSet, "1011", 2,
 				"33", 1, proteinMention);
 
 	}
@@ -466,9 +465,8 @@ public class UIMA_UtilTest {
 		CCPAnnotator ccpAnnotator = new CCPAnnotator(jcas);
 		UIMA_Util.swapAnnotatorInfo(testAnnotator, ccpAnnotator);
 
-		assertEquals(testAnnotator.getAnnotatorID().intValue(), ccpAnnotator.getAnnotatorID());
-		assertEquals(testAnnotator.getFirstName(), ccpAnnotator.getFirstName());
-		assertEquals(testAnnotator.getLastName(), ccpAnnotator.getLastName());
+		assertEquals(testAnnotator.getAnnotatorID(), ccpAnnotator.getAnnotatorID());
+		assertEquals(testAnnotator.getName(), ccpAnnotator.getName());
 		assertEquals(testAnnotator.getAffiliation(), ccpAnnotator.getAffiliation());
 	}
 
@@ -478,12 +476,11 @@ public class UIMA_UtilTest {
 	 */
 	@Test
 	public void testSwapCCPAnnotator2Annotator() {
-		Annotator annotator = new Annotator(new Integer(-1), "", "", "");
+		Annotator annotator = new Annotator( "-1", "", "");
 		UIMA_Util.swapAnnotatorInfo(testCCPAnnotator, annotator);
 
-		assertEquals(testCCPAnnotator.getAnnotatorID(), annotator.getAnnotatorID().intValue());
-		assertEquals(testCCPAnnotator.getFirstName(), annotator.getFirstName());
-		assertEquals(testCCPAnnotator.getLastName(), annotator.getLastName());
+		assertEquals(testCCPAnnotator.getAnnotatorID(), annotator.getAnnotatorID());
+		assertEquals(testCCPAnnotator.getName(), annotator.getName());
 		assertEquals(testCCPAnnotator.getAffiliation(), annotator.getAffiliation());
 	}
 
@@ -547,8 +544,8 @@ public class UIMA_UtilTest {
 		assertEquals(expectedSpans, retrievedSpans);
 
 		/* now test the conversion from the UIMA TextAnnotation to a non-UIMA TextAnnotation */
-		TextAnnotation emptyTA = new DefaultTextAnnotation(0, 1, "nocoveredText", new Annotator(-1, "noname", "noname",
-				"noaffiliation"), new AnnotationSet(-1, "nonameset", "nonameset"), -1, -1, "-1", -1,
+		TextAnnotation emptyTA = new DefaultTextAnnotation(0, 1, "nocoveredText", new Annotator("-1","noname",
+				"noaffiliation"), new AnnotationSet(-1, "nonameset", "nonameset"), "-1", -1, "-1", -1,
 				new DefaultClassMention("nonamemention"));
 		UIMA_Util.swapAnnotationInfo(emptyCCPTA, emptyTA, jcas);
 		assertEquals(emptyCCPTA.getAnnotationID(), emptyTA.getAnnotationID());

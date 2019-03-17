@@ -62,7 +62,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
  */
 public class ClassMentionTest {
 
-	Map<Integer, DefaultTextAnnotation> testAnnotations;
+	Map<String, DefaultTextAnnotation> testAnnotations;
 
 	@Before
 	public void setUp() throws Exception {
@@ -128,7 +128,7 @@ public class ClassMentionTest {
 	@Test()
 	public void testAddTextAnnotation() throws Exception {
 		DefaultClassMention cm = new DefaultClassMention("classMentionName");
-		new DefaultTextAnnotation(0, 1, "", new Annotator(-1, "", "", ""), new AnnotationSet(), -1, -1, "", -1, cm);
+		new DefaultTextAnnotation(0, 1, "", new Annotator("-1", "", ""), new AnnotationSet(), "-1", -1, "", -1, cm);
 		/* verify that there are no slot mentions */
 		assertNotNull(cm.getTextAnnotation());
 	}
@@ -140,7 +140,7 @@ public class ClassMentionTest {
 	 */
 	@Test()
 	public void testGetSlotMentionNames() throws Exception {
-		TextAnnotation ta = testAnnotations.get(-15);
+		TextAnnotation ta = testAnnotations.get("-15");
 		Set<String> expectedNames = new HashSet<String>();
 		expectedNames.add("entrez_gene_id");
 		expectedNames.add("processed text");
@@ -177,16 +177,16 @@ public class ClassMentionTest {
 		e2f4ProteinMention.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		Annotator annotator2 = new Annotator("-31", "Test Annotator", "CCP");
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
 				"This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
-		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, -12, -1,
+		TextAnnotation e2f4Annotation = new DefaultTextAnnotation(65, 70, "E2F-4", annotator2, annotationSet1, "-12", -1,
 				"1234", 0, e2f4ProteinMention);
 
-		TextAnnotation matchingTA = testAnnotations.get(-12);
-		TextAnnotation nonMatchingTA = testAnnotations.get(-15);
+		TextAnnotation matchingTA = testAnnotations.get("-12");
+		TextAnnotation nonMatchingTA = testAnnotations.get("-15");
 		assertTrue(e2f4ProteinMention.equals(matchingTA.getClassMention()));
 		assertTrue(matchingTA.getClassMention().equals(e2f4ProteinMention));
 
@@ -213,13 +213,13 @@ public class ClassMentionTest {
 		protein1CM.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		Annotator annotator2 = new Annotator("-31", "Test Annotator", "CCP");
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
 				"This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
 		TextAnnotation protein1Annotation = new DefaultTextAnnotation(65, 70, "Protein #1", annotator2, annotationSet1,
-				-12, -1, "1234", 0, protein1CM);
+				"-12", -1, "1234", 0, protein1CM);
 
 		/* create a protein mention and annotation to fill the transport participants slot */
 		DefaultClassMention protein2CM = new DefaultClassMention("protein");
@@ -230,12 +230,12 @@ public class ClassMentionTest {
 		protein2CM.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		annotator2 = new Annotator("-31", "Test Annotator", "CCP");
 		annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
 		TextAnnotation protein2Annotation = new DefaultTextAnnotation(75, 80, "Protein #2", annotator2, annotationSet1,
-				-13, -1, "1234", 0, protein2CM);
+				"-13", -1, "1234", 0, protein2CM);
 
 		/* Now link them with an inverse slot */
 		DefaultComplexSlotMention isEquivalentToCSM = new DefaultComplexSlotMention("is_equivalent_to");
@@ -275,13 +275,13 @@ public class ClassMentionTest {
 		protein1CM.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		Annotator annotator2 = new Annotator("-31", "Test Annotator", "CCP");
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
 				"This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
 		TextAnnotation protein1Annotation = new DefaultTextAnnotation(65, 70, "Protein #1", annotator2, annotationSet1,
-				-12, -1, "1234", 0, protein1CM);
+				"-12", -1, "1234", 0, protein1CM);
 
 		/* create a protein mention and annotation to fill the transport participants slot */
 		DefaultClassMention protein2CM = new DefaultClassMention("protein");
@@ -292,12 +292,12 @@ public class ClassMentionTest {
 		protein2CM.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		annotator2 = new Annotator("-31", "Test Annotator", "CCP");
 		annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
 		TextAnnotation protein2Annotation = new DefaultTextAnnotation(75, 80, "Protein #2", annotator2, annotationSet1,
-				-13, -1, "1234", 0, protein2CM);
+				"-13", -1, "1234", 0, protein2CM);
 
 		/* Now link them with an inverse slot */
 		DefaultComplexSlotMention isEquivalentToCSM = new DefaultComplexSlotMention("is_equivalent_to");
@@ -334,13 +334,13 @@ public class ClassMentionTest {
 		protein1CM.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		Annotator annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		Annotator annotator2 = new Annotator("-31", "Test Annotator", "CCP");
 		AnnotationSet annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1",
 				"This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
 		TextAnnotation protein1Annotation = new DefaultTextAnnotation(65, 70, "Protein #1", annotator2, annotationSet1,
-				-12, -1, "1234", 0, protein1CM);
+				"-12", -1, "1234", 0, protein1CM);
 
 		/* create a protein mention and annotation to fill the transport participants slot */
 		DefaultClassMention protein2CM = new DefaultClassMention("protein");
@@ -351,12 +351,12 @@ public class ClassMentionTest {
 		protein2CM.addPrimitiveSlotMention(entrezIDSlotMention);
 
 		/* create a text annotation for the e2f3 protein */
-		annotator2 = new Annotator(new Integer(-31), "Test Annotator", "#2", "CCP");
+		annotator2 = new Annotator("-31", "Test Annotator", "CCP");
 		annotationSet1 = new AnnotationSet(new Integer(-20), "Test Set #1", "This is a test annnotation set.");
 
 		@SuppressWarnings("unused")
 		TextAnnotation protein2Annotation = new DefaultTextAnnotation(75, 80, "Protein #2", annotator2, annotationSet1,
-				-13, -1, "1234", 0, protein2CM);
+				"-13", -1, "1234", 0, protein2CM);
 
 		/* Now link them with an inverse slot */
 		DefaultComplexSlotMention isEquivalentToCSM = new DefaultComplexSlotMention("is_equivalent_to");

@@ -74,8 +74,8 @@ public class TextAnnotationFactory {
 
 	AnnotationSet annotationSet;
 	Annotator annotator;
-	int annotatorID;
-	int annotationID;
+	String annotatorID;
+	String annotationID;
 	int documentCollectionID;
 	String documentID;
 	int documentSectionID;
@@ -95,13 +95,13 @@ public class TextAnnotationFactory {
 	}
 
 	public static TextAnnotationFactory createFactoryWithDefaults(String documentId) {
-		Annotator annotator = new Annotator(1, "Factory", "Test", "CCP");
+		Annotator annotator = new Annotator("1", "Annotator", "Affiliation");
 		AnnotationSet set = new AnnotationSet(1, "set", "test set");
-		return new TextAnnotationFactory(annotator, -1, set, 1, 2, documentId, 3);
+		return new TextAnnotationFactory(annotator, "", set, "", 2, documentId, -1);
 	}
 
-	public TextAnnotationFactory(Annotator annotator, int annotatorID, AnnotationSet annotationSet, int annotationID,
-			int documentCollectionID, String documentID, int documentSectionID) {
+	public TextAnnotationFactory(Annotator annotator, String annotatorID, AnnotationSet annotationSet,
+			String annotationID, int documentCollectionID, String documentID, int documentSectionID) {
 
 		this.annotator = annotator;
 		this.annotationSet = annotationSet;
@@ -112,18 +112,17 @@ public class TextAnnotationFactory {
 	}
 
 	public TextAnnotation createAnnotation(int start, int end, String covered, ClassMention cm) {
-		return new DefaultTextAnnotation(start, end, covered, annotator, annotationSet, annotatorID, -1, documentID, 1,
-				cm);
+		return new DefaultTextAnnotation(start, end, covered, annotator, annotationSet, "", -1, documentID, -1, cm);
 	}
 
 	public TextAnnotation createAnnotation(int start, int end, String covered, String type) {
-		return new DefaultTextAnnotation(start, end, covered, annotator, annotationSet, annotatorID, -1, documentID, 1,
+		return new DefaultTextAnnotation(start, end, covered, annotator, annotationSet, "", -1, documentID, -1,
 				new DefaultClassMention(type));
 	}
 
 	public TextAnnotation createAnnotation(int start, int end, String covered, String type, String annotatorName) {
-		return new DefaultTextAnnotation(start, end, covered, new Annotator(1, annotatorName, "Test", "CCP"),
-				annotationSet, annotatorID, -1, documentID, 1, new DefaultClassMention(type));
+		return new DefaultTextAnnotation(start, end, covered, new Annotator("", annotatorName, null), annotationSet, "",
+				-1, documentID, -1, new DefaultClassMention(type));
 	}
 
 	public TextAnnotation createFromString(String s) {

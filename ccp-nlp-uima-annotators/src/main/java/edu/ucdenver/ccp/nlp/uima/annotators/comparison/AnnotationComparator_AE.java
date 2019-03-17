@@ -453,7 +453,7 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 				.iterator();
 		while (annotIter.hasNext()) {
 			CCPTextAnnotation ccpTA = (CCPTextAnnotation) annotIter.next();
-			ccpTA.setAnnotationID(count++);
+			ccpTA.setAnnotationID(Integer.toString(count++));
 		}
 
 		/* populate the comparison groups for this JCas */
@@ -534,7 +534,7 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		logger.info("Assigning TP, FP, and FN MetaData properties to annotations involved in the comparison for document: "
 				+ UIMA_Util.getDocumentID(jcas) + "...");
 		/* create a mapping from annotation ID to the comparison result */
-		Map<Integer, PRFResult.ResultTypeEnum> annotationIdToResultTypeMap = getAnnotationIdToResultTypeMap(comparisonGroupID2ScoreForThisCASOnly);
+		Map<String, PRFResult.ResultTypeEnum> annotationIdToResultTypeMap = getAnnotationIdToResultTypeMap(comparisonGroupID2ScoreForThisCASOnly);
 
 		/*
 		 * Cycle through each annotation in the CAS and assign the appropriate
@@ -543,7 +543,7 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 		Iterator annotIter = jcas.getJFSIndexRepository().getAnnotationIndex(CCPTextAnnotation.type).iterator();
 		while (annotIter.hasNext()) {
 			CCPTextAnnotation ccpTA = (CCPTextAnnotation) annotIter.next();
-			int annotID = ccpTA.getAnnotationID();
+			String annotID = ccpTA.getAnnotationID();
 			if (annotationIdToResultTypeMap.containsKey(annotID)) {
 				AnnotationMetadata metaData = ccpTA.getAnnotationMetadata();
 				FSArray metaDataProperties;
@@ -580,9 +580,9 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 	 * 
 	 * @return
 	 */
-	private Map<Integer, PRFResult.ResultTypeEnum> getAnnotationIdToResultTypeMap(
+	private Map<String, PRFResult.ResultTypeEnum> getAnnotationIdToResultTypeMap(
 			Map<Integer, PRFResult> comparisonGroupID2ScoreForThisCASOnly) {
-		Map<Integer, PRFResult.ResultTypeEnum> annotationID2ResultStrMap = new HashMap<Integer, PRFResult.ResultTypeEnum>();
+		Map<String, PRFResult.ResultTypeEnum> annotationID2ResultStrMap = new HashMap<String, PRFResult.ResultTypeEnum>();
 		for (Integer comparisonGroupID : comparisonGroupID2ScoreForThisCASOnly.keySet()) {
 			if (!comparisonGroupID.equals(goldStandardComparisonGroupID)) {
 				PRFResult prf = comparisonGroupID2ScoreForThisCASOnly.get(comparisonGroupID);
@@ -592,7 +592,7 @@ public class AnnotationComparator_AE extends JCasAnnotator_ImplBase {
 
 					// check each annotation, get its type, add it to the map
 					for (TextAnnotation ta : prf.getResultTypeAnnotations(resultType)) {
-						int annotationID = ta.getAnnotationID();
+						String annotationID = ta.getAnnotationID();
 						if (!annotationID2ResultStrMap.containsKey(annotationID)) {
 							annotationID2ResultStrMap.put(annotationID, resultType);
 						} else {

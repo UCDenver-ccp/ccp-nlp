@@ -76,7 +76,7 @@ public class Banner_Util extends Base implements IEntityTagger {
 	private Tokenizer tokenizer;
 	private CRFTagger tagger;
 	private PostProcessor postProcessor;
-	private final Annotator annotator = new Annotator(123, "BANNER", "BANNER", "ASU");
+	private final Annotator annotator = new Annotator("123", "BANNER", "ASU");
 	org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Banner_Util.class);
 
 	/**

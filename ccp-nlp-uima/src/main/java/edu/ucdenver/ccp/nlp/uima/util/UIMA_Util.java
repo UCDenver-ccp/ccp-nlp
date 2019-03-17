@@ -611,7 +611,7 @@ public class UIMA_Util {
 
 		// set the Annotator ID
 		CCPAnnotator ccpAnnotator = fromUIMA.getAnnotator();
-		Annotator annotator = new Annotator(new Integer(-1), "", "", "");
+		Annotator annotator = new Annotator( "-1", "", "");
 		UIMA_Util.swapAnnotatorInfo(ccpAnnotator, annotator);
 		toTA.setAnnotator(annotator);
 
@@ -814,18 +814,16 @@ public class UIMA_Util {
 
 	public static void swapAnnotatorInfo(CCPAnnotator ccpAnnotator, Annotator annotator) {
 		if (ccpAnnotator != null) {
-			annotator.setAnnotatorID(new Integer(ccpAnnotator.getAnnotatorID()));
-			annotator.setFirstName(ccpAnnotator.getFirstName());
-			annotator.setLastName(ccpAnnotator.getLastName());
+			annotator.setAnnotatorID(ccpAnnotator.getAnnotatorID());
+			annotator.setName(ccpAnnotator.getName());
 			annotator.setAffiliation(ccpAnnotator.getAffiliation());
 		}
 	}
 
 	public static void swapAnnotatorInfo(Annotator annotator, CCPAnnotator ccpAnnotator) {
 		if (annotator != null) {
-			ccpAnnotator.setAnnotatorID(annotator.getAnnotatorID().intValue());
-			ccpAnnotator.setFirstName(annotator.getFirstName());
-			ccpAnnotator.setLastName(annotator.getLastName());
+			ccpAnnotator.setAnnotatorID(annotator.getAnnotatorID());
+			ccpAnnotator.setName(annotator.getName());
 			ccpAnnotator.setAffiliation(annotator.getAffiliation());
 		}
 	}

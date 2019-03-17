@@ -55,12 +55,12 @@ public class TextAnnotationUtilTest {
 	@Test
 	public void testGetRedundantAnnotations() throws Exception {
 
-		final Annotator annotator1 = new Annotator(3, "first1", "last1", "affiliation1");
+		final Annotator annotator1 = new Annotator("3", "last1", "affiliation1");
 		final AnnotationSet annotationSet1 = new AnnotationSet(5, "set name1", "desc1");
-		final int annotationID1 = 37;
-		final Annotator annotator2 = new Annotator(3, "first2", "last2", "affiliation2");
+		final String annotationID1 = "37";
+		final Annotator annotator2 = new Annotator("3",  "last2", "affiliation2");
 		final AnnotationSet annotationSet2 = new AnnotationSet(5, "set name2", "desc2");
-		final int annotationID2 = 39;
+		final String annotationID2 = "39";
 
 		final int documentCollectionID = 4;
 		final String documentID = "123456";

@@ -55,9 +55,9 @@ public class AnnotatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		annotator1 = new Annotator(new Integer(1), "First1", "Last1", "Affiliation1");
-		annotator2 = new Annotator(new Integer(2), "First2", "Last2", "Affiliation1");
-		annotator3 = new Annotator(new Integer(3), "first1", "last1", "affiliation1");
+		annotator1 = new Annotator("1",  "Last1", "Affiliation1");
+		annotator2 = new Annotator("2", "Last2", "Affiliation1");
+		annotator3 = new Annotator("3",  "last1", "affiliation1");
 	}
 
 	@After
@@ -72,7 +72,6 @@ public class AnnotatorTest {
 		assertEquals(annotator1.compareTo(annotator2), -1);
 		assertEquals(annotator1.compareTo(annotator1), 0);
 		assertEquals(annotator1.compareTo(annotator3), 0);
-		assertEquals(annotator2.compareTo("this is not an annotator"), -1);
 	}
 
 	@Test
@@ -83,34 +82,6 @@ public class AnnotatorTest {
 		assertFalse(annotator2.equals("this is not an annotator"));
 	}
 
-	@Test
-	public void testHashCode() {
-		String key = annotator1.getFirstName() + "|" + annotator1.getLastName() + "|" + annotator1.getAffiliation();
-		key = key.toLowerCase();
-		int hashcode = key.hashCode();
-		assertEquals(annotator1.hashCode(), hashcode);
-		assertEquals(annotator1.hashCode(), annotator3.hashCode());
-	}
-
-	@Test
-	public void testGetters() {
-		assertEquals(annotator2.getAnnotatorID(), new Integer(2));
-		assertEquals(annotator2.getFirstName(), "First2");
-		assertEquals(annotator2.getLastName(), "Last2");
-		assertEquals(annotator2.getAffiliation(), "Affiliation1");
-	}
-
-	@Test
-	public void testSettersAndGetters() {
-		annotator3.setAnnotatorID(new Integer(4));
-		annotator3.setFirstName("First4");
-		annotator3.setLastName("Last4");
-		annotator3.setAffiliation("Affiliation4");
-
-		assertEquals(annotator3.getAnnotatorID(), new Integer(4));
-		assertEquals(annotator3.getFirstName(), "First4");
-		assertEquals(annotator3.getLastName(), "Last4");
-		assertEquals(annotator3.getAffiliation(), "Affiliation4");
-	}
+	
 
 }

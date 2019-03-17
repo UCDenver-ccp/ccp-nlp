@@ -184,9 +184,8 @@ public class UIMA_Annotation_UtilTest {
 				new int[] { 36, 41 }, jcas);
 		CCPAnnotator annotator = new CCPAnnotator(jcas);
 		annotator.setAffiliation("BLAH");
-		annotator.setAnnotatorID(99);
-		annotator.setLastName("BLAHBLAH");
-		annotator.setFirstName("BBB");
+		annotator.setAnnotatorID("99");
+		annotator.setName("BLAHBLAH");
 		ta.setAnnotator(annotator);
 		annotationsInCAS.add(ta);
 		duplicateAnnotations = UIMA_Annotation_Util.getRedundantAnnotations(annotationsInCAS);
@@ -265,9 +264,8 @@ public class UIMA_Annotation_UtilTest {
 		UIMA_Util.setDocumentCollectionID(jcas, documentCollectionID);
 
 		CCPAnnotator ccpAnnotator = new CCPAnnotator(jcas);
-		ccpAnnotator.setAnnotatorID(15);
-		ccpAnnotator.setFirstName("Bob");
-		ccpAnnotator.setLastName("Builder");
+		ccpAnnotator.setAnnotatorID("15");
+		ccpAnnotator.setName("Bob");
 		ccpAnnotator.setAffiliation("UCD");
 		CCPAnnotationSet ccpAnnotationSet = new CCPAnnotationSet(jcas);
 		ccpAnnotationSet.setAnnotationSetID(23);

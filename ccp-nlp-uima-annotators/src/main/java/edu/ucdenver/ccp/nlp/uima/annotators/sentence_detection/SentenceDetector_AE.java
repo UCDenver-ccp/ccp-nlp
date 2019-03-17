@@ -142,7 +142,7 @@ public abstract class SentenceDetector_AE extends JCasAnnotator_ImplBase {
 
 			for (TextAnnotation sentence : sentenceAnnotations) {
 				sentenceCasInserter.insertSentence(sentence.getAnnotationSpanStart(), sentence.getAnnotationSpanEnd(),
-						sentence.getAnnotator().getFirstName(), jCas);
+						sentence.getAnnotator().getName(), jCas);
 			}
 		} catch (Exception e) {
 			ProcessingErrorLog errorLog = new ProcessingErrorLog(jCas);

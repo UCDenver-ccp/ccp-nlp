@@ -100,11 +100,11 @@ public class Annotation_UtilTest extends DefaultTestCase {
 				lemma, tokenNumber);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
-		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, expectedTokenMention);
+		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, expectedTokenMention);
 		@SuppressWarnings("unused")
-		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, testTokenMention);
+		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, testTokenMention);
 
 		//System.err.println("Expected\n" + expectedAnnotation.toString());
 		//System.err.println("Test\n" + testAnnotation.toString());
@@ -116,12 +116,12 @@ public class Annotation_UtilTest extends DefaultTestCase {
 				null, stem, lemma, tokenNumber);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
-		TextAnnotation expectedAnnotationWithNullTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1,
-				"first", "last", "affiliation"), new AnnotationSet(), -1, -1, "1234", -1,
+		TextAnnotation expectedAnnotationWithNullTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("",
+				"last", "affiliation"), new AnnotationSet(), "", -1, "1234", -1,
 				expectedTokenMentionWithUnknownTagSet);
 		@SuppressWarnings("unused")
-		TextAnnotation testAnnotationWithNullTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1,
-				"first", "last", "affiliation"), new AnnotationSet(), -1, -1, "1234", -1,
+		TextAnnotation testAnnotationWithNullTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("",
+			 "last", "affiliation"), new AnnotationSet(), "", -1, "1234", -1,
 				testTokenMentionWithNullTagSet);
 
 		assertTrue(expectedTokenMentionWithUnknownTagSet.equals(testTokenMentionWithNullTagSet));
@@ -185,11 +185,11 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
-		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, expectedTokenMention);
+		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, expectedTokenMention);
 		@SuppressWarnings("unused")
-		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, testTokenMention);
+		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, testTokenMention);
 
 		assertTrue(expectedTokenMention.equals(testTokenMention));
 
@@ -213,11 +213,11 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
-		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, expectedTokenMention);
+		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, expectedTokenMention);
 		@SuppressWarnings("unused")
-		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, testTokenMention);
+		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, testTokenMention);
 
 		assertTrue(expectedTokenMention.equals(testTokenMention));
 	}
@@ -231,11 +231,11 @@ public class Annotation_UtilTest extends DefaultTestCase {
 		ClassMention testPhraseMention = Annotation_Util.createPhraseMention(phraseType, tagSet);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
-		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, expectedPhraseMention);
+		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, expectedPhraseMention);
 		@SuppressWarnings("unused")
-		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, testPhraseMention);
+		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, testPhraseMention);
 
 		assertTrue(expectedPhraseMention.equals(testPhraseMention));
 
@@ -245,12 +245,10 @@ public class Annotation_UtilTest extends DefaultTestCase {
 				phraseType, null);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
-		TextAnnotation expectedAnnotationWithUnknownTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1,
-				"first", "last", "affiliation"), new AnnotationSet(), -1, -1, "1234", -1,
+		TextAnnotation expectedAnnotationWithUnknownTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last", "affiliation"), new AnnotationSet(), "", -1, "1234", -1,
 				expectedPhraseMentionWithUnknownTagSet);
 		@SuppressWarnings("unused")
-		TextAnnotation testAnnotationWithNullTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1,
-				"first", "last", "affiliation"), new AnnotationSet(), -1, -1, "1234", -1,
+		TextAnnotation testAnnotationWithNullTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last", "affiliation"), new AnnotationSet(), "", -1, "1234", -1,
 				testPhraseMentionWithNullTagSet);
 
 		assertTrue(expectedPhraseMentionWithUnknownTagSet.equals(testPhraseMentionWithNullTagSet));
@@ -278,11 +276,11 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
-		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, expectedPhraseMention);
+		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, expectedPhraseMention);
 		@SuppressWarnings("unused")
-		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, testPhraseMention);
+		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, testPhraseMention);
 
 		assertTrue(expectedPhraseMention.equals(testPhraseMention));
 	}
@@ -296,11 +294,11 @@ public class Annotation_UtilTest extends DefaultTestCase {
 		ClassMention testClauseMention = Annotation_Util.createClauseMention(clauseType, tagSet);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
-		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, expectedClauseMention);
+		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, expectedClauseMention);
 		@SuppressWarnings("unused")
-		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, testClauseMention);
+		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, testClauseMention);
 
 		assertTrue(expectedClauseMention.equals(testClauseMention));
 
@@ -310,12 +308,10 @@ public class Annotation_UtilTest extends DefaultTestCase {
 				clauseType, null);
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
-		TextAnnotation expectedAnnotationWithUnknownTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1,
-				"first", "last", "affiliation"), new AnnotationSet(), -1, -1, "1234", -1,
+		TextAnnotation expectedAnnotationWithUnknownTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last", "affiliation"), new AnnotationSet(), "", -1, "1234", -1,
 				expectedClauseMentionWithUnknownTagSet);
 		@SuppressWarnings("unused")
-		TextAnnotation testAnnotationWithNullTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1,
-				"first", "last", "affiliation"), new AnnotationSet(), -1, -1, "1234", -1,
+		TextAnnotation testAnnotationWithNullTagSet = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last", "affiliation"), new AnnotationSet(), "", -1, "1234", -1,
 				testClauseMentionWithNullTagSet);
 
 		assertTrue(expectedClauseMentionWithUnknownTagSet.equals(testClauseMentionWithNullTagSet));
@@ -343,11 +339,11 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 		/* dummy annotations are necessary for mention comparison machinery to function */
 		@SuppressWarnings("unused")
-		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, expectedClauseMention);
+		TextAnnotation expectedAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, expectedClauseMention);
 		@SuppressWarnings("unused")
-		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, testClauseMention);
+		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, testClauseMention);
 
 		System.out.println(expectedClauseMention.toString());
 		System.out.println(testClauseMention.toString());
@@ -356,8 +352,8 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 	@Test
 	public void testSwapAnnotationInfo() throws Exception {
-		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, new DefaultClassMention("test type"));
+		TextAnnotation testAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, new DefaultClassMention("test type"));
 		TextAnnotation emptyTA = new DefaultTextAnnotation(0, 0);
 		emptyTA.setClassMention(new DefaultClassMention("test type"));
 
@@ -370,16 +366,16 @@ public class Annotation_UtilTest extends DefaultTestCase {
 	@Test
 	public void testAddSlotValue() throws Exception {
 		DefaultClassMention proteinMention = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
-		TextAnnotation proteinAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, proteinMention);
+		TextAnnotation proteinAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, proteinMention);
 		TextAnnotationUtil.addSlotValue(proteinAnnotation, SlotMentionType.PROTEIN_ENTREZGENEID.typeName(), 12345);
 
 		DefaultClassMention expectedProteinMention = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 		IntegerSlotMention sm = new DefaultIntegerSlotMention(SlotMentionType.PROTEIN_ENTREZGENEID.typeName());
 		sm.addSlotValue(new Integer(12345));
 		expectedProteinMention.addPrimitiveSlotMention(sm);
-		TextAnnotation expectedproteinAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first",
-				"last", "affiliation"), new AnnotationSet(), -1, -1, "1234", -1, expectedProteinMention);
+		TextAnnotation expectedproteinAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("",
+				"last", "affiliation"), new AnnotationSet(), "", -1, "1234", -1, expectedProteinMention);
 
 		assertEquals(expectedproteinAnnotation, proteinAnnotation);
 
@@ -390,14 +386,14 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 		/* now add a complex slot */
 		ClassMention proteinMention2 = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
-		TextAnnotation proteinAnnotation2 = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first", "last",
-				"affiliation"), new AnnotationSet(), -1, -1, "1234", -1, proteinMention2);
+		TextAnnotation proteinAnnotation2 = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("", "last",
+				"affiliation"), new AnnotationSet(), "", -1, "1234", -1, proteinMention2);
 		TextAnnotationUtil.addSlotValue(proteinAnnotation, "is-equivalent-to", proteinMention2);
 
 		DefaultComplexSlotMention csm = new DefaultComplexSlotMention("is-equivalent-to");
 		DefaultClassMention expectedProteinMention2 = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
-		TextAnnotation expectedproteinAnnotation2 = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first",
-				"last", "affiliation"), new AnnotationSet(), -1, -1, "1234", -1, expectedProteinMention2);
+		TextAnnotation expectedproteinAnnotation2 = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("",
+				"last", "affiliation"), new AnnotationSet(), "", -1, "1234", -1, expectedProteinMention2);
 		csm.addClassMention(expectedProteinMention2);
 		expectedProteinMention.addComplexSlotMention(csm);
 
@@ -408,12 +404,12 @@ public class Annotation_UtilTest extends DefaultTestCase {
 	@Test
 	public void testRemoveDuplicateAnnotations() throws Exception {
 		DefaultClassMention proteinMention = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
-		DefaultTextAnnotation proteinAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first",
-				"last", "affiliation"), new AnnotationSet(), -1, -1, "1234", -1, proteinMention);
+		DefaultTextAnnotation proteinAnnotation = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("",
+				"last", "affiliation"), new AnnotationSet(), "", -1, "1234", -1, proteinMention);
 
 		DefaultClassMention proteinMention2 = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
-		DefaultTextAnnotation proteinAnnotation2 = new DefaultTextAnnotation(0, 5, "dummy", new Annotator(-1, "first",
-				"last", "affiliation"), new AnnotationSet(), -1, -1, "1234", -1, proteinMention2);
+		DefaultTextAnnotation proteinAnnotation2 = new DefaultTextAnnotation(0, 5, "dummy", new Annotator("",
+				"last", "affiliation"), new AnnotationSet(), "", -1, "1234", -1, proteinMention2);
 
 		Collection<TextAnnotation> textAnnotations = new ArrayList<TextAnnotation>();
 		textAnnotations.add(proteinAnnotation);
@@ -437,7 +433,7 @@ public class Annotation_UtilTest extends DefaultTestCase {
 		textAnnotations = new ArrayList<TextAnnotation>();
 		textAnnotations.add(proteinAnnotation);
 		textAnnotations.add(proteinAnnotation2);
-		proteinAnnotation2.setAnnotator(new Annotator(124, "no name", "no name", "no affiliation"));
+		proteinAnnotation2.setAnnotator(new Annotator("124", "no name", "no affiliation"));
 		annotationsAfterDuplicateRemoval = TextAnnotationUtil.removeDuplicateAnnotations(textAnnotations);
 		System.out.println("SIZE: " + annotationsAfterDuplicateRemoval.size());
 		// assertEquals(1, annotationsAfterDuplicateRemoval.size());
@@ -468,10 +464,10 @@ public class Annotation_UtilTest extends DefaultTestCase {
 	 * @throws Exception
 	 */
 	private DefaultTextAnnotation createExpectedProteinAnnotation(int spanStart, int spanEnd, String coveredText,
-			int annotatorID, String documentID, Integer... entrezGeneIDSlotFillers) throws Exception {
+			String annotatorID, String documentID, Integer... entrezGeneIDSlotFillers) throws Exception {
 		DefaultClassMention proteinCM = new DefaultClassMention(ClassMentionType.PROTEIN.typeName());
 		DefaultTextAnnotation ta = new DefaultTextAnnotation(spanStart, spanEnd, coveredText, new Annotator(
-				annotatorID, "", "", ""), new AnnotationSet(), -1, -1, documentID, -1, proteinCM);
+				annotatorID, "", ""), new AnnotationSet(), "", -1, documentID, -1, proteinCM);
 
 		addEntrezGeneSlotFillersToProteinTextAnnotation(entrezGeneIDSlotFillers, ta);
 		return ta;
@@ -497,8 +493,8 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 	private List<DefaultTextAnnotation> getExpectedAnnotations_NoSlots() throws Exception {
 		List<DefaultTextAnnotation> taList = new ArrayList<DefaultTextAnnotation>();
-		taList.add(createExpectedProteinAnnotation(0, 5, "abc-1", 99, "documentID=4", (Integer[]) null));
-		taList.add(createExpectedProteinAnnotation(10, 30, "def-2", 33, "documentID=4", (Integer[]) null));
+		taList.add(createExpectedProteinAnnotation(0, 5, "abc-1", "99", "documentID=4", (Integer[]) null));
+		taList.add(createExpectedProteinAnnotation(10, 30, "def-2", "33", "documentID=4", (Integer[]) null));
 		return taList;
 	}
 
@@ -541,9 +537,9 @@ public class Annotation_UtilTest extends DefaultTestCase {
 
 	private List<DefaultTextAnnotation> getExpectedAnnotations_WithSlots() throws Exception {
 		List<DefaultTextAnnotation> taList = new ArrayList<DefaultTextAnnotation>();
-		taList.add(createExpectedProteinAnnotation(0, 5, "abc-1", 99, "documentID=5", 123));
-		taList.add(createExpectedProteinAnnotation(5, 10, "def-2", 33, "documentID=5", 456, 789));
-		DefaultTextAnnotation ta = createExpectedProteinAnnotation(15, 20, "ghi-2", 33, "documentID=5", 157, 987);
+		taList.add(createExpectedProteinAnnotation(0, 5, "abc-1", "99", "documentID=5", 123));
+		taList.add(createExpectedProteinAnnotation(5, 10, "def-2", "33", "documentID=5", 456, 789));
+		DefaultTextAnnotation ta = createExpectedProteinAnnotation(15, 20, "ghi-2", "33", "documentID=5", 157, 987);
 		StringSlotMention sm = new DefaultStringSlotMention("anotherSlot");
 		sm.addSlotValue("value1");
 		sm.addSlotValue("value2");
