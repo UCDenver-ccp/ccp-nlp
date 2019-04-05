@@ -115,6 +115,15 @@ public class TextAnnotationFactory {
 		return new DefaultTextAnnotation(start, end, covered, annotator, annotationSet, "", -1, documentID, -1, cm);
 	}
 
+	public TextAnnotation createAnnotation(List<Span> spans, String documentText, ClassMention cm) {
+		DefaultTextAnnotation ta = new DefaultTextAnnotation(spans.get(0).getSpanStart(), spans.get(0).getSpanEnd(),
+				SpanUtils.getCoveredText(spans, documentText), annotator, annotationSet, "", -1, documentID, -1, cm);
+		for (int i = 1; i < spans.size(); i++) {
+			ta.addSpan(new Span(spans.get(i).getSpanStart(), spans.get(i).getSpanEnd()));
+		}
+		return ta;
+	}
+
 	public TextAnnotation createAnnotation(int start, int end, String covered, String type) {
 		return new DefaultTextAnnotation(start, end, covered, annotator, annotationSet, "", -1, documentID, -1,
 				new DefaultClassMention(type));
