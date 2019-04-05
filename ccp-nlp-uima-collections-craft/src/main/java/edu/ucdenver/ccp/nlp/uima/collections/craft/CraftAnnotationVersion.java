@@ -38,5 +38,5 @@ package edu.ucdenver.ccp.nlp.uima.collections.craft;
  *
  */
 public interface CraftAnnotationVersion {
-	public static final String VERSION = "CRAFT v2.0";
+	public static final String VERSION = "CRAFT v3.1";
 }

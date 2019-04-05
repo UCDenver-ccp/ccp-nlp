@@ -115,7 +115,6 @@ public class CcpCraftCollectionReaderTest {
 		assertEquals(67, docCount);
 	}
 
-	@Ignore("remove ignore when new XMI is put into this project - new xmi to conform with string annottaion id")
 	@Test
 	public void testAllConceptsCollectionReader_CCP() throws UIMAException, IOException {
 		CollectionReaderDescription crDesc = CcpCraftCollectionReader.getDescription(CraftRelease.MAIN,

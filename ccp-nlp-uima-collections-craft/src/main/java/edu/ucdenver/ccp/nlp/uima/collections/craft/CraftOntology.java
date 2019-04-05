@@ -39,13 +39,24 @@ package edu.ucdenver.ccp.nlp.uima.collections.craft;
  */
 public enum CraftOntology {
 	CHEBI("/craft/ontologies/CHEBI.obo.gz"),
+	CHEBI_EXT("/craft/ontologies/CHEBI+extensions.obo.gz"),
 	CL("/craft/ontologies/CL.obo.gz"),
+	CL_EXT("/craft/ontologies/CL+extensions.obo.gz"),
 	GO("/craft/ontologies/GO.obo.gz"),
+	GO_MF_STUB("/craft/ontologies/GO_MF_stub.obo.gz"),
+	GO_MF_STUB_EXT("/craft/ontologies/GO_MF_stub+GO_MF_extensions.obo.gz"),
+	GO_BP_EXT("/craft/ontologies/GO+GO_BP_extensions.obo.gz"),
+	GO_CC_EXT("/craft/ontologies/GO+GO_CC_extensions.obo.gz"),
+	MOP("/craft/ontologies/MOP.obo.gz"),
+	MOP_EXT("/craft/ontologies/MOP+extensions.obo.gz"),
 	NCBI_TAXON("/craft/ontologies/NCBITaxon.obo.gz"),
+	NCBI_TAXON_EXT("/craft/ontologies/NCBITaxon+extensions.obo.gz"),
 	PR("/craft/ontologies/PR.obo.gz"),
+	PR_EXT("/craft/ontologies/PR+extensions.obo.gz"),
 	SO("/craft/ontologies/SO.obo.gz"),
-	UBERON("/craft/ontologies/UBERON_2015_04_23.obo.gz"),
-	MOP("/craft/ontologies/MOP.obo.gz");
+	SO_EXT("/craft/ontologies/SO+extensions.obo.gz"),
+	UBERON("/craft/ontologies/UBERON.obo.gz"),
+	UBERON_EXT("/craft/ontologies/UBERON+extensions.obo.gz");
 	
 
 	/**

@@ -47,25 +47,25 @@ public enum CraftConceptType {
 	TREEBANK("treebank"),
 	
 	CHEBI("chebi"),
-//	CHEBI_EXT("chebi_ext"),
+	CHEBI_EXT("chebi_ext"),
 	CL("cl"),
-//	CL_EXT("cl_ext"),
+	CL_EXT("cl_ext"),
 	GOCC("go_cc"),
-//	GOCC_EXT("go_cc_ext"),
+	GOCC_EXT("go_cc_ext"),
 	GOBP("go_bp"),
-//	GOBP_EXT("go_bp_ext"),
+	GOBP_EXT("go_bp_ext"),
 	GOMF("go_mf"),
-//	GOMF_EXT("go_mf_ext"),
+	GOMF_EXT("go_mf_ext"),
 	MOP("mop"),
-//	MOP_EXT("mop_ext"),
+	MOP_EXT("mop_ext"),
 	NCBITAXON("ncbitaxon"),
-//	NCBITAXON_EXT("ncbitaxon_ext"),
+	NCBITAXON_EXT("ncbitaxon_ext"),
 	PR("pr"),
-//	PR_EXT("pr_ext"),
+	PR_EXT("pr_ext"),
 	SO("so"),
-//	SO_EXT("so_ext"),
-	UBERON("uberon");
-//	UBERON_EXT("uberon_ext");
+	SO_EXT("so_ext"),
+	UBERON("uberon"),
+	UBERON_EXT("uberon_ext");
 
 	private final String xmiDirectoryName;
 
