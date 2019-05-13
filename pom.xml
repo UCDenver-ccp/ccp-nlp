@@ -24,6 +24,7 @@
 		<module>ccp-nlp-wrapper-banner</module>
 		<module>ccp-nlp-doc2txt</module>
 		<module>ccp-nlp-uima-collections-craft</module>
+		<module>ccp-nlp-evaluation</module>
 	</modules>
 
 	<dependencyManagement>
