@@ -1,0 +1,191 @@
+format-version: 1.2
+data-version: releases/2019-04-17
+subsetdef: gocheck_do_not_annotate "Term not to be used for direct annotation"
+subsetdef: gocheck_do_not_manually_annotate "Term not to be used for direct manual annotation"
+subsetdef: goslim_agr "AGR slim"
+subsetdef: goslim_aspergillus "Aspergillus GO slim"
+subsetdef: goslim_candida "Candida GO slim"
+subsetdef: goslim_chembl "ChEMBL protein targets summary"
+subsetdef: goslim_flybase_ribbon "FlyBase Drosophila GO ribbon slim"
+subsetdef: goslim_generic "Generic GO slim"
+subsetdef: goslim_metagenomics "Metagenomics GO slim"
+subsetdef: goslim_mouse "Mouse GO slim"
+subsetdef: goslim_pir "PIR GO slim"
+subsetdef: goslim_plant "Plant GO slim"
+subsetdef: goslim_pombe "Fission yeast GO slim"
+subsetdef: goslim_synapse "synapse GO slim"
+subsetdef: goslim_yeast "Yeast GO slim"
+synonymtypedef: syngo_official_label "label approved by the SynGO project"
+synonymtypedef: systematic_synonym "Systematic synonym" EXACT
+default-namespace: gene_ontology
+remark: cvs version: $Revision: 38972$
+remark: Includes Ontology(OntologyID(OntologyIRI(<http://purl.obolibrary.org/obo/go/never_in_taxon.owl>))) [Axioms: 18 Logical Axioms: 0]
+ontology: go
+property_value: http://purl.org/dc/elements/1.1/license http://creativecommons.org/licenses/by/4.0/
+
+[Term]
+id: GO:0005575
+name: cellular_component
+namespace: cellular_component
+alt_id: GO:0008372
+def: "A location, relative to cellular compartments and structures, occupied by a macromolecular machine when it carries out a molecular function. There are two ways in which the gene ontology describes locations of gene products: (1) relative to cellular structures (e.g., cytoplasmic side of plasma membrane) or compartments (e.g., mitochondrion), and (2) the stable macromolecular complexes of which they are parts (e.g., the ribosome)." [GOC:pdt, NIF_Subcellular:sao-1337158144]
+comment: Note that, in addition to forming the root of the cellular component ontology, this term is recommended for use for the annotation of gene products whose cellular component is unknown. When this term is used for annotation, it indicates that no information was available about the cellular component of the gene product annotated as of the date the annotation was made; the evidence code "no data" (ND), is used to indicate this.
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+synonym: "cell or subcellular entity" EXACT []
+synonym: "cellular component" EXACT []
+synonym: "subcellular entity" RELATED [NIF_Subcellular:nlx_subcell_100315]
+xref: NIF_Subcellular:sao-1337158144
+xref: NIF_Subcellular:sao1337158144
+
+[Term]
+id: GO:0005623
+name: cell
+namespace: cellular_component
+def: "The basic structural and functional unit of all organisms. Includes the plasma membrane and any external encapsulating structures such as the cell wall and cell envelope." [GOC:go_curators]
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_plant
+xref: NIF_Subcellular:sao1813327414
+xref: Wikipedia:Cell_(biology)
+is_a: GO:0005575 ! cellular_component
+property_value: IAO:0000589 "cell and encapsulating structures" xsd:string
+
+[Term]
+id: GO:0043226
+name: organelle
+namespace: cellular_component
+def: "Organized structure of distinctive morphology and function. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton, and prokaryotic structures such as anammoxosomes and pirellulosomes. Excludes the plasma membrane." [GOC:go_curators]
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_pir
+xref: NIF_Subcellular:sao1539965131
+xref: Wikipedia:Organelle
+is_a: GO:0005575 ! cellular_component
+
+[Term]
+id: GO:0044464
+name: cell part
+namespace: cellular_component
+def: "Any constituent part of a cell, the basic structural and functional unit of all organisms." [GOC:jl]
+comment: Note that this term is in the subset of terms that should not be used for direct gene product annotation. Instead, select a child term or, if no appropriate child term exists, please request a new term. Direct annotations to this term may be amended during annotation QC.
+subset: gocheck_do_not_annotate
+subset: goslim_pir
+synonym: "cellular subcomponent" EXACT [NIF_Subcellular:sao628508602]
+synonym: "protoplast" RELATED [GOC:mah]
+xref: NIF_Subcellular:sao628508602
+is_a: GO:0005575 ! cellular_component
+intersection_of: GO:0005575 ! cellular_component
+intersection_of: part_of GO:0005623 ! cell
+relationship: part_of GO:0005623 ! cell
+
+[Term]
+id: GO:0005622
+name: intracellular
+namespace: cellular_component
+def: "The living contents of a cell; the matter contained within (but not including) the plasma membrane, usually taken to exclude large vacuoles and masses of secretory or ingested material. In eukaryotes it includes the nucleus and cytoplasm." [ISBN:0198506732]
+subset: gocheck_do_not_annotate
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_plant
+synonym: "internal to cell" EXACT []
+synonym: "nucleocytoplasm" RELATED [GOC:mah]
+synonym: "protoplasm" EXACT []
+synonym: "protoplast" RELATED [GOC:mah]
+xref: Wikipedia:Intracellular
+is_a: GO:0044464 ! cell part
+
+[Term]
+id: GO:0044424
+name: intracellular part
+namespace: cellular_component
+def: "Any constituent part of the living contents of a cell; the matter contained within (but not including) the plasma membrane, usually taken to exclude large vacuoles and masses of secretory or ingested material. In eukaryotes it includes the nucleus and cytoplasm." [GOC:jl]
+comment: Note that this term is in the subset of terms that should not be used for direct gene product annotation. Instead, select a child term or, if no appropriate child term exists, please request a new term. Direct annotations to this term may be amended during annotation QC.
+subset: gocheck_do_not_annotate
+is_a: GO:0044464 ! cell part
+intersection_of: GO:0005575 ! cellular_component
+intersection_of: part_of GO:0005622 ! intracellular
+relationship: part_of GO:0005622 ! intracellular
+
+[Term]
+id: GO:0043227
+name: membrane-bounded organelle
+namespace: cellular_component
+def: "Organized structure of distinctive morphology and function, bounded by a single or double lipid bilayer membrane. Includes the nucleus, mitochondria, plastids, vacuoles, and vesicles. Excludes the plasma membrane." [GOC:go_curators]
+synonym: "membrane-enclosed organelle" EXACT []
+xref: NIF_Subcellular:sao414196390
+is_a: GO:0043226 ! organelle
+
+[Term]
+id: GO:0043229
+name: intracellular organelle
+namespace: cellular_component
+def: "Organized structure of distinctive morphology and function, occurring within the cell. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton. Excludes the plasma membrane." [GOC:go_curators]
+subset: goslim_pir
+is_a: GO:0043226 ! organelle
+is_a: GO:0044424 ! intracellular part
+intersection_of: GO:0043226 ! organelle
+intersection_of: part_of GO:0005622 ! intracellular
+
+[Term]
+id: GO:0043231
+name: intracellular membrane-bounded organelle
+namespace: cellular_component
+def: "Organized structure of distinctive morphology and function, bounded by a single or double lipid bilayer membrane and occurring within the cell. Includes the nucleus, mitochondria, plastids, vacuoles, and vesicles. Excludes the plasma membrane." [GOC:go_curators]
+subset: goslim_pir
+synonym: "intracellular membrane-enclosed organelle" EXACT []
+is_a: GO:0043227 ! membrane-bounded organelle
+is_a: GO:0043229 ! intracellular organelle
+
+[Term]
+id: GO_EXT:muscle_structure_or_tissue_development
+name: muscle structure or tissue development
+namespace: biological_process
+def: "GO:'muscle structure development' or GO:'muscle tissue develoment'"
+synonym: "muscle development" EXACT []
+synonym: "muscle formation" EXACT []
+synonym: "muscularisation" EXACT []
+synonym: "muscularization" EXACT []
+synonym: "myogenesis" EXACT []
+synonym: "myogenic" EXACT []
+
+[Term]
+id: GO_EXT:killing
+name: killing
+namespace: biological_process
+def: "BFO:occurrent and causally_effects some GO:death"
+
+[Term]
+id: GO_EXT:macromolecule_denaturation
+name: macromolecule denaturation
+namespace: biological_process
+def: "GO:'DNA duplex unwinding' or GO:'protein denaturation'"
+synonym: "denaturation" EXACT []
+
+[Term]
+id: GO_EXT:breeding
+name: breeding
+namespace: biological_process
+def: "GO:mating and has_agent some NCBITAXON:'Homo sapiens'"
+
+[Typedef]
+id: has_part
+name: has part
+namespace: external
+xref: BFO:0000051
+is_transitive: true
+
+[Typedef]
+id: part_of
+name: part of
+namespace: external
+xref: BFO:0000050
+is_transitive: true
+inverse_of: has_part ! has part

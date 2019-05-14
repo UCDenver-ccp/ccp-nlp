@@ -2,8 +2,10 @@ package edu.ucdenver.ccp.nlp.evaluation.bossy2013;
 
 import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +17,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.junit.Test;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.common.io.ClassPathUtil;
@@ -23,6 +30,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotationFactory;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.evaluation.bossy2013.BossyMetric.ScoredAnnotationMatch;
+import owltools.graph.OWLGraphWrapper;
 
 /**
  * The GO concepts used in these unit tests are viewable as a graph here:
@@ -619,14 +627,15 @@ public class BossyMetricTest {
 		Map<String, TextAnnotation> testIdToAnnotMap = new BossyMetric(
 				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
 						.populateTestIdToAnnotMap(testAnnots);
-		
+
 		ArrayList<TextAnnotation> sortedTestAnnots = new ArrayList<TextAnnotation>(testIdToAnnotMap.values());
 		Collections.sort(sortedTestAnnots, TextAnnotation.BY_SPAN());
-		
+
 		Map<String, Set<String>> testToOverlappingReferenceAnnotIdMap = new HashMap<String, Set<String>>();
 		Map<String, TextAnnotation> referenceIdToAnnotMap = new BossyMetric(
 				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
-						.populateReferenceIdToAnnotMap(refAnnots, sortedTestAnnots, testToOverlappingReferenceAnnotIdMap);
+						.populateReferenceIdToAnnotMap(refAnnots, sortedTestAnnots,
+								testToOverlappingReferenceAnnotIdMap);
 
 		assertEquals("map should contain 3 values", 3, testIdToAnnotMap.size());
 		assertEquals(referenceIdToAnnotMap.get("ref_0"), refAnnots.get(0));
@@ -653,12 +662,12 @@ public class BossyMetricTest {
 						.populateTestIdToAnnotMap(testAnnots);
 		ArrayList<TextAnnotation> sortedTestAnnots = new ArrayList<TextAnnotation>(testIdToAnnotMap.values());
 		Collections.sort(sortedTestAnnots, TextAnnotation.BY_SPAN());
-		
-		
+
 		Map<String, Set<String>> testToOverlappingReferenceAnnotIdMap = new HashMap<String, Set<String>>();
 		Map<String, TextAnnotation> referenceIdToAnnotMap = new BossyMetric(
 				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
-						.populateReferenceIdToAnnotMap(refAnnots, sortedTestAnnots, testToOverlappingReferenceAnnotIdMap);
+						.populateReferenceIdToAnnotMap(refAnnots, sortedTestAnnots,
+								testToOverlappingReferenceAnnotIdMap);
 
 		assertEquals("map should contain 3 values", 3, testIdToAnnotMap.size());
 		assertEquals(referenceIdToAnnotMap.get("ref_0"), refAnnots.get(0));
@@ -683,14 +692,15 @@ public class BossyMetricTest {
 		Map<String, TextAnnotation> testIdToAnnotMap = new BossyMetric(
 				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
 						.populateTestIdToAnnotMap(testAnnots);
-		
+
 		ArrayList<TextAnnotation> sortedTestAnnots = new ArrayList<TextAnnotation>(testIdToAnnotMap.values());
 		Collections.sort(sortedTestAnnots, TextAnnotation.BY_SPAN());
-		
+
 		Map<String, Set<String>> testToOverlappingReferenceAnnotIdMap = new HashMap<String, Set<String>>();
 		Map<String, TextAnnotation> referenceIdToAnnotMap = new BossyMetric(
 				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
-						.populateReferenceIdToAnnotMap(refAnnots, sortedTestAnnots, testToOverlappingReferenceAnnotIdMap);
+						.populateReferenceIdToAnnotMap(refAnnots, sortedTestAnnots,
+								testToOverlappingReferenceAnnotIdMap);
 
 		assertEquals("map should contain 3 values", 3, testIdToAnnotMap.size());
 		assertEquals(referenceIdToAnnotMap.get("ref_0"), refAnnots.get(0));
@@ -745,8 +755,7 @@ public class BossyMetricTest {
 		TextAnnotationFactory factory = TextAnnotationFactory.createFactoryWithDefaults();
 
 		TextAnnotation cellAnnot = factory.createAnnotation(0, 5, "cell", new DefaultClassMention("GO:0005623"));
-		TextAnnotation brainAnnot = factory.createAnnotation(20, 25, "brain",
-				new DefaultClassMention("GO:0043229"));
+		TextAnnotation brainAnnot = factory.createAnnotation(20, 25, "brain", new DefaultClassMention("GO:0043229"));
 
 		List<TextAnnotation> annots = new ArrayList<TextAnnotation>();
 		annots.add(cellAnnot);
@@ -759,8 +768,7 @@ public class BossyMetricTest {
 
 		TextAnnotation cellAnnot = factory.createAnnotation(0, 5, "cell", new DefaultClassMention("GO:0005623"));
 		TextAnnotation neuronAnnot = factory.createAnnotation(10, 18, "neuron", new DefaultClassMention("GO:0005622"));
-		TextAnnotation brainAnnot = factory.createAnnotation(20, 25, "brain",
-				new DefaultClassMention("GO:0043229"));
+		TextAnnotation brainAnnot = factory.createAnnotation(20, 25, "brain", new DefaultClassMention("GO:0043229"));
 		TextAnnotation membraneAnnot = factory.createAnnotation(30, 38, "membrane",
 				new DefaultClassMention("GO:0043231"));
 
@@ -944,6 +952,27 @@ public class BossyMetricTest {
 		boundaryMatchScore = BossyMetric.computeBoundaryMatchScore(referenceSpans, testSpans,
 				BoundaryMatchStrategy.EXACT);
 		assertThat(boundaryMatchScore, comparesEqualTo(BigDecimal.valueOf(0)));
+	}
+
+	@Test
+	public void testExtConceptExtractionFromOntology() throws OWLOntologyCreationException, IOException {
+		OWLOntologyManager inputOntologyManager = OWLManager.createOWLOntologyManager();
+		OWLOntology ont = inputOntologyManager.loadOntologyFromOntologyDocument(
+				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample_ext.obo"));
+		OWLGraphWrapper graph = new OWLGraphWrapper(ont);
+
+		OWLClass concept = BossyMetric.getOWLClass("GO_EXT:killing", graph);
+		assertNotNull(concept);
+		
+		 concept = BossyMetric.getOWLClass("GO_EXT:muscle_structure_or_tissue_development", graph);
+		assertNotNull(concept);
+
+		for (OWLClass owlClass : graph.getAllOWLClasses()) {
+			System.out.println("IRI: " + owlClass.getIRI().toString());
+		}
+
+
+		graph.close();
 	}
 
 	// @Test

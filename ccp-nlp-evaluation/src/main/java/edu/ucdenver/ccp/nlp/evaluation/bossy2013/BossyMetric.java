@@ -24,8 +24,6 @@ import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.SloppySpanComparator;
-import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import owltools.graph.OWLGraphEdge;
 import owltools.graph.OWLGraphWrapper;
@@ -90,7 +88,7 @@ public class BossyMetric {
 		Map<String, TextAnnotation> testIdToAnnotMap = populateTestIdToAnnotMap(testAnnots);
 		ArrayList<TextAnnotation> sortedTestAnnots = new ArrayList<TextAnnotation>(testIdToAnnotMap.values());
 		Collections.sort(sortedTestAnnots, TextAnnotation.BY_SPAN());
-		
+
 		/*
 		 * this map will eventually store mappings from test annotations to the reference
 		 * annotations with which they overlap
@@ -101,8 +99,8 @@ public class BossyMetric {
 		 * assigns a unique identifier to the reference annotations; also filter out any annotations
 		 * to concepts that are not in the ontology
 		 */
-		Map<String, TextAnnotation> refIdToAnnotMap = populateReferenceIdToAnnotMap(refAnnots,
-				sortedTestAnnots, testToOverlappingReferenceAnnotIdMap);
+		Map<String, TextAnnotation> refIdToAnnotMap = populateReferenceIdToAnnotMap(refAnnots, sortedTestAnnots,
+				testToOverlappingReferenceAnnotIdMap);
 
 		/* keep track of test and reference annotations that get paired in a match */
 		Set<String> pairedRefAnnotIds = new HashSet<String>();
@@ -288,7 +286,7 @@ public class BossyMetric {
 			String conceptId = refAnnot.getClassMention().getMentionName();
 			// if the concept doesn't exist in the ontology, then log a warning and exclude the
 			// annotation.
-			OWLClass concept = graph.getOWLClassByIdentifier(conceptId);
+			OWLClass concept = getOWLClass(conceptId, graph);
 			if (concept != null) {
 				String id = "ref_" + index++;
 				refAnnot.setAnnotationID(id);
@@ -317,6 +315,38 @@ public class BossyMetric {
 	}
 
 	/**
+	 * @param conceptId
+	 * @return the corresponding OWLClass if it can be found. Because CRAFT does not use fully
+	 *         qualified URIs we must look for several URI variations when extracting a class from
+	 *         an ontology using the concept identifier.
+	 */
+	static OWLClass getOWLClass(String conceptId, OWLGraphWrapper graph) {
+		OWLClass owlClass = graph.getOWLClass(conceptId);
+		if (owlClass != null) {
+			return owlClass;
+		}
+		// try the fully qualified URI
+		String iriBase = "http://purl.obolibrary.org/obo/";
+		String id = conceptId.replace(":", "_");
+		owlClass = graph.getOWLClass(iriBase + id);
+		if (owlClass != null) {
+			return owlClass;
+		}
+		// try with a # inserted
+		if (id.contains("_EXT")) {
+			id = id.replace("_EXT_", "_EXT#_");
+
+			owlClass = graph.getOWLClass(iriBase + id);
+			if (owlClass != null) {
+				return owlClass;
+			}
+		}
+		// give up. could not find class in the ontology
+		return null;
+
+	}
+
+	/**
 	 * @param testAnnots
 	 * @return a mapping from a unique id, e.g. test_12, to its corresponding test annotation
 	 */
@@ -329,7 +359,7 @@ public class BossyMetric {
 			String conceptId = testAnnot.getClassMention().getMentionName();
 			// if the concept doesn't exist in the ontology, then log a warning and exclude the
 			// annotation.
-			OWLClass concept = graph.getOWLClassByIdentifier(conceptId);
+			OWLClass concept = getOWLClass(conceptId, graph);
 			if (concept != null) {
 				String id = "test_" + index++;
 				testAnnot.setAnnotationID(id);
@@ -419,10 +449,9 @@ public class BossyMetric {
 		Map<String, Integer> conceptIdToDistanceMap = new HashMap<String, Integer>();
 
 		Queue<OWLClass> queue = new LinkedList<OWLClass>();
-		OWLClass concept = graph.getOWLClassByIdentifier(conceptId);
+		OWLClass concept = getOWLClass(conceptId, graph);
 
 		if (concept == null) {
-			System.err.println("SIZE: " + graph.getAllOWLClasses().size());
 			System.err.println("Concept identifier (" + conceptId
 					+ ") was not found in the ontology. Make sure the concept identifier uses the correct format, e.g. "
 					+ graph.getAllOWLClasses().iterator().next().toStringID());
