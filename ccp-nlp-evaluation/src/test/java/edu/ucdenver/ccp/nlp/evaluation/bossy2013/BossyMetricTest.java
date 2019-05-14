@@ -23,7 +23,6 @@ import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotationFactory;
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
 import edu.ucdenver.ccp.nlp.evaluation.bossy2013.BossyMetric.ScoredAnnotationMatch;
-import edu.ucdenver.ccp.nlp.evaluation.bossy2013.BossyMetric.SlotErrorRate;
 
 /**
  * The GO concepts used in these unit tests are viewable as a graph here:
