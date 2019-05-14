@@ -54,6 +54,7 @@ public class BossyMetric {
 			OWLOntologyManager inputOntologyManager = OWLManager.createOWLOntologyManager();
 			OWLOntology ont = inputOntologyManager.loadOntologyFromOntologyDocument(ontologyStream);
 			graph = new OWLGraphWrapper(ont);
+			System.out.println("Ontology load complete.");
 		} catch (OWLOntologyCreationException e) {
 			throw new IllegalStateException("Unable to load ontology", e);
 		}
