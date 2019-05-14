@@ -24,6 +24,7 @@ import edu.ucdenver.ccp.common.collections.CollectionsUtil;
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.SloppySpanComparator;
+import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import owltools.graph.OWLGraphEdge;
@@ -82,16 +83,26 @@ public class BossyMetric {
 		Collections.sort(refAnnots, TextAnnotation.BY_SPAN());
 		Collections.sort(testAnnots, TextAnnotation.BY_SPAN());
 
-		/* assign a unique identifier to each annotation and populate the annot-id-to-annot maps */
+		/*
+		 * assign a unique identifier to each annotation and populate the annot-id-to-annot maps;
+		 * also filter out any annotations to concepts that are not in the ontology
+		 */
 		Map<String, TextAnnotation> testIdToAnnotMap = populateTestIdToAnnotMap(testAnnots);
-
+		ArrayList<TextAnnotation> sortedTestAnnots = new ArrayList<TextAnnotation>(testIdToAnnotMap.values());
+		Collections.sort(sortedTestAnnots, TextAnnotation.BY_SPAN());
+		
 		/*
 		 * this map will eventually store mappings from test annotations to the reference
 		 * annotations with which they overlap
 		 */
 		Map<String, Set<String>> testToOverlappingReferenceAnnotIdMap = new HashMap<String, Set<String>>();
-		Map<String, TextAnnotation> refIdToAnnotMap = populateReferenceIdToAnnotMap(refAnnots, testAnnots,
-				testToOverlappingReferenceAnnotIdMap);
+
+		/*
+		 * assigns a unique identifier to the reference annotations; also filter out any annotations
+		 * to concepts that are not in the ontology
+		 */
+		Map<String, TextAnnotation> refIdToAnnotMap = populateReferenceIdToAnnotMap(refAnnots,
+				sortedTestAnnots, testToOverlappingReferenceAnnotIdMap);
 
 		/* keep track of test and reference annotations that get paired in a match */
 		Set<String> pairedRefAnnotIds = new HashSet<String>();
@@ -268,27 +279,38 @@ public class BossyMetric {
 	 *         maps identifiers for test annotations to identifiers of reference annotations with
 	 *         which they overlap.
 	 */
-	static Map<String, TextAnnotation> populateReferenceIdToAnnotMap(List<TextAnnotation> refAnnots,
+	Map<String, TextAnnotation> populateReferenceIdToAnnotMap(List<TextAnnotation> refAnnots,
 			List<TextAnnotation> testAnnots, Map<String, Set<String>> testToOverlappingReferenceAnnotIdMap) {
 		Map<String, TextAnnotation> refIdToAnnotMap = new HashMap<String, TextAnnotation>();
 		SloppySpanComparator ssc = new SloppySpanComparator();
 		int index = 0;
 		for (TextAnnotation refAnnot : refAnnots) {
-			String id = "ref_" + index++;
-			refAnnot.setAnnotationID(id);
-			refIdToAnnotMap.put(id, refAnnot);
-			for (TextAnnotation testAnnot : testAnnots) {
-				if (ssc.overlaps(refAnnot.getSpans(), testAnnot.getSpans()) == 0) {
-					CollectionsUtil.addToOne2ManyUniqueMap(testAnnot.getAnnotationID(), id,
-							testToOverlappingReferenceAnnotIdMap);
+			String conceptId = refAnnot.getClassMention().getMentionName();
+			// if the concept doesn't exist in the ontology, then log a warning and exclude the
+			// annotation.
+			OWLClass concept = graph.getOWLClassByIdentifier(conceptId);
+			if (concept != null) {
+				String id = "ref_" + index++;
+				refAnnot.setAnnotationID(id);
+				refIdToAnnotMap.put(id, refAnnot);
+				for (TextAnnotation testAnnot : testAnnots) {
+					if (ssc.overlaps(refAnnot.getSpans(), testAnnot.getSpans()) == 0) {
+						CollectionsUtil.addToOne2ManyUniqueMap(testAnnot.getAnnotationID(), id,
+								testToOverlappingReferenceAnnotIdMap);
+					}
+					if (testAnnot.getAggregateSpan().getSpanStart() > refAnnot.getAggregateSpan().getSpanEnd()) {
+						/*
+						 * then b/c the list of test annots is sorted, we can quit looking for
+						 * overlapping annotations
+						 */
+						break;
+					}
 				}
-				if (testAnnot.getAggregateSpan().getSpanStart() > refAnnot.getAggregateSpan().getSpanEnd()) {
-					/*
-					 * then b/c the list of test annots is sorted, we can quit looking for
-					 * overlapping annotations
-					 */
-					break;
-				}
+			} else {
+				System.err.println(
+						"WARNING -- encountered reference annotation using concept not found in the specified ontology ("
+								+ conceptId + "). This annotation will be excluded. Document ID: "
+								+ refAnnot.getDocumentID() + " Span(s): " + Span.toString(refAnnot.getSpans()));
 			}
 		}
 		return refIdToAnnotMap;
@@ -298,15 +320,26 @@ public class BossyMetric {
 	 * @param testAnnots
 	 * @return a mapping from a unique id, e.g. test_12, to its corresponding test annotation
 	 */
-	static Map<String, TextAnnotation> populateTestIdToAnnotMap(List<TextAnnotation> testAnnots) {
+	Map<String, TextAnnotation> populateTestIdToAnnotMap(List<TextAnnotation> testAnnots) {
 		Map<String, TextAnnotation> testIdToAnnotMap = new HashMap<String, TextAnnotation>();
 
 		/* assign a unique identifier to each annotation and populate the annot-id-to-annot maps */
 		int index = 0;
 		for (TextAnnotation testAnnot : testAnnots) {
-			String id = "test_" + index++;
-			testAnnot.setAnnotationID(id);
-			testIdToAnnotMap.put(id, testAnnot);
+			String conceptId = testAnnot.getClassMention().getMentionName();
+			// if the concept doesn't exist in the ontology, then log a warning and exclude the
+			// annotation.
+			OWLClass concept = graph.getOWLClassByIdentifier(conceptId);
+			if (concept != null) {
+				String id = "test_" + index++;
+				testAnnot.setAnnotationID(id);
+				testIdToAnnotMap.put(id, testAnnot);
+			} else {
+				System.err.println(
+						"WARNING -- encountered test annotation using concept not found in the specified ontology ("
+								+ conceptId + "). This annotation will be excluded. Document ID: "
+								+ testAnnot.getDocumentID() + " Span(s): " + Span.toString(testAnnot.getSpans()));
+			}
 		}
 
 		return testIdToAnnotMap;
@@ -508,5 +541,5 @@ public class BossyMetric {
 			return -1 * getScore().compareTo(o.getScore());
 		}
 	}
-	
+
 }

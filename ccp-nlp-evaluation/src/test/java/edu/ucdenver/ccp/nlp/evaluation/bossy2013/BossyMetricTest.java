@@ -547,10 +547,61 @@ public class BossyMetricTest {
 	}
 
 	@Test
+	public void testEvaluateAnnotations_ignoreConceptsNotInOntology() {
+		BossyMetric bm = new BossyMetric(ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"),
+				DISTANCE_WEIGHT_FACTOR);
+		TextAnnotationFactory factory = TextAnnotationFactory.createFactoryWithDefaults("123456");
+
+		TextAnnotation testAnnot0 = factory.createAnnotation(0, 13, "intracellular",
+				new DefaultClassMention("GO:0005622"));
+		TextAnnotation testAnnot1 = factory.createAnnotation(20, 50, "intracellular membrane-bounded",
+				new DefaultClassMention("GO:0043231"));
+		TextAnnotation testAnnot2 = factory.createAnnotation(20, 33, "intracellular",
+				new DefaultClassMention("GO:0043229"));
+		TextAnnotation testAnnot3 = factory.createAnnotation(15, 20, "blah", new DefaultClassMention("GO:0001234"));
+
+		Set<TextAnnotation> testAnnots = new HashSet<TextAnnotation>();
+		testAnnots.add(testAnnot0);
+		testAnnots.add(testAnnot1);
+		testAnnots.add(testAnnot2);
+		testAnnots.add(testAnnot3);
+
+		TextAnnotation refAnnot0 = factory.createAnnotation(0, 13, "intracellular",
+				new DefaultClassMention("GO:0005622"));
+		TextAnnotation refAnnot1 = factory.createAnnotation(20, 50, "intracellular membrane-bounded",
+				new DefaultClassMention("GO:0043231"));
+
+		TextAnnotation refAnnot2 = factory.createAnnotation(55, 60, "blah", new DefaultClassMention("GO:0007890"));
+
+		Set<TextAnnotation> refAnnots = new HashSet<TextAnnotation>();
+		refAnnots.add(refAnnot0);
+		refAnnots.add(refAnnot1);
+		refAnnots.add(refAnnot2);
+
+		SlotErrorRate ser = bm.evaluate(refAnnots, testAnnots, BoundaryMatchStrategy.JACCARD);
+
+		assertEquals(1, ser.getInsertions());
+		assertEquals(0, ser.getDeletions());
+		assertEquals(2, ser.getReferenceCount());
+		assertEquals(3, ser.getPredictedCount());
+		assertThat(ser.getMatches(), comparesEqualTo(BigDecimal.valueOf(2.0)));
+		assertThat(ser.getPrecision(),
+				comparesEqualTo(BigDecimal.valueOf(2.0).divide(BigDecimal.valueOf(3.0), 10, BigDecimal.ROUND_HALF_UP)));
+		assertThat(ser.getRecall(),
+				comparesEqualTo(BigDecimal.valueOf(2.0).divide(BigDecimal.valueOf(2.0), 10, BigDecimal.ROUND_HALF_UP)));
+		assertThat(ser.getFScore(), comparesEqualTo(BigDecimal.valueOf(2.0 * 1 * 2.0 / 3.0)
+				.divide(BigDecimal.valueOf(1 + 2.0 / 3.0), 10, BigDecimal.ROUND_HALF_UP)));
+		assertThat(ser.getSER(),
+				comparesEqualTo(BigDecimal.valueOf(1.0).divide(BigDecimal.valueOf(2.0), 10, BigDecimal.ROUND_HALF_UP)));
+	}
+
+	@Test
 	public void testPopulateTestIdToAnnotMap() {
 		List<TextAnnotation> annots = getTestAnnotations();
 
-		Map<String, TextAnnotation> testIdToAnnotMap = BossyMetric.populateTestIdToAnnotMap(annots);
+		Map<String, TextAnnotation> testIdToAnnotMap = new BossyMetric(
+				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
+						.populateTestIdToAnnotMap(annots);
 
 		assertEquals("map should contain 3 values", 3, testIdToAnnotMap.size());
 		assertEquals(testIdToAnnotMap.get("test_0"), annots.get(0));
@@ -565,10 +616,17 @@ public class BossyMetricTest {
 		List<TextAnnotation> testAnnots = getTestAnnotations();
 		List<TextAnnotation> refAnnots = getReferenceAnnotations_Exact();
 
-		Map<String, TextAnnotation> testIdToAnnotMap = BossyMetric.populateTestIdToAnnotMap(testAnnots);
+		Map<String, TextAnnotation> testIdToAnnotMap = new BossyMetric(
+				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
+						.populateTestIdToAnnotMap(testAnnots);
+		
+		ArrayList<TextAnnotation> sortedTestAnnots = new ArrayList<TextAnnotation>(testIdToAnnotMap.values());
+		Collections.sort(sortedTestAnnots, TextAnnotation.BY_SPAN());
+		
 		Map<String, Set<String>> testToOverlappingReferenceAnnotIdMap = new HashMap<String, Set<String>>();
-		Map<String, TextAnnotation> referenceIdToAnnotMap = BossyMetric.populateReferenceIdToAnnotMap(refAnnots,
-				testAnnots, testToOverlappingReferenceAnnotIdMap);
+		Map<String, TextAnnotation> referenceIdToAnnotMap = new BossyMetric(
+				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
+						.populateReferenceIdToAnnotMap(refAnnots, sortedTestAnnots, testToOverlappingReferenceAnnotIdMap);
 
 		assertEquals("map should contain 3 values", 3, testIdToAnnotMap.size());
 		assertEquals(referenceIdToAnnotMap.get("ref_0"), refAnnots.get(0));
@@ -590,10 +648,17 @@ public class BossyMetricTest {
 		List<TextAnnotation> testAnnots = getTestAnnotations();
 		List<TextAnnotation> refAnnots = getReferenceAnnotations_Extra1();
 
-		Map<String, TextAnnotation> testIdToAnnotMap = BossyMetric.populateTestIdToAnnotMap(testAnnots);
+		Map<String, TextAnnotation> testIdToAnnotMap = new BossyMetric(
+				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
+						.populateTestIdToAnnotMap(testAnnots);
+		ArrayList<TextAnnotation> sortedTestAnnots = new ArrayList<TextAnnotation>(testIdToAnnotMap.values());
+		Collections.sort(sortedTestAnnots, TextAnnotation.BY_SPAN());
+		
+		
 		Map<String, Set<String>> testToOverlappingReferenceAnnotIdMap = new HashMap<String, Set<String>>();
-		Map<String, TextAnnotation> referenceIdToAnnotMap = BossyMetric.populateReferenceIdToAnnotMap(refAnnots,
-				testAnnots, testToOverlappingReferenceAnnotIdMap);
+		Map<String, TextAnnotation> referenceIdToAnnotMap = new BossyMetric(
+				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
+						.populateReferenceIdToAnnotMap(refAnnots, sortedTestAnnots, testToOverlappingReferenceAnnotIdMap);
 
 		assertEquals("map should contain 3 values", 3, testIdToAnnotMap.size());
 		assertEquals(referenceIdToAnnotMap.get("ref_0"), refAnnots.get(0));
@@ -615,10 +680,17 @@ public class BossyMetricTest {
 		List<TextAnnotation> testAnnots = getTestAnnotations();
 		List<TextAnnotation> refAnnots = getReferenceAnnotations_Missing1();
 
-		Map<String, TextAnnotation> testIdToAnnotMap = BossyMetric.populateTestIdToAnnotMap(testAnnots);
+		Map<String, TextAnnotation> testIdToAnnotMap = new BossyMetric(
+				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
+						.populateTestIdToAnnotMap(testAnnots);
+		
+		ArrayList<TextAnnotation> sortedTestAnnots = new ArrayList<TextAnnotation>(testIdToAnnotMap.values());
+		Collections.sort(sortedTestAnnots, TextAnnotation.BY_SPAN());
+		
 		Map<String, Set<String>> testToOverlappingReferenceAnnotIdMap = new HashMap<String, Set<String>>();
-		Map<String, TextAnnotation> referenceIdToAnnotMap = BossyMetric.populateReferenceIdToAnnotMap(refAnnots,
-				testAnnots, testToOverlappingReferenceAnnotIdMap);
+		Map<String, TextAnnotation> referenceIdToAnnotMap = new BossyMetric(
+				ClassPathUtil.getResourceStreamFromClasspath(getClass(), "sample.obo"), DISTANCE_WEIGHT_FACTOR)
+						.populateReferenceIdToAnnotMap(refAnnots, sortedTestAnnots, testToOverlappingReferenceAnnotIdMap);
 
 		assertEquals("map should contain 3 values", 3, testIdToAnnotMap.size());
 		assertEquals(referenceIdToAnnotMap.get("ref_0"), refAnnots.get(0));
@@ -634,15 +706,17 @@ public class BossyMetricTest {
 	public List<TextAnnotation> getTestAnnotations() {
 		TextAnnotationFactory factory = TextAnnotationFactory.createFactoryWithDefaults();
 
-		TextAnnotation cellAnnot = factory.createAnnotation(0, 5, "cell", new DefaultClassMention("CL:0000000"));
-		TextAnnotation neuronAnnot = factory.createAnnotation(10, 16, "neuron", new DefaultClassMention("CL:0000234"));
-		TextAnnotation brainAnnot = factory.createAnnotation(20, 25, "brain",
+		TextAnnotation cellAnnot = factory.createAnnotation(0, 5, "cell", new DefaultClassMention("GO:0005623"));
+		TextAnnotation neuronAnnot = factory.createAnnotation(10, 16, "neuron", new DefaultClassMention("GO:0005622"));
+		TextAnnotation brainAnnot = factory.createAnnotation(20, 25, "brain", new DefaultClassMention("GO:0043229"));
+		TextAnnotation brainAnnot2 = factory.createAnnotation(19, 25, "brain",
 				new DefaultClassMention("UBERON:0000345"));
 
 		List<TextAnnotation> annots = new ArrayList<TextAnnotation>();
 		annots.add(cellAnnot);
 		annots.add(neuronAnnot);
 		annots.add(brainAnnot);
+		annots.add(brainAnnot2);
 		return annots;
 	}
 
@@ -653,24 +727,26 @@ public class BossyMetricTest {
 	public List<TextAnnotation> getReferenceAnnotations_Offset() {
 		TextAnnotationFactory factory = TextAnnotationFactory.createFactoryWithDefaults();
 
-		TextAnnotation cellAnnot = factory.createAnnotation(0, 5, "cell", new DefaultClassMention("CL:0000000"));
-		TextAnnotation neuronAnnot = factory.createAnnotation(10, 18, "neuron", new DefaultClassMention("CL:0000234"));
-		TextAnnotation brainAnnot = factory.createAnnotation(19, 25, "brain",
+		TextAnnotation cellAnnot = factory.createAnnotation(0, 5, "cell", new DefaultClassMention("GO:0005623"));
+		TextAnnotation neuronAnnot = factory.createAnnotation(10, 18, "neuron", new DefaultClassMention("GO:0005622"));
+		TextAnnotation brainAnnot = factory.createAnnotation(19, 25, "brain", new DefaultClassMention("GO:0043229"));
+		TextAnnotation brainAnnot2 = factory.createAnnotation(19, 25, "brain",
 				new DefaultClassMention("UBERON:0000345"));
 
 		List<TextAnnotation> annots = new ArrayList<TextAnnotation>();
 		annots.add(cellAnnot);
 		annots.add(neuronAnnot);
 		annots.add(brainAnnot);
+		annots.add(brainAnnot2);
 		return annots;
 	}
 
 	public List<TextAnnotation> getReferenceAnnotations_Missing1() {
 		TextAnnotationFactory factory = TextAnnotationFactory.createFactoryWithDefaults();
 
-		TextAnnotation cellAnnot = factory.createAnnotation(0, 5, "cell", new DefaultClassMention("CL:0000000"));
+		TextAnnotation cellAnnot = factory.createAnnotation(0, 5, "cell", new DefaultClassMention("GO:0005623"));
 		TextAnnotation brainAnnot = factory.createAnnotation(20, 25, "brain",
-				new DefaultClassMention("UBERON:0000345"));
+				new DefaultClassMention("GO:0043229"));
 
 		List<TextAnnotation> annots = new ArrayList<TextAnnotation>();
 		annots.add(cellAnnot);
@@ -681,12 +757,12 @@ public class BossyMetricTest {
 	public List<TextAnnotation> getReferenceAnnotations_Extra1() {
 		TextAnnotationFactory factory = TextAnnotationFactory.createFactoryWithDefaults();
 
-		TextAnnotation cellAnnot = factory.createAnnotation(0, 5, "cell", new DefaultClassMention("CL:0000000"));
-		TextAnnotation neuronAnnot = factory.createAnnotation(10, 18, "neuron", new DefaultClassMention("CL:0000234"));
+		TextAnnotation cellAnnot = factory.createAnnotation(0, 5, "cell", new DefaultClassMention("GO:0005623"));
+		TextAnnotation neuronAnnot = factory.createAnnotation(10, 18, "neuron", new DefaultClassMention("GO:0005622"));
 		TextAnnotation brainAnnot = factory.createAnnotation(20, 25, "brain",
-				new DefaultClassMention("UBERON:0000345"));
+				new DefaultClassMention("GO:0043229"));
 		TextAnnotation membraneAnnot = factory.createAnnotation(30, 38, "membrane",
-				new DefaultClassMention("CL:0022222"));
+				new DefaultClassMention("GO:0043231"));
 
 		List<TextAnnotation> annots = new ArrayList<TextAnnotation>();
 		annots.add(cellAnnot);
