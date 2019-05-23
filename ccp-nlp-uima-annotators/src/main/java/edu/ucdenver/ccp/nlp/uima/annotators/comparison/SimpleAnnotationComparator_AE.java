@@ -66,7 +66,7 @@ public class SimpleAnnotationComparator_AE extends AnnotationComparator_AE {
 
 	public static final String PARAM_GOLD_ANNOTATOR_ID = "goldAnnotatorId";
 	@ConfigurationParameter(mandatory = true)
-	private int goldAnnotatorId;
+	private String goldAnnotatorId;
 
 	public static final String PARAM_GOLD_TYPE_REGEX = "goldTypeRegexes";
 	@ConfigurationParameter(mandatory = true)
@@ -79,7 +79,7 @@ public class SimpleAnnotationComparator_AE extends AnnotationComparator_AE {
 
 	public static final String PARAM_EVAL_ANNOTATOR_ID = "evalAnnotatorId";
 	@ConfigurationParameter(mandatory = true)
-	private int evalAnnotatorId;
+	private String evalAnnotatorId;
 
 	public static final String PARAM_EVAL_TYPE_REGEX = "evalTypeRegexes";
 	@ConfigurationParameter(mandatory = true)

@@ -207,7 +207,7 @@ public class ComparatorConfigurator {
 					} else if (attribute.getName().equals(ANNOTATION_GROUP_ANNOTATIONSETID_TAG)) {
 						aGroup.setAnnotationSetID(Integer.parseInt(attribute.getValue()));
 					} else if (attribute.getName().equals(ANNOTATION_GROUP_ANNOTATORID_TAG)) {
-						aGroup.setAnnotatorID(Integer.parseInt(attribute.getValue()));
+						aGroup.setAnnotatorID(attribute.getValue());
 					} else if (attribute.getName().equals(ANNOTATION_GROUP_ANNOTATIONTYPE_TAG)) {
 						aGroup.addAnnotationType(attribute.getValue());
 					} else if (attribute.getName().equals(ANNOTATION_GROUP_ANNOTATIONREGEX_TAG)) {

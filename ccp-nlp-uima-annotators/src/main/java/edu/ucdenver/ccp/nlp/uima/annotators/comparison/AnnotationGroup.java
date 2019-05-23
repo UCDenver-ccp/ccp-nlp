@@ -79,7 +79,7 @@ public class AnnotationGroup {
 
 	private Integer groupID;
 	private Integer annotationSetID;
-	private Integer annotatorID;
+	private String annotatorID;
 
 	private List<String> annotationTypeList;
 	private List<String> annotationTypeRegexList;
@@ -92,7 +92,7 @@ public class AnnotationGroup {
 		this.annotationTypeRegexList = new ArrayList<String>();
 	}
 	
-	public AnnotationGroup(int groupID, int annotatorID, int annotationSetID) {
+	public AnnotationGroup(int groupID, String annotatorID, int annotationSetID) {
 		this();
 		this.groupID = groupID;
 		this.annotationSetID = annotationSetID;
@@ -195,11 +195,11 @@ public class AnnotationGroup {
 		this.annotationTypeRegexList.add(type);
 	}
 
-	public Integer getAnnotatorID() {
+	public String getAnnotatorID() {
 		return annotatorID;
 	}
 
-	public void setAnnotatorID(Integer annotatorID) {
+	public void setAnnotatorID(String annotatorID) {
 		this.annotatorID = annotatorID;
 	}
 
