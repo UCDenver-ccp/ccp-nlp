@@ -42,7 +42,9 @@ import java.io.File;
 import java.util.Collection;
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.junit.Test;
 
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultPrimitiveSlotMentionFactory;
@@ -52,7 +54,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultPrimitiveSlotMentionFactory
  * 
  */
 public class PrimitiveSlotMentionFactoryTest {
-	private static Logger logger = Logger.getLogger(PrimitiveSlotMentionFactoryTest.class);
+	private static Logger logger = LogManager.getLogger(PrimitiveSlotMentionFactoryTest.class);
 
 	@Test
 	public void testFactoryMethod() throws Exception {

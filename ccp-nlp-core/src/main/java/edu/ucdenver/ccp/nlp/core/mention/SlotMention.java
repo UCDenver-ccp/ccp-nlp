@@ -36,7 +36,8 @@ package edu.ucdenver.ccp.nlp.core.mention;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The slot mention represents a slot for a given frame. There are two subclasses of SlotMention,
@@ -48,7 +49,7 @@ import org.apache.log4j.Logger;
  */
 public abstract class SlotMention<E> extends Mention implements ISlotMention<E> {
 
-	protected static Logger logger = Logger.getLogger(SlotMention.class);
+	protected static Logger logger = LogManager.getLogger(SlotMention.class);
 
 	public SlotMention(String mentionName, Object... wrappedObjectPlusGlobalVars) {
 		super(mentionName, wrappedObjectPlusGlobalVars);

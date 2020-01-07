@@ -36,14 +36,15 @@ package edu.ucdenver.ccp.nlp.core.mention;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  * 
  */
 public abstract class IntegerSlotMention extends PrimitiveSlotMention<Integer> {
-	private static Logger logger = Logger.getLogger(IntegerSlotMention.class);
+	private static Logger logger = LogManager.getLogger(IntegerSlotMention.class);
 
 	public IntegerSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);

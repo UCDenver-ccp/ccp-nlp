@@ -47,9 +47,12 @@ import java.util.zip.GZIPOutputStream;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.DefaultConfiguration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -71,7 +74,7 @@ import edu.ucdenver.ccp.nlp.doc2txt.XslUtil;
  */
 public class PmcDocumentConverter {
 
-	private static final Logger logger = Logger.getLogger(PmcDocumentConverter.class);
+	private static final Logger logger = LogManager.getLogger(PmcDocumentConverter.class);
 
 	@Option(name = "-r", usage = "set to true to recurse through the input directory when converting PMC XML files to plain text. Default=true")
 	private boolean recurseDirectoryStructure = true;
@@ -146,8 +149,8 @@ public class PmcDocumentConverter {
 	}
 
 	public static void main(String[] args) {
-		BasicConfigurator.configure();
-		Logger.getRootLogger().setLevel(Level.DEBUG);
+		Configurator.initialize(new DefaultConfiguration());
+	    Configurator.setRootLevel(Level.DEBUG);
 		new PmcDocumentConverter().doConversion(args);
 	}
 

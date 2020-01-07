@@ -27,13 +27,13 @@
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>medline-xml</artifactId>
-			<version>2018.0</version>
+			<version>2018.1</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>edu.ucdenver.ccp</groupId>
 			<artifactId>medline-core</artifactId>
-			<version>2018.0</version>
+			<version>2018.1</version>
 			<scope>compile</scope>
 		</dependency>
 		<!-- <dependency> <groupId>edu.ucdenver.ccp</groupId> <artifactId>medline-xml-parser</artifactId> 

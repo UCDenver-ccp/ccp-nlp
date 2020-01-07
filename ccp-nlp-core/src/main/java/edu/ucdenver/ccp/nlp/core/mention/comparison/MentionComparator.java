@@ -40,7 +40,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import edu.ucdenver.ccp.common.collections.tree.TreeNode;
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.SpanComparator;
@@ -93,7 +95,7 @@ import edu.ucdenver.ccp.nlp.core.mention.PrimitiveSlotMention;
  * 
  */
 public abstract class MentionComparator implements Comparator<Mention> {
-	private static Logger logger = Logger.getLogger(MentionComparator.class);
+	private static Logger logger = LogManager.getLogger(MentionComparator.class);
 	/**
 	 * So that differences found in mentions can be distinguished between differences found in
 	 * spans, the mention comparators should return -3, 0, or 3, therefore the MULTIPLIER variable

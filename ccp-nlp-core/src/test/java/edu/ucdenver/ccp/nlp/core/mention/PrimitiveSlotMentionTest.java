@@ -41,8 +41,11 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.DefaultConfiguration;
 import org.junit.Test;
 
 import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultBooleanSlotMention;
@@ -54,10 +57,11 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultIntegerSlotMention;
  */
 public class PrimitiveSlotMentionTest {
 
-	private static Logger logger = Logger.getLogger(PrimitiveSlotMentionTest.class);
+	private static Logger logger = LogManager.getLogger(PrimitiveSlotMentionTest.class);
 
 	static {
-		BasicConfigurator.configure();
+		Configurator.initialize(new DefaultConfiguration());
+	    Configurator.setRootLevel(Level.INFO);
 	}
 
 	@Test

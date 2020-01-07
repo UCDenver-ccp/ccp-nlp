@@ -37,7 +37,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import edu.ucdenver.ccp.nlp.core.annotation.InvalidSpanException;
 import edu.ucdenver.ccp.nlp.core.annotation.Span;
@@ -51,7 +53,7 @@ import edu.ucdenver.ccp.nlp.core.annotation.Span;
  */
 
 public abstract class SpanComparator implements Comparator<Span> {
-	private static Logger logger = Logger.getLogger(SpanComparator.class);
+	private static Logger logger = LogManager.getLogger(SpanComparator.class);
 	/**
 	 * This flag is used as an indication to allow a more optimized comparison of all annotations in
 	 * a document. When set to true, this span comparator requires spans to, at the very least,

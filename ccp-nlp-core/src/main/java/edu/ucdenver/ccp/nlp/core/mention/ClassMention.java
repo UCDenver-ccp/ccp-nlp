@@ -33,7 +33,9 @@ package edu.ucdenver.ccp.nlp.core.mention;
  * #L%
  */
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
 
@@ -55,7 +57,7 @@ import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
  */
 public abstract class ClassMention extends Mention implements IClassMention {
 
-	private static Logger logger = Logger.getLogger(ClassMention.class);
+	private static Logger logger = LogManager.getLogger(ClassMention.class);
 
 	public ClassMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);

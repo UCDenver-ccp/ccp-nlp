@@ -39,7 +39,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.comparison.IdenticalMentionComparator;
@@ -69,7 +71,7 @@ import edu.ucdenver.ccp.nlp.core.mention.comparison.MentionComparator;
  */
 
 public class AnnotationComparator implements Comparator<TextAnnotation> {
-	private static Logger logger = Logger.getLogger(AnnotationComparator.class);
+	private static Logger logger = LogManager.getLogger(AnnotationComparator.class);
 
 	/**
 	 * TextAnnotation comparison utilizes the StrictSpanComparator and the

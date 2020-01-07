@@ -40,8 +40,11 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.DefaultConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,7 +74,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
  */
 public class AnnotationToFileOutputTest extends DefaultTestCase {
 
-	private static Logger logger = Logger.getLogger(AnnotationToFileOutputTest.class);
+	private static Logger logger = LogManager.getLogger(AnnotationToFileOutputTest.class);
 
 	private File TEST_OUTPUT_FILE;
 
@@ -240,7 +243,8 @@ public class AnnotationToFileOutputTest extends DefaultTestCase {
 
 	@Test
 	public void testAnnotationToFileOutputWithSlotsWithPipes() throws Exception {
-		BasicConfigurator.configure();
+		Configurator.initialize(new DefaultConfiguration());
+	    Configurator.setRootLevel(Level.INFO);
 		logger.info("Three warning messages expected...");
 		PrintStream ps = new PrintStream(TEST_OUTPUT_FILE);
 		(new AnnotationToFileOutput()).printDocument(createTestGenericDocument_WithSlotsWithPipes(), ps);

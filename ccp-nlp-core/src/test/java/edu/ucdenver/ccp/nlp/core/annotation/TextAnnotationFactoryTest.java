@@ -39,7 +39,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
-import org.apache.log4j.BasicConfigurator;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.DefaultConfiguration;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -56,7 +60,8 @@ import edu.ucdenver.ccp.nlp.core.mention.SlotMention;
 public class TextAnnotationFactoryTest {
 	@BeforeClass
 	public static void before() {
-		BasicConfigurator.configure();
+		Configurator.initialize(new DefaultConfiguration());
+	    Configurator.setRootLevel(Level.INFO);
 	}
 
 	@Test

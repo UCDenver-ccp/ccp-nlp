@@ -38,7 +38,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import edu.ucdenver.ccp.nlp.core.annotation.impl.DefaultTextAnnotation;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
@@ -61,7 +63,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
  */
 public class TextAnnotationFactory {
 
-	Logger logger = Logger.getLogger(TextAnnotationFactory.class);
+	Logger logger = LogManager.getLogger(TextAnnotationFactory.class);
 
 	// -CLASS MENTION: 39917/GO:0005623 "cell" [1..4]
 	// - SLOT MENTION: localConceptID with SLOT VALUE(s): 39917/GO:0005623

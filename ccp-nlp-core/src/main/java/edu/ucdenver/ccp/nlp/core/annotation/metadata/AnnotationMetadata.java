@@ -36,7 +36,9 @@ package edu.ucdenver.ccp.nlp.core.annotation.metadata;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
@@ -58,7 +60,7 @@ public class AnnotationMetadata {
 
 	private String annotationComment;
 
-	static Logger logger = Logger.getLogger(AnnotationMetadata.class);
+	static Logger logger = LogManager.getLogger(AnnotationMetadata.class);
 
 	public AnnotationMetadata() {
 		metadataProperties = new ArrayList<AnnotationMetadataProperty>();

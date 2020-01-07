@@ -4,7 +4,7 @@ package edu.ucdenver.ccp.nlp.doc2txt.pmc;
  * #%L
  * Colorado Computational Pharmacology's nlp module
  * %%
- * Copyright (C) 2012 - 2014 Regents of the University of Colorado
+ * Copyright (C) 2012 - 2020 Regents of the University of Colorado
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -33,15 +33,15 @@ package edu.ucdenver.ccp.nlp.doc2txt.pmc;
  * #L%
  */
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import org.apache.log4j.Logger;
 
 /**
  * 
@@ -66,7 +66,7 @@ import org.apache.log4j.Logger;
  */
 public class PmcDtdClasspathResolver implements EntityResolver {
 
-	private static final Logger logger = Logger.getLogger(PmcDtdClasspathResolver.class);
+	private static final Logger logger = LogManager.getLogger(PmcDtdClasspathResolver.class);
 
 	@Override
 	public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {

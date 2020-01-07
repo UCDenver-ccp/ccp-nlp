@@ -46,7 +46,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import edu.ucdenver.ccp.common.file.CharacterEncoding;
 import edu.ucdenver.ccp.common.file.FileReaderUtil;
@@ -63,7 +65,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultPrimitiveSlotMentionFactory
  * @author Colorado Computational Pharmacology, UC Denver; ccpsupport@ucdenver.edu
  */
 public class TextAnnotationUtil {
-	private static Logger logger = Logger.getLogger(TextAnnotationUtil.class);
+	private static Logger logger = LogManager.getLogger(TextAnnotationUtil.class);
 
 	/**
 	 * Returns a collection of redundant text annotations from the input set of annotations. This

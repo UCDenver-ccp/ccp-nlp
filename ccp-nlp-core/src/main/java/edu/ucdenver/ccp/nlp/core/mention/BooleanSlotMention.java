@@ -37,7 +37,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 /**
  * The BooleanSlotMention is slightly different from other PrimitiveSlotMentions as it can only have
@@ -47,7 +49,7 @@ import org.apache.log4j.Logger;
  * 
  */
 public abstract class BooleanSlotMention extends PrimitiveSlotMention<Boolean> {
-	private static Logger logger = Logger.getLogger(BooleanSlotMention.class);
+	private static Logger logger = LogManager.getLogger(BooleanSlotMention.class);
 
 	public BooleanSlotMention(Object... wrappedObjectPlusGlobalVars) {
 		super(wrappedObjectPlusGlobalVars);

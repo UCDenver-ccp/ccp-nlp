@@ -41,7 +41,8 @@ import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import edu.ucdenver.ccp.common.collections.tree.Tree;
 import edu.ucdenver.ccp.common.collections.tree.TreeNode;
@@ -54,7 +55,7 @@ import edu.ucdenver.ccp.common.collections.tree.TreeNode;
  * 
  */
 public abstract class Mention implements Comparable<Mention> {
-	private static Logger logger = Logger.getLogger(Mention.class);
+	private static Logger logger = LogManager.getLogger(Mention.class);
 
 	protected boolean hasWrappedMention = false;
 

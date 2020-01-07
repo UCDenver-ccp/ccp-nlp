@@ -37,7 +37,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import edu.ucdenver.ccp.nlp.core.mention.BooleanSlotMention;
 import edu.ucdenver.ccp.nlp.core.mention.FloatSlotMention;
@@ -52,7 +53,7 @@ import edu.ucdenver.ccp.nlp.core.mention.StringSlotMention;
  */
 public class DefaultPrimitiveSlotMentionFactory {
 
-	private static Logger logger = Logger.getLogger(DefaultPrimitiveSlotMentionFactory.class);
+	private static Logger logger = LogManager.getLogger(DefaultPrimitiveSlotMentionFactory.class);
 
 	public static PrimitiveSlotMention createPrimitiveSlotMention(
 		String slotMentionName, 

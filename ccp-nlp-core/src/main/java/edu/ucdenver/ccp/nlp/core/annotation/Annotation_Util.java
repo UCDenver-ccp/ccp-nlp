@@ -42,7 +42,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
 import edu.ucdenver.ccp.nlp.core.mention.ClassMentionType;
@@ -61,7 +63,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultStringSlotMention;
  * 
  */
 public class Annotation_Util {
-	private static Logger logger = Logger.getLogger(Annotation_Util.class);
+	private static Logger logger = LogManager.getLogger(Annotation_Util.class);
 	public final static String UNKNOWN_TAGSET = "Unknown";
 
 	/**

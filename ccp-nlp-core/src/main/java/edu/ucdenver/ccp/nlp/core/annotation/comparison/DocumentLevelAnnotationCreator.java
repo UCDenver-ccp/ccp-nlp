@@ -38,7 +38,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import edu.ucdenver.ccp.nlp.core.annotation.AnnotationSet;
 import edu.ucdenver.ccp.nlp.core.annotation.TextAnnotation;
@@ -61,7 +63,7 @@ import edu.ucdenver.ccp.nlp.core.mention.impl.DefaultClassMention;
  * 
  */
 public class DocumentLevelAnnotationCreator {
-	private static Logger logger = Logger.getLogger(DocumentLevelAnnotationCreator.class);
+	private static Logger logger = LogManager.getLogger(DocumentLevelAnnotationCreator.class);
 
 	private String mentionType;
 

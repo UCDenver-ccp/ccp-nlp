@@ -41,7 +41,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.AnnotationComparator;
 import edu.ucdenver.ccp.nlp.core.annotation.comparison.StrictSpanComparator;
@@ -54,7 +56,7 @@ import edu.ucdenver.ccp.nlp.core.mention.ClassMention;
  */
 public abstract class TextAnnotation implements Comparable<TextAnnotation> {
 
-	protected static Logger logger = Logger.getLogger(TextAnnotation.class);
+	protected static Logger logger = LogManager.getLogger(TextAnnotation.class);
 
 	protected boolean hasWrappedAnnotation = false;
 
