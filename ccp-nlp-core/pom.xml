@@ -13,7 +13,7 @@
 	<parent>
 		<artifactId>ccp-nlp</artifactId>
 		<groupId>edu.ucdenver.ccp</groupId>
-		<version>3.5.2</version>
+		<version>3.5.3</version>
 	</parent>
 
 	<dependencies>
