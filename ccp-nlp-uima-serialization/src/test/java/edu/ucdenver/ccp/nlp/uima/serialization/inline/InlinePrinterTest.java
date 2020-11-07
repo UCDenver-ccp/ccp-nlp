@@ -146,11 +146,12 @@ public class InlinePrinterTest extends DefaultUIMATestCase {
 	 * Sets up a temporary output directory and initializes the {@link JCas}
 	 * 
 	 * @throws UIMAException
+	 * @throws IOException 
 	 * @see edu.uchsc.ccp.uima.test.DefaultUIMATestCase#setUp()
 	 */
 	@Override
 	@Before
-	public void setUp() throws UIMAException {
+	public void setUp() throws UIMAException, IOException {
 		jcas = JCasFactory.createJCas(TSD);
 		initJCas();
 		outputDirectory = folder.newFolder("inline-output");
