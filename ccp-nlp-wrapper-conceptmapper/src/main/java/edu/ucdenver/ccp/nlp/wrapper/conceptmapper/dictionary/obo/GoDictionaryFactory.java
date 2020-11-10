@@ -61,6 +61,7 @@ import edu.ucdenver.ccp.common.io.ClassPathUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil.SynonymType;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.impl.GeneOntologyClassIterator;
+import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo.OboToDictionary.IncludeExt;
 
 /**
  * @author Center for Computational Pharmacology, UC Denver;
@@ -98,6 +99,7 @@ public class GoDictionaryFactory {
 	 * @param cleanWorkDirectory
 	 * @param synonymType
 	 * @param dictEntryModifier
+	 * @param includeExt 
 	 * @return
 	 * @throws IOException
 	 * @throws OWLOntologyCreationException
@@ -107,7 +109,7 @@ public class GoDictionaryFactory {
 	 */
 	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File workDirectory,
 			CleanDirectory cleanWorkDirectory, SynonymType synonymType, IncludeFunkSynonyms includeFunkSyns,
-			DictionaryEntryModifier dictEntryModifier)
+			DictionaryEntryModifier dictEntryModifier, IncludeExt includeExt)
 			throws IOException, IllegalArgumentException, IllegalAccessException, OWLOntologyCreationException {
 		if (namespacesToInclude.isEmpty()) {
 			return null;
@@ -120,7 +122,7 @@ public class GoDictionaryFactory {
 		goIter.close();
 
 		return buildConceptMapperDictionary(namespacesToInclude, workDirectory, geneOntologyOboFile, doClean,
-				synonymType, includeFunkSyns, dictEntryModifier);
+				synonymType, includeFunkSyns, dictEntryModifier, includeExt);
 	}
 
 	/**
@@ -129,13 +131,14 @@ public class GoDictionaryFactory {
 	 * @param ontUtil
 	 * @param synonymType
 	 * @param dictEntryModifier
+	 * @param includeExt 
 	 * @return
 	 * @throws IOException
 	 * @throws OWLOntologyCreationException
 	 */
 	public static File buildConceptMapperDictionary(EnumSet<GoNamespace> namespacesToInclude, File outputDirectory,
 			File ontFile, boolean cleanDictFile, SynonymType synonymType, IncludeFunkSynonyms includeFunkSyns,
-			DictionaryEntryModifier dictEntryModifier) throws IOException, OWLOntologyCreationException {
+			DictionaryEntryModifier dictEntryModifier, IncludeExt includeExt) throws IOException, OWLOntologyCreationException {
 
 		Map<String, Set<String>> externalGoId2SynMap = new HashMap<String, Set<String>>();
 		if (includeFunkSyns == IncludeFunkSynonyms.YES) {
@@ -168,7 +171,7 @@ public class GoDictionaryFactory {
 		logger.info("Dictionary file does not yet exist. Generating dictionary: " + dictionaryFile);
 		OntologyUtil ontUtil = new OntologyUtil(ontFile);
 		OboToDictionary.buildDictionary(dictionaryFile, ontUtil, new HashSet<String>(namespaces), synonymType,
-				externalGoId2SynMap, dictEntryModifier);
+				externalGoId2SynMap, dictEntryModifier, includeExt);
 
 		return dictionaryFile;
 	}

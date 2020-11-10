@@ -61,6 +61,7 @@ import edu.ucdenver.ccp.common.test.DefaultTestCase;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil.SynonymType;
 import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo.OboToDictionary.Concept;
+import edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo.OboToDictionary.IncludeExt;
 
 /**
  * @author Colorado Computational Pharmacology, UC Denver;
@@ -78,7 +79,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				folder.newFolder("input"));
 		OntologyUtil ontUtil = new OntologyUtil(oboFile);
 		File outputFile = folder.newFile("dict.xml");
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, null);
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, null, IncludeExt.NO);
 		/* @formatter:off */
 		List<String> expectedLines = CollectionsUtil.createList(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
@@ -101,7 +102,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				folder.newFolder("input"));
 		OntologyUtil ontUtil = new OntologyUtil(oboFile);
 		File outputFile = folder.newFile("dict.xml");
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, null);
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, null, IncludeExt.NO);
 		/* @formatter:off */
 		List<String> expectedLines = CollectionsUtil.createList(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
@@ -130,7 +131,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				folder.newFolder("input"));
 		OntologyUtil ontUtil = new OntologyUtil(oboFile);
 		File outputFile = folder.newFile("dict.xml");
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.ALL, null);
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.ALL, null, IncludeExt.NO);
 		/* @formatter:off */
 		List<String> expectedLines = CollectionsUtil.createList(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
@@ -169,7 +170,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 		id2synsMap.put("CL:0000009", CollectionsUtil.createSet("fusi init", "fusi fusi"));
 		id2synsMap.put("CL:0000041", CollectionsUtil.createSet("mat eo", "mature eos"));
 
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.ALL, id2synsMap, null);
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.ALL, id2synsMap, null, IncludeExt.NO);
 		/* @formatter:off */
 	               List<String> expectedLines = CollectionsUtil.createList(
 	                               "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",
@@ -207,7 +208,7 @@ public class OboToDictionaryTest extends DefaultTestCase {
 				folder.newFolder("input"));
 		OntologyUtil ontUtil = new OntologyUtil(oboFile);
 		File outputFile = folder.newFile("dict.xml");
-		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, new MyDictEntryModifier());
+		OboToDictionary.buildDictionary(outputFile, ontUtil, null, SynonymType.EXACT, new MyDictEntryModifier(), IncludeExt.NO);
 		/* @formatter:off */
 		List<String> expectedLines = CollectionsUtil.createList(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>",

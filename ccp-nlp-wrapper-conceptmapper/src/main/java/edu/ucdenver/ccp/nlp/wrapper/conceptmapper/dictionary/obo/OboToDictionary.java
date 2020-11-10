@@ -1,7 +1,5 @@
 package edu.ucdenver.ccp.nlp.wrapper.conceptmapper.dictionary.obo;
 
-import java.io.BufferedReader;
-
 /*
  * #%L
  * Colorado Computational Pharmacology's nlp module
@@ -51,10 +49,6 @@ import org.apache.tools.ant.util.StringUtils;
 import org.semanticweb.owlapi.model.OWLClass;
 
 import edu.ucdenver.ccp.common.collections.CollectionsUtil;
-import edu.ucdenver.ccp.common.file.CharacterEncoding;
-import edu.ucdenver.ccp.common.file.FileWriterUtil;
-import edu.ucdenver.ccp.common.file.FileWriterUtil.FileSuffixEnforcement;
-import edu.ucdenver.ccp.common.file.FileWriterUtil.WriteMode;
 import edu.ucdenver.ccp.common.xml.XmlUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil;
 import edu.ucdenver.ccp.datasource.fileparsers.obo.OntologyUtil.SynonymType;
@@ -68,6 +62,15 @@ import lombok.Data;
  * 
  */
 public class OboToDictionary {
+
+	/**
+	 * Flag used to indicate if extension classes should be included in the
+	 * dictionary
+	 *
+	 */
+	public enum IncludeExt {
+		YES, NO
+	}
 
 	private static final Logger logger = Logger.getLogger(OboToDictionary.class);
 
@@ -83,31 +86,32 @@ public class OboToDictionary {
 	}
 
 	public static void buildDictionary(File outputFile, OntologyUtil ontUtil, Set<String> namespacesToInclude,
-			SynonymType synonymType, DictionaryEntryModifier dictEntryModifier) throws IOException {
-		buildDictionary(outputFile, ontUtil, namespacesToInclude, synonymType, null, null, null, dictEntryModifier);
+			SynonymType synonymType, DictionaryEntryModifier dictEntryModifier, IncludeExt includeExt)
+			throws IOException {
+		buildDictionary(outputFile, ontUtil, namespacesToInclude, synonymType, null, null, null, dictEntryModifier,
+				includeExt);
 	}
 
 	public static void buildDictionary(File outputFile, OntologyUtil ontUtil, Set<String> namespacesToInclude,
 			SynonymType synonymType, Map<String, Set<String>> id2externalSynonymMap,
-			DictionaryEntryModifier dictEntryModifier) throws IOException {
+			DictionaryEntryModifier dictEntryModifier, IncludeExt includeExt) throws IOException {
 		buildDictionary(outputFile, ontUtil, namespacesToInclude, synonymType, null, null, id2externalSynonymMap,
-				dictEntryModifier);
+				dictEntryModifier, includeExt);
 	}
 
 	/**
 	 * @param outputFile
 	 * @param ontClsIter
 	 * @param namespacesToInclude
-	 * @param synonymType
-	 *            ALL to include all synonyms,EXACT_ONLY to include only exact
-	 *            synonyms
+	 * @param synonymType         ALL to include all synonyms,EXACT_ONLY to include
+	 *                            only exact synonyms
 	 * @param dictEntryModifier
 	 * @throws IOException
 	 */
 	public static void buildDictionary(File outputFile, OntologyUtil ontUtil, Set<String> namespacesToInclude,
 			SynonymType synonymType, Set<OWLClass> subTreeRootIdsToExclude, Set<OWLClass> subTreeRootIdsToInclude,
-			Map<String, Set<String>> id2externalSynonymMap, DictionaryEntryModifier dictEntryModifier)
-			throws IOException {
+			Map<String, Set<String>> id2externalSynonymMap, DictionaryEntryModifier dictEntryModifier,
+			IncludeExt includeExt) throws IOException {
 		long startTime = System.currentTimeMillis();
 		try (BufferedWriter writer = Files.newBufferedWriter(
 				FileSystems.getDefault().getPath(outputFile.getAbsolutePath()), StandardCharsets.UTF_8)) {
@@ -129,13 +133,17 @@ public class OboToDictionary {
 					String objToString = objToString(owlClass, synonymType, ontUtil, id2externalSynonymMap,
 							dictEntryModifier);
 					if (objToString != null) {
-						if (namespacesToInclude == null || namespacesToInclude.isEmpty()) {
-							writer.write(objToString);
+						if (includeExt == IncludeExt.YES && owlClass.getIRI().toString().contains("_EXT")) {
+								writer.write(objToString);
 						} else {
-							String ns = ontUtil.getNamespace(owlClass);
-							if (ns != null) {
-								if (namespacesToInclude.contains(ns)) {
-									writer.write(objToString);
+							if (namespacesToInclude == null || namespacesToInclude.isEmpty()) {
+								writer.write(objToString);
+							} else {
+								String ns = ontUtil.getNamespace(owlClass);
+								if (ns != null) {
+									if (namespacesToInclude.contains(ns)) {
+										writer.write(objToString);
+									}
 								}
 							}
 						}
@@ -188,10 +196,8 @@ public class OboToDictionary {
 	/**
 	 * Represent the OBO object as a XML dictionary string.
 	 * 
-	 * @param id
-	 *            the ID of the OBO object
-	 * @param owlClass
-	 *            the OBO object itself
+	 * @param id          the ID of the OBO object
+	 * @param owlClass    the OBO object itself
 	 * @param synonymType
 	 * @return an XML-formatted string in the ConceptMapper Dictionary format.
 	 */
@@ -255,8 +261,8 @@ public class OboToDictionary {
 			c = dictionaryEntryModifier.modifyConcept(c);
 		}
 		/*
-		 * to remove a concept entirely from the dictionary, the
-		 * DictionaryEntryModifier can return null
+		 * to remove a concept entirely from the dictionary, the DictionaryEntryModifier
+		 * can return null
 		 */
 		return (c == null) ? null : c.getConceptMapperDictionaryString();
 	}
