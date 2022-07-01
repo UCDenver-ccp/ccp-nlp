@@ -4,7 +4,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jcasgen.typesystem>edu/ucdenver/ccp/nlp/core/uima/TypeSystem.xml</jcasgen.typesystem>
-		<ver.uima>2.9.0</ver.uima>
+		<ver.uima>2.10.2</ver.uima>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
